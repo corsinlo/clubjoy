@@ -96,7 +96,6 @@ const PageBuilder = props => {
   if (!pageAssetsData && fallbackPage && !inProgress && error) {
     return fallbackPage;
   }
-  console.log('LANDING IS', isLandingPage)
 
   // Page asset contains UI info and metadata related to it.
   // - "sections" (data that goes inside <body>)
