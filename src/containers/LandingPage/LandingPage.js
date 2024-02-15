@@ -24,6 +24,7 @@ export const LandingPageComponent = props => {
       inProgress={inProgress}
       error={error}
       fallbackPage={<FallbackPage error={error} />}
+      isLandingPage={true}
     />
   );
 };

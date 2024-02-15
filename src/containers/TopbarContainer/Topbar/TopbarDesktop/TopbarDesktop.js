@@ -46,6 +46,8 @@ const TopbarDesktop = props => {
   const marketplaceName = appConfig.marketplaceName;
   const authenticatedOnClientSide = mounted && isAuthenticated;
   const isAuthenticatedOrJustHydrated = isAuthenticated || !mounted;
+  const userRole = currentUser?.attributes?.profile?.publicData?.role;
+  const showCreateListingLink = userRole === 'customer';
 
   const classes = classNames(rootClassName || css.root, className);
 
@@ -149,67 +151,72 @@ const TopbarDesktop = props => {
     </NamedLink>
   );
 
+  console.log('AYO', currentUser)
+
   return (
-<nav className={classes}>
-  {isLandingPage ? (
-    <>
-      <div className={css.leftContent}>
-        {/* Empty or minimal content since logo will be centered */}
-      </div>
-      <div className={css.logoContainer}>
-        {/* Logo centered for the landing page */}
-        <LinkedLogo
-          className={css.logoLink}
-          layout="desktop"
-          alt={intl.formatMessage({ id: 'TopbarDesktop.logo' }, { marketplaceName })}
-        />
-      </div>
-      <div className={css.rightContent}>
-        {/* Other elements like search, create listing, inbox link, profile menu, auth links */}
-        {search}
-      { /* <NamedLink className={css.createListingLink} name="NewListingPage">
-          <span className={css.createListing}>
+    <nav className={classes}>
+      {isLandingPage ? (
+        <>
+          <div className={css.leftContent}>
+            {/* Empty or minimal content since logo will be centered */}
+          </div>
+          <div className={css.logoContainer}>
+            {/* Logo centered for the landing page */}
+            <LinkedLogo
+              className={css.logoLink}
+              layout="desktop"
+              alt={intl.formatMessage({ id: 'TopbarDesktop.logo' }, { marketplaceName })}
+            />
+          </div>
+          <div className={css.rightContent}>
+            {/* Other elements like search, create listing, inbox link, profile menu, auth links */}
+            {search}
+
+            {showCreateListingLink && (
+            <NamedLink className={css.createListingLink} name="NewListingPage">
+              <span className={css.createListing}>
             <FormattedMessage id="TopbarDesktop.createListing" />
-          </span>
-  </NamedLink>*/}
-        {inboxLink}
-        {profileMenu}
-        <div className={css.authLinks}>
-        {signupBusinessLink}
-          {signupLink}
-          {loginLink}
-        </div>
-      </div>
-    </>
-  ) : (
-    <>
-      <div className={css.leftContent}>
-        {/* For non-landing pages, include the logo and possibly other elements here */}
-        <LinkedLogo
-          className={css.logoLink}
-          layout="desktop"
-          alt={intl.formatMessage({ id: 'TopbarDesktop.logo' }, { marketplaceName })}
-        />
-        {search}
-      </div>
-      <div className={css.rightContent}>
-        {/* Adjust content as needed, possibly moving some elements from leftContent here if needed */}
-        <NamedLink className={css.createListingLink} name="NewListingPage">
-          <span className={css.createListing}>
-            <FormattedMessage id="TopbarDesktop.createListing" />
-          </span>
-        </NamedLink>
-        {inboxLink}
-        {profileMenu}
-        <div className={css.authLinks}>
-          {signupBusinessLink}
-          {signupLink}
-          {loginLink}
-        </div>
-      </div>
-    </>
-  )}
-</nav>
+            </span>
+            </NamedLink>
+             )}
+            {inboxLink}
+            {profileMenu}
+            <div className={css.authLinks}>
+              {signupBusinessLink}
+              {signupLink}
+              {loginLink}
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className={css.leftContent}>
+            {/* For non-landing pages, include the logo and possibly other elements here */}
+            <LinkedLogo
+              className={css.logoLink}
+              layout="desktop"
+              alt={intl.formatMessage({ id: 'TopbarDesktop.logo' }, { marketplaceName })}
+            />
+            {search}
+          </div>
+          <div className={css.rightContent}>
+            {/* Adjust content as needed, possibly moving some elements from leftContent here if needed */}
+            <NamedLink className={css.createListingLink} name="NewListingPage">
+              <span className={css.createListing}>
+                <FormattedMessage id="TopbarDesktop.createListing" />
+              </span>
+            </NamedLink>
+            {inboxLink}
+            {profileMenu}
+            <div className={css.authLinks}>
+              {signupBusinessLink}
+              {signupLink}
+              {loginLink}
+            </div>
+          </div>
+        </>
+      )}
+    </nav>
 
   );
 };
