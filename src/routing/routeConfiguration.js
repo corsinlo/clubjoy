@@ -183,6 +183,13 @@ const routeConfiguration = (layoutConfig) => {
       loadData: pageDataLoadingAPI.AuthenticationPage.loadData,
     },
     {
+      path: '/bsignup',
+      name: 'bSignupPage',
+      component: AuthenticationPage,
+      extraProps: { tab: 'bsignup' },
+      loadData: pageDataLoadingAPI.AuthenticationPage.loadData,
+    },
+    {
       path: '/confirm',
       name: 'ConfirmPage',
       component: AuthenticationPage,

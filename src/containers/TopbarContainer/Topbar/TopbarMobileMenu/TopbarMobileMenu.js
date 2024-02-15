@@ -47,7 +47,7 @@ const TopbarMobileMenu = props => {
 
     const signupOrLogin = (
       <span className={css.authenticationLinks}>
-        <FormattedMessage id="TopbarMobileMenu.signupOrLogin" values={{ signup, login }} />
+        <FormattedMessage id="TopbarMobileMenu.signupOrLogin" values={{ signup, login}} />
       </span>
     );
     return (
@@ -57,14 +57,14 @@ const TopbarMobileMenu = props => {
             <FormattedMessage
               id="TopbarMobileMenu.unauthorizedGreeting"
               values={{ lineBreak: <br />, signupOrLogin }}
-            />
+            />or Signup as Business?
           </div>
         </div>
-        <div className={css.footer}>
+        {/*<div className={css.footer}>
           <NamedLink className={css.createNewListingLink} name="NewListingPage">
             <FormattedMessage id="TopbarMobileMenu.newListingLink" />
           </NamedLink>
-        </div>
+        </div>*/}
       </div>
     );
   }

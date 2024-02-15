@@ -42,6 +42,7 @@ import TermsAndConditions from './TermsAndConditions/TermsAndConditions';
 import ConfirmSignupForm from './ConfirmSignupForm/ConfirmSignupForm';
 import LoginForm from './LoginForm/LoginForm';
 import SignupForm from './SignupForm/SignupForm';
+import BSignupForm from './BSignupForm/BSignupForm';
 import EmailVerificationInfo from './EmailVerificationInfo';
 
 // We need to get ToS asset and get it rendered for the modal on this page.
@@ -141,38 +142,42 @@ export const AuthenticationForms = props => {
     authInProgress,
     submitSignup,
     termsAndConditions,
+    tab,
   } = props;
   const fromState = { state: from ? { from } : null };
+
   const tabs = [
     {
-      text: (
-        <Heading as={!isLogin ? 'h1' : 'h2'} rootClassName={css.tab}>
-          <FormattedMessage id="AuthenticationPage.signupLinkText" />
-        </Heading>
-      ),
-      selected: !isLogin,
+      text: <Heading as='h2' rootClassName={css.tab}><FormattedMessage id="AuthenticationPage.signupLinkText" /></Heading>,
+      selected: tab === 'signup',
       linkProps: {
         name: 'SignupPage',
         to: fromState,
       },
     },
     {
-      text: (
-        <Heading as={isLogin ? 'h1' : 'h2'} rootClassName={css.tab}>
-          <FormattedMessage id="AuthenticationPage.loginLinkText" />
-        </Heading>
-      ),
-      selected: isLogin,
+      text: <Heading as='h2' rootClassName={css.tab}><FormattedMessage id="AuthenticationPage.loginLinkText" /></Heading>,
+      selected: tab === 'login', 
       linkProps: {
         name: 'LoginPage',
         to: fromState,
       },
     },
+    {
+      text: <Heading as='h2' rootClassName={css.tab}>Business Sign up</Heading>,
+      selected: tab === 'bsignup', 
+      linkProps: {
+        name: 'bSignupPage',
+        to: fromState,
+      },
+    },
   ];
+  
 
-  const handleSubmitSignup = values => {
-    const { fname, lname, ...rest } = values;
-    const params = { firstName: fname.trim(), lastName: lname.trim(), ...rest };
+  const handleSubmitSignup = (values) => {
+    const role = tab === 'bsignup' ? 'author' : 'customer';
+    const { fname: firstName, lname: lastName, ...rest } = values;
+    const params = { firstName, lastName, ...rest, role };
     submitSignup(params);
   };
 
@@ -197,22 +202,32 @@ export const AuthenticationForms = props => {
   const loginOrSignupError = isLogin
     ? errorMessage(loginError, loginErrorMessage)
     : errorMessage(signupError, signupErrorMessage);
-
+  
   return (
     <div className={css.content}>
-      <LinkTabNavHorizontal className={css.tabs} tabs={tabs} />
-      {loginOrSignupError}
+    {/* Conditionally render navigation tabs only for regular signup or login */}
 
-      {isLogin ? (
+      <LinkTabNavHorizontal className={css.tabs} tabs={tabs}/>
+
+    {loginOrSignupError}
+
+    {isLogin ? (
         <LoginForm className={css.loginForm} onSubmit={submitLogin} inProgress={authInProgress} />
-      ) : (
-        <SignupForm
-          className={css.signupForm}
-          onSubmit={handleSubmitSignup}
+      ) : tab === 'bsignup' ? (
+        <BSignupForm
+          className={css.bsignupForm}
+          onSubmit={(values) => handleSubmitSignup(values)}
           inProgress={authInProgress}
           termsAndConditions={termsAndConditions}
         />
-      )}
+      ) : tab === 'signup' ? (
+        <SignupForm
+          className={css.signupForm}
+          onSubmit={(values) => handleSubmitSignup(values)}
+          inProgress={authInProgress}
+          termsAndConditions={termsAndConditions}
+        />
+      ) : null}
 
       <SocialLoginButtonsMaybe
         isLogin={isLogin}
@@ -325,6 +340,7 @@ export const AuthenticationOrConfirmInfoForm = props => {
       authInProgress={authInProgress}
       submitSignup={submitSignup}
       termsAndConditions={termsAndConditions}
+      tab={tab}
     ></AuthenticationForms>
   );
 };
@@ -393,6 +409,7 @@ export const AuthenticationPageComponent = props => {
   const user = ensureCurrentUser(currentUser);
   const currentUserLoaded = !!user.id;
   const isLogin = tab === 'login';
+
 
   // We only want to show the email verification dialog in the signup
   // tab if the user isn't being redirected somewhere else
@@ -548,7 +565,7 @@ AuthenticationPageComponent.propTypes = {
 
   submitLogin: func.isRequired,
   submitSignup: func.isRequired,
-  tab: oneOf(['login', 'signup', 'confirm']),
+  tab: oneOf(['login', 'signup', 'confirm', 'bsignup']),
 
   sendVerificationEmailInProgress: bool.isRequired,
   sendVerificationEmailError: propTypes.error,

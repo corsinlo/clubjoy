@@ -372,3 +372,39 @@
     }
   }
 }
+
+/*ADDED*/
+
+.authLinks {
+  display: flex;
+  gap: 8px; 
+  padding-right: 12px; 
+}
+
+.root {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: var(--topbarHeightDesktop);
+  padding: 0 24px;
+  background-color: var(--colorWhite);
+  box-shadow: var(--boxShadowLight);
+}
+
+.logoContainer {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.leftContent,
+.rightContent {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.rightContent {
+  justify-content: flex-end;
+}

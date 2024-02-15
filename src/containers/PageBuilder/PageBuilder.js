@@ -1,9 +1,9 @@
 import React from 'react';
-
+import dynamicLoader from './dynamicLoader.js';
 import { IconSpinner, LayoutComposer } from '../../components/index.js';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer.js';
 import FooterContainer from '../FooterContainer/FooterContainer.js';
-
+import LandingSearchBar from '../../components/LandingSearchBar/LandingSearchBar.js';
 import { validProps } from './Field';
 
 import SectionBuilder from './SectionBuilder/SectionBuilder.js';
@@ -88,6 +88,8 @@ const PageBuilder = props => {
     fallbackPage,
     schemaType,
     options,
+    isLandingPage,
+    pageId,
     ...pageProps
   } = props;
 
@@ -117,10 +119,23 @@ const PageBuilder = props => {
                 <TopbarContainer />
               </Topbar>
               <Main as="main" className={css.main}>
-                {sections.length === 0 && inProgress ? (
-                  <LoadingSpinner />
-                ) : (
-                  <SectionBuilder sections={sections} options={options} />
+                {dynamicLoader(pageId, {  }) || (
+                  <>
+                    {sections.length === 0 && inProgress ? (
+                      <LoadingSpinner />
+                    ) : (
+                      <div className={css.mainContentContainer}>
+                        {!isLandingPage ? (
+                          <div>
+                          <LandingSearchBar  />
+                          <SectionBuilder sections={sections} options={options} />
+                        </div>
+                        ):
+                        <SectionBuilder sections={sections} options={options} />
+                        }
+                      </div>
+                    )}
+                  </>
                 )}
               </Main>
               <Footer>

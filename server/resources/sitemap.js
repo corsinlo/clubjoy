@@ -47,6 +47,7 @@ const defaultPublicPaths = {
   termsOfService: { url: '/terms-of-service' },
   privacyPolicy: { url: '/privacy-policy' },
   signup: { url: '/signup' },
+  bSignup: { url: '/bsignup' },
   login: { url: '/login' },
   search: { url: '/s' },
 };

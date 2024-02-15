@@ -1,0 +1,110 @@
+.landingBarContainer {
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  height: 400px; 
+}
+
+.bar {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  border-radius: 20px;
+  max-width: 800px;
+  width: 100%; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.7); 
+  overflow: hidden; 
+}
+
+.joy {
+  width: 250px; 
+  z-index: 4; 
+  box-shadow: 10px 0 15px -5px rgba(0,0,0,0.5);
+  background-color: white; 
+  -webkit-appearance: none; 
+  appearance: none; 
+  border-radius: 20px;
+
+}
+
+.joy select {
+  color: gray; 
+}
+
+.joy select option {
+  color: gray;
+}
+
+.time {
+  z-index: 3; 
+  border-radius: 20px;
+  box-shadow: 10px 0 15px -5px rgba(0,0,0,0.5)
+}
+
+.location {
+  z-index: 2; 
+  box-shadow: 10px 0 15px -5px rgba(0,0,0,0.5)
+}
+
+.button {
+  z-index: 1; 
+  display: flex;
+  justify-content: center;
+  background-color: blue;
+  color: white;
+  width: 100px;
+  padding: 10px 0;
+}
+
+.joy, .time, .location {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  color: black;
+  background-color: white;
+  text-align: center;
+}
+
+.joy select, .time input, .location input {
+  border: none;
+  outline: none;
+  background-color: white;
+  padding: 10px;
+  width: 100%;
+}
+
+.joy, .time, .location, .button {
+  position: relative;
+}
+
+.joy select:focus, .time input:focus, .location input:focus {
+  border-radius: 20px;
+}
+
+.bar form {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+}
+
+@media (max-width: 768px) { 
+  .bar, .bar form {
+    flex-direction: column;
+  }
+
+  .joy, .time, .location, .button {
+    width: 100%; 
+    margin-top: 10px; 
+    border-radius: 10px; 
+  }
+  .joy:first-child {
+    margin-top: 0;
+  }
+
+  .button {
+    padding: 10px 0; 
+  }
+}
