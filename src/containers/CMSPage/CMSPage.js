@@ -24,6 +24,7 @@ export const CMSPageComponent = props => {
       pageAssetsData={pageAssetsData?.[pageId]?.data}
       inProgress={inProgress}
       schemaType="Article"
+      pageId={pageId}
     />
   );
 };

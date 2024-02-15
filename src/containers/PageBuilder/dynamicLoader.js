@@ -5,7 +5,7 @@ import AttendanceForm from '../../components/AttendaceForm/AttendaceForm';
 
 // Map pageIds to specific components
 const pageComponentMap = {
-  // overview: MyCalendar,
+   overview: MyCalendar,
   // overview: AttendanceForm,
   // Add other pageId to component mappings here
 };
@@ -17,7 +17,7 @@ const pageComponentMap = {
  * @returns {React.Component|null} - The component to render, or null if no match is found.
  */
 const dynamicLoader = (pageId, props) => {
-  console.log(pageId, props)
+  console.log('page', pageId, props)
   const Component = pageComponentMap[pageId];
 
   if (Component) {

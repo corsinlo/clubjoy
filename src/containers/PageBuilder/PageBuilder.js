@@ -125,11 +125,11 @@ const PageBuilder = props => {
                       <LoadingSpinner />
                     ) : (
                       <div className={css.mainContentContainer}>
-                        {!isLandingPage ? (
-                          <div>
+                        {isLandingPage ? (
+                          <>
                           <LandingSearchBar  />
                           <SectionBuilder sections={sections} options={options} />
-                        </div>
+                        </>
                         ):
                         <SectionBuilder sections={sections} options={options} />
                         }

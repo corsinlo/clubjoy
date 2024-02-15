@@ -1,9 +1,8 @@
-/*
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+import styles from './Calendar.module.css';
 import { queryOwnListings, getOwnListingsById } from '../../containers/ManageListingsPage/ManageListingsPage.duck';
 import AttendanceForm from '../AttendaceForm/AttendaceForm';
 
@@ -15,7 +14,7 @@ const dayOfWeekMap = {
   thu: 4,
   fri: 5,
   sat: 6,
-  sun: 0 // or 7, depending on how you want to treat Sunday
+  sun: 0 
 };
 
 const transformListingsToEvents = (ownListings) => {
@@ -79,6 +78,18 @@ const MyCalendar = ({ ownListings, fetchOwnListings }) => {
     return moment(date).day();
   };
 
+  const dayPropGetter = (date) => {
+    const hasEvents = events.some(event => 
+      moment(date).isSame(event.start, 'day') || moment(date).isSame(event.end, 'day')
+    );
+    
+    return {
+      style: {
+        backgroundColor: hasEvents ? '#f0f0f0' : 'inherit', // Change '#f0f0f0' to your highlight color
+      },
+    };
+  };
+
   return (
     <div>
       {!showForm ? ( // Conditional rendering based on showForm state
@@ -90,6 +101,7 @@ const MyCalendar = ({ ownListings, fetchOwnListings }) => {
             startAccessor="start"
             endAccessor="end"
             style={{ height: 500, margin: '50px' }}
+            dayPropGetter={dayPropGetter}
           />
           {selectedListing && selectedEventDate && (
             <div style={{ marginTop: '20px' }}>
@@ -133,4 +145,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyCalendar);
-*/
