@@ -34,6 +34,7 @@ const MAX_MOBILE_SCREEN_WIDTH = 768;
 
 export const AsideContent = props => {
   const { user, displayName, isCurrentUser } = props;
+  console.log('USER', user)
   return (
     <div className={css.asideContent}>
       <AvatarLarge className={css.avatar} user={user} disableProfileLink />
