@@ -151,7 +151,6 @@ const TopbarDesktop = props => {
     </NamedLink>
   );
 
-  console.log('AYO', currentUser)
 
   return (
     <nav className={classes}>

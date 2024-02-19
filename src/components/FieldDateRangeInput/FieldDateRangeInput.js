@@ -14,7 +14,7 @@ import moment from 'moment';
 
 import { useConfiguration } from '../../context/configurationContext';
 import { START_DATE, END_DATE } from '../../util/dates';
-import { ValidationError } from '../../components';
+import { FieldSelect, ValidationError } from '../../components';
 
 import DateRangeInput from './DateRangeInput';
 import css from './FieldDateRangeInput.module.css';
@@ -70,6 +70,8 @@ class FieldDateRangeInputComponent extends Component {
       // the same values will not be passed on to subcomponents.
       focusedInput,
       onFocusedInputChange,
+      seatsArray,
+  seatsLabel,
       ...rest
     } = this.props;
     /* eslint-disable no-unused-vars */
@@ -118,11 +120,24 @@ class FieldDateRangeInputComponent extends Component {
     const classes = classNames(rootClassName || css.fieldRoot, className);
     const errorClasses = classNames({ [css.mobileMargins]: useMobileMargins });
 
+    const seatsSelectionMaybe =
+  seatsArray?.length > 1 ? (
+    <FieldSelect name="seats" id="seats" label={seatsLabel}>
+      {seatsArray.map(s => (
+        <option value={s} key={s}>
+          {s}
+        </option>
+      ))}
+    </FieldSelect>
+  ) : null;
+
+
     return (
       <div className={classes}>
         {label}
         <DateRangeInput {...inputProps} />
         <ValidationError className={errorClasses} fieldMeta={meta} />
+        {seatsSelectionMaybe}
       </div>
     );
   }

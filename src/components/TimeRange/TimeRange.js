@@ -13,7 +13,8 @@ const DASH = '–';
 const BREAK_WORD_MIN_LENGTH = 27;
 
 export const TimeRangeComponent = props => {
-  const { rootClassName, className, startDate, endDate, dateType, timeZone, intl } = props;
+  const { rootClassName, className, startDate, endDate, seats, dateType, timeZone, intl } = props;
+
   const start = formatDateIntoPartials(startDate, intl, { timeZone });
   const end = formatDateIntoPartials(endDate, intl, { timeZone });
   const isSingleDay = isSameDay(startDate, endDate, timeZone);
@@ -47,7 +48,7 @@ export const TimeRangeComponent = props => {
   } else if (isSingleDay && dateType === DATE_TYPE_TIME) {
     return (
       <div className={classes}>
-        <span className={css.dateSection}>{`${start.time} - ${end.time}`}</span>
+        <span className={css.dateSection}>{`${start.time} - ${end.time}`} - {seats}</span>
       </div>
     );
   } else if (dateType === DATE_TYPE_TIME) {
@@ -73,14 +74,14 @@ export const TimeRangeComponent = props => {
   } else if (isSingleDay && dateType === DATE_TYPE_DATETIME) {
     return (
       <div className={classes}>
-        <span className={css.dateSection}>{`${start.date}, ${start.time} - ${end.time}`}</span>
+        <span className={css.dateSection}>{`${start.date}, ${start.time} - ${end.time}`} ({seats})</span>
       </div>
     );
   } else {
     return (
       <div className={classes}>
         <span className={css.dateSection}>{`${start.dateAndTime} - `}</span>
-        <span className={css.dateSection}>{`${end.dateAndTime}`}</span>
+        <span className={css.dateSection}>{`${end.dateAndTime}`} ({seats})</span>
       </div>
     );
   }

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { intlShape, injectIntl, FormattedMessage } from '../../../../../util/reactIntl';
 import { propTypes } from '../../../../../util/types';
 
-import { Form, H3, PrimaryButton } from '../../../../../components';
+import { FieldTextInput,Form, H3, PrimaryButton } from '../../../../../components';
 
 import AvailabilityModeSelector from './AvailabilityModeSelector';
 import ExceptionDateTimeRange from './ExceptionDateTimeRange';
@@ -45,6 +45,25 @@ const EditListingAvailabilityExceptionForm = props => {
           fetchErrors,
           values,
         } = formRenderProps;
+
+        const formState = formApi.getState();
+        const isAvailable = formState.values.availability === 'available';
+
+        const seatsSelectionMaybe = isAvailable ? (
+          <FieldTextInput
+            className={css.seats}
+            id="seats"
+            name="seats"
+            type="number"
+            min="1"
+            label={intl.formatMessage({
+              id: 'EditListingAvailabilityExceptionForm.seatsLabel',
+            })}
+            placeholder={intl.formatMessage({
+              id: 'EditListingAvailabilityExceptionForm.seatsPlaceholder',
+            })}
+          />
+        ) : null;
 
         const idPrefix = `${formId}` || 'EditListingAvailabilityExceptionForm';
         const {
@@ -118,8 +137,9 @@ const EditListingAvailabilityExceptionForm = props => {
                   values={values}
                 />
               )}
+                        {seatsSelectionMaybe}
             </div>
-
+  
             <div className={css.submitButton}>
               {updateListingError ? (
                 <p className={css.error}>

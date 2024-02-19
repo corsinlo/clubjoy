@@ -188,6 +188,7 @@ const getMonthlyTimeSlots = (monthlyTimeSlots, date, timeZone) => {
     : [];
 };
 
+
 // IconArrowHead component might not be defined if exposed directly to the file.
 // This component is called before IconArrowHead component in components/index.js
 const PrevIcon = props => (
@@ -395,6 +396,7 @@ class FieldDateAndTimeInput extends Component {
       timeZone,
       intl,
       dayCountAvailableForBooking,
+      seatsLabel,
     } = this.props;
 
     const classes = classNames(rootClassName || css.root, className);
@@ -464,6 +466,22 @@ class FieldDateAndTimeInput extends Component {
     } catch (error) {
       // No need to handle error
     }
+
+    const seatsArray =
+  Array(selectedTimeSlot?.attributes.seats)
+    .fill()
+    .map((_, i) => i + 1) || null;
+
+const seatsSelectionMaybe =
+  seatsArray?.length > 1 ? (
+    <FieldSelect name="seats" id="seats" label={seatsLabel}>
+      {seatsArray.map(s => (
+        <option value={s} key={s}>
+          {s}
+        </option>
+      ))}
+    </FieldSelect>
+  ) : null;
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
@@ -553,8 +571,11 @@ class FieldDateAndTimeInput extends Component {
               )}
             </FieldSelect>
           </div>
+
         </div>
+        {seatsSelectionMaybe}
       </div>
+            
     );
   }
 }
