@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { array, bool, func, number, object, string } from 'prop-types';
 import { compose } from 'redux';
-import { Form as FinalForm, FormSpy } from 'react-final-form';
+import { Form as FinalForm, FormSpy, Field } from 'react-final-form';
 import classNames from 'classnames';
 
 import { FormattedMessage, intlShape, injectIntl } from '../../../util/reactIntl';
@@ -437,7 +437,18 @@ const handleFormSpyChange = (
   fetchLineItemsInProgress,
   onFetchTransactionLineItems
 ) => formValues => {
-  const { seats, bookingDates } = formValues.values;
+  const { bookingDates, seats } = formValues.values;
+  const seatNames = [];
+
+  // Collect seat names into an array
+  for (let i = 1; i <= seats; i++) {
+    const seatName = formValues.values[`seatName${i}`];
+    if (seatName) {
+      seatNames.push(seatName);
+    }
+  }
+
+  console.log(seatNames); // Now you have your array of strings for seat names
 
   const { startDate, endDate } = bookingDates ? bookingDates : {};
 
@@ -447,12 +458,14 @@ const handleFormSpyChange = (
         bookingStart: startDate,
         bookingEnd: endDate,
         seats: parseInt(seats, 10),
+        seatNames: {seatNames}
       },
       listingId,
       isOwnListing,
     });
   }
 };
+
 
 // IconArrowHead component might not be defined if exposed directly to the file.
 // This component is called before IconArrowHead component in components/index.js
@@ -483,8 +496,13 @@ const Prev = props => {
 };
 
 export const BookingDatesFormComponent = props => {
+  const [seatNames, setSeatNames] = useState({});
   const [focusedInput, setFocusedInput] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(getStartOf(TODAY, 'month', props.timeZone));
+  const handleSeatNameChange = (e, index) => {
+    const updatedSeatNames = { ...seatNames, [`seatName${index + 1}`]: e.target.value };
+    setSeatNames(updatedSeatNames);
+  };
 
   useEffect(() => {
     // Call onMonthChanged function if it has been passed in among props.
@@ -539,6 +557,7 @@ export const BookingDatesFormComponent = props => {
           onFetchTimeSlots,
         } = fieldRenderProps;
         const { startDate, endDate } = values && values.bookingDates ? values.bookingDates : {};
+        const { seats } = values;
 
         const startDateErrorMessage = intl.formatMessage({
           id: 'FieldDateRangeInput.invalidStartDate',
@@ -622,6 +641,8 @@ export const BookingDatesFormComponent = props => {
             .fill()
             .map((_, i) => i + 1);
         };
+        const seatsArray = getSeatsArray();
+        const seatCount = seatsArray ? seatsArray.length : 0;
 
         return (
           <Form onSubmit={handleSubmit} className={classes} enforcePagePreloadFor="CheckoutPage">
@@ -700,8 +721,16 @@ export const BookingDatesFormComponent = props => {
                 setCurrentMonth(getStartOf(event?.startDate ?? startOfToday, 'month', timeZone))
               }
               seatsArray={getSeatsArray()}
-    seatsLabel={intl.formatMessage({ id: 'BookingDatesForm.seatsTitle' })}
+              seatsLabel={intl.formatMessage({ id: 'BookingDatesForm.seatsTitle' })}
             />
+             {Array.from({ length: seats }).map((_, index) => (
+              <Field
+                key={index}
+                name={`seatName${index + 1}`}
+                component="input"
+                placeholder={`Seat ${index + 1} Name`}
+              />
+              ))}
 
             {showEstimatedBreakdown ? (
               <div className={css.priceBreakdownContainer}>
