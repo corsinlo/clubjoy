@@ -3,6 +3,7 @@
   align-items: center; 
   justify-content: center; 
   height: 400px; 
+  background-color: #FFF;
 }
 
 .bar {
@@ -91,6 +92,16 @@
 }
 
 @media (max-width: 768px) { 
+  .landingBarContainer, .bar {
+    margin-left: 10px; 
+    margin-right: 10px; 
+  }
+
+  .bar {
+    box-shadow: none; 
+  }
+
+
   .bar, .bar form {
     flex-direction: column;
   }
@@ -98,7 +109,8 @@
   .joy, .time, .location, .button {
     width: 100%; 
     margin-top: 10px; 
-    border-radius: 10px; 
+    border-radius: 20px; 
+    box-shadow: none;
   }
   .joy:first-child {
     margin-top: 0;

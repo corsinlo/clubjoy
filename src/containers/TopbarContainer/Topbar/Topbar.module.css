@@ -23,7 +23,7 @@
   background-color: var(--colorWhite);
 
   /* shadows */
-  box-shadow: var(--boxShadow);
+  box-shadow: none;
 
   @media (--viewportMedium) {
     height: var(--topbarHeightDesktop);

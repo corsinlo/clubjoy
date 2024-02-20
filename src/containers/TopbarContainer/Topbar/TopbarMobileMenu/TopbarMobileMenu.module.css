@@ -23,7 +23,7 @@
   width: 100vw;
   padding: 24px;
   background-color: var(--colorWhite);
-  box-shadow: var(--boxShadowTop);
+  box-shadow: none;
 }
 
 .avatar {

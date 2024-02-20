@@ -162,6 +162,7 @@ const TopbarDesktop = props => {
             <LinkedLogo
               className={css.logoLink}
               layout="desktop"
+              logoSettings={{ format: 'image', height: 60 }}
               alt={intl.formatMessage({ id: 'TopbarDesktop.logo' }, { marketplaceName })}
             />
           </div>
@@ -188,6 +189,7 @@ const TopbarDesktop = props => {
           <div className={css.leftContent}>
             <LinkedLogo
               className={css.logoLink}
+              logoSettings={{ format: 'image', height: 60 }}
               layout="desktop"
               alt={intl.formatMessage({ id: 'TopbarDesktop.logo' }, { marketplaceName })}
             />
