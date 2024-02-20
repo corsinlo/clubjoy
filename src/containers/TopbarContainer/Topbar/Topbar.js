@@ -164,6 +164,7 @@ class TopbarComponent extends Component {
       sendVerificationEmailError,
       showGenericError,
       config,
+      searchParams,
     } = this.props;
 
     const { mobilemenu, mobilesearch, keywords, address, origin, bounds } = parse(location.search, {
@@ -250,6 +251,7 @@ class TopbarComponent extends Component {
             onLogout={this.handleLogout}
             onSearchSubmit={this.handleSubmit}
             appConfig={config}
+            searchParams={searchParams}
           />
         </div>
         <Modal
@@ -276,6 +278,7 @@ class TopbarComponent extends Component {
               initialValues={initialSearchFormValues}
               isMobile
               appConfig={config}
+              searchParams={searchParams}
             />
             <p className={css.mobileHelp}>
               <FormattedMessage id="Topbar.mobileSearchHelp" />

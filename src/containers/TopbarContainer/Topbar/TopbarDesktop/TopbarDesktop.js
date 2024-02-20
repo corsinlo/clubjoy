@@ -35,6 +35,7 @@ const TopbarDesktop = props => {
     onLogout,
     onSearchSubmit,
     initialSearchFormValues,
+    searchParams,
     location, // Destructure location prop provided by withRouter
   } = props;
   const [mounted, setMounted] = useState(false);
@@ -61,6 +62,7 @@ const TopbarDesktop = props => {
       onSubmit={onSearchSubmit}
       initialValues={initialSearchFormValues}
       appConfig={appConfig}
+      searchParams={searchParams}
     />
   ) : null; // Only render TopbarSearchForm if not on landing page
 

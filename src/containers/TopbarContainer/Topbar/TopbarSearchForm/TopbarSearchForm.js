@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { bool, func, object, string } from 'prop-types';
+import { bool, func, object, string, shape } from 'prop-types';
 import { Form as FinalForm, Field } from 'react-final-form';
 import classNames from 'classnames';
-
 import { intlShape, injectIntl } from '../../../../util/reactIntl';
 import { isMainSearchTypeKeywords } from '../../../../util/search';
-
 import { Form, LocationAutocompleteInput } from '../../../../components';
-
 import IconSearchDesktop from './IconSearchDesktop';
 import css from './TopbarSearchForm.module.css';
 
@@ -24,22 +21,18 @@ const KeywordSearchField = props => {
       </button>
       <Field
         name="keywords"
-        render={({ input, meta }) => {
-          return (
-            <input
-              className={isMobile ? css.mobileInput : css.desktopInput}
-              {...input}
-              id={isMobile ? 'keyword-search-mobile' : 'keyword-search'}
-              data-testid={isMobile ? 'keyword-search-mobile' : 'keyword-search'}
-              ref={inputRef}
-              type="text"
-              placeholder={intl.formatMessage({
-                id: 'TopbarSearchForm.placeholder',
-              })}
-              autoComplete="off"
-            />
-          );
-        }}
+        render={({ input, meta }) => (
+          <input
+            className={isMobile ? css.mobileInput : css.desktopInput}
+            {...input}
+            id={isMobile ? 'keyword-search-mobile' : 'keyword-search'}
+            data-testid={isMobile ? 'keyword-search-mobile' : 'keyword-search'}
+            ref={inputRef}
+            type="text"
+            placeholder={intl.formatMessage({ id: 'TopbarSearchForm.placeholder' })}
+            autoComplete="off"
+          />
+        )}
       />
     </div>
   );
@@ -53,11 +46,6 @@ const LocationSearchField = props => {
       format={identity}
       render={({ input, meta }) => {
         const { onChange, ...restInput } = input;
-
-        // Merge the standard onChange function with custom behaviur. A better solution would
-        // be to use the FormSpy component from Final Form and pass this.onChange to the
-        // onChange prop but that breaks due to insufficient subscription handling.
-        // See: https://github.com/final-form/react-final-form/issues/159
         const searchOnChange = value => {
           onChange(value);
           onLocationChange(value);
@@ -85,102 +73,85 @@ const LocationSearchField = props => {
 class TopbarSearchFormComponent extends Component {
   constructor(props) {
     super(props);
-    // onChange is used for location search
     this.onChange = this.onChange.bind(this);
-    // onSubmit is used for keywords search
     this.onSubmit = this.onSubmit.bind(this);
-
-    // Callback ref
     this.searchInput = null;
     this.setSearchInputRef = element => {
-      this.setSearchInput = element;
+      this.searchInput = element;
     };
   }
 
-  onChange(location) {
-    const { appConfig, onSubmit } = this.props;
-    if (!isMainSearchTypeKeywords(appConfig) && location.selectedPlace) {
-      // Note that we use `onSubmit` instead of the conventional
-      // `handleSubmit` prop for submitting. We want to autosubmit
-      // when a place is selected, and don't require any extra
-      // validations for the form.
-      onSubmit({ location });
-      // blur search input to hide software keyboard
-      this.searchInput?.blur();
+  componentDidMount() {
+    this.applySearchParams();
+  }
+
+  componentDidUpdate(prevProps) {
+    // Only apply searchParams if they have changed
+    if (prevProps.searchParams !== this.props.searchParams) {
+      this.applySearchParams();
     }
+  }
+
+  applySearchParams() {
+    const { searchParams, appConfig } = this.props;
+    if (isMainSearchTypeKeywords(appConfig) && searchParams.keyword && searchParams.keyword.trim() !== '') {
+      this.onSubmit({ keywords: searchParams.keyword });
+    } else if (searchParams.location && searchParams.location.trim() !== '') {
+      this.onChange({ selectedPlace: searchParams.location });
+    }
+    // Additional handling for joy and time can be implemented here
+  }
+
+  onChange(location) {
+    const { onSubmit } = this.props;
+    onSubmit({ location });
+    this.searchInput?.blur();
   }
 
   onSubmit(values) {
-    const { appConfig, onSubmit } = this.props;
-    if (isMainSearchTypeKeywords(appConfig)) {
-      onSubmit({ keywords: values.keywords });
-      // blur search input to hide software keyboard
-      this.searchInput?.blur();
-    }
+    const { onSubmit } = this.props;
+    onSubmit(values);
+    this.searchInput?.blur();
   }
 
-  render() {
-    const { onSubmit, appConfig, ...restOfProps } = this.props;
-    const isKeywordsSearch = isMainSearchTypeKeywords(appConfig);
-    const submit = isKeywordsSearch ? this.onSubmit : onSubmit;
-    return (
-      <FinalForm
-        {...restOfProps}
-        onSubmit={submit}
-        render={formRenderProps => {
-          const {
-            rootClassName,
-            className,
-            desktopInputRoot,
-            intl,
-            isMobile,
-            handleSubmit,
-          } = formRenderProps;
-          const classes = classNames(rootClassName, className);
-          const desktopInputRootClass = desktopInputRoot || css.desktopInputRoot;
 
-          // Location search: allow form submit only when the place has changed
-          const preventFormSubmit = e => e.preventDefault();
-          const submitFormFn = isKeywordsSearch ? handleSubmit : preventFormSubmit;
 
-          const keywordSearchWrapperClasses = classNames(
-            css.keywordSearchWrapper,
-            isMobile ? css.mobileInputRoot : desktopInputRootClass
-          );
-
-          return (
-            <Form className={classes} onSubmit={submitFormFn} enforcePagePreloadFor="SearchPage">
-              {isKeywordsSearch ? (
-                <KeywordSearchField
-                  keywordSearchWrapperClasses={keywordSearchWrapperClasses}
-                  iconClass={classNames(isMobile ? css.mobileIcon : css.desktopIcon || css.icon)}
-                  intl={intl}
-                  isMobile={isMobile}
-                  inputRef={this.setSearchInputRef}
-                />
-              ) : (
-                <LocationSearchField
-                  desktopInputRootClass={desktopInputRootClass}
-                  intl={intl}
-                  isMobile={isMobile}
-                  inputRef={this.setSearchInputRef}
-                  onLocationChange={this.onChange}
-                />
-              )}
-            </Form>
-          );
-        }}
-      />
-    );
+    render() {
+      const { intl, isMobile, className, rootClassName, desktopInputRoot, appConfig } = this.props;
+      const isKeywordsSearch = isMainSearchTypeKeywords(appConfig);
+      const classes = classNames(rootClassName, className);
+      const desktopInputRootClass = desktopInputRoot || css.desktopInputRoot;
+  
+      return (
+          <FinalForm
+              onSubmit={this.onSubmit}
+              render={({ handleSubmit }) => {
+                  return (
+                      <Form className={classes} onSubmit={handleSubmit} enforcePagePreloadFor="SearchPage">
+                          {isKeywordsSearch ? (
+                              <KeywordSearchField
+                                  keywordSearchWrapperClasses={classNames(css.keywordSearchWrapper, isMobile ? css.mobileInputRoot : desktopInputRootClass)}
+                                  iconClass={classNames(isMobile ? css.mobileIcon : css.desktopIcon || css.icon)}
+                                  intl={intl}
+                                  isMobile={isMobile}
+                                  inputRef={this.setSearchInputRef}
+                              />
+                          ) : (
+                              <LocationSearchField
+                                  desktopInputRootClass={desktopInputRootClass}
+                                  intl={intl}
+                                  isMobile={isMobile}
+                                  inputRef={this.setSearchInputRef}
+                                  onLocationChange={this.onChange}
+                              />
+                          )}
+                      </Form>
+                  );
+              }}
+          />
+      );
   }
 }
-
-TopbarSearchFormComponent.defaultProps = {
-  rootClassName: null,
-  className: null,
-  desktopInputRoot: null,
-  isMobile: false,
-};
 
 TopbarSearchFormComponent.propTypes = {
   rootClassName: string,
@@ -189,9 +160,22 @@ TopbarSearchFormComponent.propTypes = {
   onSubmit: func.isRequired,
   isMobile: bool,
   appConfig: object.isRequired,
-
-  // from injectIntl
   intl: intlShape.isRequired,
+  searchParams: shape({
+    joy: string,
+    location: string,
+    time: string,
+    keyword: string,
+  }),
+};
+
+TopbarSearchFormComponent.defaultProps = {
+  searchParams: {
+    joy: '',
+    location: '',
+    time: '',
+    keyword: '',
+  },
 };
 
 const TopbarSearchForm = injectIntl(TopbarSearchFormComponent);

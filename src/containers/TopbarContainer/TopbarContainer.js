@@ -32,6 +32,7 @@ export const TopbarContainerComponent = props => {
     sendVerificationEmailInProgress,
     sendVerificationEmailError,
     onResendVerificationEmail,
+    searchParams,
     ...rest
   } = props;
 
@@ -54,6 +55,7 @@ export const TopbarContainerComponent = props => {
       sendVerificationEmailInProgress={sendVerificationEmailInProgress}
       sendVerificationEmailError={sendVerificationEmailError}
       showGenericError={hasGenericError}
+      searchParams={searchParams}
       {...rest}
     />
   );

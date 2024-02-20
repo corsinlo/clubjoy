@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import dynamicLoader from './dynamicLoader.js';
 import { IconSpinner, LayoutComposer } from '../../components/index.js';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer.js';
@@ -108,6 +108,16 @@ const PageBuilder = props => {
     main
     footer
   `;
+
+  const [searchParams, setSearchParams] = useState({});
+
+  const handleSearchSubmit = (params) => {
+  setSearchParams(params);
+  // You might want to navigate to the search page or trigger the search directly here
+  };
+
+
+
   return (
     <StaticPage {...pageMetaProps} {...pageProps}>
       <LayoutComposer areas={layoutAreas} className={css.layout}>
@@ -116,7 +126,7 @@ const PageBuilder = props => {
           return (
             <>
               <Topbar as="header" className={css.topbar}>
-                <TopbarContainer />
+              <TopbarContainer searchParams={searchParams} />
               </Topbar>
               <Main as="main" className={css.main}>
                 {dynamicLoader(pageId, {  }) || (
@@ -127,7 +137,7 @@ const PageBuilder = props => {
                       <div className={css.mainContentContainer}>
                         {isLandingPage ? (
                           <>
-                          <LandingSearchBar  />
+                         <LandingSearchBar onSearchSubmit={handleSearchSubmit} />
                           <SectionBuilder sections={sections} options={options} />
                         </>
                         ):

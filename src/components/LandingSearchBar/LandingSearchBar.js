@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import css from './LandingSearchBar.module.css';
-
-const LandingSearchBar = () => {
+// Accept props as an argument to the LandingSearchBar function
+const LandingSearchBar = (props) => {
   const [location, setLocation] = useState('');
   const [joy, setJoy] = useState('');
   const [time, setTime] = useState('');
+  const [keyword, setKeyword] = useState('');
 
+  // Now you can use props.onSearchSubmit within handleSubmit
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!joy && !location && !time) {
+    if (!joy && !location && !time && !keyword) {
       alert("Please fill in at least one field.");  // ADD NATIVE VALIDATORS
       return;
     }
+    // Call the passed in onSearchSubmit prop function with the search parameters
+    props.onSearchSubmit({ joy, location, time, keyword });
   };
 
+  // Rest of your component
   return (
     <div className={css.landingBarContainer}>
       <div className={css.bar}>
@@ -42,9 +47,17 @@ const LandingSearchBar = () => {
               onChange={(e) => setLocation(e.target.value)}
             />
           </div>
-          <div className={css.button}>
-            Search
+          <div className={css.location}>
+            <input
+              type="text"
+              placeholder="Keyword"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
           </div>
+          <button type="submit" className={css.button}>
+            Search
+          </button>
         </form>
       </div>
     </div>
