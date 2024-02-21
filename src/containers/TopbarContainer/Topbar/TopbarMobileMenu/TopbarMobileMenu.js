@@ -31,7 +31,7 @@ const TopbarMobileMenu = props => {
   } = props;
 
   const user = ensureCurrentUser(currentUser);
-
+  const userRole = currentUser?.attributes?.profile?.publicData?.role;
   if (!isAuthenticated) {
     const signup = (
       <NamedLink name="SignupPage" className={css.signupLink}>
@@ -99,12 +99,14 @@ const TopbarMobileMenu = props => {
           <FormattedMessage id="TopbarMobileMenu.inboxLink" />
           {notificationCountBadge}
         </NamedLink>
-        <NamedLink
-          className={classNames(css.navigationLink, currentPageClass('ManageListingsPage'))}
-          name="ManageListingsPage"
-        >
-          <FormattedMessage id="TopbarMobileMenu.yourListingsLink" />
-        </NamedLink>
+        {userRole !== 'customer' && (
+          <NamedLink
+            className={classNames(css.navigationLink, currentPageClass('ManageListingsPage'))}
+            name="ManageListingsPage"
+          >
+            <FormattedMessage id="TopbarMobileMenu.yourListingsLink" />
+          </NamedLink>
+        )}
         <NamedLink
           className={classNames(css.navigationLink, currentPageClass('ProfileSettingsPage'))}
           name="ProfileSettingsPage"
@@ -119,11 +121,13 @@ const TopbarMobileMenu = props => {
         </NamedLink>
         <div className={css.spacer} />
       </div>
-      <div className={css.footer}>
-        <NamedLink className={css.createNewListingLink} name="NewListingPage">
-          <FormattedMessage id="TopbarMobileMenu.newListingLink" />
-        </NamedLink>
-      </div>
+      {userRole !== 'customer' && (
+        <div className={css.footer}>
+          <NamedLink className={css.createNewListingLink} name="NewListingPage">
+            <FormattedMessage id="TopbarMobileMenu.newListingLink" />
+          </NamedLink>
+        </div>
+      )}
     </div>
   );
 };

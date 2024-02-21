@@ -47,7 +47,7 @@ const TopbarDesktop = props => {
   const authenticatedOnClientSide = mounted && isAuthenticated;
   const isAuthenticatedOrJustHydrated = isAuthenticated || !mounted;
   const userRole = currentUser?.attributes?.profile?.publicData?.role;
-  const showCreateListingLink = userRole !== 'customer';
+ 
 
   const classes = classNames(rootClassName || css.root, className);
 
@@ -90,6 +90,7 @@ const TopbarDesktop = props => {
         <Avatar className={css.avatar} user={currentUser} disableProfileLink />
       </MenuLabel>
       <MenuContent className={css.profileMenuContent}>
+      {userRole !== 'customer' && (
         <MenuItem key="ManageListingsPage">
           <NamedLink
             className={classNames(css.yourListingsLink, currentPageClass('ManageListingsPage'))}
@@ -99,6 +100,7 @@ const TopbarDesktop = props => {
             <FormattedMessage id="TopbarDesktop.yourListingsLink" />
           </NamedLink>
         </MenuItem>
+      )}
         <MenuItem key="ProfileSettingsPage">
           <NamedLink
             className={classNames(css.profileSettingsLink, currentPageClass('ProfileSettingsPage'))}
@@ -167,7 +169,7 @@ const TopbarDesktop = props => {
           </div>
           <div className={css.rightContent}>
             {search}
-            {showCreateListingLink && (
+            {userRole ===  'author' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
                   <FormattedMessage id="TopbarDesktop.createListing" />
@@ -194,7 +196,7 @@ const TopbarDesktop = props => {
             {search}
           </div>
           <div className={css.rightContent}>
-            {showCreateListingLink && (
+            {userRole ===  'author' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
                   <FormattedMessage id="TopbarDesktop.createListing" />

@@ -34,7 +34,7 @@ const MAX_MOBILE_SCREEN_WIDTH = 768;
 
 export const AsideContent = props => {
   const { user, displayName, isCurrentUser } = props;
-  console.log('USER', user)
+ 
   return (
     <div className={css.asideContent}>
       <AvatarLarge className={css.avatar} user={user} disableProfileLink />
@@ -67,18 +67,21 @@ export const ReviewsErrorMaybe = props => {
 };
 
 export const MobileReviews = props => {
-  const { reviews, queryReviewsError } = props;
+  const { reviews, queryReviewsError, userRole } = props;
   const reviewsOfProvider = reviews.filter(r => r.attributes.type === REVIEW_TYPE_OF_PROVIDER);
   const reviewsOfCustomer = reviews.filter(r => r.attributes.type === REVIEW_TYPE_OF_CUSTOMER);
   return (
     <div className={css.mobileReviews}>
+      {userRole !== 'customer' && (
       <H4 as="h2" className={css.mobileReviewsTitle}>
         <FormattedMessage
           id="ProfilePage.reviewsFromMyCustomersTitle"
           values={{ count: reviewsOfProvider.length }}
         />
       </H4>
+           )}
       <ReviewsErrorMaybe queryReviewsError={queryReviewsError} />
+ 
       <Reviews reviews={reviewsOfProvider} />
       <H4 as="h2" className={css.mobileReviewsTitle}>
         <FormattedMessage
@@ -94,12 +97,12 @@ export const MobileReviews = props => {
 
 export const DesktopReviews = props => {
   const [showReviewsType, setShowReviewsType] = useState(REVIEW_TYPE_OF_PROVIDER);
-  const { reviews, queryReviewsError } = props;
+  const { reviews, queryReviewsError, userRole } = props;
   const reviewsOfProvider = reviews.filter(r => r.attributes.type === REVIEW_TYPE_OF_PROVIDER);
   const reviewsOfCustomer = reviews.filter(r => r.attributes.type === REVIEW_TYPE_OF_CUSTOMER);
   const isReviewTypeProviderSelected = showReviewsType === REVIEW_TYPE_OF_PROVIDER;
   const isReviewTypeCustomerSelected = showReviewsType === REVIEW_TYPE_OF_CUSTOMER;
-  const desktopReviewTabs = [
+  let desktopReviewTabs = [
     {
       text: (
         <Heading as="h3" rootClassName={css.desktopReviewsTitle}>
@@ -125,6 +128,11 @@ export const DesktopReviews = props => {
       onClick: () => setShowReviewsType(REVIEW_TYPE_OF_CUSTOMER),
     },
   ];
+  if (userRole === 'customer') {
+    desktopReviewTabs = desktopReviewTabs.filter(tab => tab.selected !== isReviewTypeProviderSelected);
+  }
+
+
 
   return (
     <div className={css.desktopReviews}>
@@ -132,12 +140,11 @@ export const DesktopReviews = props => {
         <ButtonTabNavHorizontal className={css.desktopReviewsTabNav} tabs={desktopReviewTabs} />
 
         <ReviewsErrorMaybe queryReviewsError={queryReviewsError} />
-
         {isReviewTypeProviderSelected ? (
-          <Reviews reviews={reviewsOfProvider} />
-        ) : (
-          <Reviews reviews={reviewsOfCustomer} />
-        )}
+  <Reviews reviews={reviewsOfProvider} />
+) : userRole !== 'customer' ? (
+  <Reviews reviews={reviewsOfCustomer} />
+) : null}
       </div>
     </div>
   );
@@ -153,6 +160,7 @@ export const MainContent = props => {
     reviews,
     queryReviewsError,
     viewport,
+    userRole
   } = props;
 
   const hasListings = listings.length > 0;
@@ -191,9 +199,9 @@ export const MainContent = props => {
         </div>
       ) : null}
       {isMobileLayout ? (
-        <MobileReviews reviews={reviews} queryReviewsError={queryReviewsError} />
+        <MobileReviews reviews={reviews} queryReviewsError={queryReviewsError} userRole={userRole}/>
       ) : (
-        <DesktopReviews reviews={reviews} queryReviewsError={queryReviewsError} />
+        <DesktopReviews reviews={reviews} queryReviewsError={queryReviewsError} userRole={userRole}/>
       )}
     </div>
   );
@@ -202,6 +210,7 @@ export const MainContent = props => {
 const ProfilePageComponent = props => {
   const config = useConfiguration();
   const { scrollingDisabled, currentUser, userShowError, user, intl, ...rest } = props;
+  const userRole = currentUser?.attributes?.profile?.publicData?.role;
   const ensuredCurrentUser = ensureCurrentUser(currentUser);
   const profileUser = ensureUser(user);
   const isCurrentUser =
@@ -228,11 +237,11 @@ const ProfilePageComponent = props => {
         sideNavClassName={css.aside}
         topbar={<TopbarContainer currentPage="ProfilePage" />}
         sideNav={
-          <AsideContent user={user} isCurrentUser={isCurrentUser} displayName={displayName} />
+          <AsideContent user={user} isCurrentUser={isCurrentUser} displayName={displayName} userRole={userRole}/>
         }
         footer={<FooterContainer />}
       >
-        <MainContent bio={bio} displayName={displayName} userShowError={userShowError} {...rest} />
+        <MainContent bio={bio} displayName={displayName} userShowError={userShowError} {...rest} userRole={userRole}/>
       </LayoutSideNavigation>
     </Page>
   );
