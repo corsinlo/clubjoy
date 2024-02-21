@@ -114,7 +114,7 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
     ...protectedDataMaybe,
     ...optionalPaymentParams,
   };
-  console.log('orderparameterrs incheckjout page w payment', orderParams)
+ 
   return orderParams;
 };
 

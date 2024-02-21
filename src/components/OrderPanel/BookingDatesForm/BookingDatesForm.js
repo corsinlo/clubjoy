@@ -448,8 +448,6 @@ const handleFormSpyChange = (
     }
   }
 
-  console.log(seatNames); // Now you have your array of strings for seat names
-
   const { startDate, endDate } = bookingDates ? bookingDates : {};
 
   if (startDate && endDate && !fetchLineItemsInProgress) {
@@ -496,13 +494,10 @@ const Prev = props => {
 };
 
 export const BookingDatesFormComponent = props => {
-  const [seatNames, setSeatNames] = useState({});
+
+  
   const [focusedInput, setFocusedInput] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(getStartOf(TODAY, 'month', props.timeZone));
-  const handleSeatNameChange = (e, index) => {
-    const updatedSeatNames = { ...seatNames, [`seatName${index + 1}`]: e.target.value };
-    setSeatNames(updatedSeatNames);
-  };
 
   useEffect(() => {
     // Call onMonthChanged function if it has been passed in among props.
@@ -581,12 +576,13 @@ export const BookingDatesFormComponent = props => {
 
         const showEstimatedBreakdown =
           breakdownData && lineItems && !fetchLineItemsInProgress && !fetchLineItemsError;
-
+          const [showSeatNames, setShowSeatNames] = useState(false);
         const dateFormatOptions = {
           weekday: 'short',
           month: 'short',
           day: 'numeric',
         };
+        
 
         const startOfToday = getStartOf(TODAY, 'day', timeZone);
         const tomorrow = addTime(startOfToday, 1, 'days');
@@ -642,8 +638,8 @@ export const BookingDatesFormComponent = props => {
             .map((_, i) => i + 1);
         };
         const seatsArray = getSeatsArray();
-        const seatCount = seatsArray ? seatsArray.length : 0;
-
+    
+        
         return (
           <Form onSubmit={handleSubmit} className={classes} enforcePagePreloadFor="CheckoutPage">
             <FormSpy subscription={{ values: true }} onChange={onFormSpyChange} />
@@ -722,15 +718,24 @@ export const BookingDatesFormComponent = props => {
               }
               seatsArray={getSeatsArray()}
               seatsLabel={intl.formatMessage({ id: 'BookingDatesForm.seatsTitle' })}
+              setShowSeatNames={setShowSeatNames}
             />
-             {Array.from({ length: seats }).map((_, index) => (
-              <Field
-                key={index}
-                name={`seatName${index + 1}`}
-                component="input"
-                placeholder={`Seat ${index + 1} Name`}
-              />
-              ))}
+           {showSeatNames && Array.from({ length: seats || 1 }).map((_, index) => (
+            <Field
+              key={index}
+              name={`seatName${index + 1}`}
+              component="input"
+              placeholder={`Partecipant Name`}
+              validate={required('This field is required')} 
+            >
+              {({ input, meta }) => (
+                <div>
+                  <input {...input} placeholder={`Seat ${index + 1} Name`} type="text" />
+                  {meta.error && meta.touched && <span>{meta.error}</span>} 
+                </div>
+              )}
+            </Field>
+          ))}
 
             {showEstimatedBreakdown ? (
               <div className={css.priceBreakdownContainer}>

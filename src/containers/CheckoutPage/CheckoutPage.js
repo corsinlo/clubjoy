@@ -71,7 +71,7 @@ const EnhancedCheckoutPage = props => {
       fetchStripeCustomer,
     } = props;
     const initialData = { orderData, listing, transaction };
-    console.log(orderData)
+
     const data = handlePageData(initialData, STORAGE_KEY, history);
     setPageData(data || {});
     setIsDataLoaded(true);
