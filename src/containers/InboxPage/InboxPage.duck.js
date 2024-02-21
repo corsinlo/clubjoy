@@ -79,6 +79,7 @@ const INBOX_PAGE_SIZE = 10;
 export const loadData = (params, search) => (dispatch, getState, sdk) => {
   const { tab } = params;
 
+
   const onlyFilterValues = {
     orders: 'order',
     sales: 'sale',
@@ -131,5 +132,66 @@ export const loadData = (params, search) => (dispatch, getState, sdk) => {
     .catch(e => {
       dispatch(fetchOrdersOrSalesError(storableError(e)));
       throw e;
+    });
+};
+
+
+// OVERVIEW CALENDAR
+export const loadData2 = (params, search) => (dispatch, getState, sdk) => {
+  const { tab } = params;
+  console.log('here')
+
+  const onlyFilterValues = {
+    orders: 'order',
+    sales: 'sale',
+  };
+
+  const onlyFilter = onlyFilterValues[tab];
+  if (!onlyFilter) {
+    return Promise.reject(new Error(`Invalid tab for InboxPage: ${tab}`));
+  }
+
+  dispatch(fetchOrdersOrSalesRequest());
+
+  const { page = 1 } = parse(search);
+
+  const apiQueryParams = {
+    only: onlyFilter,
+    lastTransitions: getAllTransitionsForEveryProcess(),
+    include: [
+      'listing',
+      'provider',
+      'provider.profileImage',
+      'customer',
+      'customer.profileImage',
+      'booking',
+    ],
+    'fields.transaction': [
+      'processName',
+      'lastTransition',
+      'lastTransitionedAt',
+      'transitions',
+      'payinTotal',
+      'payoutTotal',
+      'lineItems',
+      'protectedData',
+    ],
+    'fields.listing': ['title', 'availabilityPlan', 'publicData.listingType'],
+    'fields.user': ['profile.displayName', 'profile.abbreviatedName'],
+    'fields.image': ['variants.square-small', 'variants.square-small2x'],
+    page,
+    perPage: INBOX_PAGE_SIZE,
+  };
+
+  // Return the promise chain here
+  return sdk.transactions.query(apiQueryParams)
+    .then(response => {
+      dispatch(addMarketplaceEntities(response));
+      dispatch(fetchOrdersOrSalesSuccess(response));
+      return response; // This is the key part
+    })
+    .catch(e => {
+      dispatch(fetchOrdersOrSalesError(storableError(e)));
+      throw e; // Rethrow after dispatch to allow catching by the caller
     });
 };

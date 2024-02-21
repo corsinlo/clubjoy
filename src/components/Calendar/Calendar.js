@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import styles from './Calendar.module.css';
+// import styles from './Calendar.module.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { queryOwnListings, getOwnListingsById } from '../../containers/ManageListingsPage/ManageListingsPage.duck';
-import {loadData} from '../../containers/InboxPage/InboxPage.duck';
+import {loadData2} from '../../containers/InboxPage/InboxPage.duck';
 import AttendanceForm from '../AttendaceForm/AttendaceForm';
 
 const localizer = momentLocalizer(moment);
@@ -17,12 +18,76 @@ const dayOfWeekMap = {
   sat: 6,
   sun: 0 
 };
+function mergeTransactionsAndBookings(response) {
+  const { data: transactions, included: bookingsAndOthers } = response;
+  const bookings = bookingsAndOthers.filter(item => item.type === 'booking');
 
-const transformListingsToEvents = (ownListings) => {
+  // Extract transactions and their associated bookings
+  const mergedData = transactions.map(transaction => {
+    const bookingId = transaction.relationships.booking.data.id.uuid;
+    const transactionBooking = bookings.find(booking => booking.id.uuid === bookingId);
+
+    return {
+      id: transaction.id.uuid,
+      seats: transactionBooking?.attributes?.seats,
+      start: transactionBooking?.attributes?.start,
+      end: transactionBooking?.attributes?.end,
+      protectedData: transaction?.attributes?.protectedData,
+    };
+  });
+
+  // Group bookings by start date
+  const groupedByStart = mergedData.reduce((acc, curr) => {
+    const key = curr.start; // Adjust for Date objects if necessary
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(curr);
+    return acc;
+  }, {});
+
+  // Merge bookings with the same start date
+  const mergedByStart = Object.values(groupedByStart).map(group => {
+    if (group.length === 1) return group[0]; // If only one booking, return it directly
+
+    return group.reduce((merged, booking, index) => {
+      // Sum seats
+      const totalSeats = (merged.seats || 0) + booking.seats;
+
+      // Collect names from protectedData into an array, ignore unitType since it's always 'day'
+      let names = [];
+      if (index === 1) {
+        names = Object.values(merged.protectedData).filter(value => typeof value === 'string');
+      }
+      names = names.concat(Object.values(booking.protectedData).filter(value => typeof value === 'string'));
+
+      return {
+        id: index === 1 ? booking.id : `${merged.id},${booking.id}`, // Correctly merge IDs
+        seats: totalSeats,
+        start: booking.start,
+        end: booking.end,
+        protectedData: {
+          names: [...new Set(names)], // Remove duplicates, if any
+          unitType: 'day',
+        },
+      };
+    });
+  });
+
+  return mergedByStart;
+}
+
+
+
+
+const transformListingsToEvents = (ownListings, year = moment().year(), month = moment().month() + 1) => {
   let events = [];
+
   ownListings.forEach(listing => {
-    const monthStart = moment('2024-02-01');
-    const monthEnd = moment('2024-02-29');
+    // Calculate the start and end of the given month and year
+    // Note: moment's months are 0-indexed, so subtract 1 for accurate calculation
+    const monthStart = moment([year, month - 1]); // Adjust for moment's 0-indexed months
+    const monthEnd = moment(monthStart).endOf('month');
 
     while (monthStart.isBefore(monthEnd)) {
       listing.attributes.availabilityPlan.entries.forEach(entry => {
@@ -50,43 +115,69 @@ const transformListingsToEvents = (ownListings) => {
 
   return events;
 };
-
-
-const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales, transactionRefs,   transactions }) => {
-  useEffect(() => {
-    console.log("Fetching own listings...");
-    fetchOwnListings();
-    
-    
-    const params = { tab: 'sales' }; 
-    const search = ''; 
-    console.log("Fetching orders or sales...");
-    
-    fetchOrdersOrSales(params, search);
-  }, [fetchOwnListings, fetchOrdersOrSales]);
-
-  useEffect(() => {
-    console.log("Fetched transaction references:", transactionRefs);
-
-    console.log("Fetched pagination info:", transactions);
-  }, [transactionRefs,  transactions,]);
-
+const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
+  const [mergedBookings, setMergedBookings] = useState([]);
   const [selectedListing, setSelectedListing] = useState(null);
   const [selectedEventDate, setSelectedEventDate] = useState(null);
-  const [selectedActivity, setSelectedActivity] = useState(null);
+  const [selectedActivity, setSelectedActivity] = useState({ resource: null, bookingData: null });
   const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    fetchOwnListings();
+    const params = { tab: 'sales' }; 
+    const search = '';
+    fetchOrdersOrSales(params, search)
+      .then(response => {
+        const mergedData = mergeTransactionsAndBookings(response.data);
+        setMergedBookings(mergedData); // Store the merged bookings data
+      })
+      .catch(error => {
+        console.error("Error fetching orders or sales:", error);
+      });
+  }, [fetchOwnListings, fetchOrdersOrSales]);
 
   const events = transformListingsToEvents(ownListings);
 
   const handleSelectEvent = (event) => {
     setSelectedListing(event.resource);
     setSelectedEventDate(event.start);
+  
+    const matchedBooking = mergedBookings.find(booking =>
+      moment(booking.start).isSame(event.start, 'day')
+    );
+
+    if (matchedBooking) {
+      setSelectedActivity({
+        resource: event.resource,
+        bookingData: matchedBooking.protectedData, // Add merged booking data here
+      });
+    } else {
+      setSelectedActivity({ resource: event.resource, bookingData: null });
+    }
+  };
+
+  const handleBack = () => {
+    setShowForm(false); // Hide AttendanceForm and show the calendar again
+    // Reset any state as necessary, such as selectedActivity, etc.
   };
 
   const handleSelectActivity = (activity) => {
-    setSelectedActivity(activity);
-    setShowForm(true); // Show the form and hide the calendar
+    // Assuming `activity` is an entry from `selectedListing.attributes.availabilityPlan.entries`
+    // and `selectedActivity.bookingData` already contains the booking data set by `handleSelectEvent`
+    if (selectedActivity.bookingData) {
+      setSelectedActivity({
+        resource: {
+          ...activity,
+          bookingData: selectedActivity.bookingData, // Preserve existing booking data
+        },
+      });
+    } else {
+      // Fallback if no booking data is available
+      setSelectedActivity({ resource: activity });
+    }
+    setShowForm(true);
   };
+  
 
   const getDayOfWeekNumberFromDate = (date) => {
     return moment(date).day();
@@ -106,7 +197,7 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales, transac
 
   return (
     <div>
-      {!showForm ? ( // Conditional rendering based on showForm state
+      {!showForm ? (
         <>
           <Calendar
             localizer={localizer}
@@ -115,7 +206,6 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales, transac
             startAccessor="start"
             endAccessor="end"
             style={{ height: 500, margin: '50px' }}
-            dayPropGetter={dayPropGetter}
           />
           {selectedListing && selectedEventDate && (
             <div style={{ marginTop: '20px' }}>
@@ -135,27 +225,22 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales, transac
           )}
         </>
       ) : (
-        <AttendanceForm activity={selectedActivity} />
+        <AttendanceForm activity={selectedActivity} onBack={handleBack} />
       )}
     </div>
   );
 };
 
-
-const mapStateToProps = state => {
-  const transactionRefs = state.InboxPage.transactionRefs;
- 
-  return {
-    transactionRefs,
-    transactions: state.InboxPage.transactions,
-    ownListings: getOwnListingsById(state, state.ManageListingsPage.currentPageResultIds),
-  };
-};
-
+const mapStateToProps = state => ({
+  transactionRefs: state.InboxPage.transactionRefs,
+  transactions: state.InboxPage.transactions,
+  booking: state.InboxPage.booking,
+  ownListings: getOwnListingsById(state, state.ManageListingsPage.currentPageResultIds),
+});
 
 const mapDispatchToProps = dispatch => ({
-  fetchOwnListings: () => dispatch(queryOwnListings({})), // Dispatch the action to fetch listings
-  fetchOrdersOrSales: (params, search) => dispatch(loadData(params, search)),
+  fetchOwnListings: () => dispatch(queryOwnListings({})), 
+  fetchOrdersOrSales: (params, search) => dispatch(loadData2(params, search)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyCalendar);
