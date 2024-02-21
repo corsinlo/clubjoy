@@ -35,13 +35,16 @@ const initialState = {
 
 export default function inboxPageReducer(state = initialState, action = {}) {
   const { type, payload } = action;
+  
   switch (type) {
     case FETCH_ORDERS_OR_SALES_REQUEST:
       return { ...state, fetchInProgress: true, fetchOrdersOrSalesError: null };
     case FETCH_ORDERS_OR_SALES_SUCCESS: {
       const transactions = sortedTransactions(payload.data.data);
+
       return {
         ...state,
+        transactions:transactions,
         fetchInProgress: false,
         transactionRefs: entityRefs(transactions),
         pagination: payload.data.meta,
@@ -59,7 +62,7 @@ export default function inboxPageReducer(state = initialState, action = {}) {
 // ================ Action creators ================ //
 
 const fetchOrdersOrSalesRequest = () => ({ type: FETCH_ORDERS_OR_SALES_REQUEST });
-const fetchOrdersOrSalesSuccess = response => ({
+export const fetchOrdersOrSalesSuccess = response => ({
   type: FETCH_ORDERS_OR_SALES_SUCCESS,
   payload: response,
 });
@@ -109,6 +112,7 @@ export const loadData = (params, search) => (dispatch, getState, sdk) => {
       'payinTotal',
       'payoutTotal',
       'lineItems',
+      'protectedData',
     ],
     'fields.listing': ['title', 'availabilityPlan', 'publicData.listingType'],
     'fields.user': ['profile.displayName', 'profile.abbreviatedName'],

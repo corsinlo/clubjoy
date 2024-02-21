@@ -4,6 +4,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import styles from './Calendar.module.css';
 import { queryOwnListings, getOwnListingsById } from '../../containers/ManageListingsPage/ManageListingsPage.duck';
+import {loadData} from '../../containers/InboxPage/InboxPage.duck';
 import AttendanceForm from '../AttendaceForm/AttendaceForm';
 
 const localizer = momentLocalizer(moment);
@@ -51,11 +52,24 @@ const transformListingsToEvents = (ownListings) => {
 };
 
 
-const MyCalendar = ({ ownListings, fetchOwnListings }) => {
+const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales, transactionRefs,   transactions }) => {
   useEffect(() => {
     console.log("Fetching own listings...");
-    fetchOwnListings(); // Fetch listings when component mounts
-  }, [fetchOwnListings]);
+    fetchOwnListings();
+    
+    
+    const params = { tab: 'sales' }; 
+    const search = ''; 
+    console.log("Fetching orders or sales...");
+    
+    fetchOrdersOrSales(params, search);
+  }, [fetchOwnListings, fetchOrdersOrSales]);
+
+  useEffect(() => {
+    console.log("Fetched transaction references:", transactionRefs);
+
+    console.log("Fetched pagination info:", transactions);
+  }, [transactionRefs,  transactions,]);
 
   const [selectedListing, setSelectedListing] = useState(null);
   const [selectedEventDate, setSelectedEventDate] = useState(null);
@@ -128,20 +142,20 @@ const MyCalendar = ({ ownListings, fetchOwnListings }) => {
 };
 
 
-
 const mapStateToProps = state => {
-  const listingIds = state.ManageListingsPage.currentPageResultIds;
-  const ownListings = getOwnListingsById(state, listingIds);
-  console.log("Mapped listings from state:", ownListings); // Corrected variable name
+  const transactionRefs = state.InboxPage.transactionRefs;
+ 
   return {
-    ownListings,
+    transactionRefs,
+    transactions: state.InboxPage.transactions,
+    ownListings: getOwnListingsById(state, state.ManageListingsPage.currentPageResultIds),
   };
 };
 
 
-
 const mapDispatchToProps = dispatch => ({
   fetchOwnListings: () => dispatch(queryOwnListings({})), // Dispatch the action to fetch listings
+  fetchOrdersOrSales: (params, search) => dispatch(loadData(params, search)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyCalendar);
