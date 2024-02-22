@@ -52,7 +52,26 @@ class FieldDateRangeInputComponent extends Component {
     this.setState({ focusedInput });
     this.props.input.onFocus(focusedInput);
   }
-
+  componentDidMount() {
+    this.handleSeatsArrayUpdate();
+  }
+  
+  componentDidUpdate(prevProps) {
+    // Check if seatsArray has changed
+    if (this.props.seatsArray !== prevProps.seatsArray) {
+      this.handleSeatsArrayUpdate();
+    }
+  }
+  
+  handleSeatsArrayUpdate() {
+    // Check if seatsArray exists and its length is greater than 1
+    if (this.props.seatsArray?.length > 1) {
+      // If setShowSeatNames function is passed as prop, call it
+      if (typeof this.props.setShowSeatNames === 'function') {
+        this.props.setShowSeatNames(true);
+      }
+    }
+  }
   render() {
     /* eslint-disable no-unused-vars */
     const {
@@ -72,6 +91,7 @@ class FieldDateRangeInputComponent extends Component {
       onFocusedInputChange,
       seatsArray,
   seatsLabel,
+  setShowSeatNames,
       ...rest
     } = this.props;
     /* eslint-disable no-unused-vars */

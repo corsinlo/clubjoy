@@ -40,7 +40,7 @@ export const ProfileSettingsPageComponent = props => {
     uploadInProgress,
     intl,
   } = props;
-
+  const userRole = currentUser?.attributes?.profile?.publicData?.role;
   const handleSubmit = values => {
     const { firstName, lastName, bio: rawBio } = values;
 
@@ -92,7 +92,7 @@ export const ProfileSettingsPageComponent = props => {
         topbar={
           <>
             <TopbarContainer currentPage="ProfileSettingsPage" />
-            <UserNav currentPage="ProfileSettingsPage" />
+            <UserNav currentPage="ProfileSettingsPage" userRole={userRole} />
           </>
         }
         footer={<FooterContainer />}

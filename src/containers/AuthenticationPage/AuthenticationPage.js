@@ -207,7 +207,7 @@ export const AuthenticationForms = props => {
     <div className={css.content}>
     {/* Conditionally render navigation tabs only for regular signup or login */}
 
-      <LinkTabNavHorizontal className={css.tabs} tabs={tabs}/>
+      <LinkTabNavHorizontal className={css.tabs} tabs={tabs} />
 
     {loginOrSignupError}
 
@@ -409,6 +409,7 @@ export const AuthenticationPageComponent = props => {
   const user = ensureCurrentUser(currentUser);
   const currentUserLoaded = !!user.id;
   const isLogin = tab === 'login';
+  const userRole = currentUser?.attributes?.profile?.publicData?.role;
 
 
   // We only want to show the email verification dialog in the signup

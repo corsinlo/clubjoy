@@ -12,6 +12,7 @@ const { arrayOf, bool, func, node, object, oneOf, string, shape } = PropTypes;
 
 const Tab = props => {
   const { className, disabled, text, selected, onClick, linkProps, isDark } = props;
+
   const darkSkinClasses = isDark
     ? classNames(css.tabContentDarkSkin, {
         [css.selectedTabContentDarkSkin]: selected,
@@ -68,7 +69,8 @@ Tab.propTypes = {
 };
 
 const TabNavHorizontal = props => {
-  const { className, rootClassName, tabRootClassName, tabs, skin } = props;
+  const { className, rootClassName, tabRootClassName, tabs, skin  } = props;
+
   const isDark = skin === DARK_SKIN;
   const classes = classNames(rootClassName || css.root, { [css.darkSkin]: isDark }, className);
   const tabClasses = tabRootClassName || css.tab;

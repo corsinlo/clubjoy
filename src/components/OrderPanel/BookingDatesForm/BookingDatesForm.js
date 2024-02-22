@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { array, bool, func, number, object, string } from 'prop-types';
 import { compose } from 'redux';
-import { Form as FinalForm, FormSpy } from 'react-final-form';
+import { Form as FinalForm, FormSpy, Field } from 'react-final-form';
 import classNames from 'classnames';
 
 import { FormattedMessage, intlShape, injectIntl } from '../../../util/reactIntl';
@@ -437,7 +437,16 @@ const handleFormSpyChange = (
   fetchLineItemsInProgress,
   onFetchTransactionLineItems
 ) => formValues => {
-  const { seats, bookingDates } = formValues.values;
+  const { bookingDates, seats } = formValues.values;
+  const seatNames = [];
+
+  // Collect seat names into an array
+  for (let i = 1; i <= seats; i++) {
+    const seatName = formValues.values[`seatName${i}`];
+    if (seatName) {
+      seatNames.push(seatName);
+    }
+  }
 
   const { startDate, endDate } = bookingDates ? bookingDates : {};
 
@@ -447,12 +456,14 @@ const handleFormSpyChange = (
         bookingStart: startDate,
         bookingEnd: endDate,
         seats: parseInt(seats, 10),
+        seatNames: {seatNames}
       },
       listingId,
       isOwnListing,
     });
   }
 };
+
 
 // IconArrowHead component might not be defined if exposed directly to the file.
 // This component is called before IconArrowHead component in components/index.js
@@ -483,6 +494,8 @@ const Prev = props => {
 };
 
 export const BookingDatesFormComponent = props => {
+
+  
   const [focusedInput, setFocusedInput] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(getStartOf(TODAY, 'month', props.timeZone));
 
@@ -539,6 +552,7 @@ export const BookingDatesFormComponent = props => {
           onFetchTimeSlots,
         } = fieldRenderProps;
         const { startDate, endDate } = values && values.bookingDates ? values.bookingDates : {};
+        const { seats } = values;
 
         const startDateErrorMessage = intl.formatMessage({
           id: 'FieldDateRangeInput.invalidStartDate',
@@ -562,12 +576,13 @@ export const BookingDatesFormComponent = props => {
 
         const showEstimatedBreakdown =
           breakdownData && lineItems && !fetchLineItemsInProgress && !fetchLineItemsError;
-
+          const [showSeatNames, setShowSeatNames] = useState(false);
         const dateFormatOptions = {
           weekday: 'short',
           month: 'short',
           day: 'numeric',
         };
+        
 
         const startOfToday = getStartOf(TODAY, 'day', timeZone);
         const tomorrow = addTime(startOfToday, 1, 'days');
@@ -622,7 +637,9 @@ export const BookingDatesFormComponent = props => {
             .fill()
             .map((_, i) => i + 1);
         };
-
+        const seatsArray = getSeatsArray();
+    
+        
         return (
           <Form onSubmit={handleSubmit} className={classes} enforcePagePreloadFor="CheckoutPage">
             <FormSpy subscription={{ values: true }} onChange={onFormSpyChange} />
@@ -700,8 +717,25 @@ export const BookingDatesFormComponent = props => {
                 setCurrentMonth(getStartOf(event?.startDate ?? startOfToday, 'month', timeZone))
               }
               seatsArray={getSeatsArray()}
-    seatsLabel={intl.formatMessage({ id: 'BookingDatesForm.seatsTitle' })}
+              seatsLabel={intl.formatMessage({ id: 'BookingDatesForm.seatsTitle' })}
+              setShowSeatNames={setShowSeatNames}
             />
+           {showSeatNames && Array.from({ length: seats || 1 }).map((_, index) => (
+            <Field
+              key={index}
+              name={`seatName${index + 1}`}
+              component="input"
+              placeholder={`Partecipant Name`}
+              validate={required('This field is required')} 
+            >
+              {({ input, meta }) => (
+                <div>
+                  <input {...input} placeholder={`Seat ${index + 1} Name`} type="text" />
+                  {meta.error && meta.touched && <span>{meta.error}</span>} 
+                </div>
+              )}
+            </Field>
+          ))}
 
             {showEstimatedBreakdown ? (
               <div className={css.priceBreakdownContainer}>

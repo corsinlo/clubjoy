@@ -43,6 +43,7 @@ export const ContactDetailsPageComponent = props => {
   } = props;
 
   const user = ensureCurrentUser(currentUser);
+  const userRole = currentUser?.attributes?.profile?.publicData?.role;
   const currentEmail = user.attributes.email || '';
   const protectedData = user.attributes.profile.protectedData || {};
   const currentPhoneNumber = protectedData.phoneNumber || '';
@@ -78,7 +79,7 @@ export const ContactDetailsPageComponent = props => {
               desktopClassName={css.desktopTopbar}
               mobileClassName={css.mobileTopbar}
             />
-            <UserNav currentPage="ContactDetailsPage" />
+            <UserNav currentPage="ContactDetailsPage" userRole={userRole}/>
           </>
         }
         sideNav={null}

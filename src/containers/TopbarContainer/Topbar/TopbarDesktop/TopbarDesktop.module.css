@@ -279,6 +279,7 @@
 }
 
 .profileSettingsLink,
+.OverviewLink,
 .yourListingsLink {
   composes: textSmall from global;
   position: relative;

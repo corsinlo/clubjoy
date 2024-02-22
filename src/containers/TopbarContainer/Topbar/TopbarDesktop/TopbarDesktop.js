@@ -48,7 +48,6 @@ const TopbarDesktop = props => {
   const authenticatedOnClientSide = mounted && isAuthenticated;
   const isAuthenticatedOrJustHydrated = isAuthenticated || !mounted;
   const userRole = currentUser?.attributes?.profile?.publicData?.role;
-  const showCreateListingLink = userRole !== 'customer';
 
   const classes = classNames(rootClassName || css.root, className);
 
@@ -66,7 +65,7 @@ const TopbarDesktop = props => {
     />
   ) : null; // Only render TopbarSearchForm if not on landing page
 
-  const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null
+  const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
   const inboxLink = authenticatedOnClientSide ? (
     <NamedLink
       className={css.inboxLink}
@@ -92,15 +91,29 @@ const TopbarDesktop = props => {
         <Avatar className={css.avatar} user={currentUser} disableProfileLink />
       </MenuLabel>
       <MenuContent className={css.profileMenuContent}>
-        <MenuItem key="ManageListingsPage">
-          <NamedLink
-            className={classNames(css.yourListingsLink, currentPageClass('ManageListingsPage'))}
-            name="ManageListingsPage"
-          >
-            <span className={css.menuItemBorder} />
-            <FormattedMessage id="TopbarDesktop.yourListingsLink" />
-          </NamedLink>
-        </MenuItem>
+        {userRole !== 'customer' && (
+          <MenuItem key="ManageListingsPage">
+            <NamedLink
+              className={classNames(css.yourListingsLink, currentPageClass('ManageListingsPage'))}
+              name="ManageListingsPage"
+            >
+              <span className={css.menuItemBorder} />
+              <FormattedMessage id="TopbarDesktop.yourListingsLink" />
+            </NamedLink>
+          </MenuItem>
+        )}
+        {userRole !== 'customer' && (
+          <MenuItem key="CMSPage">
+            <NamedLink
+              className={classNames(css.OverviewLink, currentPageClass('CMSPage'))}
+              name="CMSPage"
+              params={{ pageId: 'overview' }}
+            >
+              <span className={css.menuItemBorder} />
+              Overview
+            </NamedLink>
+          </MenuItem>
+        )}
         <MenuItem key="ProfileSettingsPage">
           <NamedLink
             className={classNames(css.profileSettingsLink, currentPageClass('ProfileSettingsPage'))}
@@ -147,19 +160,15 @@ const TopbarDesktop = props => {
 
   const signupBusinessLink = isAuthenticatedOrJustHydrated ? null : (
     <NamedLink name="bSignupPage" className={css.loginLink}>
-      <span className={css.login}>
-        Business
-      </span>
+      <span className={css.login}>Business</span>
     </NamedLink>
   );
-
 
   return (
     <nav className={classes}>
       {isLandingPage ? (
         <>
-          <div className={css.leftContent}>
-          </div>
+          <div className={css.leftContent}></div>
           <div className={css.logoContainer}>
             <LinkedLogo
               className={css.logoLink}
@@ -170,7 +179,7 @@ const TopbarDesktop = props => {
           </div>
           <div className={css.rightContent}>
             {search}
-            {showCreateListingLink && (
+            {userRole === 'author' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
                   <FormattedMessage id="TopbarDesktop.createListing" />
@@ -198,7 +207,7 @@ const TopbarDesktop = props => {
             {search}
           </div>
           <div className={css.rightContent}>
-            {showCreateListingLink && (
+            {userRole === 'author' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
                   <FormattedMessage id="TopbarDesktop.createListing" />
@@ -217,8 +226,6 @@ const TopbarDesktop = props => {
       )}
     </nav>
   );
-  
-  
 };
 
 TopbarDesktop.defaultProps = {

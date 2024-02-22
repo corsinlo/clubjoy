@@ -23,6 +23,7 @@ import ManageListingCard from './ManageListingCard/ManageListingCard';
 
 import { closeListing, openListing, getOwnListingsById } from './ManageListingsPage.duck';
 import css from './ManageListingsPage.module.css';
+import { currentUserShowError } from '../../ducks/user.duck';
 
 export class ManageListingsPageComponent extends Component {
   constructor(props) {
@@ -51,11 +52,13 @@ export class ManageListingsPageComponent extends Component {
       queryParams,
       scrollingDisabled,
       intl,
+      currentUser
     } = this.props;
+   
 
     const hasPaginationInfo = !!pagination && pagination.totalItems != null;
     const listingsAreLoaded = !queryInProgress && hasPaginationInfo;
-
+    const userRole = currentUser?.attributes?.profile?.publicData?.role;
     const loadingResults = (
       <div className={css.messagePanel}>
         <H3 as="h2" className={css.heading}>
@@ -86,6 +89,7 @@ export class ManageListingsPageComponent extends Component {
         </div>
       ) : null;
 
+    const noResultsForCustomer = userRole === 'customer' ? '' : noResults;
     const heading =
       listingsAreLoaded && pagination.totalItems > 0 ? (
         <H3 as="h1" className={css.heading}>
@@ -95,7 +99,7 @@ export class ManageListingsPageComponent extends Component {
           />
         </H3>
       ) : (
-        noResults
+        noResultsForCustomer
       );
 
     const page = queryParams ? queryParams.page : 1;
@@ -129,7 +133,7 @@ export class ManageListingsPageComponent extends Component {
           topbar={
             <>
               <TopbarContainer currentPage="ManageListingsPage" />
-              <UserNav currentPage="ManageListingsPage" />
+              <UserNav currentPage="ManageListingsPage" userRole={userRole} />
             </>
           }
           footer={<FooterContainer />}
@@ -225,6 +229,7 @@ const mapStateToProps = state => {
     openingListingError,
     closingListing,
     closingListingError,
+    currentUser: state.user.currentUser,
   };
 };
 

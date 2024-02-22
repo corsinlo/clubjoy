@@ -270,7 +270,6 @@ export const openListing = listingId => (dispatch, getState, sdk) => {
 export const loadData = (params, search, config) => {
   const queryParams = parse(search);
   const page = queryParams.page || 1;
-
   const {
     aspectWidth = 1,
     aspectHeight = 1,
