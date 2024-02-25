@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import classNames from 'classnames';
 
 import { FormattedMessage } from '../../../../../util/reactIntl';
-import { InlineTextButton, IconClose, FieldCheckbox, FieldSelect, FieldTextInput } from '../../../../../components';
+import {
+  InlineTextButton,
+  IconClose,
+  FieldCheckbox,
+  FieldSelect,
+  FieldTextInput,
+} from '../../../../../components';
 
 import css from './AvailabilityPlanEntries.module.css';
 
@@ -269,7 +275,6 @@ const TimeRangeHidden = props => {
   );
 };
 
-
 /**
  * Handle entries for the availability plan. These are modelled with Final Form Arrays (FieldArray)
  */
@@ -281,6 +286,80 @@ const AvailabilityPlanEntries = props => {
   const getEntryEndTimes = getEntryBoundaries(entries, intl, false);
 
   const checkboxName = `checkbox_${dayOfWeek}`;
+  const [showAddTimeSlotUI, setShowAddTimeSlotUI] = useState(false);
+  const AddTimeSlot = ({ dayOfWeek, formApi }) => {
+    // Sample time options for the dropdowns
+    const timeOptions = [
+      '00:00',
+      '01:00',
+      '02:00', // Add all 24-hour options
+      '03:00',
+      '04:00',
+      '05:00',
+      '06:00',
+      '07:00',
+      '08:00',
+      '09:00',
+      '10:00',
+      '11:00',
+      '12:00',
+      '13:00',
+      '14:00',
+      '15:00',
+      '16:00',
+      '17:00',
+      '18:00',
+      '19:00',
+      '20:00',
+      '21:00',
+      '22:00',
+      '23:00',
+      '24:00',
+    ];
+
+    // Function to handle adding the time slot
+    const handleAddTimeSlot = (selectedStartTime, selectedEndTime) => {
+      formApi.mutators.push(dayOfWeek, {
+        startTime: selectedStartTime,
+        endTime: selectedEndTime,
+        seats: 1, // Assuming seats remains static; adjust as needed
+      });
+    };
+
+    return (
+      <div>
+        <label htmlFor="startTime">Start Time:</label>
+        <select id="startTime" name="startTime">
+          {timeOptions.map(time => (
+            <option key={time} value={time}>
+              {time}
+            </option>
+          ))}
+        </select>
+
+        <label htmlFor="endTime">End Time:</label>
+        <select id="endTime" name="endTime">
+          {timeOptions.map(time => (
+            <option key={time} value={time}>
+              {time}
+            </option>
+          ))}
+        </select>
+
+        <button
+          type="button"
+          onClick={() => {
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+            handleAddTimeSlot(startTime, endTime);
+          }}
+        >
+          Add Time Slot
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className={classNames(css.weekDay, hasEntries ? css.hasEntries : null)}>
       <div className={css.dayToggle}></div>
@@ -289,40 +368,17 @@ const AvailabilityPlanEntries = props => {
           key={checkboxName}
           id={checkboxName}
           name="activePlanDays"
-          useSuccessColor
           label={intl.formatMessage({
             id: `EditListingAvailabilityPlanForm.dayOfWeek.${dayOfWeek}`,
           })}
           value={dayOfWeek}
           onChange={e => {
             const isChecked = e.target.checked;
-
-            // 'day' and 'night' units use full days
-            if (useFullDays) {
-              if (isChecked) {
-                formApi.mutators.push(dayOfWeek, {
-                  startTime: '00:00',
-                  endTime: '24:00',
-                  seats: 1,
-                });
-              } else {
-                formApi.mutators.remove(dayOfWeek, 0);
-              }
-            } else {
-              const shouldAddEntry = isChecked && !hasEntries;
-              if (shouldAddEntry) {
-                // The 'hour' unit is not initialized with any value,
-                // except seats
-                // because user need to pick them themselves.
-                formApi.mutators.push(dayOfWeek, { startTime: null, endTime: null, seats: 1 });
-              } else if (!isChecked) {
-                // If day of week checkbox is unchecked,
-                // we'll remove all the entries for that day.
-                formApi.mutators.removeBatch(dayOfWeek, entries);
-              }
-            }
+            setShowAddTimeSlotUI(isChecked); // Toggle the AddTimeSlot UI based on the checkbox
           }}
         />
+
+        {showAddTimeSlotUI && <AddTimeSlot dayOfWeek={dayOfWeek} formApi={formApi} />}
       </div>
 
       <div className={css.pickerArea}>
@@ -378,7 +434,6 @@ const AvailabilityPlanEntries = props => {
                       }}
                       intl={intl}
                     />
-                    
                   );
                 })}
 
