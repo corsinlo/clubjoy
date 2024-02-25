@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { DateRangePicker } from 'react-dates';
 import css from './LandingSearchBar.module.css';
+import 'react-dates/lib/css/_datepicker.css';
 import { useHistory } from 'react-router-dom';
 import { createResourceLocatorString } from '../../util/routes';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
-import moment from 'moment';
+import landingCover from '../../media/landingCover.jpg';
 
 const LandingSearchBar = props => {
   const routeConfiguration = useRouteConfiguration();
@@ -96,18 +97,22 @@ const LandingSearchBar = props => {
   };
 
   return (
-    <div className={css.landingBarContainer}>
-      Hai provato tutta milano? e invece no
-      <form onSubmit={handleSubmit}>
-        <div className={css.joy}>
-          <select value={joy} onChange={e => setJoy(e.target.value)}>
-            <option value="">Search for joys...</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select>
-        </div>
-        <div className={css.time}>
+    <div className={css.landingBarContainer} style={{ backgroundImage: `url(${landingCover})` }}>
+      <div className={css.introText}>
+        Hai provato tutta Milano ormai?
+        <br /> E invece no
+      </div>
+
+      <form onSubmit={handleSubmit} className={css.form}>
+        <select value={joy} onChange={e => setJoy(e.target.value)}>
+          <option value="">Search for joys...</option>
+          <option value="ceramic">Ceramic</option>
+          <option value="paint">Paint</option>
+          <option value="food">Food</option>
+          <option value="plants">Plants</option>
+        </select>
+
+        <div>
           <DateRangePicker
             startDate={startDate}
             startDateId="your_unique_start_date_id"
@@ -122,15 +127,15 @@ const LandingSearchBar = props => {
             isOutsideRange={() => false}
           />
         </div>
-        <div className={css.location}>
-          <input
-            id="location-input"
-            type="text"
-            placeholder="Enter a location"
-            value={location}
-            onChange={e => setLocation(e.target.value)}
-          />
-        </div>
+
+        <input
+          id="location-input"
+          type="text"
+          placeholder="Enter a location"
+          value={location}
+          onChange={e => setLocation(e.target.value)}
+        />
+
         <button type="submit" className={css.button}>
           Search
         </button>
