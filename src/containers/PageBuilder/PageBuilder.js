@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import dynamicLoader from './dynamicLoader.js';
 import { IconSpinner, LayoutComposer, LandingSearchBar } from '../../components/index.js';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer.js';
 import FooterContainer from '../FooterContainer/FooterContainer.js';
