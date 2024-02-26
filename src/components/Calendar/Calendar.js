@@ -4,10 +4,15 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 // import styles from './Calendar.module.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { queryOwnListings, getOwnListingsById } from '../../containers/ManageListingsPage/ManageListingsPage.duck';
-import {loadData2} from '../../containers/InboxPage/InboxPage.duck';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  queryOwnListings,
+  getOwnListingsById,
+} from '../../containers/ManageListingsPage/ManageListingsPage.duck';
+import { loadData2 } from '../../containers/InboxPage/InboxPage.duck';
 import AttendanceForm from '../AttendaceForm/AttendaceForm';
 
+const randomId = () => uuidv4();
 const localizer = momentLocalizer(moment);
 const dayOfWeekMap = {
   mon: 1,
@@ -16,19 +21,22 @@ const dayOfWeekMap = {
   thu: 4,
   fri: 5,
   sat: 6,
-  sun: 0 
+  sun: 0,
 };
 function mergeTransactionsAndBookings(response) {
   const { data: transactions, included: bookingsAndOthers } = response;
   const bookings = bookingsAndOthers.filter(item => item.type === 'booking');
 
   // Extract transactions and their associated bookings
+  // Assuming transactions and bookings are defined
+
   const mergedData = transactions.map(transaction => {
     const bookingId = transaction.relationships.booking.data.id.uuid;
     const transactionBooking = bookings.find(booking => booking.id.uuid === bookingId);
 
     return {
       id: transaction.id.uuid,
+      bookingId: bookingId, // Include bookingId explicitly
       seats: transactionBooking?.attributes?.seats,
       start: transactionBooking?.attributes?.start,
       end: transactionBooking?.attributes?.end,
@@ -48,39 +56,54 @@ function mergeTransactionsAndBookings(response) {
 
   // Merge bookings with the same start date
   const mergedByStart = Object.values(groupedByStart).map(group => {
-    if (group.length === 1) return group[0]; // If only one booking, return it directly
+    if (group.length === 1) {
+      // For a single booking, modify protectedData to format names into an array
+      const { protectedData, ...rest } = group[0];
+      // Remove unitType and collect names into an array
+      const { unitType, ...namesData } = protectedData;
+      const names = Object.values(namesData); // This collects all name values into an array
+
+      return {
+        ...rest,
+        protectedData: {
+          names, // Use the names array here
+        },
+      };
+    }
 
     return group.reduce((merged, booking, index) => {
       // Sum seats
       const totalSeats = (merged.seats || 0) + booking.seats;
 
-      // Collect names from protectedData into an array, ignore unitType since it's always 'day'
+      // Collect names from protectedData into an array, add unitType: 'day' only for grouped bookings
       let names = [];
       if (index === 1) {
         names = Object.values(merged.protectedData).filter(value => typeof value === 'string');
       }
-      names = names.concat(Object.values(booking.protectedData).filter(value => typeof value === 'string'));
-
+      names = names.concat(
+        Object.values(booking.protectedData).filter(value => typeof value === 'string')
+      );
       return {
         id: index === 1 ? booking.id : `${merged.id},${booking.id}`, // Correctly merge IDs
+        bookingId: index === 1 ? booking.bookingId : merged.bookingId, // Keep the first bookingId
         seats: totalSeats,
         start: booking.start,
         end: booking.end,
         protectedData: {
           names: [...new Set(names)], // Remove duplicates, if any
-          unitType: 'day',
         },
       };
     });
   });
-
+  console.log(mergedByStart);
   return mergedByStart;
 }
 
-
-
-
-const transformListingsToEvents = (ownListings, year = moment().year(), month = moment().month() + 1) => {
+const transformListingsToEvents = (
+  ownListings,
+  year = moment().year(),
+  month = moment().month() + 1
+) => {
   let events = [];
 
   ownListings.forEach(listing => {
@@ -96,8 +119,14 @@ const transformListingsToEvents = (ownListings, year = moment().year(), month = 
         const currentDayOfWeekNumber = monthStart.day();
 
         if (currentDayOfWeekNumber === dayOfWeekNumber) {
-          const startDateTime = monthStart.clone().hour(parseInt(entry.startTime.split(':')[0])).minute(parseInt(entry.startTime.split(':')[1]));
-          const endDateTime = monthStart.clone().hour(parseInt(entry.endTime.split(':')[0])).minute(parseInt(entry.endTime.split(':')[1]));
+          const startDateTime = monthStart
+            .clone()
+            .hour(parseInt(entry.startTime.split(':')[0]))
+            .minute(parseInt(entry.startTime.split(':')[1]));
+          const endDateTime = monthStart
+            .clone()
+            .hour(parseInt(entry.endTime.split(':')[0]))
+            .minute(parseInt(entry.endTime.split(':')[1]));
 
           events.push({
             id: `${listing.id.uuid}-${monthStart.format('YYYY-MM-DD')}`,
@@ -124,7 +153,7 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
 
   useEffect(() => {
     fetchOwnListings();
-    const params = { tab: 'sales' }; 
+    const params = { tab: 'sales' };
     const search = '';
     fetchOrdersOrSales(params, search)
       .then(response => {
@@ -132,16 +161,16 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
         setMergedBookings(mergedData); // Store the merged bookings data
       })
       .catch(error => {
-        console.error("Error fetching orders or sales:", error);
+        console.error('Error fetching orders or sales:', error);
       });
   }, [fetchOwnListings, fetchOrdersOrSales]);
 
   const events = transformListingsToEvents(ownListings);
 
-  const handleSelectEvent = (event) => {
+  const handleSelectEvent = event => {
     setSelectedListing(event.resource);
     setSelectedEventDate(event.start);
-  
+
     const matchedBooking = mergedBookings.find(booking =>
       moment(booking.start).isSame(event.start, 'day')
     );
@@ -149,7 +178,10 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
     if (matchedBooking) {
       setSelectedActivity({
         resource: event.resource,
-        bookingData: matchedBooking.protectedData, // Add merged booking data here
+        bookingData: {
+          ...matchedBooking.protectedData, // Preserve the existing booking data
+          bookingId: matchedBooking.bookingId, // Include the bookingId
+        },
       });
     } else {
       setSelectedActivity({ resource: event.resource, bookingData: null });
@@ -161,7 +193,7 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
     // Reset any state as necessary, such as selectedActivity, etc.
   };
 
-  const handleSelectActivity = (activity) => {
+  const handleSelectActivity = activity => {
     // Assuming `activity` is an entry from `selectedListing.attributes.availabilityPlan.entries`
     // and `selectedActivity.bookingData` already contains the booking data set by `handleSelectEvent`
     if (selectedActivity.bookingData) {
@@ -177,24 +209,22 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
     }
     setShowForm(true);
   };
-  
 
-  const getDayOfWeekNumberFromDate = (date) => {
+  const getDayOfWeekNumberFromDate = date => {
     return moment(date).day();
   };
 
-  const dayPropGetter = (date) => {
-    const hasEvents = events.some(event => 
-      moment(date).isSame(event.start, 'day') || moment(date).isSame(event.end, 'day')
+  const dayPropGetter = date => {
+    const hasEvents = events.some(
+      event => moment(date).isSame(event.start, 'day') || moment(date).isSame(event.end, 'day')
     );
-    
+
     return {
       style: {
         backgroundColor: hasEvents ? '#f0f0f0' : 'inherit', // Change '#f0f0f0' to your highlight color
       },
     };
   };
-
   return (
     <div>
       {!showForm ? (
@@ -216,8 +246,8 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
                   const dayOfWeekNumberForActivity = dayOfWeekMap[activity.dayOfWeek.toLowerCase()];
                   return dayOfWeekNumberForEvent === dayOfWeekNumberForActivity;
                 })
-                .map((activity) => (
-                  <li key={activity.id} onClick={() => handleSelectActivity(activity)}>
+                .map(activity => (
+                  <li key={randomId()} onClick={() => handleSelectActivity(activity)}>
                     {activity.startTime} {selectedListing.attributes.title} Seats: {activity.seats}
                   </li>
                 ))}
@@ -239,8 +269,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchOwnListings: () => dispatch(queryOwnListings({})), 
+  fetchOwnListings: () => dispatch(queryOwnListings({})),
   fetchOrdersOrSales: (params, search) => dispatch(loadData2(params, search)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyCalendar);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyCalendar);

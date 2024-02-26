@@ -84,8 +84,6 @@ const LandingSearchBar = props => {
     // Join the query parts with "&"
     let searchParams = queryParts.join('&');
 
-    console.log('here', searchParams);
-
     // Navigate to the search page with the constructed query
     if (routeConfiguration) {
       const queryString = `?${searchParams}`;
