@@ -125,13 +125,26 @@ const PageBuilder = props => {
           return (
             <>
               <Topbar as="header" className={css.topbar}>
-                <TopbarContainer currentPage={currentPage} />
+                <TopbarContainer searchParams={searchParams} />
               </Topbar>
               <Main as="main" className={css.main}>
-                {sections.length === 0 && inProgress ? (
-                  <LoadingSpinner />
-                ) : (
-                  <SectionBuilder sections={sections} options={options} />
+                {dynamicLoader(pageId, {}) || (
+                  <>
+                    {sections.length === 0 && inProgress ? (
+                      <LoadingSpinner />
+                    ) : (
+                      <div className={css.mainContentContainer}>
+                        {isLandingPage ? (
+                          <>
+                            <LandingSearchBar onSearchSubmit={handleSearchSubmit} />
+                            <SectionBuilder sections={sections} options={options} />
+                          </>
+                        ) : (
+                          <SectionBuilder sections={sections} options={options} />
+                        )}
+                      </div>
+                    )}
+                  </>
                 )}
               </Main>
               <Footer>
