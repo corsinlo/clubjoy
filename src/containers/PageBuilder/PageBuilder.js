@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import dynamicLoader from './dynamicLoader.js';
-import { IconSpinner, LayoutComposer } from '../../components/index.js';
+import { IconSpinner, LayoutComposer, LandingSearchBar } from '../../components/index.js';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer.js';
 import FooterContainer from '../FooterContainer/FooterContainer.js';
-import LandingSearchBar from '../../components/LandingSearchBar/LandingSearchBar.js';
 import { validProps } from './Field';
 
 import SectionBuilder from './SectionBuilder/SectionBuilder.js';
@@ -128,24 +127,8 @@ const PageBuilder = props => {
                 <TopbarContainer searchParams={searchParams} />
               </Topbar>
               <Main as="main" className={css.main}>
-                {dynamicLoader(pageId, {}) || (
-                  <>
-                    {sections.length === 0 && inProgress ? (
-                      <LoadingSpinner />
-                    ) : (
-                      <div className={css.mainContentContainer}>
-                        {isLandingPage ? (
-                          <>
-                            <LandingSearchBar onSearchSubmit={handleSearchSubmit} />
-                            <SectionBuilder sections={sections} options={options} />
-                          </>
-                        ) : (
-                          <SectionBuilder sections={sections} options={options} />
-                        )}
-                      </div>
-                    )}
-                  </>
-                )}
+                <LandingSearchBar onSearchSubmit={handleSearchSubmit} />
+                <SectionBuilder sections={sections} options={options} />
               </Main>
               <Footer>
                 <FooterContainer />

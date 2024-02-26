@@ -128,6 +128,7 @@ export { default as StripePaymentAddress } from './StripePaymentAddress/StripePa
 // Forms
 export { default as StripeConnectAccountForm } from './StripeConnectAccountForm/StripeConnectAccountForm';
 
+export {default as LandingSearchBar} from './LandingSearchBar/LandingSearchBar'
 //////////////////////////////////////////////
 // Page sections and modal content wrappers //
 //////////////////////////////////////////////
