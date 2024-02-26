@@ -148,7 +148,11 @@ export const AuthenticationForms = props => {
 
   const tabs = [
     {
-      text: <Heading as='h2' rootClassName={css.tab}><FormattedMessage id="AuthenticationPage.signupLinkText" /></Heading>,
+      text: (
+        <Heading as="h2" rootClassName={css.tab}>
+          <FormattedMessage id="AuthenticationPage.signupLinkText" />
+        </Heading>
+      ),
       selected: tab === 'signup',
       linkProps: {
         name: 'SignupPage',
@@ -156,13 +160,18 @@ export const AuthenticationForms = props => {
       },
     },
     {
-      text: <Heading as='h2' rootClassName={css.tab}><FormattedMessage id="AuthenticationPage.loginLinkText" /></Heading>,
-      selected: tab === 'login', 
+      text: (
+        <Heading as="h2" rootClassName={css.tab}>
+          <FormattedMessage id="AuthenticationPage.loginLinkText" />
+        </Heading>
+      ),
+      selected: tab === 'login',
       linkProps: {
         name: 'LoginPage',
         to: fromState,
       },
     },
+    /*
     {
       text: <Heading as='h2' rootClassName={css.tab}>Business Sign up</Heading>,
       selected: tab === 'bsignup', 
@@ -171,10 +180,10 @@ export const AuthenticationForms = props => {
         to: fromState,
       },
     },
+    */
   ];
-  
 
-  const handleSubmitSignup = (values) => {
+  const handleSubmitSignup = values => {
     const role = tab === 'bsignup' ? 'author' : 'customer';
     const { fname: firstName, lname: lastName, ...rest } = values;
     const params = { firstName, lastName, ...rest, role };
@@ -202,39 +211,41 @@ export const AuthenticationForms = props => {
   const loginOrSignupError = isLogin
     ? errorMessage(loginError, loginErrorMessage)
     : errorMessage(signupError, signupErrorMessage);
-  
+
   return (
     <div className={css.content}>
-    {/* Conditionally render navigation tabs only for regular signup or login */}
+      {/* Conditionally render navigation tabs only for regular signup or login, not for bsignup */}
+      {tab !== 'bsignup' && <LinkTabNavHorizontal className={css.tabs} tabs={tabs} />}
 
-      <LinkTabNavHorizontal className={css.tabs} tabs={tabs} />
+      {loginOrSignupError}
 
-    {loginOrSignupError}
-
-    {isLogin ? (
+      {isLogin ? (
         <LoginForm className={css.loginForm} onSubmit={submitLogin} inProgress={authInProgress} />
-      ) : tab === 'bsignup' ? (
-        <BSignupForm
-          className={css.bsignupForm}
-          onSubmit={(values) => handleSubmitSignup(values)}
-          inProgress={authInProgress}
-          termsAndConditions={termsAndConditions}
-        />
       ) : tab === 'signup' ? (
         <SignupForm
           className={css.signupForm}
-          onSubmit={(values) => handleSubmitSignup(values)}
+          onSubmit={values => handleSubmitSignup(values)}
+          inProgress={authInProgress}
+          termsAndConditions={termsAndConditions}
+        />
+      ) : tab === 'bsignup' ? (
+        <BSignupForm
+          className={css.bsignupForm}
+          onSubmit={values => handleSubmitSignup(values)}
           inProgress={authInProgress}
           termsAndConditions={termsAndConditions}
         />
       ) : null}
 
-      <SocialLoginButtonsMaybe
-        isLogin={isLogin}
-        showFacebookLogin={showFacebookLogin}
-        showGoogleLogin={showGoogleLogin}
-        from={from}
-      />
+      {/* Conditionally render SocialLoginButtonsMaybe only if not bsignup */}
+      {tab !== 'bsignup' && (
+        <SocialLoginButtonsMaybe
+          isLogin={isLogin}
+          showFacebookLogin={showFacebookLogin}
+          showGoogleLogin={showGoogleLogin}
+          from={from}
+        />
+      )}
     </div>
   );
 };
@@ -410,7 +421,6 @@ export const AuthenticationPageComponent = props => {
   const currentUserLoaded = !!user.id;
   const isLogin = tab === 'login';
   const userRole = currentUser?.attributes?.profile?.publicData?.role;
-
 
   // We only want to show the email verification dialog in the signup
   // tab if the user isn't being redirected somewhere else
