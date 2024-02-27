@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 // import styles from './Calendar.module.css';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+// import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { v4 as uuidv4 } from 'uuid';
 import {
   queryOwnListings,

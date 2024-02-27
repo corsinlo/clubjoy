@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DateRangePicker } from 'react-dates';
 import css from './LandingSearchBar.module.css';
-import 'react-dates/lib/css/_datepicker.css';
+// import 'react-dates/lib/css/_datepicker.css';
 import { useHistory } from 'react-router-dom';
 import { createResourceLocatorString } from '../../util/routes';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
