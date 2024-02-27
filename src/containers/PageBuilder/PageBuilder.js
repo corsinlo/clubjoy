@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dynamicLoader from './dynamicLoader.js';
 import { IconSpinner, LayoutComposer } from '../../components/index.js';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer.js';
 import FooterContainer from '../FooterContainer/FooterContainer.js';
 import LandingSearchBar from '../../components/LandingSearchBar/LandingSearchBar.js';
 import { validProps } from './Field';
+import classNames from 'classnames';
 
 import SectionBuilder from './SectionBuilder/SectionBuilder.js';
 import StaticPage from './StaticPage.js';
@@ -111,11 +112,29 @@ const PageBuilder = props => {
   `;
 
   const [searchParams, setSearchParams] = useState({});
+  const [offset, setOffset] = useState(0);
+
+  const desktopClassName = classNames({
+    [css.desktopTopbarLandingPage]: isLandingPage && offset <= 50,
+    [css.desktopTopbarLandingPageWithScroll]: isLandingPage && offset >= 50,
+  });
 
   const handleSearchSubmit = params => {
     setSearchParams(params);
     // You might want to navigate to the search page or trigger the search directly here
   };
+
+  useEffect(() => {
+    if (window) {
+      const handleScroll = () => {
+        setOffset(window.scrollY);
+      };
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, []);
 
   return (
     <StaticPage {...pageMetaProps} {...pageProps}>
@@ -125,7 +144,7 @@ const PageBuilder = props => {
           return (
             <>
               <Topbar as="header" className={css.topbar}>
-                <TopbarContainer searchParams={searchParams} />
+                <TopbarContainer searchParams={searchParams} desktopClassName={desktopClassName} />
               </Topbar>
               <Main as="main" className={css.main}>
                 {dynamicLoader(pageId, {}) || (

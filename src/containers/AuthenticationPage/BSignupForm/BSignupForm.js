@@ -62,44 +62,77 @@ const BSignupFormComponent = props => {
       }
     };
 
+    // Example of a simple required field validator
+    const required = value => (value ? undefined : 'Required');
+
     return (
       <form onSubmit={handleSubmit}>
         <div>
+          <h3 style={{ margin: '20px 0' }}>Entra in Club Joy!</h3>
+          <div style={{ margin: '20px 0' }}>
+            Hai un Business e saresti interessato a far parte di ClubJoy? Compila il form qui sotto
+            e saremo subito da te!
+          </div>
           <label>
-            Name:
-            <input type="text" name="name" value={formData.name} onChange={handleChange} />
+            Nome del Business:
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required // HTML5 required attribute for simple browser validation
+            />
           </label>
         </div>
         <div>
           <label>
             Email:
-            <input type="email" name="email" value={formData.email} onChange={handleChange} />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
           </label>
         </div>
         <div>
           <label>
-            Address:
-            <input type="text" name="address" value={formData.address} onChange={handleChange} />
+            Indirizzo:
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              required
+            />
           </label>
         </div>
         <div>
           <label>
-            Website (Optional):
-            <input type="text" name="website" value={formData.website} onChange={handleChange} />
+            Website o Social:
+            <input
+              type="text"
+              name="website"
+              value={formData.website}
+              onChange={handleChange}
+              // No required attribute since this is optional
+            />
           </label>
         </div>
         <div>
           <label>
-            Type of Business:
+            Tipo di Business:
             <input
               type="text"
               name="businessType"
               value={formData.businessType}
               onChange={handleChange}
+              required
             />
           </label>
         </div>
-        <button type="submit">Submit</button>
+        <PrimaryButton type="submit">Invia</PrimaryButton>
       </form>
     );
   }

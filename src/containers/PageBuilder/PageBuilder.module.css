@@ -4,9 +4,18 @@
 }
 
 .topbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  width: 100%;
   z-index: var(--zIndexTopbar);
+}
+
+.desktopTopbarLandingPage {
+  background-color: transparent;
+}
+
+.desktopTopbarLandingPageWithScroll {
+  background-color: white;
 }
 
 .main {

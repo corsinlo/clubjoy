@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-// import styles from './Calendar.module.css';
+import css from './Calendar.module.css';
 // import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -235,11 +235,11 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
             onSelectEvent={handleSelectEvent}
             startAccessor="start"
             endAccessor="end"
-            style={{ height: 500, margin: '50px' }}
+            style={{ height: 500, margin: '100px' }}
           />
           {selectedListing && selectedEventDate && (
-            <div style={{ marginTop: '20px' }}>
-              <h3>Selected Activity:</h3>
+            <div style={{ marginTop: '10px', alignItems: 'center', textAlign: 'center' }}>
+              <h4>Attivita Selezionata:</h4>
               {selectedListing.attributes.availabilityPlan.entries
                 .filter(activity => {
                   const dayOfWeekNumberForEvent = getDayOfWeekNumberFromDate(selectedEventDate);

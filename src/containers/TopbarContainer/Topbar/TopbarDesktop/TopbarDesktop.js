@@ -168,8 +168,7 @@ const TopbarDesktop = props => {
     <nav className={classes}>
       {isLandingPage ? (
         <>
-          <div className={css.leftContent}></div>
-          <div className={css.logoContainer}>
+          <div className={css.leftContent}>
             <LinkedLogo
               className={css.logoLink}
               layout="desktop"

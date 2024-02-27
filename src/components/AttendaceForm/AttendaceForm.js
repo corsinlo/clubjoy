@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
-
-// Initialize Supabase client
+import css from './AttendaceForm.module.css';
+import { PrimaryButton } from '../Button/Button';
 const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
 const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correctly set in your .env file
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -10,7 +10,7 @@ const AttendanceForm = ({ activity, onBack }) => {
   const [checkedNames, setCheckedNames] = useState([]);
 
   // Extract names from activity, fallback to an empty array if not available
-  const names = activity?.resource?.bookingData?.names ?? [];
+  const names = activity?.resource?.bookingData?.names.filter(name => !name.includes('day')) ?? [];
 
   useEffect(() => {
     const fetchAttendanceRecords = async () => {
@@ -77,20 +77,27 @@ const AttendanceForm = ({ activity, onBack }) => {
   };
 
   return (
-    <div>
-      {names.map((name, index) => (
-        <div key={index}>
-          <input
-            type="checkbox"
-            checked={checkedNames.includes(name)}
-            onChange={() => handleCheck(name)}
-          />
-          <label>{name}</label>
-        </div>
-      ))}
-      <button onClick={handleSave}>Save</button>
-      <button onClick={handleDelete}>Delete Activity</button>
-      <button onClick={onBack}>Back to Calendar</button>
+    <div className={css.container}>
+      <h2>Form Presenze</h2>
+      <div className={css.gridContainer}>
+        {names.map((name, index) => (
+          <React.Fragment key={index}>
+            <div className={css.gridItemName}>{name}</div>
+            <div className={css.gridItemCheckbox}>
+              <input
+                type="checkbox"
+                checked={checkedNames.includes(name)}
+                onChange={() => handleCheck(name)}
+              />
+            </div>
+          </React.Fragment>
+        ))}
+      </div>
+      <div className={css.buttonGroup}>
+        <PrimaryButton onClick={handleSave}>Salva</PrimaryButton>
+        {/*<PrimaryButton onClick={handleDelete}>Delete Activity</PrimaryButton>*/}
+        <PrimaryButton onClick={onBack}>Indietro</PrimaryButton>
+      </div>
     </div>
   );
 };

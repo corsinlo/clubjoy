@@ -1,9 +1,11 @@
+@import '../../styles/customMediaQueries.css';
+
 .landingBarContainer {
   display: flex;
   flex-direction: column; /* Ensures items are stacked vertically */
   align-items: center;
   justify-content: center;
-  height: 400px;
+  height: 500px;
   background-color: #FFF;
   background-size: cover;
   padding: 20px; /* Adds some padding around the container */
@@ -41,10 +43,8 @@
 }
 
 input, select, .DateRangePicker {
-  height: 40px; /* Ensures consistent height */
-  border: 1px solid #ccc; /* Basic border style */
-  border-radius: 4px; /* Rounded corners for inputs and select */
-  padding: 0 10px; /* Text padding */
+  height: 58px; /* Ensures consistent height */
+  border: 1px solid #ccc; /* Basic border style */ 
 }
 
 .button {
@@ -61,6 +61,11 @@ input, select, .DateRangePicker {
 .button:hover {
   background-color: #0056b3; /* Darker shade on hover */
 }
+
+.searchIcon {
+  stroke: var(--colorWhite);
+}
+
 @media (max-width: 768px) { 
   .landingBarContainer, .bar {
     margin-left: 10px; 
@@ -88,5 +93,58 @@ input, select, .DateRangePicker {
 
   .button {
     padding: 10px 0; 
+  }
+}
+
+@media (--viewportLarge) {
+  .form {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1000px;
+    gap: unset;
+    background-color: transparent;
+    box-shadow: unset;
+    & > * {
+      border-radius: unset;
+      box-shadow: unset;
+    }
+  }
+
+  .button {
+    position: absolute;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    max-width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    right: 30px;
+    top: 30px;
+  }
+
+  .fieldSearch {
+    flex: 1 0 33.33%;
+    height: 60px;
+    font-size: 20px;
+
+    &:first-child {
+      border-top-left-radius: 50px;
+      border-bottom-left-radius: 50px;
+      min-width: 180px;
+      border-right: 1px solid var(--matterColor);
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      padding-left: 20px;
+    }
+
+    &:nth-child(3) {
+      border-top-right-radius: 50px;
+      border-bottom-right-radius: 50px;
+      min-width: 180px;
+      border-left: 0;
+    }
   }
 }

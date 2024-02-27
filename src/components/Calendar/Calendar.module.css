@@ -5,43 +5,25 @@
   margin: 0;
 }
 
-/*ADDED*/
-/* Hide borders around cells to remove the grid appearance */
-:global(.rbc-toolbar) {
-    display: none !important; /* Hide the navigation toolbar PERHAPS KEEP MONTH AND WEEK*/
+
+.calendarContainer {
+  margin: 50px; /* Adjust top margin as needed */
+  height: 500px; /* Keep your existing height or adjust as needed */
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 768px) {
+  .calendarContainer {
+    margin: 20px 10px; /* Adjust for smaller screens */
+    height: auto; /* Make height responsive */
   }
-:global(.rbc-day-bg + .rbc-day-bg) {
-    border-left: none !important;
-  }
-  
-  :global(.rbc-month-row + .rbc-month-row) {
-    border-top: none !important;
-  }
-  
-  /* Adjust the day cell to remove padding and background color */
-  :global(.rbc-day-bg) {
-    background-color: transparent !important;
-    padding: 0 !important;
-  }
-  
-  /* Further adjustments to day numbers */
+}
+
   :global(.rbc-date-cell) {
     padding: 2px !important;
     font-size: 16px !important; /* Example font size, adjust as needed */
     text-align: center !important; /* Center day numbers */
   }
-  
-  /* Optionally, adjust the header row if needed */
-  :global(.rbc-header) {
-    font-size: 16px !important; /* Adjust header font size as needed */
-    padding: 4px 0 !important; /* Minimize padding */
-    text-align: center !important;
-    border-bottom: 1px solid #ddd !important; /* Keep a subtle separator or remove it */
-  }
-  
-  /* Highlight days with events with a background color */
-  /* This assumes you are using dayPropGetter to add a custom style for days with events */
-  
 
 :global(button.rbc-btn) {
   overflow: visible;

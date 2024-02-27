@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { createResourceLocatorString } from '../../util/routes';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 import landingCover from '../../media/landingCover.jpg';
+import IconSearch from '../IconSearch/IconSearch';
 
 const LandingSearchBar = props => {
   const routeConfiguration = useRouteConfiguration();
@@ -51,17 +52,20 @@ const LandingSearchBar = props => {
         _sdkType: 'LatLngBounds',
       };
       setBounds(bounds); // Update bounds state
+
+      // Update location state with the name of the selected place
+      setLocation(place.name); // This line is new
     });
   };
-
   const handleSubmit = e => {
     e.preventDefault();
 
-    // Check if bounds are set
+    /* Check if bounds are set
     if (!bounds) {
       alert('Please select a location from the dropdown.');
       return;
     }
+    */
 
     // Format bounds as "latNE,lngNE,latSW,lngSW"
     const formattedBounds = `${bounds.ne.lat},${bounds.ne.lng},${bounds.sw.lat},${bounds.sw.lng}`;
@@ -102,7 +106,7 @@ const LandingSearchBar = props => {
       </div>
 
       <form onSubmit={handleSubmit} className={css.form}>
-        <select value={joy} onChange={e => setJoy(e.target.value)}>
+        <select className={css.fieldSearch} value={joy} onChange={e => setJoy(e.target.value)}>
           <option value="">Search for joys...</option>
           <option value="ceramic">Ceramic</option>
           <option value="paint">Paint</option>
@@ -110,21 +114,19 @@ const LandingSearchBar = props => {
           <option value="plants">Plants</option>
         </select>
 
-        <div>
-          <DateRangePicker
-            startDate={startDate}
-            startDateId="your_unique_start_date_id"
-            endDate={endDate}
-            endDateId="your_unique_end_date_id"
-            onDatesChange={({ startDate, endDate }) => {
-              setStartDate(startDate);
-              setEndDate(endDate);
-            }}
-            focusedInput={focusedInput}
-            onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-            isOutsideRange={() => false}
-          />
-        </div>
+        <DateRangePicker
+          startDate={startDate}
+          startDateId="your_unique_start_date_id"
+          endDate={endDate}
+          endDateId="your_unique_end_date_id"
+          onDatesChange={({ startDate, endDate }) => {
+            setStartDate(startDate);
+            setEndDate(endDate);
+          }}
+          focusedInput={focusedInput}
+          onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+          isOutsideRange={() => false}
+        />
 
         <input
           id="location-input"
@@ -132,10 +134,11 @@ const LandingSearchBar = props => {
           placeholder="Enter a location"
           value={location}
           onChange={e => setLocation(e.target.value)}
+          className={css.fieldSearch}
         />
 
         <button type="submit" className={css.button}>
-          Search
+          <IconSearch rootClassName={css.searchIcon} />
         </button>
       </form>
     </div>

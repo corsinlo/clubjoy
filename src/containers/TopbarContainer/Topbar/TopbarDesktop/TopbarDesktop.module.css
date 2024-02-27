@@ -1,36 +1,12 @@
 @import '../../../../styles/customMediaQueries.css';
 
 /* Desktop */
-.root {
-  /* Size */
-  width: 100%;
-  height: var(--topbarHeightDesktop);
-
-  /* Layout for child components */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0 12px 0 0;
-
-  /* fill */
-  background-color: var(--colorWhite);
-
-  /* shadows */
-  box-shadow: none;
-
-  @media (--viewportLarge) {
-    padding: 0 24px 0 0;
-  }
-}
 
 /* logo */
 .logoLink {
   border-bottom: 0px solid;
   transition: var(--transitionStyleButton);
-  /* Increase size */
-  width: 120px; /* Example size - adjust as needed */
-  height: auto; /* Maintain aspect ratio */
+  width: fit-content;
 }
 .logoLink:hover {
   border-bottom: 4px solid var(--marketplaceColor);
@@ -262,7 +238,7 @@
 .signup,
 .login {
   composes: textSmall from global;
-
+  
   display: inline-block;
   margin: 28px 0;
   text-decoration: inherit;
@@ -392,20 +368,18 @@
   width: 100%;
   height: var(--topbarHeightDesktop);
   padding: 0 24px;
-  background-color: var(--colorWhite);
   box-shadow: none;
-}
+  transition: ease-in-out all 0.5s;
 
-.logoContainer {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
 }
 
 .leftContent,
 .rightContent {
   display: flex;
   align-items: center;
+}
+
+.leftContent {
   justify-content: flex-start;
 }
 
