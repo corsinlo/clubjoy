@@ -117,6 +117,7 @@ const PageBuilder = props => {
   const desktopClassName = classNames({
     [css.desktopTopbarLandingPage]: isLandingPage && offset <= 50,
     [css.desktopTopbarLandingPageWithScroll]: isLandingPage && offset >= 50,
+    [css.desktopTopbar]: !isLandingPage,
   });
 
   const handleSearchSubmit = params => {
