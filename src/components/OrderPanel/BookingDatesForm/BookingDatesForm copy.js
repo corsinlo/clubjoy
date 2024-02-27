@@ -450,8 +450,8 @@ const handleFormSpyChange = (
   fetchLineItemsInProgress,
   onFetchTransactionLineItems
 ) => formValues => {
+  console.log('ddd', formValues.values);
   const { bookingDates, seats } = formValues.values;
-
   const seatNames = [];
 
   // Collect seat names into an array
@@ -462,9 +462,9 @@ const handleFormSpyChange = (
     }
   }
 
-  const { startDate, endDate, date } = bookingDates ? bookingDates : {};
-  console.log('ddd', bookingDates);
-  if (!fetchLineItemsInProgress) {
+  const { startDate, endDate } = bookingDates ? bookingDates : {};
+
+  if (startDate && endDate && !fetchLineItemsInProgress) {
     onFetchTransactionLineItems({
       orderData: {
         bookingStart: startDate,

@@ -30,6 +30,49 @@ const handleChange = (parentOnChange, inputOnChange) => value => {
 };
 
 class FieldDateInputComponent extends Component {
+  componentDidUpdate(prevProps) {
+    // Update focusedInput in case a new value for it is
+    // passed in the props. This may occur if the focus
+    // is manually set to the date picker.
+    if (this.props.focusedInput && this.props.focusedInput !== prevProps.focusedInput) {
+      this.setState({ focusedInput: this.props.focusedInput });
+    }
+  }
+
+  handleBlur(focusedInput) {
+    this.setState({ focusedInput: null });
+    this.props.input.onBlur(focusedInput);
+    // Notify the containing component that the focused
+    // input has changed.
+    if (this.props.onFocusedInputChange) {
+      this.props.onFocusedInputChange(null);
+    }
+  }
+
+  handleFocus(focusedInput) {
+    this.setState({ focusedInput });
+    this.props.input.onFocus(focusedInput);
+  }
+  componentDidMount() {
+    this.handleSeatsArrayUpdate();
+  }
+
+  componentDidUpdate(prevProps) {
+    // Check if seatsArray has changed
+    if (this.props.seatsArray !== prevProps.seatsArray) {
+      this.handleSeatsArrayUpdate();
+    }
+  }
+
+  handleSeatsArrayUpdate() {
+    // Check if seatsArray exists and its length is greater than 1
+    if (this.props.seatsArray?.length > 1) {
+      // If setShowSeatNames function is passed as prop, call it
+      if (typeof this.props.setShowSeatNames === 'function') {
+        this.props.setShowSeatNames(true);
+      }
+    }
+  }
   render() {
     const {
       className,
@@ -38,10 +81,15 @@ class FieldDateInputComponent extends Component {
       label,
       showLabelAsDisabled,
       input,
+      focusedInput,
+      onFocusedInputChange,
       meta,
       useMobileMargins,
       showErrorMessage,
       onChange: parentOnChange,
+      seatsArray,
+      seatsLabel,
+      setShowSeatNames,
       ...rest
     } = this.props;
 
@@ -76,6 +124,16 @@ class FieldDateInputComponent extends Component {
     };
     const classes = classNames(rootClassName || css.fieldRoot, className);
     const errorClasses = classNames({ [css.mobileMargins]: useMobileMargins });
+    const seatsSelectionMaybe =
+      seatsArray?.length > 1 ? (
+        <FieldSelect name="seats" id="seats" label={seatsLabel}>
+          {seatsArray.map(s => (
+            <option value={s} key={s}>
+              {s}
+            </option>
+          ))}
+        </FieldSelect>
+      ) : null;
 
     return (
       <div className={classes}>
@@ -92,6 +150,7 @@ class FieldDateInputComponent extends Component {
         ) : null}
         <DateInput className={inputClasses} {...inputProps} />
         {showErrorMessage ? <ValidationError className={errorClasses} fieldMeta={meta} /> : null}
+        {seatsSelectionMaybe}
       </div>
     );
   }

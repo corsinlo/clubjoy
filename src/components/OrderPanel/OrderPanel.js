@@ -212,7 +212,7 @@ const OrderPanel = props => {
 
   const timeZone = listing?.attributes?.availabilityPlan?.timezone;
   const isClosed = listing?.attributes?.state === LISTING_STATE_CLOSED;
-
+  console.log(monthlyTimeSlots);
   const isBooking = isBookingProcess(processName);
   const shouldHaveBookingTime = isBooking && [LINE_ITEM_HOUR].includes(lineItemUnitType);
   const showBookingTimeForm = shouldHaveBookingTime && !isClosed && timeZone;
