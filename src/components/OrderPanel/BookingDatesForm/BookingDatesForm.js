@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { array, bool, func, number, object, string } from 'prop-types';
 import { compose } from 'redux';
 import { Form as FinalForm, FormSpy, Field } from 'react-final-form';
 import classNames from 'classnames';
-
 import { FormattedMessage, intlShape, injectIntl } from '../../../util/reactIntl';
-import { required, bookingDatesRequired, composeValidators } from '../../../util/validators';
+import { required } from '../../../util/validators';
 import {
   START_DATE,
   END_DATE,
@@ -22,11 +21,19 @@ import {
 import { LINE_ITEM_DAY, LINE_ITEM_NIGHT, TIME_SLOT_TIME, propTypes } from '../../../util/types';
 import { BOOKING_PROCESS_NAME } from '../../../transactions/transaction';
 import { generateMonths } from '../../../util/generators';
-import { Form, IconArrowHead, PrimaryButton, FieldDateRangeInput, H6 } from '../../../components';
+import {
+  Form,
+  IconArrowHead,
+  PrimaryButton,
+  FieldDateRangeInput,
+  FieldDateInput,
+  H6,
+} from '../../../components';
 
 import EstimatedCustomerBreakdownMaybe from '../EstimatedCustomerBreakdownMaybe';
 
 import css from './BookingDatesForm.module.css';
+import moment from 'moment';
 
 const TODAY = new Date();
 
@@ -50,16 +57,17 @@ const timeSlotsContain = (timeSlots, date, timeZone) => {
 
 const pickMonthlyTimeSlots = (monthlyTimeSlots, date, timeZone) => {
   const monthId = monthIdString(date, timeZone);
+  console.log('TEST', date, monthlyTimeSlots, monthlyTimeSlots[monthId]);
   return monthlyTimeSlots?.[monthId]?.timeSlots || [];
 };
 
 /**
- * Find first blocked date between two dates.
+ * Find first blocked date between two dates, inclusively.
  * If none is found, null is returned.
  *
  * @param {Object} monthlyTimeSlots propTypes.timeSlot objects
- * @param {Moment} startDate start date, exclusive
- * @param {Moment} endDate end date, exclusive
+ * @param {Moment} startDate start date, inclusive
+ * @param {Moment} endDate end date, inclusive
  * @param {String} timeZone time zone id
  */
 const firstBlockedBetween = (monthlyTimeSlots, startDate, endDate, timeZone) => {
@@ -74,12 +82,12 @@ const firstBlockedBetween = (monthlyTimeSlots, startDate, endDate, timeZone) => 
 };
 
 /**
- * Find last blocked date between two dates.
+ * Find last blocked date between two dates, inclusively.
  * If none is found, null is returned.
  *
- * @param {Array} timeSlots propTypes.timeSlot objects
- * @param {Moment} startDate start date, exclusive
- * @param {Moment} endDate end date, exclusive
+ * @param {Array} monthlyTimeSlots propTypes.timeSlot objects
+ * @param {Moment} startDate start date, inclusive
+ * @param {Moment} endDate end date, inclusive
  * @param {String} timeZone time zone id
  */
 const lastBlockedBetween = (monthlyTimeSlots, startDate, endDate, timeZone) => {
@@ -116,7 +124,6 @@ const isBlockedBetween = (monthlyTimeSlots, timeZone) => (startDate, endDate) =>
   return !!firstBlockedBetween(monthlyTimeSlots, startInListingTZ, endInListingTZ, timeZone);
 };
 
-
 /**
  * Return an array of timeslots for the months between start date and end date
  * @param {*} monthlyTimeSlots
@@ -125,67 +132,30 @@ const isBlockedBetween = (monthlyTimeSlots, timeZone) => (startDate, endDate) =>
  * @param {*} timeZone
  * @returns
  */
-const pickBookingMonthTimeSlots = (
-  monthlyTimeSlots,
-  startDate,
-  endDate,
-  timeZone
-) => {
+const pickBookingMonthTimeSlots = (monthlyTimeSlots, startDate, endDate, timeZone) => {
   // The generateMonths generator returns the first day of each month that is spanned
   // by the time range between start date and end date.
   const monthsInRange = generateMonths(startDate, endDate, timeZone);
 
   return monthsInRange.reduce((timeSlots, firstOfMonth) => {
-    return [
-      ...timeSlots,
-      ...pickMonthlyTimeSlots(monthlyTimeSlots, firstOfMonth, timeZone),
-    ];
+    return [...timeSlots, ...pickMonthlyTimeSlots(monthlyTimeSlots, firstOfMonth, timeZone)];
   }, []);
 };
 
-// Get the time slot for a booking duration that has the least seats
-const getMinSeatsTimeSlot = (
-  monthlyTimeSlots,
-  timeZone,
-  startDate,
-  endDate
-) => {
-  const timeSlots = pickBookingMonthTimeSlots(
-    monthlyTimeSlots,
+const isStartDateSelected = (timeSlots, startDate, endDate, focusedInput) => {
+  const isSelected =
+    timeSlots &&
+    startDate &&
+    (!endDate || focusedInput === END_DATE) &&
+    focusedInput !== START_DATE;
+  console.log('isStartDateSelected called with:', {
+    timeSlots,
     startDate,
     endDate,
-    timeZone
-  );
-
-  // Determine the timeslots that fall between start date and end date
-  const bookingTimeslots = timeSlots.filter(ts => {
-    const { start, end } = ts.attributes;
-    return (
-      // booking start date falls within time slot
-      (start < startDate && end > startDate) ||
-      // whole time slot is within booking period
-      (start >= startDate && end <= endDate) ||
-      // booking end date falls within time slot
-      (start < endDate && end > endDate)
-    );
+    focusedInput,
+    isSelected,
   });
-
-  // Return the timeslot with the least seats in the booking period
-  return bookingTimeslots.reduce((minSeats, ts) => {
-    if (!minSeats?.seats) {
-      return ts.attributes;
-    }
-
-    return ts.attributes.seats < minSeats.seats
-      ? ts.attributes
-      : minSeats;
-  }, {});
-};
-
-const isStartDateSelected = (timeSlots, startDate, endDate, focusedInput) => {
-  return (
-    timeSlots && startDate && (!endDate || focusedInput === END_DATE) && focusedInput !== START_DATE
-  );
+  return isSelected;
 };
 
 const endDateToPickerDate = (unitType, endDate, timeZone) => {
@@ -288,61 +258,11 @@ const timeSlotEqualsDay = (timeSlot, day, timeZone) => {
  * Returns an isDayBlocked function that can be passed to
  * a react-dates DateRangePicker component.
  */
-const isDayBlockedFn = (
-  monthlyTimeSlots,
-  startDate,
-  endDate,
-  unitType,
-  dayCountAvailableForBooking,
-  timeZone
-) => focusedInput => {
-  const endOfAvailableRange = dayCountAvailableForBooking - 1;
-  const outOfBookableDate = getStartOf(TODAY, 'day', timeZone, endOfAvailableRange + 1, 'days');
-  const timeSlotsOnSelectedMonth = pickMonthlyTimeSlots(monthlyTimeSlots, startDate, timeZone);
-
-  // Start date selected/focused, end date missing
-  const startDateSelected = isStartDateSelected(
-    timeSlotsOnSelectedMonth,
-    startDate,
-    endDate,
-    focusedInput
-  );
-
-  // Find the end of bookable range after a start date
-  const endOfBookableRange = startDateSelected
-    ? firstBlockedBetween(monthlyTimeSlots, startDate, outOfBookableDate, timeZone)
-    : null;
-
-  // end date is focused but no dates are selected
-  const selectingEndDate =
-    timeSlotsOnSelectedMonth &&
-    !startDate &&
-    !endDate &&
-    focusedInput === END_DATE &&
-    unitType === LINE_ITEM_NIGHT;
-
-  if (selectingEndDate) {
-    // if end date is being selected first, block the day after a booked date
-    // (as a booking can end on the day the following booking starts)
-    return day => {
-      const timeOfDay = timeOfDayFromLocalToTimeZone(day, timeZone);
-      const dayInListingTZ = getStartOf(timeOfDay, 'day', timeZone);
-      const timeSlots = pickMonthlyTimeSlots(monthlyTimeSlots, dayInListingTZ, timeZone);
-      return !timeSlots.find(timeSlot => timeSlotEqualsDay(timeSlot, dayInListingTZ));
-    };
-  } else if (endOfBookableRange || !timeSlotsOnSelectedMonth) {
-    // a next bookable range is found or time slots are not provided
-    // -> booking range handles blocking dates
-    return () => false;
-  } else {
-    // otherwise return standard timeslots check
-    return day => {
-      const timeOfDay = timeOfDayFromLocalToTimeZone(day, timeZone);
-      const dayInListingTZ = getStartOf(timeOfDay, 'day', timeZone);
-      const timeSlots = pickMonthlyTimeSlots(monthlyTimeSlots, dayInListingTZ, timeZone);
-      return !timeSlots.find(timeSlot => timeSlotEqualsDay(timeSlot, dayInListingTZ));
-    };
-  }
+const isDayBlockedFn = (monthlyTimeSlots, timeZone) => day => {
+  const timeOfDay = timeOfDayFromLocalToTimeZone(day, timeZone);
+  const dayInListingTZ = getStartOf(timeOfDay, 'day', timeZone);
+  const timeSlots = pickMonthlyTimeSlots(monthlyTimeSlots, dayInListingTZ, timeZone);
+  return !timeSlots.find(timeSlot => timeSlotEqualsDay(timeSlot, dayInListingTZ));
 };
 
 const fetchMonthData = (
@@ -407,16 +327,16 @@ const handleMonthClick = (
 // In case start or end date for the booking is missing
 // focus on that input, otherwise continue with the
 // default handleSubmit function.
-const handleFormSubmit = (setFocusedInput, onSubmit) => e => {
-  const { startDate, endDate } = e.bookingDates || {};
-  if (!startDate) {
+const handleFormSubmit = (setFocusedInput, onSubmit, timeZone) => e => {
+  console.log('form submit');
+  const { date } = e.bookingDates || {};
+  if (!date) {
     e.preventDefault();
     setFocusedInput(START_DATE);
-  } else if (!endDate) {
-    e.preventDefault();
-    setFocusedInput(END_DATE);
   } else {
-    onSubmit(e);
+    const startDate = date || new Date();
+    const endDate = addTime(startDate, 1, 'days', timeZone);
+    onSubmit({ ...e, bookingDates: { startDate, endDate } });
   }
 };
 
@@ -424,6 +344,7 @@ const handleFormSubmit = (setFocusedInput, onSubmit) => e => {
 // so that they can notify this component when the
 // focused input changes.
 const handleFocusedInputChange = setFocusedInput => focusedInput => {
+  console.log('INPUT CHANGED');
   setFocusedInput(focusedInput);
 };
 
@@ -435,9 +356,11 @@ const handleFormSpyChange = (
   listingId,
   isOwnListing,
   fetchLineItemsInProgress,
-  onFetchTransactionLineItems
+  onFetchTransactionLineItems,
+  timeZone
 ) => formValues => {
   const { bookingDates, seats } = formValues.values;
+
   const seatNames = [];
 
   // Collect seat names into an array
@@ -448,22 +371,21 @@ const handleFormSpyChange = (
     }
   }
 
-  const { startDate, endDate } = bookingDates ? bookingDates : {};
-
-  if (startDate && endDate && !fetchLineItemsInProgress) {
+  const { startDate, endDate, date } = bookingDates ? bookingDates : {};
+  console.log('ddd', bookingDates);
+  if (date && !fetchLineItemsInProgress) {
     onFetchTransactionLineItems({
       orderData: {
-        bookingStart: startDate,
-        bookingEnd: endDate,
+        bookingStart: date,
+        bookingEnd: addTime(date, 1, 'days', timeZone),
         seats: parseInt(seats, 10),
-        seatNames: {seatNames}
+        seatNames: { seatNames },
       },
       listingId,
       isOwnListing,
     });
   }
 };
-
 
 // IconArrowHead component might not be defined if exposed directly to the file.
 // This component is called before IconArrowHead component in components/index.js
@@ -494,8 +416,6 @@ const Prev = props => {
 };
 
 export const BookingDatesFormComponent = props => {
-
-  
   const [focusedInput, setFocusedInput] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(getStartOf(TODAY, 'month', props.timeZone));
 
@@ -523,13 +443,14 @@ export const BookingDatesFormComponent = props => {
   } = props;
   const classes = classNames(rootClassName || css.root, className);
 
-  const onFormSubmit = handleFormSubmit(setFocusedInput, onSubmit);
+  const onFormSubmit = handleFormSubmit(setFocusedInput, onSubmit, timeZone);
   const onFocusedInputChange = handleFocusedInputChange(setFocusedInput);
   const onFormSpyChange = handleFormSpyChange(
     listingId,
     isOwnListing,
     fetchLineItemsInProgress,
-    onFetchTransactionLineItems
+    onFetchTransactionLineItems,
+    timeZone
   );
   return (
     <FinalForm
@@ -551,38 +472,30 @@ export const BookingDatesFormComponent = props => {
           fetchLineItemsError,
           onFetchTimeSlots,
         } = fieldRenderProps;
-        const { startDate, endDate } = values && values.bookingDates ? values.bookingDates : {};
+        const { date } = values && values.bookingDates ? values.bookingDates : {};
+        const startDate = date || new Date();
+        const endDate = addTime(startDate, 1, 'days', timeZone);
         const { seats } = values;
-
-        const startDateErrorMessage = intl.formatMessage({
-          id: 'FieldDateRangeInput.invalidStartDate',
-        });
-        const endDateErrorMessage = intl.formatMessage({
-          id: 'FieldDateRangeInput.invalidEndDate',
-        });
-
         // This is the place to collect breakdown estimation data.
         // Note: lineItems are calculated and fetched from this Template's backend
         // so we need to pass only booking data that is needed otherwise
         // If you have added new fields to the form that will affect to pricing,
         // you need to add the values to handleOnChange function
-        const breakdownData =
-          startDate && endDate
-            ? {
-                startDate,
-                endDate,
-              }
-            : null;
+        const breakdownData = date
+          ? {
+              startDate,
+              endDate,
+            }
+          : null;
 
         const showEstimatedBreakdown =
           breakdownData && lineItems && !fetchLineItemsInProgress && !fetchLineItemsError;
-          const [showSeatNames, setShowSeatNames] = useState(false);
+        const [showSeatNames, setShowSeatNames] = useState(false);
         const dateFormatOptions = {
           weekday: 'short',
           month: 'short',
           day: 'numeric',
         };
-        
 
         const startOfToday = getStartOf(TODAY, 'day', timeZone);
         const tomorrow = addTime(startOfToday, 1, 'days');
@@ -600,14 +513,7 @@ export const BookingDatesFormComponent = props => {
           listingId,
           onFetchTimeSlots
         );
-        const isDayBlocked = isDayBlockedFn(
-          monthlyTimeSlots,
-          startDate,
-          endDate,
-          lineItemUnitType,
-          dayCountAvailableForBooking,
-          timeZone
-        );
+        const isDayBlocked = isDayBlockedFn(monthlyTimeSlots, timeZone);
         const isOutsideRange = isOutsideRangeFn(
           monthlyTimeSlots,
           startDate,
@@ -616,82 +522,53 @@ export const BookingDatesFormComponent = props => {
           dayCountAvailableForBooking,
           timeZone
         );
-        const getSeatsArray = () => {
+        const seatArrays = useMemo(() => {
           const formState = formApi.getState();
           const { bookingDates } = formState.values;
-        
-          if (!bookingDates) {
-            return null;
-          }
-        
-          const minSeatsTimeSlot = getMinSeatsTimeSlot(
-            monthlyTimeSlots,
-            timeZone,
-            bookingDates.startDate,
-            bookingDates.endDate
+
+          const startDate = bookingDates?.date || new Date();
+          const endDate = addTime(startDate, 1, 'days', timeZone);
+
+          const timeSlots = pickMonthlyTimeSlots(monthlyTimeSlots, startDate, timeZone);
+
+          const correspondTimeSlots = timeSlots.find(timeSlot =>
+            moment(timeSlot.attributes.start).isSame(startDate, 'days')
           );
-        
+
           // Return an array of the seat options a customer
           // can pick for the time range
-          return Array(minSeatsTimeSlot.seats)
-            .fill()
-            .map((_, i) => i + 1);
-        };
-        const seatsArray = getSeatsArray();
-    
-        
+          return correspondTimeSlots
+            ? Array(correspondTimeSlots.attributes.seats)
+                .fill()
+                .map((_, i) => i + 1)
+            : [];
+        }, [monthlyTimeSlots, values.bookingDates]);
+
         return (
           <Form onSubmit={handleSubmit} className={classes} enforcePagePreloadFor="CheckoutPage">
             <FormSpy subscription={{ values: true }} onChange={onFormSpyChange} />
-            <FieldDateRangeInput
+            <FieldDateInput
               className={css.bookingDates}
               name="bookingDates"
               isDaily={lineItemUnitType === LINE_ITEM_DAY}
-              startDateId={`${formId}.bookingStartDate`}
-              startDateLabel={intl.formatMessage({
-                id: 'BookingDatesForm.bookingStartTitle',
-              })}
-              startDatePlaceholderText={startDatePlaceholderText}
-              endDateId={`${formId}.bookingEndDate`}
-              endDateLabel={intl.formatMessage({
-                id: 'BookingDatesForm.bookingEndTitle',
-              })}
-              endDatePlaceholderText={endDatePlaceholderText}
+              dateId={`${formId}.bookingStartDate`}
+              dateLabel={''}
+              placeholderText={''}
               focusedInput={focusedInput}
               onFocusedInputChange={onFocusedInputChange}
               format={v => {
-                const { startDate, endDate } = v || {};
-                // Format the Final Form field's value for the DateRangeInput
-                // DateRangeInput operates on local time zone, but the form uses listing's time zone
-                const formattedStart = startDate
-                  ? timeOfDayFromTimeZoneToLocal(startDate, timeZone)
-                  : startDate;
-                const formattedEnd = endDate
-                  ? timeOfDayFromTimeZoneToLocal(endDate, timeZone)
-                  : endDate;
-                return v ? { startDate: formattedStart, endDate: formattedEnd } : v;
+                const { date } = v || {};
+                const formattedDate = date ? timeOfDayFromTimeZoneToLocal(date, timeZone) : date;
+                return v ? { date: formattedDate } : v;
               }}
               parse={v => {
-                const { startDate, endDate } = v || {};
-                // Parse the DateRangeInput's value (local noon) for the Final Form
-                // The form expects listing's time zone and start of day aka 00:00
-                const parsedStart = startDate
-                  ? getStartOf(timeOfDayFromLocalToTimeZone(startDate, timeZone), 'day', timeZone)
-                  : startDate;
-                const parsedEnd = endDate
-                  ? getStartOf(timeOfDayFromLocalToTimeZone(endDate, timeZone), 'day', timeZone)
-                  : endDate;
-                return v ? { startDate: parsedStart, endDate: parsedEnd } : v;
+                const { date } = v || {};
+                const parsedDate = date
+                  ? getStartOf(timeOfDayFromLocalToTimeZone(date, timeZone), 'day', timeZone)
+                  : date;
+                return v ? { date: parsedDate } : v;
               }}
               useMobileMargins
-              validate={composeValidators(
-                required(
-                  intl.formatMessage({
-                    id: 'BookingDatesForm.requiredDate',
-                  })
-                ),
-                bookingDatesRequired(startDateErrorMessage, endDateErrorMessage)
-              )}
               initialVisibleMonth={initialVisibleMonth(startDate || startOfToday, timeZone)}
               navNext={
                 <Next
@@ -710,32 +587,31 @@ export const BookingDatesFormComponent = props => {
                 onMonthClick(nextMonthFn);
               }}
               isDayBlocked={isDayBlocked}
-              isOutsideRange={isOutsideRange}
-              isBlockedBetween={isBlockedBetween(monthlyTimeSlots, timeZone)}
               disabled={fetchLineItemsInProgress}
               onClose={event =>
                 setCurrentMonth(getStartOf(event?.startDate ?? startOfToday, 'month', timeZone))
               }
-              seatsArray={getSeatsArray()}
+              seatsArray={seatArrays}
               seatsLabel={intl.formatMessage({ id: 'BookingDatesForm.seatsTitle' })}
               setShowSeatNames={setShowSeatNames}
             />
-           {showSeatNames && Array.from({ length: seats || 1 }).map((_, index) => (
-            <Field
-              key={index}
-              name={`seatName${index + 1}`}
-              component="input"
-              placeholder={`Partecipant Name`}
-              validate={required('This field is required')} 
-            >
-              {({ input, meta }) => (
-                <div>
-                  <input {...input} placeholder={`Seat ${index + 1} Name`} type="text" />
-                  {meta.error && meta.touched && <span>{meta.error}</span>} 
-                </div>
-              )}
-            </Field>
-          ))}
+            {showSeatNames &&
+              Array.from({ length: seats || 1 }).map((_, index) => (
+                <Field
+                  key={index}
+                  name={`seatName${index + 1}`}
+                  component="input"
+                  placeholder={`Partecipant Name`}
+                  validate={required('This field is required')}
+                >
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} placeholder={`Seat ${index + 1} Name`} type="text" />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                </Field>
+              ))}
 
             {showEstimatedBreakdown ? (
               <div className={css.priceBreakdownContainer}>

@@ -233,12 +233,19 @@ export const listingFields = [
 
 export const listingTypes = [
   {
-    listingType: 'daily-booking',
-    label: 'Daily booking',
+    // Daily: Listings can be booked daily. If the start date is today and the end date is tomorrow, the customer is charged for two days. It covers the whole day in the calendar, so the booking dates cannot overlap on the same day.
+    // Nightly: Listings can be booked per night. If the start date is today and the end date is tomorrow, the customer is charged for one night. It doesn’t cover the whole date in the calendar. The end date of one booking and the start date of 
+    // another booking can overlap on the same day.
+    // Hourly: Customer chooses a specific start time and end time within a specific date. Booking intervals are every hour.
+
+    // Should use nightly-booking for one day booking as it won't affect other booking as it can be overlapped
+
+    listingType: 'nightly-booking',
+    label: 'Nightly booking',
     transactionType: {
       process: 'default-booking',
       alias: 'default-booking/release-1',
-      unitType: 'day',
+      unitType: 'night',
     },
     defaultListingFields: {
       location: true,
