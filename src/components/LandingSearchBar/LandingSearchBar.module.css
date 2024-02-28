@@ -2,81 +2,130 @@
 
 .landingBarContainer {
   display: flex;
-  flex-direction: column; /* Ensures items are stacked vertically */
+  flex-direction: column; 
   align-items: center;
   justify-content: center;
   height: 500px;
   background-color: #FFF;
   background-size: cover;
-  padding: 20px; /* Adds some padding around the container */
+  padding: 20px; 
 }
 
 .introText {
-  text-align: center;
   font-weight: bold;
   height:auto;
-  margin-bottom: 20px; /* Adjust as needed */
-  font-size: 30px; /* Adjust as needed */
-  color: #333; /* Adjust as needed */
+  margin-bottom: 20px; 
+  font-size: 30px; 
+  color: #333; 
 }
-
+.introText2 {
+  font-weight: lighter;
+  height:auto;
+  margin-bottom: 20px; 
+  font-size: 30px; 
+  color: #333;
+}
 
 .form {
   display: grid;
-  grid-template-columns: 1fr; /* Makes each input take full width */
-  gap: 10px; /* Adjusts the gap between grid items */
-  background: #f9f9f9; /* Background color of the form */
-  padding: 20px; /* Padding around the form */
-  border-radius: 8px; /* Rounded corners for the form */
-  width: auto; /* Adjust based on your design */
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow */
+  grid-template-columns: 1fr;
+  gap: 10px; 
+  background: #f9f9f9; 
+  padding: 20px;
+  border-radius: 8px; 
+  width: auto; 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .time .DateRangePicker {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Adjust if needed to fit the date pickers */
-  gap: 8px; /* Space between the two date inputs */
+  font-family: var(--fontFamily);
+  grid-template-columns: 1fr 1fr;
+  gap: 8px; 
 }
 
 .time .DateInput {
-  margin-right: 8px; /* Adjust or remove as necessary */
+  margin-right: 8px; 
 }
 
 input, select, .DateRangePicker {
-  height: 58px; /* Ensures consistent height */
-  border: 1px solid #ccc; /* Basic border style */ 
+  height: 58px; 
+  border: 1px solid #ccc; 
 }
 
 .button {
-  width: 100%; /* Makes the button full width of the form */
-  padding: 10px 0; /* Adjust button height */
-  background-color: #007bff; /* Example button color */
-  color: white; /* Text color */
-  border: none; /* Removes border */
-  border-radius: 4px; /* Rounded corners */
-  cursor: pointer; /* Hand cursor on hover */
-  font-size: 16px; /* Adjust as needed */
+  width: 100%; 
+  padding: 10px 0; 
+  background-color: #012FA7;
+  color: white; 
+  border: none; 
+  border-radius: 4px; 
+  cursor: pointer; 
+  font-size: 16px; 
 }
 
 .button:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+  background-color: #012FA7; 
 }
 
 .searchIcon {
   stroke: var(--colorWhite);
+  fill: #fff; 
+  background-color: #012FA7;
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .form {
+    background: none; 
+    box-shadow: none;
+  }
+
+  .fieldSearch {
+    color: #9e9d9d !important;
+    border-radius: 20px;
+  }
+
+  .button{
+    border-radius: 20px;
+  }
+
+  .dateWrapper{
+    border-radius: 20px; /* Adjust as needed */
+    border: 1px solid #dbdbdb; 
+  }
 }
 
 @media (max-width: 768px) { 
-  .landingBarContainer, .bar {
-    margin-left: 10px; 
-    margin-right: 10px; 
+
+  .dateWrapper{
+    border-radius: 20px; /* Adjust as needed */
+    border: 1px solid #dbdbdb; 
   }
 
+
+  .landingBarContainer, .bar {
+    margin-left: 10px; 
+    margin-right: 10px;
+    background: none; 
+  }
+
+  .form {
+    background: none; 
+    box-shadow: none; 
+
+  }
   .bar {
     box-shadow: none; 
   }
 
-
+  .time .DateRangePicker {
+    border-radius: 20px;
+  }
+  
+  .time .DateInput {
+    border-radius: 20px;
+  }
+  
   .bar, .bar form {
     flex-direction: column;
   }
@@ -90,10 +139,19 @@ input, select, .DateRangePicker {
   .joy:first-child {
     margin-top: 0;
   }
-
+  .fieldSearch {
+    border-radius: 20px; 
+    background: #FFF; 
+    color: #9e9d9d !important;
+    border: 1px solid #ccc; 
+  }
+  .datePicker {
+    border-radius: 20px; 
+  }
   .button {
     padding: 10px 0; 
   }
+
 }
 
 @media (--viewportLarge) {
@@ -128,6 +186,8 @@ input, select, .DateRangePicker {
     flex: 1 0 33.33%;
     height: 60px;
     font-size: 20px;
+    font-family: var(--fontFamily);
+    color: #9e9d9d !important;
 
     &:first-child {
       border-top-left-radius: 50px;
