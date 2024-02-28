@@ -606,7 +606,6 @@ class FieldDateAndTimeInput extends Component {
           <FieldArray name="guestNames" className={css.fieldSelect}>
             {({ fields }) =>
               fields.map((name, index) => {
-                console.log(name);
                 return (
                   <FieldTextInput
                     id={name}
