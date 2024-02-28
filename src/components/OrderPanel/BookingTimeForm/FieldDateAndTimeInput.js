@@ -492,7 +492,6 @@ class FieldDateAndTimeInput extends Component {
         <FieldSelect
           className={css.fieldSelect}
           onChange={value => {
-            console.log(value);
             form.batch(() => {
               form.change('guestNames', []);
               if (value > 1)
