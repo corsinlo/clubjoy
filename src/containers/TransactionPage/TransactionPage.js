@@ -128,10 +128,8 @@ export const TransactionPageComponent = props => {
     fetchLineItemsError,
   } = props;
 
-
-
   const { listing, provider, customer, booking } = transaction || {};
-  console.log(transaction)
+  console.log(transaction);
   const txTransitions = transaction?.attributes?.transitions || [];
   const isProviderRole = transactionRole === PROVIDER;
   const isCustomerRole = transactionRole === CUSTOMER;
