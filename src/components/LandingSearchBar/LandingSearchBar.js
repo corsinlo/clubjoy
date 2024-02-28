@@ -21,6 +21,8 @@ const LandingSearchBar = props => {
   const [focusedInput, setFocusedInput] = useState(null);
   const history = useHistory();
 
+  const [isPickerVisible, setIsPickerVisible] = useState(false);
+
   useEffect(() => {
     if (window.google && window.google.maps) {
       initAutocomplete();
@@ -100,34 +102,47 @@ const LandingSearchBar = props => {
 
   return (
     <div className={css.landingBarContainer} style={{ backgroundImage: `url(${landingCover})` }}>
-      <div className={css.introText}>
-        Hai provato tutta Milano ormai?
-        <br /> E invece no
-      </div>
+      <div className={css.introText}>Di Creativo ti rimane solo il parcheggio?</div>
+      <div className={css.introText2}>Scopri il tuo nuovo hobby con Club joy</div>
 
       <form onSubmit={handleSubmit} className={css.form}>
         <select className={css.fieldSearch} value={joy} onChange={e => setJoy(e.target.value)}>
-          <option value="">Search for joys...</option>
+          <option value="">Search for Joys...</option>
           <option value="ceramic">Ceramic</option>
           <option value="paint">Paint</option>
           <option value="food">Food</option>
           <option value="plants">Plants</option>
         </select>
 
-        <DateRangePicker
-          startDate={startDate}
-          startDateId="your_unique_start_date_id"
-          endDate={endDate}
-          endDateId="your_unique_end_date_id"
-          onDatesChange={({ startDate, endDate }) => {
-            setStartDate(startDate);
-            setEndDate(endDate);
-          }}
-          focusedInput={focusedInput}
-          onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-          isOutsideRange={() => false}
-        />
-
+        {!isPickerVisible && (
+          <input
+            onClick={() => setIsPickerVisible(true)}
+            id="location-input"
+            type="text"
+            placeholder="When's me Time?"
+            value={location}
+            className={css.fieldSearch}
+          />
+        )}
+        {isPickerVisible && (
+          <div className={css.dateWrapper}>
+            <DateRangePicker
+              startDate={startDate}
+              startDateId="your_unique_start_date_id"
+              endDate={endDate}
+              endDateId="your_unique_end_date_id"
+              onDatesChange={({ startDate, endDate }) => {
+                setStartDate(startDate);
+                setEndDate(endDate);
+              }}
+              focusedInput={focusedInput}
+              onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+              isOutsideRange={() => false}
+              startDatePlaceholderText="Start Date" // Custom placeholder for start date
+              endDatePlaceholderText="End Date" // Custom placeholder for end date
+            />
+          </div>
+        )}
         <input
           id="location-input"
           type="text"
@@ -136,7 +151,6 @@ const LandingSearchBar = props => {
           onChange={e => setLocation(e.target.value)}
           className={css.fieldSearch}
         />
-
         <button type="submit" className={css.button}>
           <IconSearch rootClassName={css.searchIcon} />
         </button>
