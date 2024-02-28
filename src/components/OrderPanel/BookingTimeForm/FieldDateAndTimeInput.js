@@ -21,9 +21,11 @@ import {
 } from '../../../util/dates';
 import { propTypes } from '../../../util/types';
 import { bookingDateRequired } from '../../../util/validators';
-import { FieldDateInput, FieldSelect, IconArrowHead } from '../../../components';
+import { FieldDateInput, FieldSelect, FieldTextInput, IconArrowHead } from '../../../components';
+import moment from 'moment';
 
 import css from './FieldDateAndTimeInput.module.css';
+import { FieldArray } from 'react-final-form-arrays';
 
 // dayCountAvailableForBooking is the maximum number of days forwards during which a booking can be made.
 // This is limited due to Stripe holding funds up to 90 days from the
@@ -65,7 +67,13 @@ const getAvailableStartTimes = (intl, timeZone, bookingStart, timeSlotsOnSelecte
     // Otherwise use the end of the timeslot.
     const endLimit = isDateSameOrAfter(endDate, nextDate) ? nextDate : endDate;
 
-    const hours = getStartHours(startLimit, endLimit, timeZone, intl);
+    // const hours = getStartHours(startLimit, endLimit, timeZone, intl);
+    const hours = {
+      timeOfDay: formatDateIntoPartials(startLimit, intl, { timeZone })?.time,
+      timestamp: moment(startLimit)
+        .tz(timeZone)
+        .valueOf(),
+    };
     return availableHours.concat(hours);
   }, []);
   return allHours;
@@ -109,7 +117,14 @@ const getAvailableEndTimes = (
       : dayAfterBookingEnd;
   }
 
-  return getEndHours(startLimit, endLimit, timeZone, intl);
+  return [
+    {
+      timeOfDay: formatDateIntoPartials(endLimit, intl, { timeZone })?.time,
+      timestamp: moment(endLimit)
+        .tz(timeZone)
+        .valueOf(),
+    },
+  ];
 };
 
 const getTimeSlots = (timeSlots, date, timeZone) => {
@@ -187,7 +202,6 @@ const getMonthlyTimeSlots = (monthlyTimeSlots, date, timeZone) => {
     ? monthlyTimeSlots[monthId].timeSlots
     : [];
 };
-
 
 // IconArrowHead component might not be defined if exposed directly to the file.
 // This component is called before IconArrowHead component in components/index.js
@@ -397,6 +411,7 @@ class FieldDateAndTimeInput extends Component {
       intl,
       dayCountAvailableForBooking,
       seatsLabel,
+      form,
     } = this.props;
 
     const classes = classNames(rootClassName || css.root, className);
@@ -468,20 +483,34 @@ class FieldDateAndTimeInput extends Component {
     }
 
     const seatsArray =
-  Array(selectedTimeSlot?.attributes.seats)
-    .fill()
-    .map((_, i) => i + 1) || null;
+      Array(selectedTimeSlot?.attributes.seats)
+        .fill()
+        .map((_, i) => i + 1) || null;
 
-const seatsSelectionMaybe =
-  seatsArray?.length > 1 ? (
-    <FieldSelect name="seats" id="seats" label={seatsLabel}>
-      {seatsArray.map(s => (
-        <option value={s} key={s}>
-          {s}
-        </option>
-      ))}
-    </FieldSelect>
-  ) : null;
+    const seatsSelectionMaybe =
+      seatsArray?.length > 1 ? (
+        <FieldSelect
+          className={css.fieldSelect}
+          onChange={value => {
+            console.log(value);
+            form.batch(() => {
+              form.change('guestNames', []);
+              if (value > 1)
+                for (let index = 0; index < value; index++)
+                  form.mutators.push(`guestNames[${index}]`, '');
+            });
+          }}
+          name="seats"
+          id="seats"
+          label={seatsLabel}
+        >
+          {seatsArray.map(s => (
+            <option value={s} key={s}>
+              {s}
+            </option>
+          ))}
+        </FieldSelect>
+      ) : null;
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
@@ -558,7 +587,7 @@ const seatsSelectionMaybe =
               className={bookingStartDate ? css.fieldSelect : css.fieldSelectDisabled}
               selectClassName={bookingStartDate ? css.select : css.selectDisabled}
               label={intl.formatMessage({ id: 'FieldDateAndTimeInput.endTime' })}
-              disabled={!bookingEndTimeAvailable}
+              disabled={true}
             >
               {bookingEndTimeAvailable ? (
                 availableEndTimes.map(p => (
@@ -571,11 +600,37 @@ const seatsSelectionMaybe =
               )}
             </FieldSelect>
           </div>
-
         </div>
         {seatsSelectionMaybe}
+        {!!seatsSelectionMaybe && (
+          <FieldArray name="guestNames" className={css.fieldSelect}>
+            {({ fields }) =>
+              fields.map((name, index) => {
+                console.log(name);
+                return (
+                  <FieldTextInput
+                    id={name}
+                    name={name}
+                    key={index}
+                    className={css.fieldTextInput}
+                    type="text"
+                    label={intl.formatMessage(
+                      { id: 'FieldDateAndTimeInput.guestNameLabel' },
+                      { number: index + 1 }
+                    )}
+                    placeholder={intl.formatMessage(
+                      {
+                        id: 'FieldDateAndTimeInput.guestNamePlaceholder',
+                      },
+                      { number: index + 1 }
+                    )}
+                  />
+                );
+              })
+            }
+          </FieldArray>
+        )}
       </div>
-            
     );
   }
 }

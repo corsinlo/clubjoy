@@ -111,10 +111,10 @@ const getDateRangeUnitsSeatsLineItems = (orderData, code) => {
  */
 const getHourUnitsSeatsAndLineItems = orderData => {
   const { bookingStart, bookingEnd, seats } = orderData || {};
-  console.log(orderData )
+
   const units =
     bookingStart && bookingEnd
-      ? calculateQuantityFromHours(bookingStart, bookingEnd)
+      ? 1
       : null;
 
   return { units, seats, extraLineItems: [] };

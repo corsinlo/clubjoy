@@ -13,6 +13,7 @@ import { Form, H6, PrimaryButton } from '../../../components';
 
 import EstimatedCustomerBreakdownMaybe from '../EstimatedCustomerBreakdownMaybe';
 import FieldDateAndTimeInput from './FieldDateAndTimeInput';
+import arrayMutators from 'final-form-arrays';
 
 import css from './BookingTimeForm.module.css';
 
@@ -33,7 +34,7 @@ export class BookingTimeFormComponent extends Component {
   // In case you add more fields to the form, make sure you add
   // the values here to the orderData object.
   handleOnChange(formValues) {
-    const { bookingStartTime, bookingEndTime, seats } = formValues.values;
+    const { bookingStartTime, bookingEndTime, seats = 1 } = formValues.values;
     const startDate = bookingStartTime ? timestampToDate(bookingStartTime) : null;
     const endDate = bookingEndTime ? timestampToDate(bookingEndTime) : null;
 
@@ -73,6 +74,7 @@ export class BookingTimeFormComponent extends Component {
       <FinalForm
         {...rest}
         unitPrice={unitPrice}
+        mutators={{ ...arrayMutators }}
         onSubmit={this.handleFormSubmit}
         render={fieldRenderProps => {
           const {
