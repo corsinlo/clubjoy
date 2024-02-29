@@ -7,6 +7,7 @@ import appSettings from '../../../config/settings';
 import { useConfiguration } from '../../../context/configurationContext';
 import { useRouteConfiguration } from '../../../context/routeConfigurationContext';
 import LandingSearchBarForm from '../../../components/LandingSearchBarContainer/LandingSearchBarForm';
+import SocialBar from '../../../components/SocialBar/SocialBar';
 import { FormattedMessage, intlShape, useIntl } from '../../../util/reactIntl';
 import { isMainSearchTypeKeywords, isOriginInUse } from '../../../util/search';
 import { withViewport } from '../../../util/uiHelpers';
@@ -274,6 +275,9 @@ class TopbarComponent extends Component {
         >
           <div className={css.searchContainer}>
             <LandingSearchBarForm onSearchSubmit={this.handleSubmit} />
+          </div>
+          <div className={css.socialContainer}>
+            <SocialBar />
           </div>
         </Modal>
         <ModalMissingInformation

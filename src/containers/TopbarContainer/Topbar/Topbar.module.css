@@ -149,6 +149,12 @@
   height: 100%;
   margin-top: 94px;
 }
+.socialContainer {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
 
 .mobileHelp {
   color: var(--colorGrey300);
