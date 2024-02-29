@@ -145,7 +145,11 @@ export const IncludeScripts = props => {
       }
     }
   };
-
-  const allScripts = [...analyticsLibraries, ...mapLibraries];
+  const fontScript = (
+    <style>
+      {`@import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap');`}
+    </style>
+  );
+  const allScripts = [...analyticsLibraries, ...mapLibraries, fontScript];
   return <Helmet onChangeClientState={onChangeClientState}>{allScripts}</Helmet>;
 };
