@@ -224,6 +224,7 @@ const TopbarDesktop = props => {
             {search}
           </div>
           <div className={css.rightContent}>
+            <SocialBar />
             {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
