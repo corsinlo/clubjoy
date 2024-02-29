@@ -297,7 +297,7 @@ class FieldDateAndTimeInput extends Component {
   }
 
   onBookingStartDateChange = value => {
-    const { monthlyTimeSlots, timeZone, intl, form } = this.props;
+    const { monthlyTimeSlots, timeZone, intl, form, values } = this.props;
     if (!value || !value.date) {
       form.batch(() => {
         form.change('bookingStartTime', null);
@@ -327,6 +327,11 @@ class FieldDateAndTimeInput extends Component {
       form.change('bookingStartTime', startTime);
       form.change('bookingEndDate', { date: endDate });
       form.change('bookingEndTime', endTime);
+
+      if (!values.seats) {
+        form.change('seats', 1);
+        form.change('guestNames', ['']);
+      }
     });
   };
 
