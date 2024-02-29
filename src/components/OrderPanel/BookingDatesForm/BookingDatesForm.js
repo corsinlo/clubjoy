@@ -116,7 +116,6 @@ const isBlockedBetween = (monthlyTimeSlots, timeZone) => (startDate, endDate) =>
   return !!firstBlockedBetween(monthlyTimeSlots, startInListingTZ, endInListingTZ, timeZone);
 };
 
-
 /**
  * Return an array of timeslots for the months between start date and end date
  * @param {*} monthlyTimeSlots
@@ -125,37 +124,19 @@ const isBlockedBetween = (monthlyTimeSlots, timeZone) => (startDate, endDate) =>
  * @param {*} timeZone
  * @returns
  */
-const pickBookingMonthTimeSlots = (
-  monthlyTimeSlots,
-  startDate,
-  endDate,
-  timeZone
-) => {
+const pickBookingMonthTimeSlots = (monthlyTimeSlots, startDate, endDate, timeZone) => {
   // The generateMonths generator returns the first day of each month that is spanned
   // by the time range between start date and end date.
   const monthsInRange = generateMonths(startDate, endDate, timeZone);
 
   return monthsInRange.reduce((timeSlots, firstOfMonth) => {
-    return [
-      ...timeSlots,
-      ...pickMonthlyTimeSlots(monthlyTimeSlots, firstOfMonth, timeZone),
-    ];
+    return [...timeSlots, ...pickMonthlyTimeSlots(monthlyTimeSlots, firstOfMonth, timeZone)];
   }, []);
 };
 
 // Get the time slot for a booking duration that has the least seats
-const getMinSeatsTimeSlot = (
-  monthlyTimeSlots,
-  timeZone,
-  startDate,
-  endDate
-) => {
-  const timeSlots = pickBookingMonthTimeSlots(
-    monthlyTimeSlots,
-    startDate,
-    endDate,
-    timeZone
-  );
+const getMinSeatsTimeSlot = (monthlyTimeSlots, timeZone, startDate, endDate) => {
+  const timeSlots = pickBookingMonthTimeSlots(monthlyTimeSlots, startDate, endDate, timeZone);
 
   // Determine the timeslots that fall between start date and end date
   const bookingTimeslots = timeSlots.filter(ts => {
@@ -176,9 +157,7 @@ const getMinSeatsTimeSlot = (
       return ts.attributes;
     }
 
-    return ts.attributes.seats < minSeats.seats
-      ? ts.attributes
-      : minSeats;
+    return ts.attributes.seats < minSeats.seats ? ts.attributes : minSeats;
   }, {});
 };
 
@@ -447,7 +426,7 @@ const handleFormSpyChange = (
       seatNames.push(seatName);
     }
   }
-
+  console.log('hi', seatName);
   const { startDate, endDate } = bookingDates ? bookingDates : {};
 
   if (startDate && endDate && !fetchLineItemsInProgress) {
@@ -456,14 +435,13 @@ const handleFormSpyChange = (
         bookingStart: startDate,
         bookingEnd: endDate,
         seats: parseInt(seats, 10),
-        seatNames: {seatNames}
+        seatNames: { seatNames },
       },
       listingId,
       isOwnListing,
     });
   }
 };
-
 
 // IconArrowHead component might not be defined if exposed directly to the file.
 // This component is called before IconArrowHead component in components/index.js
@@ -494,8 +472,6 @@ const Prev = props => {
 };
 
 export const BookingDatesFormComponent = props => {
-
-  
   const [focusedInput, setFocusedInput] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(getStartOf(TODAY, 'month', props.timeZone));
 
@@ -553,7 +529,7 @@ export const BookingDatesFormComponent = props => {
         } = fieldRenderProps;
         const { startDate, endDate } = values && values.bookingDates ? values.bookingDates : {};
         const { seats } = values;
-
+        consolelog('FORM', form);
         const startDateErrorMessage = intl.formatMessage({
           id: 'FieldDateRangeInput.invalidStartDate',
         });
@@ -576,13 +552,12 @@ export const BookingDatesFormComponent = props => {
 
         const showEstimatedBreakdown =
           breakdownData && lineItems && !fetchLineItemsInProgress && !fetchLineItemsError;
-          const [showSeatNames, setShowSeatNames] = useState(false);
+        const [showSeatNames, setShowSeatNames] = useState(false);
         const dateFormatOptions = {
           weekday: 'short',
           month: 'short',
           day: 'numeric',
         };
-        
 
         const startOfToday = getStartOf(TODAY, 'day', timeZone);
         const tomorrow = addTime(startOfToday, 1, 'days');
@@ -619,18 +594,18 @@ export const BookingDatesFormComponent = props => {
         const getSeatsArray = () => {
           const formState = formApi.getState();
           const { bookingDates } = formState.values;
-        
+
           if (!bookingDates) {
             return null;
           }
-        
+
           const minSeatsTimeSlot = getMinSeatsTimeSlot(
             monthlyTimeSlots,
             timeZone,
             bookingDates.startDate,
             bookingDates.endDate
           );
-        
+
           // Return an array of the seat options a customer
           // can pick for the time range
           return Array(minSeatsTimeSlot.seats)
@@ -638,8 +613,7 @@ export const BookingDatesFormComponent = props => {
             .map((_, i) => i + 1);
         };
         const seatsArray = getSeatsArray();
-    
-        
+
         return (
           <Form onSubmit={handleSubmit} className={classes} enforcePagePreloadFor="CheckoutPage">
             <FormSpy subscription={{ values: true }} onChange={onFormSpyChange} />
@@ -720,22 +694,23 @@ export const BookingDatesFormComponent = props => {
               seatsLabel={intl.formatMessage({ id: 'BookingDatesForm.seatsTitle' })}
               setShowSeatNames={setShowSeatNames}
             />
-           {showSeatNames && Array.from({ length: seats || 1 }).map((_, index) => (
-            <Field
-              key={index}
-              name={`seatName${index + 1}`}
-              component="input"
-              placeholder={`Partecipant Name`}
-              validate={required('This field is required')} 
-            >
-              {({ input, meta }) => (
-                <div>
-                  <input {...input} placeholder={`Seat ${index + 1} Name`} type="text" />
-                  {meta.error && meta.touched && <span>{meta.error}</span>} 
-                </div>
-              )}
-            </Field>
-          ))}
+            {showSeatNames &&
+              Array.from({ length: seats || 1 }).map((_, index) => (
+                <Field
+                  key={index}
+                  name={`seatName${index + 1}`}
+                  component="input"
+                  placeholder={`Partecipant Name`}
+                  validate={required('This field is required')}
+                >
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} placeholder={`Seat ${index + 1} Name`} type="text" />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                </Field>
+              ))}
 
             {showEstimatedBreakdown ? (
               <div className={css.priceBreakdownContainer}>
