@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { Form as FinalForm } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import classNames from 'classnames';
-
+import { useIntl } from 'react-intl';
 import { FormattedMessage, injectIntl, intlShape } from '../../../util/reactIntl';
 import * as validators from '../../../util/validators';
 import { Form, PrimaryButton, FieldTextInput } from '../../../components';
@@ -18,6 +18,7 @@ const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correc
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const BSignupFormComponent = props => {
+  const intl = useIntl();
   const [token, setToken] = useState(false); // Initialize token state to false
 
   if (!token) {
@@ -68,71 +69,104 @@ const BSignupFormComponent = props => {
     return (
       <form onSubmit={handleSubmit}>
         <div>
-          <h3 style={{ margin: '20px 0' }}>Entra in Club Joy!</h3>
+          <h3 style={{ margin: '20px 0' }}>
+            {intl.formatMessage({
+              id: 'BusinessForm.intro',
+            })}
+          </h3>
           <div style={{ margin: '20px 0' }}>
-            Hai un Business e saresti interessato a far parte di ClubJoy? Compila il form qui sotto
-            e saremo subito da te!
+            {intl.formatMessage({
+              id: 'BusinessForm.intro2',
+            })}
           </div>
           <label>
-            Nome del Business:
+            {intl.formatMessage({
+              id: 'BusinessForm.name',
+            })}
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              required // HTML5 required attribute for simple browser validation
+              required
+              placeholder={intl.formatMessage({
+                id: 'BusinessForm.name.placeholder',
+              })}
             />
           </label>
         </div>
         <div>
           <label>
-            Email:
+            {intl.formatMessage({
+              id: 'BusinessForm.email',
+            })}
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
+              placeholder={intl.formatMessage({
+                id: 'BusinessForm.email.placeholder',
+              })}
               required
             />
           </label>
         </div>
         <div>
           <label>
-            Indirizzo:
+            {intl.formatMessage({
+              id: 'BusinessForm.address',
+            })}
             <input
               type="text"
               name="address"
               value={formData.address}
               onChange={handleChange}
               required
+              placeholder={intl.formatMessage({
+                id: 'BusinessForm.address.placeholder',
+              })}
             />
           </label>
         </div>
         <div>
           <label>
-            Website o Social:
+            {intl.formatMessage({
+              id: 'BusinessForm.social',
+            })}
             <input
               type="text"
               name="website"
               value={formData.website}
               onChange={handleChange}
-              // No required attribute since this is optional
+              placeholder={intl.formatMessage({
+                id: 'BusinessForm.social.placeholder',
+              })}
             />
           </label>
         </div>
         <div>
           <label>
-            Tipo di Business:
+            {intl.formatMessage({
+              id: 'BusinessForm.type',
+            })}
             <input
               type="text"
               name="businessType"
               value={formData.businessType}
               onChange={handleChange}
               required
+              placeholder={intl.formatMessage({
+                id: 'BusinessForm.type.placeholder',
+              })}
             />
           </label>
         </div>
-        <PrimaryButton type="submit">Invia</PrimaryButton>
+        <PrimaryButton type="submit">
+          {intl.formatMessage({
+            id: 'BusinessForm.type.button',
+          })}
+        </PrimaryButton>
       </form>
     );
   }
