@@ -14,8 +14,6 @@ const LineItemBasePriceMaybe = props => {
     ? 'OrderBreakdown.baseUnitNight'
     : isDaily
     ? 'OrderBreakdown.baseUnitDay'
-    : isHourly
-    ? 'OrderBreakdown.baseUnitHour'
     : 'OrderBreakdown.baseUnitQuantity';
 
   // Find correct line-item for given code prop.

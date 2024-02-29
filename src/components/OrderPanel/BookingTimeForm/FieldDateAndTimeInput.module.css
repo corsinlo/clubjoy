@@ -57,8 +57,14 @@
   flex-grow: 1;
 }
 
+.fieldTextInput {
+  flex-grow: 1;
+  margin-top: 24px;
+}
+
 .fieldSelect {
   flex-grow: 1;
+  margin-top: 24px;
 
   &::after {
     content: '';
