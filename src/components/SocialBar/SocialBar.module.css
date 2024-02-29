@@ -2,11 +2,11 @@
 /* Source: https://www.svgviewer.dev/*/
 
 .customClass {
-    /* Add your custom styles here */
     flex-direction: row;
     margin: 2px;
     height: 30px;
     width: 60px;
     color: #012FA7; 
+    cursor: pointer;
   }
   

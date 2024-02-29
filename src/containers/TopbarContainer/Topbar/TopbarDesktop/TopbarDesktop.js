@@ -21,6 +21,7 @@ import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
 import LandingSearchBarForm from '../../../../components/LandingSearchBarContainer/LandingSearchBarForm';
 
 import css from './TopbarDesktop.module.css';
+import SocialBar from '../../../../components/SocialBar/SocialBar';
 
 const TopbarDesktop = props => {
   const {
@@ -201,6 +202,7 @@ const TopbarDesktop = props => {
                 </span>
               </NamedLink>
             )}
+            <SocialBar />
             {inboxLink}
             {profileMenu}
             <div className={css.authLinks}>
