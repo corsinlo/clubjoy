@@ -165,10 +165,10 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
             onFocusChange={focusedInput => setFocusedInput(focusedInput)}
             isOutsideRange={() => false}
             startDatePlaceholderText={intl.formatMessage({
-              id: 'FieldDateAndTimeInput.startTime',
+              id: 'SearchBar.time.from',
             })}
             endDatePlaceholderText={intl.formatMessage({
-              id: 'FieldDateAndTimeInput.endTime',
+              id: 'SearchBar.time.to',
             })}
           />
         </div>
@@ -184,7 +184,10 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
         className={css.fieldSearch}
       />
       <button type="submit" className={css.button}>
-        <IconSearch rootClassName={css.searchIcon} />
+        {intl.formatMessage({
+          id: 'SearchBar.time.button',
+        })}
+        {/*<IconSearch rootClassName={css.searchIcon} />*/}
       </button>
     </form>
   );
