@@ -18,6 +18,7 @@ import {
 } from '../../../../components';
 
 import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
+import LandingSearchBarForm from '../../../../components/LandingSearchBarContainer/LandingSearchBarForm';
 
 import css from './TopbarDesktop.module.css';
 
@@ -54,16 +55,7 @@ const TopbarDesktop = props => {
   // Determine if the current page is the landing page based on the pathname
   const isLandingPage = location.pathname === '/';
 
-  const search = !isLandingPage ? (
-    <TopbarSearchForm
-      className={css.searchLink}
-      desktopInputRoot={css.topbarSearchWithLeftPadding}
-      onSubmit={onSearchSubmit}
-      initialValues={initialSearchFormValues}
-      appConfig={appConfig}
-      searchParams={searchParams}
-    />
-  ) : null; // Only render TopbarSearchForm if not on landing page
+  const search = !isLandingPage ? <LandingSearchBarForm onSearchSubmit={onSearchSubmit} /> : null; // Only render TopbarSearchForm if not on landing page
 
   const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
   const inboxLink = authenticatedOnClientSide ? (
