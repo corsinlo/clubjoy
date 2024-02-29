@@ -70,11 +70,11 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
   const quantity = pageData.orderData?.quantity;
   const quantityMaybe = quantity ? { quantity } : {};
   const seats = pageData.orderData?.seats;
-  const guestNames = pageData.orderData?.guestNames;
+  const seatNames = pageData.orderData?.guestNames;
   const seatsMaybe = seats ? { seats } : {};
   const deliveryMethod = pageData.orderData?.deliveryMethod;
   const deliveryMethodMaybe = deliveryMethod ? { deliveryMethod } : {};
-  const guestsNameMaybe = guestNames ? { guestNames } : {};
+  const guestsNameMaybe = seatNames ? { seatNames } : {};
 
   const { listingType, unitType } = pageData?.listing?.attributes?.publicData || {};
   const protectedDataMaybe = {
@@ -82,10 +82,10 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
       ...getTransactionTypeData(listingType, unitType, config),
       ...deliveryMethodMaybe,
       ...shippingDetails,
-      ...guestsNameMaybe
+      ...guestsNameMaybe,
     },
   };
-
+  console.log('GUEST', protectedDataMaybe);
   // These are the order parameters for the first payment-related transition
   // which is either initiate-transition or initiate-transition-after-enquiry
   const orderParams = {
@@ -97,7 +97,7 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
     ...protectedDataMaybe,
     ...optionalPaymentParams,
   };
- 
+
   return orderParams;
 };
 

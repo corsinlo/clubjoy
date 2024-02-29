@@ -53,7 +53,7 @@ function mergeTransactionsAndBookings(response) {
     acc[key].push(curr);
     return acc;
   }, {});
-
+  console.log(groupedByStart);
   // Merge bookings with the same start date
   const mergedByStart = Object.values(groupedByStart).map(group => {
     if (group.length === 1) {
