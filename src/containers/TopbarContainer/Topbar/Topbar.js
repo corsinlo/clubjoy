@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import appSettings from '../../../config/settings';
 import { useConfiguration } from '../../../context/configurationContext';
 import { useRouteConfiguration } from '../../../context/routeConfigurationContext';
-
+import LandingSearchBarForm from '../../../components/LandingSearchBarContainer/LandingSearchBarForm';
 import { FormattedMessage, intlShape, useIntl } from '../../../util/reactIntl';
 import { isMainSearchTypeKeywords, isOriginInUse } from '../../../util/search';
 import { withViewport } from '../../../util/uiHelpers';
@@ -273,16 +273,7 @@ class TopbarComponent extends Component {
           onManageDisableScrolling={onManageDisableScrolling}
         >
           <div className={css.searchContainer}>
-            <TopbarSearchForm
-              onSubmit={this.handleSubmit}
-              initialValues={initialSearchFormValues}
-              isMobile
-              appConfig={config}
-              searchParams={searchParams}
-            />
-            <p className={css.mobileHelp}>
-              <FormattedMessage id="Topbar.mobileSearchHelp" />
-            </p>
+            <LandingSearchBarForm onSearchSubmit={this.handleSubmit} />
           </div>
         </Modal>
         <ModalMissingInformation
