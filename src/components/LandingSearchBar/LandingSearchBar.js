@@ -7,9 +7,11 @@ import { createResourceLocatorString } from '../../util/routes';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 import landingCover from '../../media/landingCover.jpg';
 import IconSearch from '../IconSearch/IconSearch';
+import { useIntl } from 'react-intl';
 
 const LandingSearchBar = props => {
   const routeConfiguration = useRouteConfiguration();
+  const intl = useIntl();
   const searchPagePath = routeConfiguration
     ? createResourceLocatorString('SearchPage', routeConfiguration, {}, {})
     : '';
@@ -107,20 +109,40 @@ const LandingSearchBar = props => {
 
       <form onSubmit={handleSubmit} className={css.form}>
         <select className={css.fieldSearch} value={joy} onChange={e => setJoy(e.target.value)}>
-          <option value="">Search for Joys...</option>
-          <option value="ceramic">Ceramic</option>
-          <option value="paint">Paint</option>
-          <option value="food">Food</option>
-          <option value="plants">Plants</option>
+          <option value="">
+            {intl.formatMessage({
+              id: 'SearchBar.selection',
+            })}
+          </option>
+          <option value="1">
+            {' '}
+            {intl.formatMessage({
+              id: 'SearchBar.selection.1',
+            })}
+          </option>
+          <option value="2">
+            {intl.formatMessage({
+              id: 'SearchBar.selection.2',
+            })}
+          </option>
+          <option value="3">
+            {intl.formatMessage({
+              id: 'SearchBar.selection.3',
+            })}
+          </option>
+          <option value="4">
+            {intl.formatMessage({
+              id: 'SearchBar.selection.4',
+            })}
+          </option>
         </select>
 
         {!isPickerVisible && (
           <input
             onClick={() => setIsPickerVisible(true)}
-            id="location-input"
-            type="text"
-            placeholder="When's me Time?"
-            value={location}
+            placeholder={intl.formatMessage({
+              id: 'SearchBar.time',
+            })}
             className={css.fieldSearch}
           />
         )}
@@ -138,15 +160,21 @@ const LandingSearchBar = props => {
               focusedInput={focusedInput}
               onFocusChange={focusedInput => setFocusedInput(focusedInput)}
               isOutsideRange={() => false}
-              startDatePlaceholderText="Start Date" // Custom placeholder for start date
-              endDatePlaceholderText="End Date" // Custom placeholder for end date
+              startDatePlaceholderText={intl.formatMessage({
+                id: 'FieldDateAndTimeInput.startTime',
+              })}
+              endDatePlaceholderText={intl.formatMessage({
+                id: 'FieldDateAndTimeInput.endTime',
+              })}
             />
           </div>
         )}
         <input
           id="location-input"
           type="text"
-          placeholder="Enter a location"
+          placeholder={intl.formatMessage({
+            id: 'SearchBar.location',
+          })}
           value={location}
           onChange={e => setLocation(e.target.value)}
           className={css.fieldSearch}
