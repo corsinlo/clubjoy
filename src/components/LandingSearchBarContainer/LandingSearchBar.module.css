@@ -84,12 +84,14 @@ input, select, .DateRangePicker {
   }
 
   .fieldSearch {
-    color: #9e9d9d !important;
+    color: #b0b0b5 !important;
     border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .button{
     border-radius: 20px;
+    height: 60px;
   }
 
   .dateWrapper{
@@ -137,11 +139,10 @@ input, select, .DateRangePicker {
     flex-direction: column;
   }
 
-  .joy, .time, .location, .button {
+  .joy, .time, .location, .button, .dateWrapper {
     width: 100%; 
     margin-top: 10px; 
     border-radius: 20px; 
-    box-shadow: none;
   }
   .joy:first-child {
     margin-top: 0;
@@ -149,14 +150,16 @@ input, select, .DateRangePicker {
   .fieldSearch {
     border-radius: 20px; 
     background: #FFF; 
-    color: #9e9d9d !important;
+    color: #b0b0b5 !important;
     border: 1px solid #ccc; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   .datePicker {
     border-radius: 20px; 
   }
   .button {
     padding: 10px 0; 
+    height: 60px;
   }
 
 }
@@ -194,7 +197,7 @@ input, select, .DateRangePicker {
     height: 60px;
     font-size: 20px;
     font-family: var(--fontFamily);
-    color: #9e9d9d !important;
+    color: #b0b0b5 !important;
 
     &:first-child {
       border-top-left-radius: 50px;
