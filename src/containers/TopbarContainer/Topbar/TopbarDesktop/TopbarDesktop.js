@@ -40,17 +40,36 @@ const TopbarDesktop = props => {
     location, // Destructure location prop provided by withRouter
   } = props;
   const [mounted, setMounted] = useState(false);
-
+  const [scrolling, setScrolling] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setScrolling(true);
+      } else {
+        setScrolling(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const classes = classNames(rootClassName || css.root, className, {
+    [css.scrolling]: scrolling,
+    [css.whiteBackground]: scrolling,
+  });
 
   const marketplaceName = appConfig.marketplaceName;
   const authenticatedOnClientSide = mounted && isAuthenticated;
   const isAuthenticatedOrJustHydrated = isAuthenticated || !mounted;
   const userRole = currentUser?.attributes?.profile?.publicData?.role;
-
-  const classes = classNames(rootClassName || css.root, className);
 
   // Determine if the current page is the landing page based on the pathname
   const isLandingPage = location.pathname === '/';
@@ -135,7 +154,12 @@ const TopbarDesktop = props => {
   ) : null;
 
   const signupLink = isAuthenticatedOrJustHydrated ? null : (
-    <NamedLink name="SignupPage" className={css.signupLink}>
+    <NamedLink
+      name="SignupPage"
+      className={classNames(css.signupLink, {
+        [css.whiteText]: isLandingPage && !scrolling,
+      })}
+    >
       <span className={css.signup}>
         <FormattedMessage id="TopbarDesktop.signup" />
       </span>
