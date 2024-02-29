@@ -9,7 +9,7 @@ import landingCover from '../../media/landingCover.jpg';
 import IconSearch from '../IconSearch/IconSearch';
 import { useIntl } from 'react-intl';
 
-const LandingSearchBar = props => {
+const LandingSearchBarForm = ({ onSearchSubmit }) => {
   const routeConfiguration = useRouteConfiguration();
   const intl = useIntl();
   const searchPagePath = routeConfiguration
@@ -111,88 +111,83 @@ const LandingSearchBar = props => {
   };
 
   return (
-    <div className={css.landingBarContainer} style={{ backgroundImage: `url(${landingCover})` }}>
-      <div className={css.introText}>Di Creativo ti rimane solo il parcheggio?</div>
-      <div className={css.introText2}>Scopri il tuo nuovo hobby con Club joy</div>
-
-      <form onSubmit={handleSubmit} className={css.form}>
-        <select className={css.fieldSearch} value={joy} onChange={e => setJoy(e.target.value)}>
-          <option value="">
-            {intl.formatMessage({
-              id: 'SearchBar.selection',
-            })}
-          </option>
-          <option value="1">
-            {' '}
-            {intl.formatMessage({
-              id: 'SearchBar.selection.1',
-            })}
-          </option>
-          <option value="2">
-            {intl.formatMessage({
-              id: 'SearchBar.selection.2',
-            })}
-          </option>
-          <option value="3">
-            {intl.formatMessage({
-              id: 'SearchBar.selection.3',
-            })}
-          </option>
-          <option value="4">
-            {intl.formatMessage({
-              id: 'SearchBar.selection.4',
-            })}
-          </option>
-        </select>
-
-        {!isPickerVisible && (
-          <input
-            onClick={() => setIsPickerVisible(true)}
-            placeholder={intl.formatMessage({
-              id: 'SearchBar.time',
-            })}
-            className={css.fieldSearch}
-          />
-        )}
-        {isPickerVisible && (
-          <div className={css.dateWrapper}>
-            <DateRangePicker
-              startDate={startDate}
-              startDateId="your_unique_start_date_id"
-              endDate={endDate}
-              endDateId="your_unique_end_date_id"
-              onDatesChange={({ startDate, endDate }) => {
-                setStartDate(startDate);
-                setEndDate(endDate);
-              }}
-              focusedInput={focusedInput}
-              onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-              isOutsideRange={() => false}
-              startDatePlaceholderText={intl.formatMessage({
-                id: 'FieldDateAndTimeInput.startTime',
-              })}
-              endDatePlaceholderText={intl.formatMessage({
-                id: 'FieldDateAndTimeInput.endTime',
-              })}
-            />
-          </div>
-        )}
-        <input
-          id="location-input"
-          type="text"
-          placeholder={intl.formatMessage({
-            id: 'SearchBar.location',
+    <form onSubmit={handleSubmit} className={css.form}>
+      <select className={css.fieldSearch} value={joy} onChange={e => setJoy(e.target.value)}>
+        <option value="">
+          {intl.formatMessage({
+            id: 'SearchBar.selection',
           })}
-          value={location}
-          onChange={e => setLocation(e.target.value)}
+        </option>
+        <option value="1">
+          {' '}
+          {intl.formatMessage({
+            id: 'SearchBar.selection.1',
+          })}
+        </option>
+        <option value="2">
+          {intl.formatMessage({
+            id: 'SearchBar.selection.2',
+          })}
+        </option>
+        <option value="3">
+          {intl.formatMessage({
+            id: 'SearchBar.selection.3',
+          })}
+        </option>
+        <option value="4">
+          {intl.formatMessage({
+            id: 'SearchBar.selection.4',
+          })}
+        </option>
+      </select>
+
+      {!isPickerVisible && (
+        <input
+          onClick={() => setIsPickerVisible(true)}
+          placeholder={intl.formatMessage({
+            id: 'SearchBar.time',
+          })}
           className={css.fieldSearch}
         />
-        <button type="submit" className={css.button}>
-          <IconSearch rootClassName={css.searchIcon} />
-        </button>
-      </form>
-    </div>
+      )}
+      {isPickerVisible && (
+        <div className={css.dateWrapper}>
+          <DateRangePicker
+            startDate={startDate}
+            startDateId="your_unique_start_date_id"
+            endDate={endDate}
+            endDateId="your_unique_end_date_id"
+            onDatesChange={({ startDate, endDate }) => {
+              setStartDate(startDate);
+              setEndDate(endDate);
+            }}
+            focusedInput={focusedInput}
+            onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+            isOutsideRange={() => false}
+            startDatePlaceholderText={intl.formatMessage({
+              id: 'FieldDateAndTimeInput.startTime',
+            })}
+            endDatePlaceholderText={intl.formatMessage({
+              id: 'FieldDateAndTimeInput.endTime',
+            })}
+          />
+        </div>
+      )}
+      <input
+        id="location-input"
+        type="text"
+        placeholder={intl.formatMessage({
+          id: 'SearchBar.location',
+        })}
+        value={location}
+        onChange={e => setLocation(e.target.value)}
+        className={css.fieldSearch}
+      />
+      <button type="submit" className={css.button}>
+        <IconSearch rootClassName={css.searchIcon} />
+      </button>
+    </form>
   );
 };
 
-export default LandingSearchBar;
+export default LandingSearchBarForm;

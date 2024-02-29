@@ -3,7 +3,7 @@ import dynamicLoader from './dynamicLoader.js';
 import { IconSpinner, LayoutComposer } from '../../components/index.js';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer.js';
 import FooterContainer from '../FooterContainer/FooterContainer.js';
-import LandingSearchBar from '../../components/LandingSearchBar/LandingSearchBar.js';
+import LandingSearchBarContainer from '../../components/LandingSearchBarContainer/LandingSearchBarContainer.js';
 import { validProps } from './Field';
 import classNames from 'classnames';
 
@@ -156,7 +156,7 @@ const PageBuilder = props => {
                       <div className={css.mainContentContainer}>
                         {isLandingPage ? (
                           <>
-                            <LandingSearchBar onSearchSubmit={handleSearchSubmit} />
+                            <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} />
                             <SectionBuilder sections={sections} options={options} />
                           </>
                         ) : (

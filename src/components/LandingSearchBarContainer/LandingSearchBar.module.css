@@ -75,6 +75,9 @@ input, select, .DateRangePicker {
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
+  .landingBarContainer {
+    margin-top: 60px;
+  }
   .form {
     background: none; 
     box-shadow: none;
@@ -96,6 +99,10 @@ input, select, .DateRangePicker {
 }
 
 @media (max-width: 768px) { 
+  .landingBarContainer {
+    margin-top: 60px;
+    text-align: center;
+  }
 
   .dateWrapper{
     border-radius: 20px; /* Adjust as needed */
