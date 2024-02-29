@@ -13,6 +13,10 @@
   border-radius: 0;
 }
 
+.whiteBackground {
+  background-color: rgb(255, 255, 255);
+}
+
 /* Search */
 .searchLink {
   flex-grow: 1;
@@ -198,6 +202,10 @@
   padding-top: 20px;
 }
 
+.whiteText {
+  color: white;
+}
+
 /* Authentication */
 .signupLink {
   border-bottom: 0px solid;
@@ -370,7 +378,6 @@
   padding: 0 24px;
   box-shadow: none;
   transition: ease-in-out all 0.5s;
-
 }
 
 .leftContent,
