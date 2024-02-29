@@ -83,18 +83,7 @@ const TopbarDesktop = props => {
         <Avatar className={css.avatar} user={currentUser} disableProfileLink />
       </MenuLabel>
       <MenuContent className={css.profileMenuContent}>
-        {userRole !== 'customer' && (
-          <MenuItem key="ManageListingsPage">
-            <NamedLink
-              className={classNames(css.yourListingsLink, currentPageClass('ManageListingsPage'))}
-              name="ManageListingsPage"
-            >
-              <span className={css.menuItemBorder} />
-              <FormattedMessage id="TopbarDesktop.yourListingsLink" />
-            </NamedLink>
-          </MenuItem>
-        )}
-        {userRole !== 'customer' && (
+        {userRole === 'provider' && (
           <MenuItem key="CMSPage">
             <NamedLink
               className={classNames(css.OverviewLink, currentPageClass('CMSPage'))}
@@ -102,7 +91,18 @@ const TopbarDesktop = props => {
               params={{ pageId: 'overview' }}
             >
               <span className={css.menuItemBorder} />
-              Overview
+              <FormattedMessage id="TopbarDesktop.overview" />
+            </NamedLink>
+          </MenuItem>
+        )}
+        {userRole === 'provider' && (
+          <MenuItem key="ManageListingsPage">
+            <NamedLink
+              className={classNames(css.yourListingsLink, currentPageClass('ManageListingsPage'))}
+              name="ManageListingsPage"
+            >
+              <span className={css.menuItemBorder} />
+              <FormattedMessage id="TopbarDesktop.yourListingsLink" />
             </NamedLink>
           </MenuItem>
         )}
@@ -170,7 +170,7 @@ const TopbarDesktop = props => {
           </div>
           <div className={css.rightContent}>
             {search}
-            {userRole === 'author' && (
+            {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
                   <FormattedMessage id="TopbarDesktop.createListing" />
@@ -198,7 +198,7 @@ const TopbarDesktop = props => {
             {search}
           </div>
           <div className={css.rightContent}>
-            {userRole === 'author' && (
+            {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
                   <FormattedMessage id="TopbarDesktop.createListing" />

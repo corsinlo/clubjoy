@@ -184,7 +184,7 @@ export const AuthenticationForms = props => {
   ];
 
   const handleSubmitSignup = values => {
-    const role = tab === 'bsignup' ? 'author' : 'customer';
+    const role = tab === 'bsignup' ? 'provider' : 'customer';
     const { fname: firstName, lname: lastName, ...rest } = values;
     const params = { firstName, lastName, ...rest, role };
     submitSignup(params);

@@ -259,7 +259,8 @@ export const InboxPageComponent = props => {
   const hasTransactions =
     !fetchInProgress && hasOrderOrSaleTransactions(transactions, isOrders, currentUser);
 
-    let tabs = [{
+  let tabs = [
+    {
       text: (
         <span>
           <FormattedMessage id="InboxPage.ordersTabTitle" />
@@ -270,26 +271,26 @@ export const InboxPageComponent = props => {
         name: 'InboxPage',
         params: { tab: 'orders' },
       },
-    }];
-    
-    
-    if(userRole !== 'customer') {
-      tabs.push({
-        text: (
-          <span>
-            <FormattedMessage id="InboxPage.salesTabTitle" />
-            {providerNotificationCount > 0 ? (
-              <NotificationBadge count={providerNotificationCount} />
-            ) : null}
-          </span>
-        ),
-        selected: !isOrders,
-        linkProps: {
-          name: 'InboxPage',
-          params: { tab: 'sales' },
-        },
-      });
-    }
+    },
+  ];
+
+  if (userRole === 'provider') {
+    tabs.push({
+      text: (
+        <span>
+          <FormattedMessage id="InboxPage.salesTabTitle" />
+          {providerNotificationCount > 0 ? (
+            <NotificationBadge count={providerNotificationCount} />
+          ) : null}
+        </span>
+      ),
+      selected: !isOrders,
+      linkProps: {
+        name: 'InboxPage',
+        params: { tab: 'sales' },
+      },
+    });
+  }
 
   return (
     <Page title={title} scrollingDisabled={scrollingDisabled}>

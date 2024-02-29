@@ -32,6 +32,7 @@ const TopbarMobileMenu = props => {
 
   const user = ensureCurrentUser(currentUser);
   const userRole = currentUser?.attributes?.profile?.publicData?.role;
+
   if (!isAuthenticated) {
     const signup = (
       <NamedLink name="SignupPage" className={css.signupLink}>
@@ -92,6 +93,15 @@ const TopbarMobileMenu = props => {
         <InlineTextButton rootClassName={css.logoutButton} onClick={onLogout}>
           <FormattedMessage id="TopbarMobileMenu.logoutLink" />
         </InlineTextButton>
+        {userRole === 'provider' && (
+          <NamedLink
+            className={classNames(css.navigationLink, currentPageClass('CMSPage'))}
+            name="CMSPage"
+            params={{ pageId: 'overview' }}
+          >
+            <FormattedMessage id="TopbarMobileMenu.overview" />
+          </NamedLink>
+        )}
         <NamedLink
           className={classNames(css.inbox, currentPageClass('InboxPage'))}
           name="InboxPage"
@@ -100,21 +110,12 @@ const TopbarMobileMenu = props => {
           <FormattedMessage id="TopbarMobileMenu.inboxLink" />
           {notificationCountBadge}
         </NamedLink>
-        {userRole !== 'customer' && (
+        {userRole === 'provider' && (
           <NamedLink
             className={classNames(css.navigationLink, currentPageClass('ManageListingsPage'))}
             name="ManageListingsPage"
           >
             <FormattedMessage id="TopbarMobileMenu.yourListingsLink" />
-          </NamedLink>
-        )}
-        {userRole !== 'customer' && (
-          <NamedLink
-            className={classNames(css.navigationLink, currentPageClass('CMSPage'))}
-            name="CMSPage"
-            params={{ pageId: 'overview' }}
-          >
-            Overview
           </NamedLink>
         )}
         <NamedLink
@@ -131,7 +132,7 @@ const TopbarMobileMenu = props => {
         </NamedLink>
         <div className={css.spacer} />
       </div>
-      {userRole !== 'customer' && (
+      {userRole === 'provider' && (
         <div className={css.footer}>
           <NamedLink className={css.createNewListingLink} name="NewListingPage">
             <FormattedMessage id="TopbarMobileMenu.newListingLink" />

@@ -10,7 +10,7 @@ import css from './UserNav.module.css';
 const UserNav = props => {
   const { className, rootClassName, currentPage, userRole } = props;
   const classes = classNames(rootClassName || css.root, className);
-  
+
   let tabs = [
     {
       text: <FormattedMessage id="UserNav.yourListings" />,
@@ -37,7 +37,7 @@ const UserNav = props => {
     },
   ];
 
-  if (userRole && userRole === 'customer') {
+  if (userRole && userRole !== 'provider') {
     tabs = tabs.filter(tab => tab.linkProps.name !== 'ManageListingsPage');
   }
 
@@ -49,7 +49,7 @@ const UserNav = props => {
 UserNav.defaultProps = {
   className: null,
   rootClassName: null,
-  currentUser: null, 
+  currentUser: null,
 };
 
 const { string, object } = PropTypes;
@@ -58,7 +58,7 @@ UserNav.propTypes = {
   className: string,
   rootClassName: string,
   currentPage: string.isRequired,
-  currentUser: object, 
+  currentUser: object,
 };
 
 export default UserNav;

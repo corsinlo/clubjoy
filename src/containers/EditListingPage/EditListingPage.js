@@ -129,7 +129,7 @@ export const EditListingPageComponent = props => {
   const hasStripeOnboardingDataIfNeeded = returnURLType ? !!(currentUser && currentUser.id) : true;
   const showForm = hasStripeOnboardingDataIfNeeded && (isNewURI || currentListing.id);
   const userRole = currentUser?.attributes?.profile?.publicData?.role;
-  if (userRole === 'customer') {
+  if (userRole !== 'provider') {
     return <NamedRedirect name="LandingPage" />; // Assuming 'LandingPage' is the name for the home route
   }
 
