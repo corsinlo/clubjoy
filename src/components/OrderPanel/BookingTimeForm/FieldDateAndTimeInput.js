@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { func, number, object, string } from 'prop-types';
 import classNames from 'classnames';
-
+import * as validators from '../../../util/validators';
 import { intlShape } from '../../../util/reactIntl';
 import {
   getStartHours,
@@ -626,6 +626,11 @@ class FieldDateAndTimeInput extends Component {
                         id: 'FieldDateAndTimeInput.guestNamePlaceholder',
                       },
                       { number: index + 1 }
+                    )}
+                    validate={validators.required(
+                      intl.formatMessage({
+                        id: 'FieldDateAndTimeInput.requiredGuestName',
+                      })
                     )}
                   />
                 );

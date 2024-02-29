@@ -327,6 +327,7 @@
     "FieldDateRangeInput.endDatePlaceholderText": "Aggiungi data di fine",
     "FieldDateRangeInput.invalidEndDate": "La data di fine non è valida",
     "FieldDateRangeInput.invalidStartDate": "La data di inizio non è valida",
+    "FieldDateAndTimeInput.requiredGuestName": "Per favore, inserisci il nome dell'ospite o il tuo 'Nome +1'", 
     "FieldDateRangeInput.screenReaderInputMessage": "Inserimento data",
     "FieldDateRangeInput.startDatePlaceholderText": "Aggiungi data di inizio",
     "FieldReviewRating.star1": "Esperienza negativa - 1 stella",
