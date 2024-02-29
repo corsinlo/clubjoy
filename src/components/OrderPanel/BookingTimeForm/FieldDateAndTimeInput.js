@@ -494,7 +494,7 @@ class FieldDateAndTimeInput extends Component {
           onChange={value => {
             form.batch(() => {
               form.change('guestNames', []);
-              if (value > 1)
+              if (value > 0)
                 for (let index = 0; index < value; index++)
                   form.mutators.push(`guestNames[${index}]`, '');
             });
