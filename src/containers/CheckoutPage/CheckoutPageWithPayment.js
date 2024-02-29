@@ -70,28 +70,11 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
   const quantity = pageData.orderData?.quantity;
   const quantityMaybe = quantity ? { quantity } : {};
   const seats = pageData.orderData?.seats;
+  const guestNames = pageData.orderData?.guestNames;
   const seatsMaybe = seats ? { seats } : {};
   const deliveryMethod = pageData.orderData?.deliveryMethod;
   const deliveryMethodMaybe = deliveryMethod ? { deliveryMethod } : {};
-  const prepareSeatNamesAndOrderParams = (orderData) => {
-    // Extracting and consolidating seatName_N values
-    const seatNames = Object.keys(orderData)
-      .filter(key => key.startsWith('seatName'))
-      .map(key => orderData[key]);
-
-    // Attempt to destructure and exclude seatName_N entries might fail if they are not guaranteed to exist.
-    // A safer approach would be to use the filter and reduce method shown earlier to exclude them.
-    const otherOrderParams = Object.entries(orderData).reduce((acc, [key, value]) => {
-      if (!key.startsWith('seatName')) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {});
-
-    return  seatNames
-  };
-  const seatsNameMaybe =  prepareSeatNamesAndOrderParams(pageData.orderData);
-
+  const guestsNameMaybe = guestNames ? { guestNames } : {};
 
   const { listingType, unitType } = pageData?.listing?.attributes?.publicData || {};
   const protectedDataMaybe = {
@@ -99,7 +82,7 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
       ...getTransactionTypeData(listingType, unitType, config),
       ...deliveryMethodMaybe,
       ...shippingDetails,
-      ...seatsNameMaybe
+      ...guestsNameMaybe
     },
   };
 
