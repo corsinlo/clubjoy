@@ -52,9 +52,8 @@ export class ManageListingsPageComponent extends Component {
       queryParams,
       scrollingDisabled,
       intl,
-      currentUser
+      currentUser,
     } = this.props;
-   
 
     const hasPaginationInfo = !!pagination && pagination.totalItems != null;
     const listingsAreLoaded = !queryInProgress && hasPaginationInfo;
@@ -89,7 +88,7 @@ export class ManageListingsPageComponent extends Component {
         </div>
       ) : null;
 
-    const noResultsForCustomer = userRole === 'customer' ? '' : noResults;
+    const noResultsForCustomer = userRole !== 'provider' ? '' : noResults;
     const heading =
       listingsAreLoaded && pagination.totalItems > 0 ? (
         <H3 as="h1" className={css.heading}>
