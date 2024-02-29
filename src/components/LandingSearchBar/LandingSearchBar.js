@@ -71,11 +71,19 @@ const LandingSearchBar = props => {
     }
     */
 
-    // Format bounds as "latNE,lngNE,latSW,lngSW"
-    const formattedBounds = `${bounds.ne.lat},${bounds.ne.lng},${bounds.sw.lat},${bounds.sw.lng}`;
-
+    // Check if at least one of bounds, startDate, endDate, or joy is set
+    if (!bounds && !startDate && !endDate && !joy) {
+      alert('Please select a location, date range, or joy filter.');
+      return;
+    }
     // Initialize an array to collect query parts
-    let queryParts = [`bounds=${encodeURIComponent(formattedBounds)}`];
+    let queryParts = [];
+
+    // Format bounds as "latNE,lngNE,latSW,lngSW" and add to query if bounds are present
+    if (bounds) {
+      const formattedBounds = `${bounds.ne.lat},${bounds.ne.lng},${bounds.sw.lat},${bounds.sw.lng}`;
+      queryParts.push(`bounds=${encodeURIComponent(formattedBounds)}`);
+    }
 
     // Format dates and add to query if both dates are present
     if (startDate && endDate) {
