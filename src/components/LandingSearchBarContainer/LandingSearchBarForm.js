@@ -186,8 +186,8 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
               id: 'SearchBar.time.to',
             })}
             orientation="horizontal"
-            navPosition={'navPositionTop'} // default to 'top' on larger screens
-            numberOfMonths={isSmallScreen ? 1 : 2} // default to 2 on larger screens, adjust as needed
+            navPosition={'navPositionTop'}
+            numberOfMonths={isSmallScreen ? 1 : 2}
             autoFocus={isSmallScreen}
             noBorder={isSmallScreen}
           />
@@ -207,7 +207,6 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
         {intl.formatMessage({
           id: 'SearchBar.time.button',
         })}
-        {/*<IconSearch rootClassName={css.searchIcon} />*/}
       </button>
     </form>
   );
