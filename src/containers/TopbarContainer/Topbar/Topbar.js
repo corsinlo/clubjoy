@@ -213,7 +213,7 @@ class TopbarComponent extends Component {
     const classes = classNames(rootClassName || css.root, className);
 
     return (
-      <div className={classes} style={{ backgroundImage: `url(${mobileFooter})` }}>
+      <div className={classes}>
         <LimitedAccessBanner
           isAuthenticated={isAuthenticated}
           authScopes={authScopes}
@@ -273,7 +273,14 @@ class TopbarComponent extends Component {
           usePortal
           onManageDisableScrolling={onManageDisableScrolling}
         >
-          <div className={css.searchContainer} style={{ backgroundImage: `url(${mobileFooter})` }}>
+          <div
+            className={css.searchContainer}
+            style={{
+              backgroundImage: `url(${mobileFooter})`,
+              backgroundSize: '100% 100%',
+              backgroundPosition: 'center 10px',
+            }}
+          >
             <LandingSearchBarForm onSearchSubmit={this.handleSubmit} />
             <div className={css.socialContainer}>
               <SocialBar />
