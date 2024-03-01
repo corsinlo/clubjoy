@@ -848,3 +848,22 @@
     vertical-align: middle
   }
 }
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  .DateRangePickerInput {
+    border-radius: 20px;
+    border: 1px solid #ccc; 
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    align-content: stretch;
+    width: 768px;
+  }
+
+  .DateInput {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    vertical-align: middle
+  }
+}

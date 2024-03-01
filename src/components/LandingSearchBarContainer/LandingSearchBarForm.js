@@ -39,7 +39,7 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
 
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const { width } = useWindowSize();
-  const isSmallScreen = width < 768;
+  const isSmallScreen = width < 1024;
   useEffect(() => {
     if (window.google && window.google.maps) {
       initAutocomplete();
