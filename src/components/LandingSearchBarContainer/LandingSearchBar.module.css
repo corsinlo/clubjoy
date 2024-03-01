@@ -84,28 +84,53 @@ input, select, .DateRangePicker {
 @media (min-width: 769px) and (max-width: 1024px) {
   .landingBarContainer {
     margin-top: 60px;
-  }
-  .form {
-    background: none; 
-    box-shadow: none;
-    gap:10px
-  }
-
-  .fieldSearch {
-    color: #b0b0b5 !important;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .button{
-    border-radius: 20px;
-    height: 60px;
+    text-align: center;
   }
 
   .dateWrapper{
     border-radius: 20px; /* Adjust as needed */
-    border: 1px solid #dbdbdb; 
+    text-align: center;
+    justify-content: center;
+    align-items: center;
   }
+
+  .landingBarContainer, .bar {
+    background: none; 
+  }
+
+  .form {
+    background: none; 
+    box-shadow: none;
+  }
+
+  .time .DateRangePicker {
+    border-radius: 20px;
+  }
+
+  .joy, .time, .location, .button, .dateWrapper, .fieldSearch {
+    width: 100%; 
+    height: 60px;
+    margin-top: 20px; 
+    border-radius: 20px; 
+  }
+  
+  .joy:first-child {
+    margin-top: 0;
+  }
+
+  .fieldSearch {
+    border-radius: 20px; 
+    background: #FFF; 
+    color: #b0b0b5 !important;
+    border: 1px solid #ccc; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .button {
+    padding: 10px 0; 
+    height: 60px;
+  }
+
 }
 
 @media (max-width: 768px) { 
@@ -120,8 +145,6 @@ input, select, .DateRangePicker {
 
 
   .landingBarContainer, .bar {
-    margin-left: 10px; 
-    margin-right: 10px;
     background: none; 
   }
 
