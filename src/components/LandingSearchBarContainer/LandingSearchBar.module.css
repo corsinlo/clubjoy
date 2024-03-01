@@ -226,16 +226,25 @@ input, select, .DateRangePicker {
     }
   }
 
+
   .button {
-    position: absolute;
     display: flex;
     align-content: center;
     justify-content: center;
-    max-width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    right: 30px;
-    top: 30px;
+    position: absolute; 
+    right: 18px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    padding: 10px 20px; 
+    background-color: #012FA7; 
+    color: white; 
+    border: none; 
+    border-radius: 40px !important;
+    height: 62px;
+    max-width: 100px;
+    width: 100px;
+    padding: 15px;
+    cursor: pointer; 
   }
 
   .fieldSearch {
