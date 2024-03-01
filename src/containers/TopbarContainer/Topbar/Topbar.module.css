@@ -1,5 +1,9 @@
 @import '../../../styles/customMediaQueries.css';
 
+html, body {
+  height: 100%;
+}
+
 .root {
   width: 100%;
   
@@ -145,10 +149,22 @@
 }
 
 .searchContainer {
+  margin-bottom: 0;
   position: relative;
-  height: 100%;
-  margin-top: 94px;
+  margin-top: 50px;
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
+  justify-content: flex-start; /* Align children to the top */
 }
+
+.socialTitle {
+  text-align: center;
+  margin: 20px 0; 
+  color: #012FA7;
+  font-size: large;
+}
+
 .socialContainer {
   text-align: center;
   align-items: center;
