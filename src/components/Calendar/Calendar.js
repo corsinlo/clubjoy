@@ -11,7 +11,7 @@ import {
 } from '../../containers/ManageListingsPage/ManageListingsPage.duck';
 import { loadData2 } from '../../containers/InboxPage/InboxPage.duck';
 import AttendanceForm from '../AttendaceForm/AttendaceForm';
-
+import { useIntl } from 'react-intl';
 const randomId = () => uuidv4();
 const localizer = momentLocalizer(moment);
 const dayOfWeekMap = {
@@ -26,17 +26,13 @@ const dayOfWeekMap = {
 function mergeTransactionsAndBookings(response) {
   const { data: transactions, included: bookingsAndOthers } = response;
   const bookings = bookingsAndOthers.filter(item => item.type === 'booking');
-
-  // Extract transactions and their associated bookings
-  // Assuming transactions and bookings are defined
-
   const mergedData = transactions.map(transaction => {
     const bookingId = transaction.relationships.booking.data.id.uuid;
     const transactionBooking = bookings.find(booking => booking.id.uuid === bookingId);
 
     return {
       id: transaction.id.uuid,
-      bookingId: bookingId, // Include bookingId explicitly
+      bookingId: bookingId,
       seats: transactionBooking?.attributes?.seats,
       start: transactionBooking?.attributes?.start,
       end: transactionBooking?.attributes?.end,
@@ -44,58 +40,56 @@ function mergeTransactionsAndBookings(response) {
     };
   });
 
-  // Group bookings by start date
   const groupedByStart = mergedData.reduce((acc, curr) => {
-    const key = curr.start; // Adjust for Date objects if necessary
+    const key = curr.start;
     if (!acc[key]) {
       acc[key] = [];
     }
     acc[key].push(curr);
     return acc;
   }, {});
-  console.log(groupedByStart);
-  // Merge bookings with the same start date
+
   const mergedByStart = Object.values(groupedByStart).map(group => {
     if (group.length === 1) {
-      // For a single booking, modify protectedData to format names into an array
       const { protectedData, ...rest } = group[0];
-      // Remove unitType and collect names into an array
       const { unitType, ...namesData } = protectedData;
-      const names = Object.values(namesData); // This collects all name values into an array
+      const names = Object.values(namesData);
 
       return {
         ...rest,
         protectedData: {
-          names, // Use the names array here
+          names,
         },
       };
+    } else {
+      return group.reduce((merged, booking, index) => {
+        const totalSeats = (merged.seats || 0) + booking.seats;
+
+        let names = [];
+        if (index === 1) {
+          // Assuming 'seatNames' is the correct key:
+          names = merged.protectedData.seatNames || []; // Safeguard with '|| []' in case it's undefined
+        }
+        const newNames = booking.protectedData.seatNames || []; // Again, safeguard with '|| []'
+
+        // Combine names and remove duplicates, if any
+        names = [...new Set([...names, ...newNames])];
+
+        return {
+          id: index === 1 ? booking.id : `${merged.id},${booking.id}`,
+          bookingId: index === 1 ? booking.bookingId : merged.bookingId,
+          seats: totalSeats,
+          start: booking.start,
+          end: booking.end,
+          protectedData: {
+            names: [...new Set(names)], // Remove duplicates, if any
+          },
+        };
+      });
     }
-
-    return group.reduce((merged, booking, index) => {
-      // Sum seats
-      const totalSeats = (merged.seats || 0) + booking.seats;
-
-      // Collect names from protectedData into an array, add unitType: 'day' only for grouped bookings
-      let names = [];
-      if (index === 1) {
-        names = Object.values(merged.protectedData).filter(value => typeof value === 'string');
-      }
-      names = names.concat(
-        Object.values(booking.protectedData).filter(value => typeof value === 'string')
-      );
-      return {
-        id: index === 1 ? booking.id : `${merged.id},${booking.id}`, // Correctly merge IDs
-        bookingId: index === 1 ? booking.bookingId : merged.bookingId, // Keep the first bookingId
-        seats: totalSeats,
-        start: booking.start,
-        end: booking.end,
-        protectedData: {
-          names: [...new Set(names)], // Remove duplicates, if any
-        },
-      };
-    });
   });
-  console.log(mergedByStart);
+
+  console.log('Merged by start date:', mergedByStart); // Log final merged bookings by start date
   return mergedByStart;
 }
 
@@ -150,7 +144,7 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
   const [selectedEventDate, setSelectedEventDate] = useState(null);
   const [selectedActivity, setSelectedActivity] = useState({ resource: null, bookingData: null });
   const [showForm, setShowForm] = useState(false);
-
+  const intl = useIntl();
   useEffect(() => {
     fetchOwnListings();
     const params = { tab: 'sales' };
@@ -238,8 +232,18 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
             style={{ height: 500, margin: '100px' }}
           />
           {selectedListing && selectedEventDate && (
-            <div style={{ marginTop: '10px', alignItems: 'center', textAlign: 'center' }}>
-              <h4>Attivita Selezionata:</h4>
+            <div
+              style={{
+                alignItems: 'center',
+                textAlign: 'center',
+                marginBottom: '40px',
+              }}
+            >
+              <h4>
+                {intl.formatMessage({
+                  id: 'Calendar.activity',
+                })}
+              </h4>
               {selectedListing.attributes.availabilityPlan.entries
                 .filter(activity => {
                   const dayOfWeekNumberForEvent = getDayOfWeekNumberFromDate(selectedEventDate);

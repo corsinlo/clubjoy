@@ -35,7 +35,7 @@ const initialState = {
 
 export default function inboxPageReducer(state = initialState, action = {}) {
   const { type, payload } = action;
-  
+
   switch (type) {
     case FETCH_ORDERS_OR_SALES_REQUEST:
       return { ...state, fetchInProgress: true, fetchOrdersOrSalesError: null };
@@ -44,7 +44,7 @@ export default function inboxPageReducer(state = initialState, action = {}) {
 
       return {
         ...state,
-        transactions:transactions,
+        transactions: transactions,
         fetchInProgress: false,
         transactionRefs: entityRefs(transactions),
         pagination: payload.data.meta,
@@ -78,7 +78,6 @@ const INBOX_PAGE_SIZE = 10;
 
 export const loadData = (params, search) => (dispatch, getState, sdk) => {
   const { tab } = params;
-
 
   const onlyFilterValues = {
     orders: 'order',
@@ -135,11 +134,9 @@ export const loadData = (params, search) => (dispatch, getState, sdk) => {
     });
 };
 
-
 // OVERVIEW CALENDAR
 export const loadData2 = (params, search) => (dispatch, getState, sdk) => {
   const { tab } = params;
-  console.log('here')
 
   const onlyFilterValues = {
     orders: 'order',
@@ -184,7 +181,8 @@ export const loadData2 = (params, search) => (dispatch, getState, sdk) => {
   };
 
   // Return the promise chain here
-  return sdk.transactions.query(apiQueryParams)
+  return sdk.transactions
+    .query(apiQueryParams)
     .then(response => {
       dispatch(addMarketplaceEntities(response));
       dispatch(fetchOrdersOrSalesSuccess(response));
