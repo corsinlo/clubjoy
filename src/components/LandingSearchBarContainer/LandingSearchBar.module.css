@@ -18,6 +18,12 @@
   font-size: 30px; 
   color: #333; 
 }
+
+.dateWrapper {
+  border-radius: 20px;
+  height: 40px;
+}
+
 .introText2 {
   font-weight: lighter;
   height:auto;
@@ -49,8 +55,8 @@
 }
 
 input, select, .DateRangePicker {
-  height: 58px; 
-  border: 1px solid #ccc; 
+  height: 46px;
+  margin-bottom: 2px;
 }
 
 .button {
@@ -74,6 +80,7 @@ input, select, .DateRangePicker {
   background-color: #012FA7;
 }
 
+
 @media (min-width: 769px) and (max-width: 1024px) {
   .landingBarContainer {
     margin-top: 60px;
@@ -81,6 +88,7 @@ input, select, .DateRangePicker {
   .form {
     background: none; 
     box-shadow: none;
+    gap:10px
   }
 
   .fieldSearch {
@@ -108,7 +116,6 @@ input, select, .DateRangePicker {
 
   .dateWrapper{
     border-radius: 20px; /* Adjust as needed */
-    border: 1px solid #dbdbdb; 
   }
 
 
@@ -123,25 +130,15 @@ input, select, .DateRangePicker {
     box-shadow: none; 
 
   }
-  .bar {
-    box-shadow: none; 
-  }
 
   .time .DateRangePicker {
     border-radius: 20px;
   }
   
-  .time .DateInput {
-    border-radius: 20px;
-  }
-  
-  .bar, .bar form {
-    flex-direction: column;
-  }
-
-  .joy, .time, .location, .button, .dateWrapper {
+  .joy, .time, .location, .button, .dateWrapper, .fieldSearch {
     width: 100%; 
-    margin-top: 10px; 
+    height: 60px;
+    margin-top: 20px; 
     border-radius: 20px; 
   }
   .joy:first-child {
@@ -154,9 +151,7 @@ input, select, .DateRangePicker {
     border: 1px solid #ccc; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
-  .datePicker {
-    border-radius: 20px; 
-  }
+
   .button {
     padding: 10px 0; 
     height: 60px;
