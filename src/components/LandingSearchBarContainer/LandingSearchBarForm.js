@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { DateRangePicker } from 'react-dates';
+
 import css from './LandingSearchBar.module.css';
-// import 'react-dates/lib/css/_datepicker.css';
 import { useHistory } from 'react-router-dom';
 import { createResourceLocatorString } from '../../util/routes';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
-import landingCover from '../../media/landingCover.jpg';
-import IconSearch from '../IconSearch/IconSearch';
 import { useIntl } from 'react-intl';
+
+function useWindowSize() {
+  const [windowSize, setWindowSize] = useState({ width: undefined });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({ width: window.innerWidth });
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return windowSize;
+}
 
 const LandingSearchBarForm = ({ onSearchSubmit }) => {
   const routeConfiguration = useRouteConfiguration();
@@ -24,7 +38,8 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
   const history = useHistory();
 
   const [isPickerVisible, setIsPickerVisible] = useState(false);
-
+  const { width } = useWindowSize();
+  const isSmallScreen = width < 768;
   useEffect(() => {
     if (window.google && window.google.maps) {
       initAutocomplete();
@@ -170,6 +185,11 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
             endDatePlaceholderText={intl.formatMessage({
               id: 'SearchBar.time.to',
             })}
+            orientation="horizontal"
+            navPosition={'navPositionTop'} // default to 'top' on larger screens
+            numberOfMonths={isSmallScreen ? 1 : 2} // default to 2 on larger screens, adjust as needed
+            autoFocus={isSmallScreen}
+            noBorder={isSmallScreen}
           />
         </div>
       )}
