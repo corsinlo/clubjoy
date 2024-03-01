@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { array, arrayOf, bool, func, number, object, shape, string } from 'prop-types';
 import pickBy from 'lodash/pickBy';
 import classNames from 'classnames';
-
 import appSettings from '../../../config/settings';
 import { useConfiguration } from '../../../context/configurationContext';
 import { useRouteConfiguration } from '../../../context/routeConfigurationContext';
@@ -14,6 +13,7 @@ import { withViewport } from '../../../util/uiHelpers';
 import { parse, stringify } from '../../../util/urlHelpers';
 import { createResourceLocatorString, pathByRouteName } from '../../../util/routes';
 import { propTypes } from '../../../util/types';
+import mobileFooter from '../../../media/mobileFooter.jpeg';
 import {
   Button,
   LimitedAccessBanner,
@@ -213,7 +213,7 @@ class TopbarComponent extends Component {
     const classes = classNames(rootClassName || css.root, className);
 
     return (
-      <div className={classes}>
+      <div className={classes} style={{ backgroundImage: `url(${mobileFooter})` }}>
         <LimitedAccessBanner
           isAuthenticated={isAuthenticated}
           authScopes={authScopes}
@@ -273,11 +273,11 @@ class TopbarComponent extends Component {
           usePortal
           onManageDisableScrolling={onManageDisableScrolling}
         >
-          <div className={css.searchContainer}>
+          <div className={css.searchContainer} style={{ backgroundImage: `url(${mobileFooter})` }}>
             <LandingSearchBarForm onSearchSubmit={this.handleSubmit} />
-          </div>
-          <div className={css.socialContainer}>
-            <SocialBar />
+            <div className={css.socialContainer}>
+              <SocialBar />
+            </div>
           </div>
         </Modal>
         <ModalMissingInformation
