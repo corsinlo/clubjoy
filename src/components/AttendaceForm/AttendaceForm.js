@@ -2,19 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import css from './AttendaceForm.module.css';
 import { PrimaryButton } from '../Button/Button';
+import { useIntl } from 'react-intl';
+
 const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
 const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correctly set in your .env file
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const AttendanceForm = ({ activity, onBack }) => {
-  const [checkedNames, setCheckedNames] = useState([]);
+const normalizeNames = names => {
+  if (names.length > 0 && Array.isArray(names[0])) {
+    return names.flat();
+  }
+  return names;
+};
 
-  // Extract names from activity, fallback to an empty array if not available
-  const names = activity?.resource?.bookingData?.names.filter(name => !name.includes('day')) ?? [];
+const AttendanceForm = ({ activity, onBack }) => {
+  console.log(activity);
+  const [checkedNames, setCheckedNames] = useState([]);
+  const intl = useIntl();
+  const normalizedNames = normalizeNames(activity?.resource?.bookingData?.names ?? []);
+  const names = normalizedNames.filter(name => !name.includes('day'));
 
   useEffect(() => {
     const fetchAttendanceRecords = async () => {
-      // Assuming the ID you need is activity.resource.bookingData.bookingId
       const bookingId = activity?.resource?.bookingData?.bookingId;
       if (!bookingId) return;
 
@@ -28,10 +37,8 @@ const AttendanceForm = ({ activity, onBack }) => {
         return;
       }
 
-      // Log the fetched data to see what's being returned
       console.log('Fetched attendance records:', data);
 
-      // Update state with fetched records
       const fetchedCheckedNames = data
         .filter(record => record.checked_status)
         .map(record => record.name);
@@ -39,7 +46,6 @@ const AttendanceForm = ({ activity, onBack }) => {
     };
 
     fetchAttendanceRecords();
-    // Ensure to update this dependency array to reflect the correct path to the ID
   }, [activity?.resource?.bookingData?.bookingId]);
 
   const handleCheck = name => {
@@ -68,8 +74,6 @@ const AttendanceForm = ({ activity, onBack }) => {
         return;
       }
     }
-
-    console.log('All records saved/updated successfully.');
   };
 
   const handleDelete = async () => {
@@ -78,25 +82,56 @@ const AttendanceForm = ({ activity, onBack }) => {
 
   return (
     <div className={css.container}>
-      <h2>Form Presenze</h2>
-      <div className={css.gridContainer}>
-        {names.map((name, index) => (
-          <React.Fragment key={index}>
-            <div className={css.gridItemName}>{name}</div>
-            <div className={css.gridItemCheckbox}>
-              <input
-                type="checkbox"
-                checked={checkedNames.includes(name)}
-                onChange={() => handleCheck(name)}
-              />
+      <div className={css.formContent}>
+        <h4 className={css.formTitle}>
+          {intl.formatMessage({
+            id: 'AttendanceForm.title',
+          })}
+        </h4>
+        {names.length === 0 ? (
+          <div className={css.noContainer}>
+            <p>
+              {' '}
+              {intl.formatMessage({
+                id: 'AttendanceForm.err',
+              })}
+            </p>
+            <PrimaryButton className={css.button} onClick={onBack}>
+              {intl.formatMessage({
+                id: 'AttendanceForm.button.back',
+              })}
+            </PrimaryButton>
+          </div>
+        ) : (
+          <>
+            <div className={css.gridContainer}>
+              {names.map((name, index) => (
+                <React.Fragment key={index}>
+                  <div className={css.gridItemName}>{name}</div>
+                  <div className={css.gridItemCheckbox}>
+                    <input
+                      type="checkbox"
+                      checked={checkedNames.includes(name)}
+                      onChange={() => handleCheck(name)}
+                    />
+                  </div>
+                </React.Fragment>
+              ))}
             </div>
-          </React.Fragment>
-        ))}
-      </div>
-      <div className={css.buttonGroup}>
-        <PrimaryButton onClick={handleSave}>Salva</PrimaryButton>
-        {/*<PrimaryButton onClick={handleDelete}>Delete Activity</PrimaryButton>*/}
-        <PrimaryButton onClick={onBack}>Indietro</PrimaryButton>
+            <div className={css.buttonGroup}>
+              <PrimaryButton className={css.button} onClick={handleSave}>
+                {intl.formatMessage({
+                  id: 'AttendanceForm.button.save',
+                })}
+              </PrimaryButton>
+              <PrimaryButton className={css.button} onClick={onBack}>
+                {intl.formatMessage({
+                  id: 'AttendanceForm.button.back',
+                })}
+              </PrimaryButton>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

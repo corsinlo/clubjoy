@@ -115,6 +115,23 @@ const BSignupFormComponent = props => {
         <div>
           <label>
             {intl.formatMessage({
+              id: 'BusinessForm.city',
+            })}
+            <input
+              type="text"
+              name="businessType"
+              value={formData.businessType}
+              onChange={handleChange}
+              required
+              placeholder={intl.formatMessage({
+                id: 'BusinessForm.city.placeholder',
+              })}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            {intl.formatMessage({
               id: 'BusinessForm.address',
             })}
             <input
@@ -141,23 +158,6 @@ const BSignupFormComponent = props => {
               onChange={handleChange}
               placeholder={intl.formatMessage({
                 id: 'BusinessForm.social.placeholder',
-              })}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            {intl.formatMessage({
-              id: 'BusinessForm.type',
-            })}
-            <input
-              type="text"
-              name="businessType"
-              value={formData.businessType}
-              onChange={handleChange}
-              required
-              placeholder={intl.formatMessage({
-                id: 'BusinessForm.type.placeholder',
               })}
             />
           </label>
