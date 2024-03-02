@@ -70,6 +70,7 @@
   "BusinessForm.address.placeholder":"123 Street",
   "BusinessForm.social.placeholder":"www.instagram.com/clubjoy",
   "BusinessForm.social":"Website or Social",
+  "BusinessForm.successMessage":"Thank you! We'll be in touch soon :)",
   "BusinessForm.city":"City",
   "BusinessForm.city.placeholder":"London",
   "Calendar.activity": "Activity of the day:",

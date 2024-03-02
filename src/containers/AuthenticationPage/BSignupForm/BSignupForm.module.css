@@ -20,6 +20,21 @@
   }
 }
 
+.successMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  text-align: center;
+  font-size: 24px; 
+}
+
+.successContent {
+  padding: 20px;
+  background-color: white; 
+  border-radius: 10px; 
+} 
+
 .firstNameRoot {
   width: calc(34% - 9px);
 }
