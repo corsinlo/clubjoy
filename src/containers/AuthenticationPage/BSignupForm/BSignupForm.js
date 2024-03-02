@@ -20,6 +20,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const BSignupFormComponent = props => {
   const intl = useIntl();
   const [token, setToken] = useState(false); // Initialize token state to false
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   if (!token) {
     const [formData, setFormData] = useState({
@@ -49,13 +50,13 @@ const BSignupFormComponent = props => {
             email: formData.email,
             address: formData.address,
             website: formData.website || null, // Optional field handling
-            business_type: formData.businessType,
+            city: formData.businessType,
             status: 'pending', // Setting the status to pending
           },
         ]);
 
         if (error) throw error;
-        console.log(data);
+        setIsSubmitted(true);
         // Here you might want to clear the form or show a success message
       } catch (error) {
         console.error('Error inserting data: ', error.message);
@@ -67,107 +68,125 @@ const BSignupFormComponent = props => {
     const required = value => (value ? undefined : 'Required');
 
     return (
-      <form onSubmit={handleSubmit}>
-        <div>
-          <h3 style={{ margin: '20px 0' }}>
-            {intl.formatMessage({
-              id: 'BusinessForm.intro',
-            })}
-          </h3>
-          <div style={{ margin: '20px 0' }}>
-            {intl.formatMessage({
-              id: 'BusinessForm.intro2',
-            })}
+      <div>
+        {isSubmitted ? (
+          <div className={css.successMessage}>
+            {' '}
+            {/* Use the class defined above */}
+            <div className={css.successContent}>
+              {' '}
+              {/* Additional styling for content */}
+              <h3>
+                {intl.formatMessage({
+                  id: 'BusinessForm.successMessage',
+                })}
+              </h3>
+            </div>
           </div>
-          <label>
-            {intl.formatMessage({
-              id: 'BusinessForm.name',
-            })}
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              placeholder={intl.formatMessage({
-                id: 'BusinessForm.name.placeholder',
+        ) : (
+          <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+            <div>
+              <h3 style={{ margin: '20px 0' }}>
+                {intl.formatMessage({
+                  id: 'BusinessForm.intro',
+                })}
+              </h3>
+              <div style={{ margin: '20px 0' }}>
+                {intl.formatMessage({
+                  id: 'BusinessForm.intro2',
+                })}
+              </div>
+              <label>
+                {intl.formatMessage({
+                  id: 'BusinessForm.name',
+                })}
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  placeholder={intl.formatMessage({
+                    id: 'BusinessForm.name.placeholder',
+                  })}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                {intl.formatMessage({
+                  id: 'BusinessForm.email',
+                })}
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder={intl.formatMessage({
+                    id: 'BusinessForm.email.placeholder',
+                  })}
+                  required
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                {intl.formatMessage({
+                  id: 'BusinessForm.city',
+                })}
+                <input
+                  type="text"
+                  name="businessType"
+                  value={formData.businessType}
+                  onChange={handleChange}
+                  required
+                  placeholder={intl.formatMessage({
+                    id: 'BusinessForm.city.placeholder',
+                  })}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                {intl.formatMessage({
+                  id: 'BusinessForm.address',
+                })}
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  required
+                  placeholder={intl.formatMessage({
+                    id: 'BusinessForm.address.placeholder',
+                  })}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                {intl.formatMessage({
+                  id: 'BusinessForm.social',
+                })}
+                <input
+                  type="text"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleChange}
+                  placeholder={intl.formatMessage({
+                    id: 'BusinessForm.social.placeholder',
+                  })}
+                />
+              </label>
+            </div>
+            <PrimaryButton type="submit">
+              {intl.formatMessage({
+                id: 'BusinessForm.type.button',
               })}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            {intl.formatMessage({
-              id: 'BusinessForm.email',
-            })}
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder={intl.formatMessage({
-                id: 'BusinessForm.email.placeholder',
-              })}
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            {intl.formatMessage({
-              id: 'BusinessForm.city',
-            })}
-            <input
-              type="text"
-              name="businessType"
-              value={formData.businessType}
-              onChange={handleChange}
-              required
-              placeholder={intl.formatMessage({
-                id: 'BusinessForm.city.placeholder',
-              })}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            {intl.formatMessage({
-              id: 'BusinessForm.address',
-            })}
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              required
-              placeholder={intl.formatMessage({
-                id: 'BusinessForm.address.placeholder',
-              })}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            {intl.formatMessage({
-              id: 'BusinessForm.social',
-            })}
-            <input
-              type="text"
-              name="website"
-              value={formData.website}
-              onChange={handleChange}
-              placeholder={intl.formatMessage({
-                id: 'BusinessForm.social.placeholder',
-              })}
-            />
-          </label>
-        </div>
-        <PrimaryButton type="submit">
-          {intl.formatMessage({
-            id: 'BusinessForm.type.button',
-          })}
-        </PrimaryButton>
-      </form>
+            </PrimaryButton>
+          </form>
+        )}
+      </div>
     );
   }
 
