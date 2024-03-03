@@ -6,8 +6,22 @@ import css from './SocialBar.module.css';
 export default function SocialBar() {
   return (
     <>
-      <Instragram className={css.customClass} href="https://www.instagram.com/clubjoy.it/" />
-      <TikTok className={css.customClass} href="https://www.tiktok.com/@clubjoy.it" />
+      <a
+        href="https://www.instagram.com/clubjoy.it/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={css.customClass}
+      >
+        <Instragram className={css.customClass} />
+      </a>
+      <a
+        href="https://www.tiktok.com/@clubjoy.it"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={css.customClass}
+      >
+        <TikTok className={css.customClass} />
+      </a>
     </>
   );
 }
