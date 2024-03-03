@@ -164,3 +164,52 @@
 .notSelected {
   color: var(--colorGrey300);
 }
+
+.seatfieldSelect {
+  composes: marketplaceTabNavHorizontalFontStyles from global;
+  background: none;
+  padding: 0px;
+  width: 100px;
+  text-align: center;
+
+  &:select {
+    margin-right: 0;
+  }
+}
+.notSelected {
+  color: var(--colorGrey300);
+}
+
+@media (min-width: 769px) and (max-width: 1024px){
+  .seatfieldSelect {
+    composes: marketplaceTabNavHorizontalFontStyles from global;
+    background: none;
+    padding: 0px;
+    width: 53px;
+    text-align: center;
+  
+    &:select {
+      margin-right: 0;
+    }
+  }
+  .notSelected {
+    color: var(--colorGrey300);
+  }
+}
+
+@media (max-width: 768px) { 
+  .seatfieldSelect {
+    composes: marketplaceTabNavHorizontalFontStyles from global;
+    background: none;
+    padding: 0px;
+    width: 53px;
+    text-align: center;
+  
+    &:select {
+      margin-right: 0;
+    }
+  }
+  .notSelected {
+    color: var(--colorGrey300);
+  }
+}

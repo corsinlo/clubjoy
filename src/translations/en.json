@@ -164,6 +164,7 @@
   "DisputeModal.submit": "Dispute order",
   "DisputeModal.title": "Did something go wrong?",
   "EditListingAvailabilityPlanForm.seatsPlaceholder": "Select seats...",
+  "EditListingAvailabilityPlanForm.seats": "Seats:",
   "EditListingAvailabilityPanel.WeeklyCalendar.available": "Available({seats})",
   "EditListingAvailabilityExceptionForm.seatsLabel": "Available seats",
   "EditListingAvailabilityExceptionForm.seatsPlaceholder": "Select available seats...",
