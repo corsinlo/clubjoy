@@ -199,6 +199,7 @@
     "EditListingAvailabilityPlanForm.timezonePickerTitle": "Seleziona un fuso orario",
     "EditListingAvailabilityPlanForm.title": "Modifica il programma predefinito per {listingTitle}",
     "EditListingAvailabilityPlanForm.updateFailed": "Aggiornamento fallito. Si prega di riprovare.",
+    "EditListingAvailabilityPlanForm.seats": "Posti:",
     "EditListingDeliveryForm.address": "Indirizzo di ritiro",
     "EditListingDeliveryForm.addressNotRecognized": "Non abbiamo riconosciuto questa posizione. Si prega di provare un'altra posizione.",
     "EditListingDeliveryForm.addressPlaceholder": "Inizia a digitare…",

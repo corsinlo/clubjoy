@@ -4,7 +4,13 @@ import { FieldArray } from 'react-final-form-arrays';
 import classNames from 'classnames';
 
 import { FormattedMessage } from '../../../../../util/reactIntl';
-import { InlineTextButton, IconClose, FieldCheckbox, FieldSelect, FieldTextInput } from '../../../../../components';
+import {
+  InlineTextButton,
+  IconClose,
+  FieldCheckbox,
+  FieldSelect,
+  FieldTextInput,
+} from '../../../../../components';
 
 import css from './AvailabilityPlanEntries.module.css';
 
@@ -219,10 +225,15 @@ const TimeRangeSelects = props => {
             </option>
           ))}
         </FieldSelect>
+        <span className={css.dashBetweenTimes}>
+          {intl.formatMessage({
+            id: 'EditListingAvailabilityPlanForm.seats',
+          })}
+        </span>
         <FieldTextInput
           id={`${name}.seats`}
           name={`${name}.seats`}
-          className={css.fieldSelect}
+          className={css.seatfieldSelect}
           type="number"
           min="1"
         />
@@ -268,7 +279,6 @@ const TimeRangeHidden = props => {
     </div>
   );
 };
-
 
 /**
  * Handle entries for the availability plan. These are modelled with Final Form Arrays (FieldArray)
@@ -378,7 +388,6 @@ const AvailabilityPlanEntries = props => {
                       }}
                       intl={intl}
                     />
-                    
                   );
                 })}
 
