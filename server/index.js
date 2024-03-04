@@ -323,7 +323,6 @@ app.post('/add-contact', (req, res) => {
   // Make the API call to add the contact
   apiInstance.createContact(createContact).then(
     function(data) {
-      console.log('API called successfully. Returned data: ' + JSON.stringify(data));
       res.json(data); // Send back the response from Sendinblue to the frontend
     },
     function(error) {

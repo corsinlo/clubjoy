@@ -27,8 +27,6 @@ const Newsletter = () => {
         .from('newsletter')
         .insert([{ email: email }])
         .select();
-
-      /*
       // Call your backend endpoint to add the email to Sendinblue
       const response = await fetch('/api/add-contact', {
         method: 'POST',
@@ -43,7 +41,6 @@ const Newsletter = () => {
         const errorInfo = await response.json();
         throw new Error(errorInfo.message || 'Failed to add contact to the list');
       }
-*/
       setEmail(''); // Clear the email input field
       console.log('Contact added successfully.');
     } catch (error) {
