@@ -67,12 +67,10 @@ function mergeTransactionsAndBookings(response) {
 
         let names = [];
         if (index === 1) {
-          // Assuming 'seatNames' is the correct key:
-          names = merged.protectedData.seatNames || []; // Safeguard with '|| []' in case it's undefined
+          names = merged.protectedData.seatNames || [];
         }
-        const newNames = booking.protectedData.seatNames || []; // Again, safeguard with '|| []'
+        const newNames = booking.protectedData.seatNames || [];
 
-        // Combine names and remove duplicates, if any
         names = [...new Set([...names, ...newNames])];
 
         return {
@@ -82,14 +80,14 @@ function mergeTransactionsAndBookings(response) {
           start: booking.start,
           end: booking.end,
           protectedData: {
-            names: [...new Set(names)], // Remove duplicates, if any
+            names: [...new Set(names)],
           },
         };
       });
     }
   });
 
-  console.log('Merged by start date:', mergedByStart); // Log final merged bookings by start date
+  //console.log('Merged by start date:', mergedByStart);
   return mergedByStart;
 }
 
@@ -101,14 +99,11 @@ const transformListingsToEvents = (
   let events = [];
 
   ownListings.forEach(listing => {
-    // Calculate the start and end of the given month and year
-    // Note: moment's months are 0-indexed, so subtract 1 for accurate calculation
-    const monthStart = moment([year, month - 1]); // Adjust for moment's 0-indexed months
+    const monthStart = moment([year, month - 1]);
     const monthEnd = moment(monthStart).endOf('month');
 
     while (monthStart.isBefore(monthEnd)) {
       listing.attributes.availabilityPlan.entries.forEach(entry => {
-        // Step 2: Use the map to get the day of week number
         const dayOfWeekNumber = dayOfWeekMap[entry.dayOfWeek.toLowerCase()];
         const currentDayOfWeekNumber = monthStart.day();
 
@@ -132,7 +127,7 @@ const transformListingsToEvents = (
           });
         }
       });
-      monthStart.add(1, 'days'); // Move to the next day
+      monthStart.add(1, 'days');
     }
   });
 
@@ -145,6 +140,7 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
   const [selectedActivity, setSelectedActivity] = useState({ resource: null, bookingData: null });
   const [showForm, setShowForm] = useState(false);
   const intl = useIntl();
+
   useEffect(() => {
     fetchOwnListings();
     const params = { tab: 'sales' };
@@ -152,7 +148,7 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
     fetchOrdersOrSales(params, search)
       .then(response => {
         const mergedData = mergeTransactionsAndBookings(response.data);
-        setMergedBookings(mergedData); // Store the merged bookings data
+        setMergedBookings(mergedData);
       })
       .catch(error => {
         console.error('Error fetching orders or sales:', error);
@@ -161,44 +157,42 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
 
   const events = transformListingsToEvents(ownListings);
 
-  const handleSelectEvent = event => {
-    setSelectedListing(event.resource);
-    setSelectedEventDate(event.start);
+  const handleSelectEvent = calendarEvent => {
+    setSelectedListing(calendarEvent.resource);
+    setSelectedEventDate(calendarEvent.start);
 
-    const matchedBooking = mergedBookings.find(booking =>
-      moment(booking.start).isSame(event.start, 'day')
-    );
+    const matchedBooking = mergedBookings.find(booking => {
+      const isSameDay = moment(booking.start).isSame(moment(calendarEvent.start), 'day');
+
+      return isSameDay;
+    });
 
     if (matchedBooking) {
       setSelectedActivity({
-        resource: event.resource,
+        resource: calendarEvent.resource,
         bookingData: {
-          ...matchedBooking.protectedData, // Preserve the existing booking data
-          bookingId: matchedBooking.bookingId, // Include the bookingId
+          ...matchedBooking.protectedData,
+          bookingId: matchedBooking.bookingId,
         },
       });
     } else {
-      setSelectedActivity({ resource: event.resource, bookingData: null });
+      setSelectedActivity({ resource: calendarEvent.resource, bookingData: null });
     }
   };
 
   const handleBack = () => {
-    setShowForm(false); // Hide AttendanceForm and show the calendar again
-    // Reset any state as necessary, such as selectedActivity, etc.
+    setShowForm(false);
   };
 
   const handleSelectActivity = activity => {
-    // Assuming `activity` is an entry from `selectedListing.attributes.availabilityPlan.entries`
-    // and `selectedActivity.bookingData` already contains the booking data set by `handleSelectEvent`
     if (selectedActivity.bookingData) {
       setSelectedActivity({
         resource: {
           ...activity,
-          bookingData: selectedActivity.bookingData, // Preserve existing booking data
+          bookingData: selectedActivity.bookingData,
         },
       });
     } else {
-      // Fallback if no booking data is available
       setSelectedActivity({ resource: activity });
     }
     setShowForm(true);
@@ -208,17 +202,6 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
     return moment(date).day();
   };
 
-  const dayPropGetter = date => {
-    const hasEvents = events.some(
-      event => moment(date).isSame(event.start, 'day') || moment(date).isSame(event.end, 'day')
-    );
-
-    return {
-      style: {
-        backgroundColor: hasEvents ? '#f0f0f0' : 'inherit', // Change '#f0f0f0' to your highlight color
-      },
-    };
-  };
   return (
     <div>
       {!showForm ? (
@@ -250,11 +233,32 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
                   const dayOfWeekNumberForActivity = dayOfWeekMap[activity.dayOfWeek.toLowerCase()];
                   return dayOfWeekNumberForEvent === dayOfWeekNumberForActivity;
                 })
-                .map(activity => (
-                  <li key={randomId()} onClick={() => handleSelectActivity(activity)}>
-                    {activity.startTime} {selectedListing.attributes.title} Seats: {activity.seats}
-                  </li>
-                ))}
+                .map(activity => {
+                  const eventDate = moment(selectedEventDate).format('YYYY-MM-DD');
+                  const activityTime = activity.startTime;
+                  const activityDateTime = moment(`${eventDate}T${activityTime}`);
+
+                  const matchedBooking = mergedBookings.find(booking =>
+                    activityDateTime.isSame(moment(booking.start), 'minute')
+                  );
+
+                  let namesCount =
+                    matchedBooking &&
+                    matchedBooking.protectedData &&
+                    Array.isArray(matchedBooking.protectedData.names)
+                      ? matchedBooking.protectedData.names.length
+                      : 0;
+                  return (
+                    <li
+                      key={randomId()}
+                      onClick={() => handleSelectActivity(activity)}
+                      className={css.listItem}
+                    >
+                      {activity.startTime} {selectedListing.attributes.title} Seats:{' '}
+                      {activity.seats}/ {namesCount}
+                    </li>
+                  );
+                })}
             </div>
           )}
         </>

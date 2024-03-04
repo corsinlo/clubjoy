@@ -37,8 +37,6 @@ const AttendanceForm = ({ activity, onBack }) => {
         return;
       }
 
-      console.log('Fetched attendance records:', data);
-
       const fetchedCheckedNames = data
         .filter(record => record.checked_status)
         .map(record => record.name);
@@ -61,7 +59,7 @@ const AttendanceForm = ({ activity, onBack }) => {
         name,
         checked_status: checkedNames.includes(name),
       };
-      console.log('record is ', record);
+
       return supabase.from('attendance').upsert(record); // Implicitly uses the composite primary key for conflict resolution
     });
 

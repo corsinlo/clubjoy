@@ -814,3 +814,19 @@ button:global(.rbc-input)::-moz-focus-inner {
   background-color: #74ad31;
   pointer-events: none;
 }
+
+
+
+
+
+
+/* ADDED CSS */
+.listItem {
+  cursor: pointer; 
+  transition: background-color 0.3s; 
+}
+
+.listItem:hover {
+  background-color: #012FA7;
+  color: white
+}

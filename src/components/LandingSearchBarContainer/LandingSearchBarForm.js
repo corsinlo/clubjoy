@@ -71,11 +71,10 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
         _sdkType: 'LatLngBounds',
       };
       setBounds(bounds); // Update bounds state
-
-      // Update location state with the name of the selected place
-      setLocation(place.name); // This line is new
+      setLocation(place.name); // Update location state with the name of the selected place
     });
   };
+
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -87,7 +86,7 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
     */
 
     // Check if at least one of bounds, startDate, endDate, or joy is set
-    if (!bounds && !startDate && !endDate && !joy) {
+    if (!location && !bounds && !startDate && !endDate && !joy) {
       alert('Please select a location, date range, or joy filter.');
       return;
     }
