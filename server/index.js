@@ -41,7 +41,8 @@ const dataLoader = require('./dataLoader');
 const log = require('./log');
 const csp = require('./csp');
 const sdkUtils = require('./api-util/sdk');
-
+const SibApiV3Sdk = require('@getbrevo/brevo');
+const SibApiV3 = require('sib-api-v3-sdk');
 const buildPath = path.resolve(__dirname, '..', 'build');
 const dev = process.env.REACT_APP_ENV === 'development';
 const PORT = parseInt(process.env.PORT, 10);
@@ -307,27 +308,29 @@ app.post('/send-email', async (req, res) => {
   }
 });
 
-app.post('/add-contact', async (req, res) => {
-  const { email, listIds } = req.body; // listIds might not be provided
-
-  let defaultClient = SibApiV3Sdk.ApiClient.instance;
+app.post('/add-contact', (req, res) => {
+  const { email, listId } = req.body;
+  let defaultClient = SibApiV3.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
-  apiKey.apiKey = process.env.BREVO_API_KEY; // Use your Brevo API key from environment variables
-
-  let apiInstance = new SibApiV3Sdk.ContactsApi();
-  let createContact = new SibApiV3Sdk.CreateContact();
+  apiKey.apiKey = process.env.BREVO_API_KEY;
+  let apiInstance = new SibApiV3.ContactsApi();
+  let createContact = new SibApiV3.CreateContact();
   createContact.email = email;
-  if (listIds) {
-    createContact.listIds = listIds; // Use listIds if provided
+  if (listId) {
+    createContact.listIds = [listId]; // Set the list IDs based on the request
   }
 
-  try {
-    let data = await apiInstance.createContact(createContact);
-    res.json({ message: 'Contact added successfully', data });
-  } catch (error) {
-    console.error('Error adding contact:', error);
-    res.status(500).json({ error: 'Failed to add contact' });
-  }
+  // Make the API call to add the contact
+  apiInstance.createContact(createContact).then(
+    function(data) {
+      console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+      res.json(data); // Send back the response from Sendinblue to the frontend
+    },
+    function(error) {
+      console.error(error);
+      res.status(500).send({ message: 'Error adding contact', error: error });
+    }
+  );
 });
 
 const server = app.listen(PORT, () => {

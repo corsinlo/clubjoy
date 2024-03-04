@@ -18,15 +18,18 @@ const Newsletter = () => {
 
     const contactData = {
       email: email,
+      listId: 4,
     };
 
     try {
+      // Insert the email into the Supabase 'newsletter' table
       const { data, error } = await supabase
         .from('newsletter')
         .insert([{ email: email }])
         .select();
 
       /*
+      // Call your backend endpoint to add the email to Sendinblue
       const response = await fetch('/api/add-contact', {
         method: 'POST',
         headers: {
@@ -34,13 +37,14 @@ const Newsletter = () => {
         },
         body: JSON.stringify(contactData),
       });
+
+      // Check the response from your backend
       if (!response.ok) {
         const errorInfo = await response.json();
         throw new Error(errorInfo.message || 'Failed to add contact to the list');
       }
-      */
-
-      setEmail('');
+*/
+      setEmail(''); // Clear the email input field
       console.log('Contact added successfully.');
     } catch (error) {
       console.error('Error adding contact:', error.message);
