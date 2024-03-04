@@ -55,12 +55,26 @@ const BSignupFormComponent = props => {
           },
         ]);
 
-        if (error) throw error;
-        setIsSubmitted(true);
-        // Here you might want to clear the form or show a success message
+        const response = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: 'business',
+            message: 'Registrazione Nuovo Business',
+          }),
+        });
+
+        const emailData = await response.json();
+        if (!response.ok) {
+          throw new Error(emailData.error || 'Failed to send email');
+        }
+
+        setIsSubmitted(true); // Indicate success to the user
       } catch (error) {
-        console.error('Error inserting data: ', error.message);
-        // Handle the error, e.g., show an error message to the user
+        console.error('Error:', error.message);
+        // Handle submission or email errors (e.g., show an error message)
       }
     };
 

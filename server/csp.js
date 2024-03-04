@@ -120,10 +120,12 @@ module.exports = (reportUri, reportOnly) => {
   // Example: extend default img directive with custom domain
   // const { imgSrc = [self] } = defaultDirectives;
   // const exampleImgSrc = imgSrc.concat('my-custom-domain.example.com');
-
+  const { connectSrc = [self] } = defaultDirectives;
+  const customConnectSrc = connectSrc.concat('https://tivsrbykzsmbrkmqqwwd.supabase.co');
   const customDirectives = {
     // Example: Add custom directive override
     // imgSrc: exampleImgSrc,
+    connectSrc: customConnectSrc,
   };
 
   // ================ END CUSTOM CSP URLs ================ //

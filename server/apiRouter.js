@@ -9,7 +9,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { deserialize } = require('./api-util/sdk');
-
+const SibApiV3Sdk = require('@getbrevo/brevo');
 const initiateLoginAs = require('./api/initiate-login-as');
 const loginAs = require('./api/login-as');
 const transactionLineItems = require('./api/transaction-line-items');
@@ -79,5 +79,66 @@ router.get('/auth/google', authenticateGoogle);
 // with Google. In this route a Passport.js custom callback is used for calling
 // loginWithIdp endpoint in Sharetribe Auth API to authenticate user to the marketplace
 router.get('/auth/google/callback', authenticateGoogleCallback);
+
+router.post('/send-email', async (req, res) => {
+  const { name, email, subject, message } = req.body;
+  const brevoClient = new SibApiV3Sdk.TransactionalEmailsApi();
+  const apiKey = brevoClient.authentications['apiKey'];
+  apiKey.apiKey = process.env.BREVO_API_KEY;
+
+  let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+
+  if (subject === 'business') {
+    sendSmtpEmail.subject = message;
+    sendSmtpEmail.sender = { name: 'Club Joy App', email: 'noreply@clubjoy.it' };
+    sendSmtpEmail.to = [{ email: 'hello@clubjoy.it', name: 'Club Joy Team' }];
+    sendSmtpEmail.htmlContent = `<html><body><p>Registrazione Nuovo Business: ${name}</p><p>Email: ${email}</p></body></html>`;
+  } else {
+    sendSmtpEmail.subject = message;
+    sendSmtpEmail.sender = { name: 'Club Joy App', email: 'noreply@example.com' };
+    sendSmtpEmail.to = [{ email: 'hello@clubjoy.it', name: 'Club Joy Team' }];
+    sendSmtpEmail.htmlContent = `<html><body><p>Message from: ${name}</p><p>Email: ${email}</p><p>Message: ${message}</p></body></html>`;
+  }
+
+  try {
+    const data = await brevoClient.sendTransacEmail(sendSmtpEmail);
+    res.json({ message: 'Email sent successfully', data });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ error: 'Failed to send email' });
+  }
+});
+
+router.post('/add-contact', async (req, res) => {
+  console.log('Received request:', req.body); // Log the incoming request data
+
+  const { email, listIds } = req.body; // listIds might not be provided
+
+  let defaultClient = SibApiV3Sdk.ApiClient.instance;
+  let apiKey = defaultClient.authentications['api-key'];
+  apiKey.apiKey = process.env.BREVO_API_KEY; // Use your Brevo API key from environment variables
+  console.log('Using API Key:', apiKey.apiKey ? 'Provided' : 'Not Provided'); // Check if API key is being set
+
+  let apiInstance = new SibApiV3Sdk.ContactsApi();
+  let createContact = new SibApiV3Sdk.CreateContact();
+  createContact.email = email;
+  console.log('Creating contact with email:', email); // Log the email being used to create contact
+
+  if (listIds) {
+    createContact.listIds = listIds; // Use listIds if provided
+    console.log('Adding to list IDs:', listIds); // Log the list IDs being used
+  } else {
+    console.log('No list IDs provided'); // Log when no list IDs are provided
+  }
+
+  try {
+    let data = await apiInstance.createContact(createContact);
+    console.log('Contact added successfully:', data); // Log the success response
+    res.json({ message: 'Contact added successfully', data });
+  } catch (error) {
+    console.error('Error adding contact:', error);
+    res.status(500).json({ error: 'Failed to add contact', details: error });
+  }
+});
 
 module.exports = router;
