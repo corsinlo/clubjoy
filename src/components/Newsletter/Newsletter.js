@@ -26,6 +26,7 @@ const Newsletter = () => {
         .insert([{ email: email }])
         .select();
 
+      /*
       const response = await fetch('/api/add-contact', {
         method: 'POST',
         headers: {
@@ -37,6 +38,7 @@ const Newsletter = () => {
         const errorInfo = await response.json();
         throw new Error(errorInfo.message || 'Failed to add contact to the list');
       }
+      */
 
       setEmail('');
       console.log('Contact added successfully.');
