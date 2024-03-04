@@ -1,15 +1,51 @@
 import React, { useState } from 'react';
 import css from './Newsletter.module.css';
+import * as validators from '../../util/validators';
 import { PrimaryButton } from '../Button/Button';
 import { useIntl } from 'react-intl';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correctly set in your .env file
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 const Newsletter = () => {
   const [email, setEmail] = useState('');
   const intl = useIntl();
 
   const handleSubmit = async event => {
     event.preventDefault();
-    // Code to add the email to your Breezy list or another service
+
+    const contactData = {
+      email: email,
+    };
+
+    try {
+      const { data, error } = await supabase
+        .from('newsletter')
+        .insert([{ email: email }])
+        .select();
+
+      const response = await fetch('/api/add-contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(contactData),
+      });
+      if (!response.ok) {
+        const errorInfo = await response.json();
+        throw new Error(errorInfo.message || 'Failed to add contact to the list');
+      }
+
+      setEmail('');
+      console.log('Contact added successfully.');
+    } catch (error) {
+      console.error('Error adding contact:', error.message);
+    }
   };
+
+  const required = value => (value ? undefined : 'Required');
 
   return (
     <div className={css.formContainer}>
