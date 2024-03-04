@@ -10,6 +10,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { deserialize } = require('./api-util/sdk');
 const SibApiV3Sdk = require('@getbrevo/brevo');
+const SibApiV3 = require('sib-api-v3-sdk');
 const initiateLoginAs = require('./api/initiate-login-as');
 const loginAs = require('./api/login-as');
 const transactionLineItems = require('./api/transaction-line-items');
@@ -109,36 +110,28 @@ router.post('/send-email', async (req, res) => {
   }
 });
 
-router.post('/add-contact', async (req, res) => {
-  console.log('Received request:', req.body); // Log the incoming request data
-
-  const { email, listIds } = req.body; // listIds might not be provided
-
-  let defaultClient = SibApiV3Sdk.ApiClient.instance;
+router.post('/add-contact', (req, res) => {
+  const { email, listId } = req.body;
+  let defaultClient = SibApiV3.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
-  apiKey.apiKey = process.env.BREVO_API_KEY; // Use your Brevo API key from environment variables
-  console.log('Using API Key:', apiKey.apiKey ? 'Provided' : 'Not Provided'); // Check if API key is being set
-
-  let apiInstance = new SibApiV3Sdk.ContactsApi();
-  let createContact = new SibApiV3Sdk.CreateContact();
+  apiKey.apiKey = process.env.BREVO_API_KEY;
+  let apiInstance = new SibApiV3.ContactsApi();
+  let createContact = new SibApiV3.CreateContact();
   createContact.email = email;
-  console.log('Creating contact with email:', email); // Log the email being used to create contact
-
-  if (listIds) {
-    createContact.listIds = listIds; // Use listIds if provided
-    console.log('Adding to list IDs:', listIds); // Log the list IDs being used
-  } else {
-    console.log('No list IDs provided'); // Log when no list IDs are provided
+  if (listId) {
+    createContact.listIds = [listId]; // Set the list IDs based on the request
   }
 
-  try {
-    let data = await apiInstance.createContact(createContact);
-    console.log('Contact added successfully:', data); // Log the success response
-    res.json({ message: 'Contact added successfully', data });
-  } catch (error) {
-    console.error('Error adding contact:', error);
-    res.status(500).json({ error: 'Failed to add contact', details: error });
-  }
+  // Make the API call to add the contact
+  apiInstance.createContact(createContact).then(
+    function(data) {
+      res.json(data); // Send back the response from Sendinblue to the frontend
+    },
+    function(error) {
+      console.error(error);
+      res.status(500).send({ message: 'Error adding contact', error: error });
+    }
+  );
 });
 
 module.exports = router;
