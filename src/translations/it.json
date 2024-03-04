@@ -506,6 +506,8 @@
     "ModalMissingInformation.sendingEmail": "Invio dell'email di verifica in corso…",
     "ModalMissingInformation.verifyEmailText": "Si prega di verificare il tuo indirizzo email in modo da poterti inviare la ricevuta e le informazioni sullo stato del tuo ordine. Non possiamo inviarti email prima che il tuo indirizzo email sia stato verificato.",
     "ModalMissingInformation.verifyEmailTitle": "Si prega di verificare il tuo indirizzo email",
+    "Newsletter.header": "Iscriviti alla nostra Newsletter!",
+    "Newsletter.button": "Iscriviti",
     "NotFoundPage.SearchForm.placeholder": "Cerca inserzioni…",
     "NotFoundPage.description": "Non possiamo trovare la pagina che stai cercando. Assicurati di aver digitato correttamente l'URL o prova a cercare su {marketplaceName}.",
     "NotFoundPage.heading": "Spiacenti, non siamo riusciti a trovare quella pagina.",

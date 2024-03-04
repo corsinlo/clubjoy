@@ -4,6 +4,7 @@ import { IconSpinner, LayoutComposer } from '../../components/index.js';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer.js';
 import FooterContainer from '../FooterContainer/FooterContainer.js';
 import LandingSearchBarContainer from '../../components/LandingSearchBarContainer/LandingSearchBarContainer.js';
+import Newsletter from '../../components/Newsletter/Newsletter.js';
 import { validProps } from './Field';
 import classNames from 'classnames';
 
@@ -158,6 +159,7 @@ const PageBuilder = props => {
                           <>
                             <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} />
                             <SectionBuilder sections={sections} options={options} />
+                            <Newsletter />
                           </>
                         ) : (
                           <SectionBuilder sections={sections} options={options} />
