@@ -28,7 +28,7 @@ const bodyParser = require('body-parser');
 const enforceSsl = require('express-enforces-ssl');
 const path = require('path');
 const passport = require('passport');
-
+const moment = require('moment');
 const auth = require('./auth');
 const apiRouter = require('./apiRouter');
 const wellKnownRouter = require('./wellKnownRouter');
@@ -325,7 +325,7 @@ app.post('/add-contact', (req, res) => {
   createContact.attributes = { FIRSTNAME: firstName, LASTNAME: lastName };
   apiInstance.createContact(createContact).then(
     function(data) {
-      res.json(data); // Send back the response from Sendinblue to the frontend
+      res.json(data);
     },
     function(error) {
       console.error(error);
@@ -335,30 +335,67 @@ app.post('/add-contact', (req, res) => {
 });
 
 app.post('/send-reminder', async (req, res) => {
-  const { firstName, lastName, email, startDate, endDate, seats, seatNames } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    startDate,
+    endDate,
+    seats,
+    seatNames,
+    eventName,
+    eventLocation,
+    eventGeoLocation,
+  } = req.body;
+  const formatDate = 'YYYY-MM-DD';
+  const formatTime = 'HH:mm:ss';
+  const displayStartDate = moment(startDate).format(formatDate);
+  const displayStartTime = moment(startDate).format(formatTime);
+  const displayEndDate = moment(endDate).format(formatDate);
+  const displayEndTime = moment(endDate).format(formatTime);
+  const formatForGoogle = 'YYYYMMDDTHHmmss[Z]';
+  const formattedStartDate = moment(startDate)
+    .utc()
+    .format(formatForGoogle);
+  const formattedEndDate = moment(endDate)
+    .utc()
+    .format(formatForGoogle);
+  const hasGeoLocation =
+    eventGeoLocation &&
+    typeof eventGeoLocation.lat === 'number' &&
+    typeof eventGeoLocation.lng === 'number';
+  const googleMapsLink = hasGeoLocation
+    ? `https://www.google.com/maps/?q=${eventGeoLocation.lat},${eventGeoLocation.lng}`
+    : '';
+
   let defaultClient = SibApiV3.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
   let apiInstance = new SibApiV3.TransactionalEmailsApi();
   let sendSmtpEmail = new SibApiV3.SendSmtpEmail();
-  sendSmtpEmail.sender = { name: 'Club Joy App', email: 'hello@clubjoy.it' }; // Set the sender information
-  sendSmtpEmail.to = [{ email: email, name: firstName }]; // Set the recipient information
-  sendSmtpEmail.templateId = 3; // Ensure this is the correct ID for your template
+  sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
+  sendSmtpEmail.to = [{ email: email, name: firstName }];
+  sendSmtpEmail.templateId = 3;
 
-  // Add the dynamic parameters that you will use in your template
   sendSmtpEmail.params = {
-    firstName: firstName, // Assuming your template uses this variable
-    // Uncomment and include other parameters as necessary
-    // lastName: lastName, // Assuming your template uses this variable
-    // startTime: startDate, // Assuming your template uses this variable
-    // endDate: endDate, // Assuming your template uses this variable
-    // seats: seats, // Assuming your template uses this variable
-    // seatNames: seatNames, // Assuming your template uses this variable
+    firstName: firstName,
+    lastName: lastName,
+    startDate: displayStartDate,
+    startTime: displayStartTime,
+    endDate: displayEndDate,
+    endTime: displayEndTime,
+    seats: seats,
+    seatNames: seatNames.join(', <br>'),
+    eventName: eventName,
+    location: eventLocation.address,
+    googleMapsLink: googleMapsLink, // Add Google Maps link here
+    googleCalendarLink: `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventName}&dates=${formattedStartDate}/${formattedEndDate}&details=For+details,+link+here:+http://www.example.com&location=${encodeURIComponent(
+      eventLocation
+    )}&sf=true&output=xml`,
   };
 
   apiInstance.sendTransacEmail(sendSmtpEmail).then(
     function(data) {
-      console.log('API called successfully. Returned data: ', data);
       res.json({ message: 'Email sent successfully', data }); // Send response back to client
     },
     function(error) {

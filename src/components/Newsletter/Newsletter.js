@@ -27,7 +27,7 @@ const Newsletter = () => {
         .from('newsletter')
         .insert([{ email: email }])
         .select();
-      // Call your backend endpoint to add the email to Sendinblue
+
       const response = await fetch('/api/add-contact', {
         method: 'POST',
         headers: {

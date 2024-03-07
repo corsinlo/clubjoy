@@ -266,7 +266,6 @@ const handleSubmit = (values, process, props, stripe, submitting, setSubmitting)
       throw error;
     }
   };
-
   const emailDet = {
     firstName: currentUser.attributes.profile.firstName,
     lastName: currentUser.attributes.profile.lastName,
@@ -275,6 +274,9 @@ const handleSubmit = (values, process, props, stripe, submitting, setSubmitting)
     endDate: orderParams.bookingDates.bookingEnd,
     seats: orderParams.seats,
     seatNames: requestPaymentParams.pageData.orderData.guestNames,
+    eventName: pageData.listing.attributes.title,
+    eventLocation: pageData.listing.attributes.publicData.location,
+    eventGeoLocation: pageData.listing.attributes.geolocation,
   };
 
   // There are multiple XHR calls that needs to be made against Stripe API and Sharetribe Marketplace API on checkout with payments
