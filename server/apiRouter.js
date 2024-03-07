@@ -98,7 +98,7 @@ router.post('/send-email', async (req, res) => {
     sendSmtpEmail.subject = message;
     sendSmtpEmail.sender = { name: 'Club Joy App', email: 'noreply@example.com' };
     sendSmtpEmail.to = [{ email: 'hello@clubjoy.it', name: 'Club Joy Team' }];
-    sendSmtpEmail.htmlContent = `<html><body><p>Message from: ${name}</p><p>Email: ${email}</p><p>Message: ${message}</p></body></html>`;
+    sendSmtpEmail.htmlContent = `<html><body><p>Registrazione Nuovo Customer: ${name}</p><p>Email: ${email}</p><p>Message: ${message}</p></body></html>`;
   }
 
   try {
@@ -110,22 +110,58 @@ router.post('/send-email', async (req, res) => {
   }
 });
 
+router.post('/send-reminder', async (req, res) => {
+  const { firstName, lastName, email, startDate, endDate, seats, seatNames } = req.body;
+  let defaultClient = SibApiV3.ApiClient.instance;
+  let apiKey = defaultClient.authentications['api-key'];
+  apiKey.apiKey = process.env.BREVO_API_KEY;
+  let apiInstance = new SibApiV3.TransactionalEmailsApi();
+  let sendSmtpEmail = new SibApiV3.SendSmtpEmail();
+  sendSmtpEmail.sender = { name: 'Club Joy App', email: 'hello@clubjoy.it' };
+  sendSmtpEmail.to = [{ email: email, name: firstName }]; // Set the recipient information
+  sendSmtpEmail.templateId = 3; // Ensure this is the correct ID for your template
+
+  // Add the dynamic parameters that you will use in your template
+  sendSmtpEmail.params = {
+    firstName: firstName, // Assuming your template uses this variable
+    // Uncomment and include other parameters as necessary
+    // lastName: lastName, // Assuming your template uses this variable
+    // startTime: startDate, // Assuming your template uses this variable
+    // endDate: endDate, // Assuming your template uses this variable
+    // seats: seats, // Assuming your template uses this variable
+    // seatNames: seatNames, // Assuming your template uses this variable
+  };
+
+  apiInstance.sendTransacEmail(sendSmtpEmail).then(
+    function(data) {
+      res.json({ message: 'Email sent successfully', data }); // Send response back to client
+    },
+    function(error) {
+      console.error(error);
+      res.status(500).send({ message: 'Failed to send email', error }); // Send error response back to client
+    }
+  );
+});
+
 router.post('/add-contact', (req, res) => {
-  const { email, listId } = req.body;
+  const { email, listId, firstName, lastName } = req.body;
+
   let defaultClient = SibApiV3.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
   let apiInstance = new SibApiV3.ContactsApi();
   let createContact = new SibApiV3.CreateContact();
   createContact.email = email;
+  createContact.listIds = listId ? [listId] : [4];
+  /*
   if (listId) {
-    createContact.listIds = [listId]; // Set the list IDs based on the request
+    createContact.listIds = [listId];
   }
-
-  // Make the API call to add the contact
+  */
+  createContact.attributes = { FIRSTNAME: firstName, LASTNAME: lastName };
   apiInstance.createContact(createContact).then(
     function(data) {
-      res.json(data); // Send back the response from Sendinblue to the frontend
+      res.json(data);
     },
     function(error) {
       console.error(error);

@@ -59,7 +59,6 @@ const TopbarMobileMenu = props => {
               id="TopbarMobileMenu.unauthorizedGreeting"
               values={{ lineBreak: <br />, signupOrLogin }}
             />
-            or Signup as Business?
           </div>
         </div>
         {/*<div className={css.footer}>
