@@ -989,7 +989,7 @@
     "TopbarMobileMenu.profileSettingsLink": "Impostazioni profilo",
     "TopbarMobileMenu.signupLink": "Registrati",
     "TopbarMobileMenu.signupOrLogin": "{signup} o {login}",
-    "TopbarMobileMenu.unauthorizedGreeting": "Ciao,{lineBreak}vorresti {signupOrLogin}?",
+    "TopbarMobileMenu.unauthorizedGreeting": "Benvenuto in Club Joy! {lineBreak} {signupOrLogin}?",
     "TopbarMobileMenu.yourListingsLink": "Le tue inserzioni",
     "TopbarSearchForm.placeholder": "Cerca inserzioni…",
     "TransactionPage.ActivityFeed.default-booking.accepted": "{actor, select, you {Hai accettato la richiesta di prenotazione.} operator {La richiesta di prenotazione è stata accettata.} other {{otherUsersName} ha accettato la richiesta di prenotazione.}}",

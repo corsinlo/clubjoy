@@ -99,7 +99,7 @@ const PageBuilder = props => {
   if (!pageAssetsData && fallbackPage && !inProgress && error) {
     return fallbackPage;
   }
-
+  const isAbout = pageId === 'about';
   // Page asset contains UI info and metadata related to it.
   // - "sections" (data that goes inside <body>)
   // - "meta" (which is data that goes inside <head>)
@@ -155,7 +155,11 @@ const PageBuilder = props => {
                       <LoadingSpinner />
                     ) : (
                       <div className={css.mainContentContainer}>
-                        {isLandingPage ? (
+                        {isAbout ? (
+                          <div style={{ marginTop: '30px' }}>
+                            <SectionBuilder sections={sections} options={options} />
+                          </div>
+                        ) : isLandingPage ? (
                           <>
                             <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} />
                             <SectionBuilder sections={sections} options={options} />

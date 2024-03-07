@@ -426,7 +426,6 @@ const handleFormSpyChange = (
       seatNames.push(seatName);
     }
   }
-  console.log('hi', seatName);
   const { startDate, endDate } = bookingDates ? bookingDates : {};
 
   if (startDate && endDate && !fetchLineItemsInProgress) {

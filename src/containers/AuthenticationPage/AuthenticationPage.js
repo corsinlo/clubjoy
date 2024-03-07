@@ -52,10 +52,13 @@ import { TermsOfServiceContent } from '../../containers/TermsOfServicePage/Terms
 import { PrivacyPolicyContent } from '../../containers/PrivacyPolicyPage/PrivacyPolicyPage';
 
 import { TOS_ASSET_NAME, PRIVACY_POLICY_ASSET_NAME } from './AuthenticationPage.duck';
-
+import { createClient } from '@supabase/supabase-js';
 import css from './AuthenticationPage.module.css';
 import { FacebookLogo, GoogleLogo } from './socialLoginLogos';
 
+const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correctly set in your .env file
+const supabase = createClient(supabaseUrl, supabaseKey);
 // Social login buttons are needed by AuthenticationForms
 export const SocialLoginButtonsMaybe = props => {
   const routeConfiguration = useRouteConfiguration();
@@ -183,10 +186,65 @@ export const AuthenticationForms = props => {
     */
   ];
 
-  const handleSubmitSignup = values => {
+  const handleSubmitSignup = async values => {
     const role = tab === 'bsignup' ? 'provider' : 'customer';
     const { fname: firstName, lname: lastName, ...rest } = values;
     const params = { firstName, lastName, ...rest, role };
+    console.log('valuea are', values);
+    try {
+      const contactData = {
+        email: values.email,
+        firstName: values.fname,
+        lastName: values.lname,
+      };
+      console.log('contact  daTA', contactData);
+      const { data, error } = await supabase
+        .from('newsletter')
+        .insert([{ email: values.email }])
+        .select();
+
+      if (error) {
+        console.error('Error inserting email into Supabase:', error);
+      } else {
+        console.log('Inserted email into Supabase');
+      }
+
+      const response = await fetch('/api/add-contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(contactData),
+      });
+
+      if (!response.ok) {
+        console.error('Error adding email to Brevo', await response.text());
+      } else {
+        console.log('Email added to Brevo');
+      }
+
+      try {
+        const emailResponse = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: `${values.fname} ${values.lname}`,
+            email: values.email,
+            subject: 'costumer',
+            message: 'Registrazione Nuovo Customer',
+          }),
+        });
+        if (!emailResponse.ok) {
+          console.error('Failed to send email');
+        } else {
+          console.log('Email sent successfully');
+        }
+      } catch (err) {
+        console.log('failed to send email', err);
+      }
+    } catch (error) {
+      console.error('An error occurred during the signup process:', error);
+    }
     submitSignup(params);
   };
 

@@ -79,11 +79,11 @@ export const Inputs = {
     formName: 'Inputs',
     onChange: formState => {
       if (Object.keys(formState.values).length > 0) {
-        console.log('form values changed to:', formState.values);
+        console.log('form values changed to');
       }
     },
     onSubmit: values => {
-      console.log('submit values:', values);
+      console.log('submit values:');
     },
   },
   group: 'inputs',

@@ -22,333 +22,196 @@ const BSignupFormComponent = props => {
   const [token, setToken] = useState(false); // Initialize token state to false
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  if (!token) {
-    const [formData, setFormData] = useState({
-      name: '',
-      email: '',
-      address: '',
-      website: '',
-      businessType: '',
-    });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    address: '',
+    website: '',
+    businessType: '',
+  });
 
-    // Handle changes in form fields
-    const handleChange = e => {
-      const { name, value } = e.target;
-      setFormData(prevState => ({
-        ...prevState,
-        [name]: value,
-      }));
-    };
+  // Handle changes in form fields
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
-    // Handle form submission
-    const handleSubmit = async e => {
-      e.preventDefault();
-      try {
-        const { data, error } = await supabase.from('providers').insert([
-          {
-            name: formData.name,
-            email: formData.email,
-            address: formData.address,
-            website: formData.website || null, // Optional field handling
-            city: formData.businessType,
-            status: 'pending', // Setting the status to pending
-          },
-        ]);
+  // Handle form submission
+  const handleFormSubmit = async values => {
+    // 'values' contains the form data
+    try {
+      const { data, error } = await supabase.from('providers').insert([
+        {
+          name: formData.name,
+          email: formData.email,
+          address: formData.address,
+          website: formData.website, // Optional field handling
+          city: formData.businessType,
+          status: 'pending',
+        },
+      ]);
 
-        const response = await fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            subject: 'business',
-            message: 'Registrazione Nuovo Business',
-          }),
-        });
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: 'business',
+          message: 'Registrazione Nuovo Business',
+        }),
+      });
 
-        const emailData = await response.json();
-        if (!response.ok) {
-          throw new Error(emailData.error || 'Failed to send email');
-        }
-
-        setIsSubmitted(true); // Indicate success to the user
-      } catch (error) {
-        console.error('Error:', error.message);
-        // Handle submission or email errors (e.g., show an error message)
+      const emailData = await response.json();
+      if (!response.ok) {
+        throw new Error(emailData.error || 'Failed to send email');
       }
-    };
 
-    // Example of a simple required field validator
-    const required = value => (value ? undefined : 'Required');
+      setIsSubmitted(true); // Indicate success to the user
+    } catch (error) {
+      console.error('Error:', error.message);
+      // Handle submission or email errors (e.g., show an error message)
+    }
+  };
 
-    return (
-      <div>
-        {isSubmitted ? (
-          <div className={css.successMessage}>
-            {' '}
-            {/* Use the class defined above */}
-            <div className={css.successContent}>
-              {' '}
-              {/* Additional styling for content */}
-              <h3>
-                {intl.formatMessage({
-                  id: 'BusinessForm.successMessage',
-                })}
-              </h3>
-            </div>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
-            <div>
-              <h3 style={{ margin: '20px 0' }}>
-                {intl.formatMessage({
-                  id: 'BusinessForm.intro',
-                })}
-              </h3>
-              <div style={{ margin: '20px 0' }}>
-                {intl.formatMessage({
-                  id: 'BusinessForm.intro2',
-                })}
-              </div>
-              <label>
-                {intl.formatMessage({
-                  id: 'BusinessForm.name',
-                })}
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  placeholder={intl.formatMessage({
-                    id: 'BusinessForm.name.placeholder',
-                  })}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                {intl.formatMessage({
-                  id: 'BusinessForm.email',
-                })}
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder={intl.formatMessage({
-                    id: 'BusinessForm.email.placeholder',
-                  })}
-                  required
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                {intl.formatMessage({
-                  id: 'BusinessForm.city',
-                })}
-                <input
-                  type="text"
-                  name="businessType"
-                  value={formData.businessType}
-                  onChange={handleChange}
-                  required
-                  placeholder={intl.formatMessage({
-                    id: 'BusinessForm.city.placeholder',
-                  })}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                {intl.formatMessage({
-                  id: 'BusinessForm.address',
-                })}
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  required
-                  placeholder={intl.formatMessage({
-                    id: 'BusinessForm.address.placeholder',
-                  })}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                {intl.formatMessage({
-                  id: 'BusinessForm.social',
-                })}
-                <input
-                  type="text"
-                  name="website"
-                  value={formData.website}
-                  onChange={handleChange}
-                  placeholder={intl.formatMessage({
-                    id: 'BusinessForm.social.placeholder',
-                  })}
-                />
-              </label>
-            </div>
-            <PrimaryButton type="submit">
-              {intl.formatMessage({
-                id: 'BusinessForm.type.button',
-              })}
-            </PrimaryButton>
-          </form>
-        )}
-      </div>
-    );
-  }
+  // Example of a simple required field validator
+  const required = value => (value ? undefined : 'Required');
 
   return (
     <FinalForm
       {...props}
       mutators={{ ...arrayMutators }}
+      onSubmit={handleFormSubmit}
       render={fieldRenderProps => {
-        const {
-          rootClassName,
-          className,
-          formId,
-          handleSubmit,
-          inProgress,
-          invalid,
-          intl,
-          termsAndConditions,
-        } = fieldRenderProps;
-
-        // email
-        const emailRequired = validators.required(
-          intl.formatMessage({
-            id: 'SignupForm.emailRequired',
-          })
-        );
-        const emailValid = validators.emailFormatValid(
-          intl.formatMessage({
-            id: 'SignupForm.emailInvalid',
-          })
-        );
-
-        // password
-        const passwordRequiredMessage = intl.formatMessage({
-          id: 'SignupForm.passwordRequired',
-        });
-        const passwordMinLengthMessage = intl.formatMessage(
-          {
-            id: 'SignupForm.passwordTooShort',
-          },
-          {
-            minLength: validators.PASSWORD_MIN_LENGTH,
-          }
-        );
-        const passwordMaxLengthMessage = intl.formatMessage(
-          {
-            id: 'SignupForm.passwordTooLong',
-          },
-          {
-            maxLength: validators.PASSWORD_MAX_LENGTH,
-          }
-        );
-        const passwordMinLength = validators.minLength(
-          passwordMinLengthMessage,
-          validators.PASSWORD_MIN_LENGTH
-        );
-        const passwordMaxLength = validators.maxLength(
-          passwordMaxLengthMessage,
-          validators.PASSWORD_MAX_LENGTH
-        );
-        const passwordRequired = validators.requiredStringNoTrim(passwordRequiredMessage);
-        const passwordValidators = validators.composeValidators(
-          passwordRequired,
-          passwordMinLength,
-          passwordMaxLength
-        );
-
-        const classes = classNames(rootClassName || css.root, className);
-        const submitInProgress = inProgress;
-        const submitDisabled = invalid || submitInProgress;
+        const { handleSubmit, termsAndConditions } = fieldRenderProps;
 
         return (
-          <Form className={classes} onSubmit={handleSubmit}>
-            <div>
-              Ex Vuoi entrare in club Joy con la tua attivita'?
-              <FieldTextInput
-                type="email"
-                id={formId ? `${formId}.email` : 'email'}
-                name="email"
-                autoComplete="email"
-                label={intl.formatMessage({
-                  id: 'SignupForm.emailLabel',
-                })}
-                placeholder={intl.formatMessage({
-                  id: 'SignupForm.emailPlaceholder',
-                })}
-                validate={validators.composeValidators(emailRequired, emailValid)}
-              />
-              <div className={css.name}>
-                <FieldTextInput
-                  className={css.firstNameRoot}
-                  type="text"
-                  id={formId ? `${formId}.fname` : 'fname'}
-                  name="fname"
-                  autoComplete="given-name"
-                  label={intl.formatMessage({
-                    id: 'SignupForm.firstNameLabel',
-                  })}
-                  placeholder={intl.formatMessage({
-                    id: 'SignupForm.firstNamePlaceholder',
-                  })}
-                  validate={validators.required(
-                    intl.formatMessage({
-                      id: 'SignupForm.firstNameRequired',
-                    })
-                  )}
-                />
-                <FieldTextInput
-                  className={css.lastNameRoot}
-                  type="text"
-                  id={formId ? `${formId}.lname` : 'lname'}
-                  name="lname"
-                  autoComplete="family-name"
-                  label={intl.formatMessage({
-                    id: 'SignupForm.lastNameLabel',
-                  })}
-                  placeholder={intl.formatMessage({
-                    id: 'SignupForm.lastNamePlaceholder',
-                  })}
-                  validate={validators.required(
-                    intl.formatMessage({
-                      id: 'SignupForm.lastNameRequired',
-                    })
-                  )}
-                />
+          <div>
+            {isSubmitted ? (
+              <div className={css.successMessage}>
+                {' '}
+                {/* Use the class defined above */}
+                <div className={css.successContent}>
+                  {' '}
+                  {/* Additional styling for content */}
+                  <h3>
+                    {intl.formatMessage({
+                      id: 'BusinessForm.successMessage',
+                    })}
+                  </h3>
+                </div>
               </div>
-              <FieldTextInput
-                className={css.password}
-                type="password"
-                id={formId ? `${formId}.password` : 'password'}
-                name="password"
-                autoComplete="new-password"
-                label={intl.formatMessage({
-                  id: 'SignupForm.passwordLabel',
-                })}
-                placeholder={intl.formatMessage({
-                  id: 'SignupForm.passwordPlaceholder',
-                })}
-                validate={passwordValidators}
-              />
-            </div>
-
-            <div className={css.bottomWrapper}>
-              {termsAndConditions}
-              <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
-                <FormattedMessage id="SignupForm.signUp" />
-              </PrimaryButton>
-            </div>
-          </Form>
+            ) : (
+              <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+                <div>
+                  <h3 style={{ margin: '20px 0' }}>
+                    {intl.formatMessage({
+                      id: 'BusinessForm.intro',
+                    })}
+                  </h3>
+                  <div style={{ margin: '20px 0' }}>
+                    {intl.formatMessage({
+                      id: 'BusinessForm.intro2',
+                    })}
+                  </div>
+                  <label>
+                    {intl.formatMessage({
+                      id: 'BusinessForm.name',
+                    })}
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      placeholder={intl.formatMessage({
+                        id: 'BusinessForm.name.placeholder',
+                      })}
+                    />
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    {intl.formatMessage({
+                      id: 'BusinessForm.email',
+                    })}
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder={intl.formatMessage({
+                        id: 'BusinessForm.email.placeholder',
+                      })}
+                      required
+                    />
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    {intl.formatMessage({
+                      id: 'BusinessForm.city',
+                    })}
+                    <input
+                      type="text"
+                      name="businessType"
+                      value={formData.businessType}
+                      onChange={handleChange}
+                      required
+                      placeholder={intl.formatMessage({
+                        id: 'BusinessForm.city.placeholder',
+                      })}
+                    />
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    {intl.formatMessage({
+                      id: 'BusinessForm.address',
+                    })}
+                    <input
+                      type="text"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleChange}
+                      required
+                      placeholder={intl.formatMessage({
+                        id: 'BusinessForm.address.placeholder',
+                      })}
+                    />
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    {intl.formatMessage({
+                      id: 'BusinessForm.social',
+                    })}
+                    <input
+                      type="text"
+                      name="website"
+                      value={formData.website}
+                      onChange={handleChange}
+                      required
+                      placeholder={intl.formatMessage({
+                        id: 'BusinessForm.social.placeholder',
+                      })}
+                    />
+                  </label>
+                </div>
+                <div className={css.bottomWrapper}>
+                  {termsAndConditions}
+                  <PrimaryButton type="submit">
+                    {intl.formatMessage({
+                      id: 'BusinessForm.type.button',
+                    })}
+                  </PrimaryButton>
+                </div>
+              </form>
+            )}
+          </div>
         );
       }}
     />

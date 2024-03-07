@@ -28,7 +28,7 @@ const bodyParser = require('body-parser');
 const enforceSsl = require('express-enforces-ssl');
 const path = require('path');
 const passport = require('passport');
-
+const moment = require('moment');
 const auth = require('./auth');
 const apiRouter = require('./apiRouter');
 const wellKnownRouter = require('./wellKnownRouter');
@@ -296,7 +296,7 @@ app.post('/send-email', async (req, res) => {
     sendSmtpEmail.subject = message;
     sendSmtpEmail.sender = { name: 'Club Joy App', email: 'noreply@example.com' };
     sendSmtpEmail.to = [{ email: 'hello@clubjoy.it', name: 'Club Joy Team' }];
-    sendSmtpEmail.htmlContent = `<html><body><p>Message from: ${name}</p><p>Email: ${email}</p><p>Message: ${message}</p></body></html>`;
+    sendSmtpEmail.htmlContent = `<html><body><p>Registrazione Nuovo Customer: ${name}</p><p>Email: ${email}</p><p>Message: ${message}</p></body></html>`;
   }
 
   try {
@@ -309,25 +309,98 @@ app.post('/send-email', async (req, res) => {
 });
 
 app.post('/add-contact', (req, res) => {
-  const { email, listId } = req.body;
+  const { email, listId, firstName, lastName } = req.body;
   let defaultClient = SibApiV3.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
   let apiInstance = new SibApiV3.ContactsApi();
   let createContact = new SibApiV3.CreateContact();
   createContact.email = email;
+  createContact.listIds = listId ? [listId] : [4];
+  /*
   if (listId) {
-    createContact.listIds = [listId]; // Set the list IDs based on the request
+    createContact.listIds = [listId];
   }
-
-  // Make the API call to add the contact
+  */
+  createContact.attributes = { FIRSTNAME: firstName, LASTNAME: lastName };
   apiInstance.createContact(createContact).then(
     function(data) {
-      res.json(data); // Send back the response from Sendinblue to the frontend
+      res.json(data);
     },
     function(error) {
       console.error(error);
       res.status(500).send({ message: 'Error adding contact', error: error });
+    }
+  );
+});
+
+app.post('/send-reminder', async (req, res) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    startDate,
+    endDate,
+    seats,
+    seatNames,
+    eventName,
+    eventLocation,
+    eventGeoLocation,
+  } = req.body;
+  const formatDate = 'YYYY-MM-DD';
+  const formatTime = 'HH:mm:ss';
+  const displayStartDate = moment(startDate).format(formatDate);
+  const displayStartTime = moment(startDate).format(formatTime);
+  const displayEndDate = moment(endDate).format(formatDate);
+  const displayEndTime = moment(endDate).format(formatTime);
+  const formatForGoogle = 'YYYYMMDDTHHmmss[Z]';
+  const formattedStartDate = moment(startDate)
+    .utc()
+    .format(formatForGoogle);
+  const formattedEndDate = moment(endDate)
+    .utc()
+    .format(formatForGoogle);
+  const hasGeoLocation =
+    eventGeoLocation &&
+    typeof eventGeoLocation.lat === 'number' &&
+    typeof eventGeoLocation.lng === 'number';
+  const googleMapsLink = hasGeoLocation
+    ? `https://www.google.com/maps/?q=${eventGeoLocation.lat},${eventGeoLocation.lng}`
+    : '';
+
+  let defaultClient = SibApiV3.ApiClient.instance;
+  let apiKey = defaultClient.authentications['api-key'];
+  apiKey.apiKey = process.env.BREVO_API_KEY;
+  let apiInstance = new SibApiV3.TransactionalEmailsApi();
+  let sendSmtpEmail = new SibApiV3.SendSmtpEmail();
+  sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
+  sendSmtpEmail.to = [{ email: email, name: firstName }];
+  sendSmtpEmail.templateId = 3;
+
+  sendSmtpEmail.params = {
+    firstName: firstName,
+    lastName: lastName,
+    startDate: displayStartDate,
+    startTime: displayStartTime,
+    endDate: displayEndDate,
+    endTime: displayEndTime,
+    seats: seats,
+    seatNames: seatNames.join(', <br>'),
+    eventName: eventName,
+    location: eventLocation.address,
+    googleMapsLink: googleMapsLink, // Add Google Maps link here
+    googleCalendarLink: `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventName}&dates=${formattedStartDate}/${formattedEndDate}&details=For+details,+link+here:+http://www.example.com&location=${encodeURIComponent(
+      eventLocation
+    )}&sf=true&output=xml`,
+  };
+
+  apiInstance.sendTransacEmail(sendSmtpEmail).then(
+    function(data) {
+      res.json({ message: 'Email sent successfully', data }); // Send response back to client
+    },
+    function(error) {
+      console.error(error);
+      res.status(500).send({ message: 'Failed to send email', error }); // Send error response back to client
     }
   );
 });

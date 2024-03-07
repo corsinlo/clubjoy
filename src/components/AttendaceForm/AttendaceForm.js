@@ -16,7 +16,6 @@ const normalizeNames = names => {
 };
 
 const AttendanceForm = ({ activity, onBack }) => {
-  console.log(activity);
   const [checkedNames, setCheckedNames] = useState([]);
   const intl = useIntl();
   const normalizedNames = normalizeNames(activity?.resource?.bookingData?.names ?? []);
