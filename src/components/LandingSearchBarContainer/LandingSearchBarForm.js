@@ -127,9 +127,7 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
     <form onSubmit={handleSubmit} className={css.form}>
       <div className={css.dropdownWrapper}>
         <button type="button" onClick={toggleDropdown} className={css.fieldSearch}>
-          {joy.length > 0
-            ? `${intl.formatMessage({ id: 'SearchBar.gioia' })}: ${joy.length}`
-            : intl.formatMessage({ id: 'SearchBar.selection' })}
+          {intl.formatMessage({ id: 'SearchBar.selection' })}
         </button>
         {isDropdownOpen && (
           <div className={css.dropdownContent}>

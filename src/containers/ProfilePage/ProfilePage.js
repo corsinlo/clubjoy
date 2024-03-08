@@ -38,7 +38,7 @@ export const AsideContent = props => {
     <div className={css.asideContent}>
       <AvatarLarge className={css.avatar} user={user} disableProfileLink />
       <H2 as="h1" className={css.mobileHeading}>
-        {`${props.user.attributes.profile.publicData.company} - ` ?? ''}
+        {`${props.user.attributes.profile.publicData.providerName} - ` ?? ''}
       </H2>
       <H2 as="h1" className={css.mobileHeading}>
         {displayName ? (
@@ -184,7 +184,7 @@ export const MainContent = props => {
   return (
     <div>
       <H2 as="h1" className={css.desktopHeading}>
-        {`${props.user.attributes.profile.publicData.company}` ?? ''}
+        {`${props.user.attributes.profile.publicData.providerName}` ?? ''}
       </H2>
       <H2 as="h1" className={css.desktopHeading}>
         <FormattedMessage id="ProfilePage.desktopHeading" values={{ name: displayName }} />

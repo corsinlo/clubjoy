@@ -154,7 +154,7 @@ input, select, .DateRangePicker {
     color: white; 
     border: none; 
     border-radius: 40px !important;
-    height: 43px;
+    height: 40px;
     max-width: 100px;
     width: 100px;
     padding: 10px;
@@ -266,7 +266,7 @@ input, select, .DateRangePicker {
   }
   
   .dropdownContent {
-    top: 165px; /* Adjusts the position on smaller screens */
+    top: 425px; /* Adjusts the position on smaller screens */
     width: 700px;
     left: 60px;
   }
@@ -343,7 +343,7 @@ input, select, .DateRangePicker {
   }
 
   .dropdownContent {
-    top: 150px; /* Adjusts the position on smaller screens */
+    top: 450px; /* Adjusts the position on smaller screens */
     width: 300px;
     left: 60px;
   }
