@@ -254,6 +254,8 @@ input, select, .DateRangePicker {
     border: 1px solid #ccc; 
     width: 768px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-weight: 300;
+    font-size: medium;
   }
 
   .button {
@@ -333,6 +335,8 @@ input, select, .DateRangePicker {
     background: #FFF;
     color: #b0b0b5 !important;
     border: 1px solid #ccc;
+    font-weight: 300;
+    font-size: medium;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
