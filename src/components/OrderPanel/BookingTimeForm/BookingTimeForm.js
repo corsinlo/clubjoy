@@ -66,9 +66,13 @@ export class BookingTimeFormComponent extends Component {
       price: unitPrice,
       dayCountAvailableForBooking,
       marketplaceName,
+      currentUser,
       ...rest
     } = this.props;
     const classes = classNames(rootClassName || css.root, className);
+
+    const emailVerified =
+      currentUser && currentUser.attributes && currentUser.attributes.emailVerified;
 
     return (
       <FinalForm
@@ -170,13 +174,19 @@ export class BookingTimeFormComponent extends Component {
               ) : null}
 
               <div className={css.submitButton}>
-                <PrimaryButton type="submit" inProgress={fetchLineItemsInProgress}>
+                <PrimaryButton
+                  type="submit"
+                  inProgress={fetchLineItemsInProgress}
+                  disabled={!emailVerified}
+                >
                   <FormattedMessage id="BookingTimeForm.requestToBook" />
                 </PrimaryButton>
               </div>
 
               <p className={css.finePrint}>
-                {payoutDetailsWarning ? (
+                {!emailVerified ? (
+                  <FormattedMessage id="BookingTimeForm.verifyEmail" />
+                ) : payoutDetailsWarning ? (
                   payoutDetailsWarning
                 ) : (
                   <FormattedMessage

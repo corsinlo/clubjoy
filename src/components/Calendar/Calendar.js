@@ -254,8 +254,8 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
                       onClick={() => handleSelectActivity(activity)}
                       className={css.listItem}
                     >
-                      {activity.startTime} {selectedListing.attributes.title} Seats:{' '}
-                      {activity.seats}/ {namesCount}
+                      {activity.startTime} {selectedListing.attributes.title} Seats: {namesCount}/
+                      {activity.seats}
                     </li>
                   );
                 })}

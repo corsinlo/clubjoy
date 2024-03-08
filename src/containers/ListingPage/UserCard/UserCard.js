@@ -122,6 +122,7 @@ const UserCard = props => {
       <div className={css.content}>
         <AvatarLarge className={css.avatar} user={user} />
         <div className={css.info}>
+          <div className={css.headingRow}>{props.user.attributes.profile.publicData?.company}</div>
           <div className={css.headingRow}>
             <FormattedMessage id="UserCard.heading" values={{ name: displayName }} />
             {editProfileDesktop}

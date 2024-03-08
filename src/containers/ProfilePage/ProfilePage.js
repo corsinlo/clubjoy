@@ -34,10 +34,12 @@ const MAX_MOBILE_SCREEN_WIDTH = 768;
 
 export const AsideContent = props => {
   const { user, displayName, isCurrentUser } = props;
-
   return (
     <div className={css.asideContent}>
       <AvatarLarge className={css.avatar} user={user} disableProfileLink />
+      <H2 as="h1" className={css.mobileHeading}>
+        {`${props.user.attributes.profile.publicData.company} - ` ?? ''}
+      </H2>
       <H2 as="h1" className={css.mobileHeading}>
         {displayName ? (
           <FormattedMessage id="ProfilePage.mobileHeading" values={{ name: displayName }} />
@@ -161,6 +163,7 @@ export const MainContent = props => {
     queryReviewsError,
     viewport,
     userRole,
+    user,
   } = props;
 
   const hasListings = listings.length > 0;
@@ -180,6 +183,9 @@ export const MainContent = props => {
   }
   return (
     <div>
+      <H2 as="h1" className={css.desktopHeading}>
+        {`${props.user.attributes.profile.publicData.company}` ?? ''}
+      </H2>
       <H2 as="h1" className={css.desktopHeading}>
         <FormattedMessage id="ProfilePage.desktopHeading" values={{ name: displayName }} />
       </H2>
@@ -259,6 +265,7 @@ const ProfilePageComponent = props => {
           displayName={displayName}
           userShowError={userShowError}
           {...rest}
+          user={user}
           userRole={userRole}
         />
       </LayoutSideNavigation>
