@@ -288,6 +288,7 @@ const OrderPanel = props => {
         <div className={css.author}>
           <AvatarSmall user={author} className={css.providerAvatar} />
           <span className={css.providerNameLinked}>
+            {/*`${props.author.attributes.profile.publicData.company} - ` ?? ''*/}
             <FormattedMessage id="OrderPanel.author" values={{ name: authorLink }} />
           </span>
           <span className={css.providerNamePlain}>

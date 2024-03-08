@@ -1,5 +1,41 @@
 @import '../../styles/customMediaQueries.css';
 
+
+.dropdown {
+  position: relative; /* This makes sure that the dropdownContent positions itself relative to this container */
+}
+
+/* Adjust the checkbox size and margin */
+.dropdownLabel input[type="checkbox"] {
+  transform: scale(0.6); /* Further reduce the checkbox size; adjust scale as needed */
+  margin-right: 8px; /* Ensure consistent spacing between checkbox and label */
+  vertical-align: middle; /* Aligns the checkbox vertically to the middle of the text */
+}
+
+/* Update label styling for consistent alignment and spacing */
+.dropdownLabel {
+  width:auto;
+  display: flex; /* Use flexbox layout for better alignment control */
+  align-items: center; /* Align items in the center vertically for consistent vertical alignment */
+  padding: 5px 20px; /* Adjust padding for closer spacing; change as needed for your design */
+}
+
+/* Ensure content is in a column and aligned properly */
+.dropdownContent {
+  position: absolute;
+  display: flex; /* Add flex display to dropdown content */
+  flex-direction: column; /* Stack items vertically in a column */
+  align-items: flex-start; /* Align items to the start (left) ensuring checkboxes are aligned in a column */
+  z-index: 1000;
+  left: 50px; /* Align to the left edge of the dropdownWrapper */
+  top: 80px; /* Position below the button */
+  width:15%;
+  background: white;
+  border: 1px solid #ccc; /* Optional: adds a border */
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* Optional: adds shadow for depth */
+  padding: 10px 0; /* Adds some padding inside the dropdown */
+}
+
 .landingBarContainer {
   display: flex;
   flex-direction: column;
@@ -52,7 +88,7 @@
 
 .time .DateRangePicker {
   display: grid;
-  font-family: var(--fontFamily);
+
   grid-template-columns: 1fr 1fr;
   gap: 8px; 
 }
@@ -88,6 +124,73 @@ input, select, .DateRangePicker {
 }
 
 
+@media (--viewportLarge) {
+  .form {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1000px;
+    gap: unset;
+    background-color: transparent;
+    box-shadow: unset;
+    & > * {
+      border-radius: unset;
+      box-shadow: unset;
+    }
+  }
+
+
+  .button {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    position: absolute; 
+    right: 18px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    padding: 10px 20px; 
+    background-color: #012FA7; 
+    color: white; 
+    border: none; 
+    border-radius: 40px !important;
+    height: 40px;
+    max-width: 100px;
+    width: 100px;
+    padding: 10px;
+    cursor: pointer; 
+  }
+
+  .fieldSearch {
+    flex: 1 0 33.33%;
+    height: 40px;
+    font-size: 20px;
+    width:300px;
+    font-weight: lighter;
+    font-family: var(--fontFamily);
+    color: #b0b0b5 !important;
+    border: 1px solid #ccc;
+
+    &:first-child {
+      border-top-left-radius: 50px;
+      border-bottom-left-radius: 50px;
+      min-width: 180px;
+      border-right: 1px solid var(--matterColor);
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      padding-left: 20px;
+    }
+
+    &:nth-child(3) {
+      border-top-right-radius: 50px;
+      border-bottom-right-radius: 50px;
+      min-width: 180px;
+      border-left: 0;
+    }
+  }
+}
+
 @media (min-width: 769px) and (max-width: 1024px) {
   .landingBarContainer {
     margin-top: 60px;
@@ -121,10 +224,6 @@ input, select, .DateRangePicker {
     text-align: center;
     justify-content: center;
     align-items: center;
-  }
-
-  .landingBarContainer, .bar {
-    background: none; 
   }
 
   .form {
@@ -166,7 +265,12 @@ input, select, .DateRangePicker {
     margin-left: 0px; 
   }
   
-
+  .dropdownContent {
+    top: 425px; /* Adjusts the position on smaller screens */
+    width: 700px;
+    left: 60px;
+  }
+  
 }
 
 @media (max-width: 768px) { 
@@ -192,11 +296,6 @@ input, select, .DateRangePicker {
   
   .dateWrapper{
     border-radius: 20px; 
-  }
-
-
-  .landingBarContainer, .bar {
-    background: none; 
   }
 
   .form {
@@ -243,68 +342,9 @@ input, select, .DateRangePicker {
     box-shadow: 0 5px 5px rgba(255, 255, 255, 0.5);
   }
 
-}
-
-@media (--viewportLarge) {
-  .form {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    max-width: 1000px;
-    gap: unset;
-    background-color: transparent;
-    box-shadow: unset;
-    & > * {
-      border-radius: unset;
-      box-shadow: unset;
-    }
-  }
-
-
-  .button {
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    position: absolute; 
-    right: 18px; 
-    top: 50%; 
-    transform: translateY(-50%); 
-    padding: 10px 20px; 
-    background-color: #012FA7; 
-    color: white; 
-    border: none; 
-    border-radius: 40px !important;
-    height: 62px;
-    max-width: 100px;
-    width: 100px;
-    padding: 20px;
-    cursor: pointer; 
-  }
-
-  .fieldSearch {
-    flex: 1 0 33.33%;
-    height: 60px;
-    font-size: 20px;
-    font-family: var(--fontFamily);
-    color: #b0b0b5 !important;
-
-    &:first-child {
-      border-top-left-radius: 50px;
-      border-bottom-left-radius: 50px;
-      min-width: 180px;
-      border-right: 1px solid var(--matterColor);
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      padding-left: 20px;
-    }
-
-    &:nth-child(3) {
-      border-top-right-radius: 50px;
-      border-bottom-right-radius: 50px;
-      min-width: 180px;
-      border-left: 0;
-    }
+  .dropdownContent {
+    top: 450px; /* Adjusts the position on smaller screens */
+    width: 300px;
+    left: 60px;
   }
 }

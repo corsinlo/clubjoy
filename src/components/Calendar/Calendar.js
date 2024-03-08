@@ -241,21 +241,22 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
                   const matchedBooking = mergedBookings.find(booking =>
                     activityDateTime.isSame(moment(booking.start), 'minute')
                   );
-
-                  let namesCount =
+                  let namesCount = 0;
+                  if (
                     matchedBooking &&
                     matchedBooking.protectedData &&
                     Array.isArray(matchedBooking.protectedData.names)
-                      ? matchedBooking.protectedData.names.length
-                      : 0;
+                  ) {
+                    namesCount = matchedBooking.protectedData.names.flat().length;
+                  }
                   return (
                     <li
                       key={randomId()}
                       onClick={() => handleSelectActivity(activity)}
                       className={css.listItem}
                     >
-                      {activity.startTime} {selectedListing.attributes.title} Seats:{' '}
-                      {activity.seats}/ {namesCount}
+                      {activity.startTime} {selectedListing.attributes.title} Seats: {namesCount}/
+                      {activity.seats}
                     </li>
                   );
                 })}

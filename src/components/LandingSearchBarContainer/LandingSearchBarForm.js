@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { DateRangePicker } from 'react-dates';
-
 import css from './LandingSearchBar.module.css';
 import { useHistory } from 'react-router-dom';
 import { createResourceLocatorString } from '../../util/routes';
@@ -20,6 +19,7 @@ function useWindowSize() {
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
   return windowSize;
 }
 
@@ -30,16 +30,17 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
     ? createResourceLocatorString('SearchPage', routeConfiguration, {}, {})
     : '';
   const [location, setLocation] = useState('');
-  const [bounds, setBounds] = useState(null); // Update for dynamic bounds
-  const [joy, setJoy] = useState('');
+  const [bounds, setBounds] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [focusedInput, setFocusedInput] = useState(null);
   const history = useHistory();
-
+  const [joy, setJoy] = useState([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const { width } = useWindowSize();
   const isSmallScreen = width < 1024;
+
   useEffect(() => {
     if (window.google && window.google.maps) {
       initAutocomplete();
@@ -70,51 +71,49 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
         },
         _sdkType: 'LatLngBounds',
       };
-      setBounds(bounds); // Update bounds state
-      setLocation(place.name); // Update location state with the name of the selected place
+      setBounds(bounds);
+      setLocation(place.name);
     });
+  };
+
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
+  const handleJoyChange = value => {
+    if (joy.includes(value)) {
+      setJoy(joy.filter(item => item !== value)); // Remove item if already selected
+    } else {
+      setJoy([...joy, value]); // Add item if not selected
+    }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    /* Check if bounds are set
-    if (!bounds) {
-      alert('Please select a location from the dropdown.');
-      return;
-    }
-    */
-
     // Check if at least one of bounds, startDate, endDate, or joy is set
-    if (!location && !bounds && !startDate && !endDate && !joy) {
+    if (!location && !bounds && !startDate && !endDate && joy.length === 0) {
       alert('Please select a location, date range, or joy filter.');
       return;
     }
-    // Initialize an array to collect query parts
     let queryParts = [];
 
-    // Format bounds as "latNE,lngNE,latSW,lngSW" and add to query if bounds are present
+    if (joy.length) {
+      const joyValues = joy.join(',');
+      queryParts.push(`pub_joy=${encodeURIComponent(joyValues)}`);
+    }
+
     if (bounds) {
       const formattedBounds = `${bounds.ne.lat},${bounds.ne.lng},${bounds.sw.lat},${bounds.sw.lng}`;
       queryParts.push(`bounds=${encodeURIComponent(formattedBounds)}`);
     }
 
-    // Format dates and add to query if both dates are present
     if (startDate && endDate) {
       const startDateFormatted = startDate.format('YYYY-MM-DD');
       const endDateFormatted = endDate.format('YYYY-MM-DD');
       queryParts.push(`dates=${startDateFormatted},${endDateFormatted}`);
     }
 
-    // Add joy to query if it has a value
-    if (joy) {
-      queryParts.push(`pub_joy=${joy}`);
-    }
-
-    // Join the query parts with "&"
     let searchParams = queryParts.join('&');
 
-    // Navigate to the search page with the constructed query
     if (routeConfiguration) {
       const queryString = `?${searchParams}`;
       const searchPageUrl = `${searchPagePath}${queryString}`;
@@ -126,35 +125,26 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className={css.form}>
-      <select className={css.fieldSearch} value={joy} onChange={e => setJoy(e.target.value)}>
-        <option value="">
-          {intl.formatMessage({
-            id: 'SearchBar.selection',
-          })}
-        </option>
-        <option value="1">
-          {' '}
-          {intl.formatMessage({
-            id: 'SearchBar.selection.1',
-          })}
-        </option>
-        <option value="2">
-          {intl.formatMessage({
-            id: 'SearchBar.selection.2',
-          })}
-        </option>
-        <option value="3">
-          {intl.formatMessage({
-            id: 'SearchBar.selection.3',
-          })}
-        </option>
-        <option value="4">
-          {intl.formatMessage({
-            id: 'SearchBar.selection.4',
-          })}
-        </option>
-      </select>
-
+      <div className={css.dropdownWrapper}>
+        <button type="button" onClick={toggleDropdown} className={css.fieldSearch}>
+          {intl.formatMessage({ id: 'SearchBar.selection' })}
+        </button>
+        {isDropdownOpen && (
+          <div className={css.dropdownContent}>
+            {[1, 2, 3, 4, 5].map(option => (
+              <label key={option} className={css.dropdownLabel}>
+                <input
+                  type="checkbox"
+                  value={option}
+                  checked={joy.includes(option.toString())}
+                  onChange={() => handleJoyChange(option.toString())}
+                />
+                {intl.formatMessage({ id: `SearchBar.selection.${option}` })}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
       {!isPickerVisible && (
         <input
           onClick={() => setIsPickerVisible(true)}
