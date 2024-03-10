@@ -125,26 +125,25 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className={css.form}>
-      <div className={css.dropdownWrapper}>
-        <button type="button" onClick={toggleDropdown} className={css.fieldSearch}>
-          {intl.formatMessage({ id: 'SearchBar.selection' })}
-        </button>
-        {isDropdownOpen && (
-          <div className={css.dropdownContent}>
-            {[1, 2, 3, 4, 5].map(option => (
-              <label key={option} className={css.dropdownLabel}>
-                <input
-                  type="checkbox"
-                  value={option}
-                  checked={joy.includes(option.toString())}
-                  onChange={() => handleJoyChange(option.toString())}
-                />
-                {intl.formatMessage({ id: `SearchBar.selection.${option}` })}
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
+      <button type="button" onClick={toggleDropdown} className={css.fieldSearch}>
+        {intl.formatMessage({ id: 'SearchBar.selection' })}
+      </button>
+      {isDropdownOpen && (
+        <div className={css.dropdownContent}>
+          {[1, 2, 3, 4, 5].map(option => (
+            <label key={option} className={css.dropdownLabel}>
+              <input
+                type="checkbox"
+                value={option}
+                checked={joy.includes(option.toString())}
+                onChange={() => handleJoyChange(option.toString())}
+              />
+              {intl.formatMessage({ id: `SearchBar.selection.${option}` })}
+            </label>
+          ))}
+        </div>
+      )}
+
       {!isPickerVisible && (
         <input
           onClick={() => setIsPickerVisible(true)}

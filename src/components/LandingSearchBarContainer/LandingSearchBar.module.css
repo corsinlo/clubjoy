@@ -29,7 +29,7 @@
   z-index: 1000;
   left: 50px; /* Align to the left edge of the dropdownWrapper */
   top: 80px; /* Position below the button */
-  width:15%;
+  width:20%;
   background: white;
   border: 1px solid #ccc; /* Optional: adds a border */
   box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* Optional: adds shadow for depth */
@@ -104,13 +104,13 @@ input, select, .DateRangePicker {
 
 .button {
   width: 100%; 
-  padding: 10px 0; 
+  padding: 12px 0; 
   background-color: #012FA7;
   color: white; 
   border: none; 
   border-radius: 4px; 
   cursor: pointer; 
-  font-size: 16px; 
+  font-size: 20px; 
 }
 
 .button:hover {
@@ -154,18 +154,18 @@ input, select, .DateRangePicker {
     color: white; 
     border: none; 
     border-radius: 40px !important;
-    height: 50px;
+    height: 60px;
     max-width: 100px;
     width: 100px;
-    padding: 10px;
+    padding: 20px;
     cursor: pointer; 
   }
 
   .fieldSearch {
     flex: 1 0 33.33%;
-    height: 50px;
+    height: 60px;
     font-size: 20px;
-    width:300px;
+    width: auto;
     font-weight: lighter;
     font-family: var(--fontFamily);
     color: #b0b0b5 !important;
@@ -174,18 +174,20 @@ input, select, .DateRangePicker {
     &:first-child {
       border-top-left-radius: 50px;
       border-bottom-left-radius: 50px;
-      min-width: 180px;
+      min-width: 150px;
       border-right: 1px solid var(--matterColor);
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
-      padding-left: 20px;
     }
-
+    &:nth-child(2) {
+      min-width: 150px;
+      border: 1px solid #ccc;
+    }
     &:nth-child(3) {
       border-top-right-radius: 50px;
       border-bottom-right-radius: 50px;
-      min-width: 180px;
+      min-width: 150px;
       border-left: 0;
     }
   }
@@ -268,7 +270,7 @@ input, select, .DateRangePicker {
   }
   
   .dropdownContent {
-    top: 425px; /* Adjusts the position on smaller screens */
+    top: 175px; /* Adjusts the position on smaller screens */
     width: 700px;
     left: 60px;
   }
@@ -347,7 +349,7 @@ input, select, .DateRangePicker {
   }
 
   .dropdownContent {
-    top: 450px; /* Adjusts the position on smaller screens */
+    top: 155px; /* Adjusts the position on smaller screens */
     width: 300px;
     left: 60px;
   }
