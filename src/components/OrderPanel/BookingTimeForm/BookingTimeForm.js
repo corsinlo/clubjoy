@@ -66,6 +66,7 @@ export class BookingTimeFormComponent extends Component {
       price: unitPrice,
       dayCountAvailableForBooking,
       marketplaceName,
+      author,
       currentUser,
       ...rest
     } = this.props;
@@ -73,7 +74,7 @@ export class BookingTimeFormComponent extends Component {
 
     const emailVerified =
       currentUser && currentUser.attributes && currentUser.attributes.emailVerified;
-    console.log('CHECK', emailVerified);
+
     return (
       <FinalForm
         {...rest}
