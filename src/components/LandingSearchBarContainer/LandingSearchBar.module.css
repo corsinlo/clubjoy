@@ -157,7 +157,7 @@ input, select, .DateRangePicker {
     align-content: center;
     justify-content: center;
     position: absolute; 
-    right: 5px; 
+    right: -10px; 
     top: 50%; 
     font-size: 15px;
     transform: translateY(-50%); 
@@ -177,7 +177,7 @@ input, select, .DateRangePicker {
     flex: 1 0 33.33%;
     height: 60px;
     font-size: 15px;
-    width: 150px;
+    width: 140px;
     font-weight: lighter;
     font-family: var(--fontFamily);
     color: #b0b0b5 !important;
