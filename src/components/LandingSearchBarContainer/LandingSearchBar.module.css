@@ -83,7 +83,6 @@
   border-radius: 8px; 
   width: auto; 
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  margin-left: 100px; 
 }
 
 .time .DateRangePicker {
@@ -123,8 +122,92 @@ input, select, .DateRangePicker {
   background-color: #012FA7;
 }
 
+@media (min-width: 1025px) and (max-width: 1459px) {
+  .dropdownContent {
+    position: absolute;
+    display: flex; /* Add flex display to dropdown content */
+    flex-direction: column; /* Stack items vertically in a column */
+    align-items: flex-start; /* Align items to the start (left) ensuring checkboxes are aligned in a column */
+    z-index: 1000;
+    left: 40px; /* Align to the left edge of the dropdownWrapper */
+    top: 80px; /* Position below the button */
+    width:25%;
+    background: white;
+    border: 1px solid #ccc; /* Optional: adds a border */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* Optional: adds shadow for depth */
+    padding: 10px 0; /* Adds some padding inside the dropdown */
+  }
 
-@media (--viewportLarge) {
+  .form {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 800px;
+    gap: unset;
+    background-color: transparent;
+    box-shadow: unset;
+    & > * {
+      border-radius: unset;
+      box-shadow: unset;
+    }
+  }
+  .button {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    position: absolute; 
+    right: 5px; 
+    top: 50%; 
+    font-size: 15px;
+    transform: translateY(-50%); 
+    padding: 10px 20px; 
+    background-color: #012FA7; 
+    color: white; 
+    border: none; 
+    border-radius: 40px !important;
+    height: 60px;
+    max-width: 70px;
+    width: 100px;
+    padding: 20px;
+    cursor: pointer; 
+  }
+
+  .fieldSearch {
+    flex: 1 0 33.33%;
+    height: 60px;
+    font-size: 15px;
+    width: 150px;
+    font-weight: lighter;
+    font-family: var(--fontFamily);
+    color: #b0b0b5 !important;
+    border: 1px solid #ccc;
+    
+
+    &:first-child {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      min-width: auto;
+      border-top-left-radius: 30px;
+      border-bottom-left-radius: 30px;
+      appearance: none;
+      border: 1px solid #ccc;
+    }
+    &:nth-child(2) {
+      min-width: auto;
+      border:none;
+      border: 1px solid #ccc;
+    }
+    &:nth-child(3) {
+      border: 1px solid #ccc;
+      min-width: auto;
+      border-left: 0;
+      border-right: none;
+    }
+  }
+}
+
+@media (min-width: 1460px) {
   .form {
     position: relative;
     display: flex;
@@ -190,6 +273,8 @@ input, select, .DateRangePicker {
       border: 1px solid #ccc;
       min-width: auto;
       border-left: 0;
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
     }
   }
 }
