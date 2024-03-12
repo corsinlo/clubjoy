@@ -144,6 +144,10 @@ router.post('/send-reminder', async (req, res) => {
     ? `https://www.google.com/maps/?q=${eventGeoLocation.lat},${eventGeoLocation.lng}`
     : '';
 
+  const formatForYahoo = 'YYYYMMDDTHHmmss'; // Adjust format if needed
+  const formattedStartDateForYahoo = moment(startDate).format(formatForYahoo);
+  const formattedEndDateForYahoo = moment(endDate).format(formatForYahoo);
+
   let defaultClient = SibApiV3.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
@@ -165,14 +169,12 @@ router.post('/send-reminder', async (req, res) => {
     eventName: eventName,
     location: eventLocation.address,
     googleMapsLink: googleMapsLink, // Add Google Maps link here
-    yahooCalendarLinK: `https://calendar.yahoo.com/?v=60&view=d&type=20&title=${encodeURIComponent(
+    yahooCalendarLink: `https://calendar.yahoo.com/?v=60&view=d&type=20&title=${encodeURIComponent(
       eventName
-    )}&st=${formattedStartDate}&et=${formattedEndDate}&desc=${encodeURIComponent(
+    )}&st=${formattedStartDateForYahoo}&et=${formattedEndDateForYahoo}&desc=${encodeURIComponent(
       seatNames.join(', ')
     )}&in_loc=${encodeURIComponent(eventLocation.address)}`,
-    googleCalendarLink: `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventName}&dates=${formattedStartDate}/${formattedEndDate}&details=For+details,+link+here:+http://www.example.com&location=${encodeURIComponent(
-      eventLocation
-    )}&sf=true&output=xml`,
+    googleCalendarLink: `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventName}&dates=${formattedStartDate}/${formattedEndDate}&details=For+details,+link+here:+http://www.clubjoy.it`,
   };
 
   apiInstance.sendTransacEmail(sendSmtpEmail).then(
