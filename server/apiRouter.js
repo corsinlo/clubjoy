@@ -185,7 +185,7 @@ router.post('/send-reminder', async (req, res) => {
       console.error(error);
       res.status(500).send({ message: 'Failed to send email', error }); // Send error response back to client
     }
-  );
+  ); //
 });
 
 router.post('/add-contact', (req, res) => {
