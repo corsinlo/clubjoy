@@ -205,6 +205,9 @@ input, select, .DateRangePicker {
       border-right: none;
     }
   }
+  .landingBarContainer .fieldSearch {
+    width: 400px; /* Sets the width of input fields when part of the landing bar container */
+  }
 }
 
 @media (min-width: 1460px) {
@@ -248,7 +251,7 @@ input, select, .DateRangePicker {
     flex: 1 0 33.33%;
     height: 60px;
     font-size: 20px;
-    width: auto;
+    width: 600px;
     font-weight: lighter;
     font-family: var(--fontFamily);
     color: #b0b0b5 !important;
@@ -273,8 +276,6 @@ input, select, .DateRangePicker {
       border: 1px solid #ccc;
       min-width: auto;
       border-left: 0;
-      border-top-right-radius: 30px;
-      border-bottom-right-radius: 30px;
     }
   }
 }
