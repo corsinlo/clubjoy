@@ -26,7 +26,7 @@ const defaultConfig = {
   // Note 1: The listingMinimumPriceSubUnits comes from transactionSize asset nowadays by default.
   //         To use this built-in configuration, you need to remove the overwrite from configHelper.js (mergeConfig func)
   // Note 2: Stripe does have minimum fee that depends on country, currency, etc.
-  listingMinimumPriceSubUnits: 500,
+  listingMinimumPriceSubUnits: 0,
 
   // Marketplace name is needed for microcopy (aka marketplace texts) and in meta tags (bots and social media sharing reads those)
   marketplaceName: process.env.REACT_APP_MARKETPLACE_NAME || 'Biketribe',
