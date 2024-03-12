@@ -389,7 +389,7 @@ app.post('/send-reminder', async (req, res) => {
     eventName: eventName,
     location: eventLocation.address,
     googleMapsLink: googleMapsLink, // Add Google Maps link here
-    googleCalendarLink: `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventName}&dates=${formattedStartDate}/${formattedEndDate}&details=For+details,+link+here:+http://www.example.com&location=${encodeURIComponent(
+    googleCalendarLink: `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventName}&dates=${formattedStartDate}/${formattedEndDate}&details=For+details,${encodeURIComponent(
       eventLocation
     )}&sf=true&output=xml`,
   };
