@@ -97,7 +97,7 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
     let queryParts = [];
 
     if (joy.length) {
-      const joyValues = joy.join(',');
+      const joyValues = `has_all:${joy.join(',')}`; // Changed this line
       queryParts.push(`pub_joy=${encodeURIComponent(joyValues)}`);
     }
 

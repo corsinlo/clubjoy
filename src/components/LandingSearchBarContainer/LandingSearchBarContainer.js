@@ -37,7 +37,9 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
     <div className={css.landingBarContainer} style={backgroundStyle}>
       <div className={css.introText}>Di creativo ti rimane solo il parcheggio?</div>
       <div className={css.introText2}>Scopri il tuo nuovo hobby preferito con Club Joy</div>
-      <LandingSearchBarForm onSearchSubmit={onSearchSubmit} />
+      <div style={{ marginLeft: '105px' }}>
+        <LandingSearchBarForm onSearchSubmit={onSearchSubmit} />
+      </div>
     </div>
   );
 };
