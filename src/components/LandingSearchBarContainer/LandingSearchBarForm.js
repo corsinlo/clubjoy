@@ -130,7 +130,7 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
       </button>
       {isDropdownOpen && (
         <div className={css.dropdownContent}>
-          {[1, 2, 3, 4, 5].map(option => (
+          {[1, 2, 3, 4, 5, 6].map(option => (
             <label key={option} className={css.dropdownLabel}>
               <input
                 type="checkbox"
