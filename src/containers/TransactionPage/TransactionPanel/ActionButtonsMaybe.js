@@ -2,10 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { PrimaryButton, SecondaryButton } from '../../../components';
-
+import { createClient } from '@supabase/supabase-js';
 import css from './TransactionPanel.module.css';
 
-// Functional component as a helper to build ActionButtons
+const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correctly set in your .env file
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 const ActionButtonsMaybe = props => {
   const {
     className,
@@ -15,22 +18,48 @@ const ActionButtonsMaybe = props => {
     secondaryButtonProps,
     isListingDeleted,
     isProvider,
+    customerObj,
   } = props;
 
-  // In default processes default processes need special handling
-  // Booking: provider should not be able to accept on-going transactions
-  // Product: customer should be able to dispute etc. on-going transactions
   if (isListingDeleted && isProvider) {
     return null;
   }
 
   const buttonsDisabled = primaryButtonProps?.inProgress || secondaryButtonProps?.inProgress;
 
+  const insertBooking = async obj => {
+    const { eventgeoLocation = { lat: null, lng: null }, ...rest } = obj;
+    const { lat, lng } = eventgeoLocation;
+
+    const newObj = {
+      ...rest,
+      latitude: lat,
+      longitude: lng,
+    };
+
+    const { data, error } = await supabase.from('bookings').insert([newObj]); // Note: We're passing newObj here
+
+    if (error) {
+      console.error('Error inserting booking into Supabase:', error);
+    } else {
+      console.log('Inserted booking into Supabase', data);
+    }
+  };
+
+  const handlePrimaryButtonClick = () => {
+    if (isProvider) {
+      insertBooking(customerObj);
+    }
+    if (primaryButtonProps?.onAction) {
+      primaryButtonProps.onAction();
+    }
+  };
+
   const primaryButton = primaryButtonProps ? (
     <PrimaryButton
       inProgress={primaryButtonProps.inProgress}
       disabled={buttonsDisabled}
-      onClick={primaryButtonProps.onAction}
+      onClick={handlePrimaryButtonClick}
     >
       {primaryButtonProps.buttonText}
     </PrimaryButton>

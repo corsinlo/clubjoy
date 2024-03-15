@@ -34,11 +34,14 @@ const MAX_MOBILE_SCREEN_WIDTH = 768;
 
 export const AsideContent = props => {
   const { user, displayName, isCurrentUser } = props;
+
   return (
     <div className={css.asideContent}>
       <AvatarLarge className={css.avatar} user={user} disableProfileLink />
       <H2 as="h1" className={css.mobileHeading}>
-        {`${props.user.attributes.profile.publicData.providerName} - ` ?? ''}
+        {user.attributes.profile.publicData?.role === 'provider'
+          ? props.user.attributes.profile.publicData?.providerName
+          : ' '}
       </H2>
       <H2 as="h1" className={css.mobileHeading}>
         {displayName ? (

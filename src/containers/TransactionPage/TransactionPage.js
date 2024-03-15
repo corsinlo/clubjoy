@@ -134,6 +134,19 @@ export const TransactionPageComponent = props => {
   const isProviderRole = transactionRole === PROVIDER;
   const isCustomerRole = transactionRole === CUSTOMER;
 
+  const customerObj = {
+    bookingid: transaction?.booking?.id?.uuid,
+    name: transaction?.customer.attributes?.profile?.displayName,
+    email: transaction?.attributes?.protectedData?.email || 'hello@clubjoy.it',
+    eventname: transaction?.listing.attributes?.title,
+    seats: transaction?.booking.attributes?.seats,
+    seatnames: transaction?.attributes?.protectedData?.seatNames,
+    startdate: transaction?.booking.attributes?.start,
+    enddate: transaction?.booking.attributes?.end,
+    eventlocation: transaction?.listing.attributes.publicData?.location?.address,
+    eventgeoLocation: transaction?.listing.attributes?.geolocation,
+  };
+
   const processName = resolveLatestProcessName(transaction?.attributes?.processName);
   let process = null;
   try {
@@ -435,6 +448,7 @@ export const TransactionPageComponent = props => {
       onOpenDisputeModal={onOpenDisputeModal}
       stateData={stateData}
       transactionRole={transactionRole}
+      customerObj={customerObj}
       showBookingLocation={showBookingLocation}
       activityFeed={
         <ActivityFeed

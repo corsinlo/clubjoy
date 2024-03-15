@@ -66,7 +66,7 @@ const paymentFlow = (selectedPaymentMethod, saveAfterOnetimePayment) => {
  * @param {Object} config app-wide configs. This contains hosted configs too.
  * @returns orderParams.
  */
-const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config) => {
+const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config, currentUser) => {
   const quantity = pageData.orderData?.quantity;
   const quantityMaybe = quantity ? { quantity } : {};
   const seats = pageData.orderData?.seats;
@@ -75,7 +75,6 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
   const deliveryMethod = pageData.orderData?.deliveryMethod;
   const deliveryMethodMaybe = deliveryMethod ? { deliveryMethod } : {};
   const guestsNameMaybe = seatNames ? { seatNames } : {};
-
   const { listingType, unitType } = pageData?.listing?.attributes?.publicData || {};
   const protectedDataMaybe = {
     protectedData: {
@@ -83,6 +82,7 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
       ...deliveryMethodMaybe,
       ...shippingDetails,
       ...guestsNameMaybe,
+      email: currentUser?.attributes?.email,
     },
   };
 
@@ -250,34 +250,13 @@ const handleSubmit = (values, process, props, stripe, submitting, setSubmitting)
 
   // These are the order parameters for the first payment-related transition
   // which is either initiate-transition or initiate-transition-after-enquiry
-  const orderParams = getOrderParams(pageData, shippingDetails, optionalPaymentParams, config);
-  const sendReminderEmail = async emailDetails => {
-    try {
-      const response = await fetch('/api/send-reminder', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(emailDetails),
-      });
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  };
-  const emailDet = {
-    firstName: currentUser.attributes.profile.firstName,
-    lastName: currentUser.attributes.profile.lastName,
-    email: currentUser.attributes.email,
-    startDate: orderParams.bookingDates.bookingStart,
-    endDate: orderParams.bookingDates.bookingEnd,
-    seats: orderParams.seats,
-    seatNames: requestPaymentParams.pageData.orderData.guestNames,
-    eventName: pageData.listing.attributes.title,
-    eventLocation: pageData.listing.attributes.publicData.location,
-    eventGeoLocation: pageData.listing.attributes.geolocation,
-  };
+  const orderParams = getOrderParams(
+    pageData,
+    shippingDetails,
+    optionalPaymentParams,
+    config,
+    currentUser
+  );
 
   // There are multiple XHR calls that needs to be made against Stripe API and Sharetribe Marketplace API on checkout with payments
   processCheckoutWithPayment(orderParams, requestPaymentParams)
@@ -293,8 +272,6 @@ const handleSubmit = (values, process, props, stripe, submitting, setSubmitting)
         initialMessageFailedToTransaction,
         savePaymentMethodFailed: !paymentMethodSaved,
       };
-
-      sendReminderEmail(emailDet);
       setOrderPageInitialValues(initialValues, routeConfiguration, dispatch);
       onSubmitCallback();
       history.push(orderDetailsPath);

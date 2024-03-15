@@ -140,12 +140,12 @@ export class TransactionPanelComponent extends Component {
       isInquiryProcess,
       orderBreakdown,
       orderPanel,
+      customerObj,
       config,
     } = this.props;
 
     const isCustomer = transactionRole === 'customer';
     const isProvider = transactionRole === 'provider';
-
     const listingDeleted = !!listing?.attributes?.deleted;
     const isCustomerBanned = !!customer?.attributes?.banned;
     const isCustomerDeleted = !!customer?.attributes?.deleted;
@@ -173,6 +173,7 @@ export class TransactionPanelComponent extends Component {
         secondaryButtonProps={stateData?.secondaryButtonProps}
         isListingDeleted={listingDeleted}
         isProvider={isProvider}
+        customerObj={customerObj}
       />
     );
 
