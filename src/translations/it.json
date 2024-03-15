@@ -705,6 +705,7 @@
     "SearchBar.time.to" : "A",
     "SearchBar.time.button" : "Vai!",
     "SearchBar.gioia": "Gioia",
+    "SearchBar.close": "Chiudi",
     "SearchFiltersMobile.cancel": "ANNULLA",
     "SearchFiltersMobile.filtersButtonLabel": "Filtri",
     "SearchFiltersMobile.foundResults": "{count, number} {count, plural, one {risultato} other {risultati}}",

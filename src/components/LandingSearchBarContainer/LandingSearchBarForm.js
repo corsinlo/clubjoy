@@ -23,7 +23,7 @@ function useWindowSize() {
   return windowSize;
 }
 
-const LandingSearchBarForm = ({ onSearchSubmit }) => {
+const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
   const routeConfiguration = useRouteConfiguration();
   const intl = useIntl();
   const searchPagePath = routeConfiguration
@@ -40,6 +40,7 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const { width } = useWindowSize();
   const isSmallScreen = width < 1024;
+  const closeDropdown = () => setIsDropdownOpen(false);
 
   useEffect(() => {
     if (window.google && window.google.maps) {
@@ -124,7 +125,7 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={css.form}>
+    <form onSubmit={handleSubmit} className={`${css.form} ${className || ''}`}>
       <button type="button" onClick={toggleDropdown} className={css.fieldSearch}>
         {intl.formatMessage({ id: 'SearchBar.selection' })}
       </button>
@@ -141,6 +142,9 @@ const LandingSearchBarForm = ({ onSearchSubmit }) => {
               {intl.formatMessage({ id: `SearchBar.selection.${option}` })}
             </label>
           ))}
+          <button type="button" onClick={closeDropdown} className={css.closeButton}>
+            {intl.formatMessage({ id: 'SearchBar.close' })}
+          </button>
         </div>
       )}
 

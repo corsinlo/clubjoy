@@ -502,9 +502,7 @@ export class SearchPageComponent extends Component {
                   </H3>
                 ) : null}
                 {!isValidDatesFilter ? (
-                  <H5>
-                    <FormattedMessage id="SearchPage.invalidDatesFilter" />
-                  </H5>
+                  <H5>{/*<FormattedMessage id="SearchPage.invalidDatesFilter" />*/}</H5>
                 ) : null}
                 <SearchResultsPanel
                   className={css.searchListingsPanel}

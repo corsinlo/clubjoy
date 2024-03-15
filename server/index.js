@@ -333,11 +333,10 @@ app.post('/add-contact', (req, res) => {
     }
   );
 });
-
+/*
 app.post('/send-reminder', async (req, res) => {
   const {
-    firstName,
-    lastName,
+    name,
     email,
     startDate,
     endDate,
@@ -382,8 +381,7 @@ app.post('/send-reminder', async (req, res) => {
   sendSmtpEmail.templateId = 3;
 
   sendSmtpEmail.params = {
-    firstName: firstName,
-    lastName: lastName,
+    name: name,
     startDate: displayStartDate,
     startTime: displayStartTime,
     endDate: displayEndDate,
@@ -391,7 +389,7 @@ app.post('/send-reminder', async (req, res) => {
     seats: seats,
     seatNames: seatNames.join(', <br>'),
     eventName: eventName,
-    location: eventLocation.address,
+    location: eventLocation,
     googleMapsLink: googleMapsLink, // Add Google Maps link here
     yahooCalendarLink: `https://calendar.yahoo.com/?v=60&view=d&type=20&title=${encodeURIComponent(
       eventName
@@ -400,7 +398,6 @@ app.post('/send-reminder', async (req, res) => {
     )}&in_loc=${encodeURIComponent(eventLocation.address)}`,
     googleCalendarLink: `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventName}&dates=${formattedStartDate}/${formattedEndDate}&details=For+details,+link+here:+http://www.clubjoy.it`,
   };
-
   apiInstance.sendTransacEmail(sendSmtpEmail).then(
     function(data) {
       res.json({ message: 'Email sent successfully', data }); // Send response back to client
@@ -411,7 +408,7 @@ app.post('/send-reminder', async (req, res) => {
     }
   );
 });
-
+*/
 const server = app.listen(PORT, () => {
   const mode = dev ? 'development' : 'production';
   console.log(`Listening to port ${PORT} in ${mode} mode`);

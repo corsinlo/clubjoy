@@ -109,11 +109,10 @@ router.post('/send-email', async (req, res) => {
     res.status(500).json({ error: 'Failed to send email' });
   }
 });
-
+/*
 router.post('/send-reminder', async (req, res) => {
   const {
-    firstName,
-    lastName,
+    name,
     email,
     startDate,
     endDate,
@@ -158,8 +157,7 @@ router.post('/send-reminder', async (req, res) => {
   sendSmtpEmail.templateId = 3;
 
   sendSmtpEmail.params = {
-    firstName: firstName,
-    lastName: lastName,
+    name: name,
     startDate: displayStartDate,
     startTime: displayStartTime,
     endDate: displayEndDate,
@@ -167,7 +165,7 @@ router.post('/send-reminder', async (req, res) => {
     seats: seats,
     seatNames: seatNames.join(', <br>'),
     eventName: eventName,
-    location: eventLocation.address,
+    location: eventLocation,
     googleMapsLink: googleMapsLink, // Add Google Maps link here
     yahooCalendarLink: `https://calendar.yahoo.com/?v=60&view=d&type=20&title=${encodeURIComponent(
       eventName
@@ -187,7 +185,7 @@ router.post('/send-reminder', async (req, res) => {
     }
   );
 });
-
+*/
 router.post('/add-contact', (req, res) => {
   const { email, listId, firstName, lastName } = req.body;
 

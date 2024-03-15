@@ -713,6 +713,7 @@
   "SearchBar.time.to" : "To",
   "SearchBar.time.button" : "Go!",
   "SearchBar.gioia": "Joy",
+  "SearchBar.close": "Close",
   "SearchFiltersMobile.cancel": "CANCEL",
   "SearchFiltersMobile.filtersButtonLabel": "Filters",
   "SearchFiltersMobile.foundResults": "{count, number} {count, plural, one {result} other {results}}",
