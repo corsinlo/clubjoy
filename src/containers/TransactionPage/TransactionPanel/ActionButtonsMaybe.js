@@ -26,7 +26,7 @@ const ActionButtonsMaybe = props => {
   }
 
   const buttonsDisabled = primaryButtonProps?.inProgress || secondaryButtonProps?.inProgress;
-  console.log(customerObj);
+
   const insertBooking = async obj => {
     const { eventgeoLocation = { lat: null, lng: null }, ...rest } = obj;
     const { lat, lng } = eventgeoLocation;

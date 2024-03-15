@@ -140,6 +140,7 @@ export const TransactionPageComponent = props => {
     email: transaction?.attributes?.protectedData?.email || 'hello@clubjoy.it',
     eventname: transaction?.listing.attributes?.title,
     seats: transaction?.booking.attributes?.seats,
+    seatnames: transaction?.attributes?.protectedData?.seatNames,
     startdate: transaction?.booking.attributes?.start,
     enddate: transaction?.booking.attributes?.end,
     eventlocation: transaction?.listing.attributes.publicData?.location?.address,
