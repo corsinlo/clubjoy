@@ -39,11 +39,6 @@ export const AsideContent = props => {
     <div className={css.asideContent}>
       <AvatarLarge className={css.avatar} user={user} disableProfileLink />
       <H2 as="h1" className={css.mobileHeading}>
-        {user.attributes.profile.publicData?.role === 'provider'
-          ? props.user.attributes.profile.publicData?.providerName
-          : ' '}
-      </H2>
-      <H2 as="h1" className={css.mobileHeading}>
         {displayName ? (
           <FormattedMessage id="ProfilePage.mobileHeading" values={{ name: displayName }} />
         ) : null}
