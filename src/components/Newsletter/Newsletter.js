@@ -11,6 +11,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const Newsletter = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [lastname, setLastname] = useState('');
   const intl = useIntl();
 
@@ -19,8 +21,8 @@ const Newsletter = () => {
 
     const contactData = {
       email: email,
-      name: name,
-      lastname: lastname,
+      firstName: name,
+      lastName: lastname,
       isNewsLetter: true,
     };
 
@@ -48,6 +50,7 @@ const Newsletter = () => {
       setLastname('');
     } catch (error) {
       console.error('Error adding contact:', error.message);
+      setErrorMessage(error.message);
     }
   };
 
@@ -55,6 +58,7 @@ const Newsletter = () => {
     <div className={css.formContainer}>
       <form onSubmit={handleSubmit} className={css.form}>
         <h3 style={{ color: 'white' }}>{intl.formatMessage({ id: 'Newsletter.header' })}</h3>
+        {errorMessage && <div className={css.alert}>{errorMessage}</div>}
         <div className={css.nameRow}>
           <input
             id="name"

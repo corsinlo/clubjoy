@@ -207,11 +207,39 @@ router.post('/add-contact', (req, res) => {
   apiInstance.createContact(createContact).then(
     function(data) {
       console.log('Contact added successfully:', data);
-      res.json(data);
+      let apiInstance2 = new SibApiV3.TransactionalEmailsApi();
+      let sendSmtpEmail = new SibApiV3.SendSmtpEmail();
+      sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
+      sendSmtpEmail.to = [{ email: email, name: firstName }];
+      sendSmtpEmail.templateId = 6;
+      sendSmtpEmail.params = {
+        firstName: firstName,
+      };
+      apiInstance2.sendTransacEmail(sendSmtpEmail).then(
+        function(emailData) {
+          res.json({ message: 'Contact added and email sent successfully', data, emailData });
+        },
+        function(emailError) {
+          console.error(emailError);
+          res
+            .status(500)
+            .send({ message: 'Contact added, but failed to send email', data, error: emailError });
+        }
+      );
     },
     function(error) {
       console.error(error);
-      res.status(500).send({ message: 'Error adding contact', error: error });
+      if (
+        error.response &&
+        error.response.body &&
+        error.response.body.code === 'duplicate_parameter'
+      ) {
+        console.log(`Duplicated Email: ${email}`); // Log the duplicated email
+        res.status(400).send({ message: 'Contact already exists', error: error });
+      } else {
+        // Handle other types of errors
+        res.status(500).send({ message: 'Error adding contact', error: error });
+      }
     }
   );
 });
