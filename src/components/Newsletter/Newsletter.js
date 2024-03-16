@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import css from './Newsletter.module.css';
-import * as validators from '../../util/validators';
 import { PrimaryButton } from '../Button/Button';
 import { useIntl } from 'react-intl';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
-const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correctly set in your .env file
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const Newsletter = () => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [lastname, setLastname] = useState('');
   const intl = useIntl();
 
   const handleSubmit = async event => {
@@ -18,14 +19,15 @@ const Newsletter = () => {
 
     const contactData = {
       email: email,
-      listId: 4,
+      name: name,
+      lastname: lastname,
+      isNewsLetter: true,
     };
 
     try {
-      // Insert the email into the Supabase 'newsletter' table
       const { data, error } = await supabase
         .from('newsletter')
-        .insert([{ email: email }])
+        .insert([{ email: email, firstName: name, lastName: lastname }])
         .select();
 
       const response = await fetch('/api/add-contact', {
@@ -36,31 +38,43 @@ const Newsletter = () => {
         body: JSON.stringify(contactData),
       });
 
-      // Check the response from your backend
       if (!response.ok) {
         const errorInfo = await response.json();
         throw new Error(errorInfo.message || 'Failed to add contact to the list');
       }
-      setEmail(''); // Clear the email input field
-      console.log('Contact added successfully.');
+
+      setEmail('');
+      setName('');
+      setLastname('');
     } catch (error) {
       console.error('Error adding contact:', error.message);
     }
   };
 
-  const required = value => (value ? undefined : 'Required');
-
   return (
     <div className={css.formContainer}>
       <form onSubmit={handleSubmit} className={css.form}>
-        <label htmlFor="email">
-          <h3 style={{ color: 'white' }}>
-            {' '}
-            {intl.formatMessage({
-              id: 'Newsletter.header',
-            })}
-          </h3>
-        </label>
+        <h3 style={{ color: 'white' }}>{intl.formatMessage({ id: 'Newsletter.header' })}</h3>
+        <div className={css.nameRow}>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            required
+            className={css.nameInput}
+            placeholder={'Mario'}
+          />
+          <input
+            id="lastname"
+            type="text"
+            value={lastname}
+            onChange={e => setLastname(e.target.value)}
+            required
+            className={css.nameInput}
+            placeholder={'Rossi'}
+          />
+        </div>
         <input
           id="email"
           type="email"
@@ -68,12 +82,10 @@ const Newsletter = () => {
           onChange={e => setEmail(e.target.value)}
           required
           className={css.inputField}
-          placeholder={'clubjoy@mail.it'}
+          placeholder={'ciao@clubjoy.it'}
         />
         <PrimaryButton type="submit" className={css.button}>
-          {intl.formatMessage({
-            id: 'Newsletter.button',
-          })}
+          {intl.formatMessage({ id: 'Newsletter.button' })}
         </PrimaryButton>
       </form>
     </div>

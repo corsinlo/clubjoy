@@ -309,22 +309,26 @@ app.post('/send-email', async (req, res) => {
 });
 
 app.post('/add-contact', (req, res) => {
-  const { email, listId, firstName, lastName } = req.body;
+  const { email, listId, firstName, lastName, isNewsletter } = req.body;
+
   let defaultClient = SibApiV3.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
   let apiInstance = new SibApiV3.ContactsApi();
   let createContact = new SibApiV3.CreateContact();
   createContact.email = email;
-  createContact.listIds = listId ? [listId] : [4];
-  /*
-  if (listId) {
-    createContact.listIds = [listId];
+
+  if (isNewsletter) {
+    createContact.listIds = [4];
+  } else {
+    createContact.listIds = [4, 5];
   }
-  */
+
   createContact.attributes = { FIRSTNAME: firstName, LASTNAME: lastName };
+
   apiInstance.createContact(createContact).then(
     function(data) {
+      console.log('Contact added successfully:', data);
       res.json(data);
     },
     function(error) {
@@ -333,6 +337,7 @@ app.post('/add-contact', (req, res) => {
     }
   );
 });
+
 /*
 app.post('/send-reminder', async (req, res) => {
   const {

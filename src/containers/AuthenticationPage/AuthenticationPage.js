@@ -196,6 +196,7 @@ export const AuthenticationForms = props => {
         email: values.email,
         firstName: values.fname,
         lastName: values.lname,
+        isNewsLetter: false,
       };
       console.log('contact  daTA', contactData);
       const { data, error } = await supabase
