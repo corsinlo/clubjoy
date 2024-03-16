@@ -190,14 +190,15 @@ export const AuthenticationForms = props => {
     const role = tab === 'bsignup' ? 'provider' : 'customer';
     const { fname: firstName, lname: lastName, ...rest } = values;
     const params = { firstName, lastName, ...rest, role };
-    console.log('valuea are', values);
+
     try {
       const contactData = {
         email: values.email,
         firstName: values.fname,
         lastName: values.lname,
+        isNewsLetter: false,
       };
-      console.log('contact  daTA', contactData);
+
       const { data, error } = await supabase
         .from('newsletter')
         .insert([{ email: values.email }])
@@ -218,9 +219,12 @@ export const AuthenticationForms = props => {
       });
 
       if (!response.ok) {
-        console.error('Error adding email to Brevo', await response.text());
-      } else {
-        console.log('Email added to Brevo');
+        const errorInfo = await response.json();
+        if (errorInfo.message !== 'Contact already exists') {
+          console.error('Error adding email to Brevo:', errorInfo.message);
+          alert('Email already present on Clubjoy');
+          allowSignup = false;
+        }
       }
 
       try {
