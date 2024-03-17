@@ -6,18 +6,19 @@
 }
 
 /* Adjust the checkbox size and margin */
-.dropdownLabel input[type="checkbox"] {
-  transform: scale(0.6); /* Further reduce the checkbox size; adjust scale as needed */
-  margin-right: 8px; /* Ensure consistent spacing between checkbox and label */
-  vertical-align: middle; /* Aligns the checkbox vertically to the middle of the text */
+.dropdownLabel {
+  display: grid; /* Changed from flex to grid */
+  grid-template-columns: min-content auto; /* Allocate space for checkbox and label */
+  gap: 10px; /* Space between checkbox and label */
+  align-items: center; /* Align items vertically */
+  padding: 5px 20px; /* Add padding for better touch */
 }
 
-/* Update label styling for consistent alignment and spacing */
-.dropdownLabel {
-  width:auto;
-  display: flex; /* Use flexbox layout for better alignment control */
-  align-items: center; /* Align items in the center vertically for consistent vertical alignment */
-  padding: 5px 20px; /* Adjust padding for closer spacing; change as needed for your design */
+/* Ensure checkboxes are styled correctly and aligned with the text */
+.dropdownLabel input[type="checkbox"] {
+  justify-self: start; /* Align checkbox to the start of its cell */
+  transform: scale(1); /* Adjust the size as needed */
+  margin-right: 0; /* No need for right margin as gap is used */
 }
 
 /* Ensure content is in a column and aligned properly */
@@ -189,7 +190,7 @@ input, select, .DateRangePicker {
     position: absolute; 
     right: -10px; 
     top: 50%; 
-    font-size: 15px;
+    font-size: 19px;
     transform: translateY(-50%); 
     padding: 10px 20px; 
     background-color: #012FA7; 
@@ -199,14 +200,18 @@ input, select, .DateRangePicker {
     height: 60px;
     max-width: 70px;
     width: 100px;
-    padding: 20px;
+    padding: 18px;
     cursor: pointer; 
   }
 
   .fieldSearch {
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start; 
+    padding-left: 10px;
     flex: 1 0 33.33%;
     height: 60px;
-    font-size: 15px;
+    font-size: 19px;
     width: 140px;
     font-weight: lighter;
     font-family: var(--fontFamily);
@@ -285,6 +290,10 @@ input, select, .DateRangePicker {
   }
 
   .fieldSearch {
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start; 
+    padding: 10px;
     flex: 1 0 33.33%;
     height: 60px;
     font-size: 20px;
@@ -374,6 +383,10 @@ input, select, .DateRangePicker {
   }
 
   .fieldSearch {
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start; 
+    padding-left: 10px; ;
     border-radius: 20px; 
     background: #FFF; 
     color: #b0b0b5 !important;
@@ -381,12 +394,13 @@ input, select, .DateRangePicker {
     width: 768px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-weight: 300;
-    font-size: medium;
+    font-size: 19px;
   }
 
   .button {
     padding: 10px 0; 
     height: 60px;
+    font-size: 19px;
   }
 
   .introText, .introText2 {
@@ -454,21 +468,26 @@ input, select, .DateRangePicker {
     margin-top: 0;
   }
   .fieldSearch {
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start; 
     box-sizing: border-box;
     height: 60px;
     margin-top: 10px;
+    padding-left: 10px;
     border-radius: 20px;
     background: #FFF;
     color: #b0b0b5 !important;
     border: 1px solid #ccc;
     font-weight: 300;
-    font-size: medium;
+    font-size: 19px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
   .button {
     padding: 10px 0; 
     height: 60px;
+    font-size: 19px;
     box-shadow: 0 5px 5px rgba(255, 255, 255, 0.5);
   }
 
