@@ -42,39 +42,42 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
   const isSmallScreen = width < 1024;
   const closeDropdown = () => setIsDropdownOpen(false);
 
-  useEffect(() => {
-    if (window.google && window.google.maps) {
-      initAutocomplete();
-    }
-  }, []);
+  // Removed useEffect for Google Maps Autocomplete
 
-  const initAutocomplete = () => {
-    const autocomplete = new window.google.maps.places.Autocomplete(
-      document.getElementById('location-input'),
-      { types: ['geocode'] }
-    );
-    autocomplete.addListener('place_changed', () => {
-      const place = autocomplete.getPlace();
-      if (!place.geometry) {
-        console.log('Returned place contains no geometry');
-        return;
+  const fetchLocationBounds = async inputLocation => {
+    if (!inputLocation) return; // Don't fetch if input is empty
+
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+      inputLocation
+    )}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.results.length > 0) {
+        const { geometry } = data.results[0];
+        const bounds = {
+          ne: {
+            _sdkType: 'LatLng',
+            lat: geometry.viewport.northeast.lat,
+            lng: geometry.viewport.northeast.lng,
+          },
+          sw: {
+            _sdkType: 'LatLng',
+            lat: geometry.viewport.southwest.lat,
+            lng: geometry.viewport.southwest.lng,
+          },
+          _sdkType: 'LatLngBounds',
+        };
+        setLocation(inputLocation); // Update location with the user input
+        setBounds(bounds); // Update bounds based on the best match
+      } else {
+        console.log('No results found');
+        setBounds(null); // Clear bounds if no results
       }
-      const bounds = {
-        ne: {
-          _sdkType: 'LatLng',
-          lat: place.geometry.viewport.getNorthEast().lat(),
-          lng: place.geometry.viewport.getNorthEast().lng(),
-        },
-        sw: {
-          _sdkType: 'LatLng',
-          lat: place.geometry.viewport.getSouthWest().lat(),
-          lng: place.geometry.viewport.getSouthWest().lng(),
-        },
-        _sdkType: 'LatLngBounds',
-      };
-      setBounds(bounds);
-      setLocation(place.name);
-    });
+    } catch (error) {
+      console.error('Failed to fetch location data:', error);
+    }
   };
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -192,7 +195,11 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
           id: 'SearchBar.location',
         })}
         value={location}
-        onChange={e => setLocation(e.target.value)}
+        onChange={e => {
+          const newLocation = e.target.value;
+          setLocation(newLocation); // Update location with user input for immediate feedback
+          fetchLocationBounds(newLocation); // Fetch bounds for new location
+        }}
         className={css.fieldSearch}
       />
       <button type="submit" className={css.button}>
