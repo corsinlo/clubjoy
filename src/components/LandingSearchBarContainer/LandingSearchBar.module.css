@@ -17,7 +17,7 @@
 /* Ensure checkboxes are styled correctly and aligned with the text */
 .dropdownLabel input[type="checkbox"] {
   justify-self: start; /* Align checkbox to the start of its cell */
-  transform: scale(1); /* Adjust the size as needed */
+  transform: scale(4); /* Adjust the size as needed */
   margin-right: 0; /* No need for right margin as gap is used */
 }
 
