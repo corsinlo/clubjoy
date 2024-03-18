@@ -14,16 +14,26 @@ import {
 
 import css from './AvailabilityPlanEntries.module.css';
 
-const HOURS = Array(24).fill();
+// Modify the printHourStrings function to accommodate 15-minute intervals
+const printHourStrings = (h, m) => {
+  const hours = h > 9 ? `${h}` : `0${h}`;
+  const minutes = m > 9 ? `${m}` : `0${m}`;
+  return `${hours}:${minutes}`;
+};
 
-// Internally, we use 00:00 ... 24:00 mapping for hour strings
-const printHourStrings = h => (h > 9 ? `${h}:00` : `0${h}:00`);
+// Generate quarter-hour time strings for start and end times
+const generateQuarterHourTimes = () => {
+  const times = [];
+  for (let h = 0; h < 24; h++) {
+    for (let m = 0; m < 60; m += 15) {
+      times.push(printHourStrings(h, m));
+    }
+  }
+  return times;
+};
 
-// Start hours and end hours for each day on weekly schedule
-// Note: if you need to use something else than sharp hours,
-//       you'll need to customize this.
-const ALL_START_HOURS = HOURS.map((v, i) => printHourStrings(i));
-const ALL_END_HOURS = HOURS.map((v, i) => printHourStrings(i + 1));
+const ALL_START_HOURS = generateQuarterHourTimes();
+const ALL_END_HOURS = [...ALL_START_HOURS, '24:00'];
 
 /**
  * Localize UI time for hours.
@@ -33,15 +43,24 @@ const ALL_END_HOURS = HOURS.map((v, i) => printHourStrings(i + 1));
  * @returns localized time format (e.g. '9:00 AM')
  */
 const localizedHourStrings = (hour24, intl) => {
-  const hour = Number.parseInt(hour24.split(':')[0]);
+  console.log(`Input time: ${hour24}`);
+  const splitTime = hour24.split(':');
+  const hour = Number.parseInt(splitTime[0]);
+  const minute = Number.parseInt(splitTime[1]);
+  console.log(`Parsed hour: ${hour}, Parsed minute: ${minute}`);
+
   // We use UTC (Jan 1) to generate hour strings
   const date = new Date(`${new Date().getUTCFullYear()}-01-01T00:00:00.000Z`);
   date.setUTCHours(hour);
+  date.setUTCMinutes(minute);
+  console.log(`UTC Date set to: ${date.toISOString()}`);
+
   const formattedHour = intl.formatTime(date, {
     hour: 'numeric',
     minute: 'numeric',
     timeZone: 'Etc/UTC',
   });
+  console.log(`Formatted time: ${formattedHour}`);
   return formattedHour;
 };
 
@@ -185,6 +204,7 @@ const TimeRangeSelects = props => {
     onRemove,
     intl,
   } = props;
+
   return (
     <div className={css.fieldWrapper} key={name}>
       <div className={css.formRow}>
