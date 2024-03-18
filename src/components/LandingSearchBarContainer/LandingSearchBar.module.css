@@ -15,10 +15,16 @@
 }
 
 /* Ensure checkboxes are styled correctly and aligned with the text */
-.dropdownLabel input[type="checkbox"] {
-  justify-self: start; /* Align checkbox to the start of its cell */
-  transform: scale(4); /* Adjust the size as needed */
-  margin-right: 0; /* No need for right margin as gap is used */
+.dropdownLabel input[type="checkbox"] { 
+  -webkit-appearance: none; /* Remove default iOS styling */
+    appearance: none; /* Standard CSS property to remove default styling */
+    width: 25px; /* Set a fixed width */
+    height: 25px; /* Set a fixed height */
+    background: white; /* Background color */
+    border-radius: 5px; /* Rounded borders */
+    border: 2px solid gray; /* Border color and width */
+    justify-self: start;
+    margin-right: 0;
 }
 
 /* Ensure content is in a column and aligned properly */
