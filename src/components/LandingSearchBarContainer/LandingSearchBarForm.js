@@ -30,7 +30,20 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
     ? createResourceLocatorString('SearchPage', routeConfiguration, {}, {})
     : '';
   const [location, setLocation] = useState('');
-  const [bounds, setBounds] = useState(null);
+  const [bounds, setBounds] = useState({
+    ne: {
+      _sdkType: 'LatLng',
+      lat: 45.535689,
+      lng: 9.2903463,
+    },
+    sw: {
+      _sdkType: 'LatLng',
+      lat: 45.3897787,
+      lng: 8.228119999999999,
+    },
+    _sdkType: 'LatLngBounds',
+  });
+
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [focusedInput, setFocusedInput] = useState(null);
@@ -71,6 +84,7 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
         };
         setLocation(inputLocation); // Update location with the user input
         setBounds(bounds); // Update bounds based on the best match
+        console.log('T', bounds);
       } else {
         console.log('No results found');
         setBounds(null); // Clear bounds if no results

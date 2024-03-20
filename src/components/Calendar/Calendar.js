@@ -29,14 +29,17 @@ function mergeTransactionsAndBookings(response) {
   const mergedData = transactions.map(transaction => {
     const bookingId = transaction.relationships.booking.data.id.uuid;
     const transactionBooking = bookings.find(booking => booking.id.uuid === bookingId);
-
+    const { unitType, seatNames } = transaction.attributes.protectedData;
     return {
       id: transaction.id.uuid,
       bookingId: bookingId,
       seats: transactionBooking?.attributes?.seats,
       start: transactionBooking?.attributes?.start,
       end: transactionBooking?.attributes?.end,
-      protectedData: transaction?.attributes?.protectedData,
+      protectedData: {
+        unitType,
+        seatNames,
+      },
     };
   });
 
@@ -87,7 +90,6 @@ function mergeTransactionsAndBookings(response) {
     }
   });
 
-  //console.log('Merged by start date:', mergedByStart);
   return mergedByStart;
 }
 
@@ -103,7 +105,7 @@ const transformListingsToEvents = (
     const monthEnd = moment(monthStart).endOf('month');
 
     while (monthStart.isBefore(monthEnd)) {
-      listing.attributes.availabilityPlan.entries.forEach(entry => {
+      listing.attributes.availabilityPlan?.entries?.forEach(entry => {
         const dayOfWeekNumber = dayOfWeekMap[entry.dayOfWeek.toLowerCase()];
         const currentDayOfWeekNumber = monthStart.day();
 
@@ -241,7 +243,9 @@ const MyCalendar = ({ ownListings, fetchOwnListings, fetchOrdersOrSales }) => {
                   const matchedBooking = mergedBookings.find(booking =>
                     activityDateTime.isSame(moment(booking.start), 'minute')
                   );
+
                   let namesCount = 0;
+
                   if (
                     matchedBooking &&
                     matchedBooking.protectedData &&
