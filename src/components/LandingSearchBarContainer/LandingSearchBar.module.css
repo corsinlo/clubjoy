@@ -16,8 +16,6 @@
 
 /* Ensure checkboxes are styled correctly and aligned with the text */
 .dropdownLabel input[type="checkbox"] { 
-  -webkit-appearance: none; /* Remove default iOS styling */
-    appearance: none; /* Standard CSS property to remove default styling */
     width: 25px; /* Set a fixed width */
     height: 25px; /* Set a fixed height */
     background: white; /* Background color */
