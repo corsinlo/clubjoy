@@ -16,8 +16,6 @@
 
 /* Ensure checkboxes are styled correctly and aligned with the text */
 .dropdownLabel input[type="checkbox"] { 
-  -webkit-appearance: none; /* Remove default iOS styling */
-    appearance: none; /* Standard CSS property to remove default styling */
     width: 25px; /* Set a fixed width */
     height: 25px; /* Set a fixed height */
     background: white; /* Background color */
@@ -152,7 +150,7 @@ input, select, .DateRangePicker {
 .closeButton:hover {
   color:#012FA7; 
 }
-@media (min-width: 1025px) and (max-width: 1459px) {
+@media (min-width: 1025px) and (max-width: 1439px) {
   .dropdownContent {
     position: absolute;
     display: flex; /* Add flex display to dropdown content */
@@ -251,7 +249,7 @@ input, select, .DateRangePicker {
   }
 }
 
-@media (min-width: 1460px) {
+@media (min-width: 1440px) {
 
   .form {
     position: relative;
@@ -271,8 +269,12 @@ input, select, .DateRangePicker {
     width: 25%
   }
 
+  .introText, .introText2 {
+    margin-left: 180px; 
+  }
+
   .barContainer{
-    margin-left: 110px;
+    margin-left: 150px;
   }
 
   .button {
