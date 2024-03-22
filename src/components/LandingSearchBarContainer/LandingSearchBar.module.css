@@ -150,7 +150,7 @@ input, select, .DateRangePicker {
 .closeButton:hover {
   color:#012FA7; 
 }
-@media (min-width: 1025px) and (max-width: 1439px) {
+@media (min-width: 1025px) and (max-width: 1625px) {
   .dropdownContent {
     position: absolute;
     display: flex; /* Add flex display to dropdown content */
@@ -194,7 +194,7 @@ input, select, .DateRangePicker {
     position: absolute; 
     right: -10px; 
     top: 50%; 
-    font-size: 19px;
+    font-size: 14px;
     transform: translateY(-50%); 
     padding: 10px 20px; 
     background-color: #012FA7; 
@@ -215,7 +215,7 @@ input, select, .DateRangePicker {
     padding-left: 10px;
     flex: 1 0 33.33%;
     height: 60px;
-    font-size: 19px;
+    font-size: 14px;
     width: 140px;
     font-weight: lighter;
     font-family: var(--fontFamily);
@@ -249,7 +249,7 @@ input, select, .DateRangePicker {
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1441px) {
 
   .form {
     position: relative;
