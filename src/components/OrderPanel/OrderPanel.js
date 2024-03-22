@@ -189,6 +189,8 @@ const OrderPanel = props => {
   const { listingType, unitType, transactionProcessAlias = '' } = publicData || {};
   const processName = resolveLatestProcessName(transactionProcessAlias.split('/')[0]);
   const lineItemUnitType = lineItemUnitTypeMaybe || `line-item/${unitType}`;
+  const isAuthorDefined = !!author;
+  const providerName = isAuthorDefined ? author.attributes.profile.publicData?.providerName : '';
 
   const price = listing?.attributes?.price;
   const isPaymentProcess = processName !== INQUIRY_PROCESS_NAME;
@@ -288,8 +290,8 @@ const OrderPanel = props => {
         <div className={css.author}>
           <AvatarSmall user={author} className={css.providerAvatar} />
           <span className={css.providerNameLinked}>
-            {/*`${props.author.attributes.profile.publicData.company} - ` ?? ''*/}
-            <FormattedMessage id="OrderPanel.author" values={{ name: authorLink }} />
+            {providerName}
+            {/*<FormattedMessage id="OrderPanel.author" values={{ name: authorLink }} />*/}
           </span>
           <span className={css.providerNamePlain}>
             <FormattedMessage id="OrderPanel.author" values={{ name: authorDisplayName }} />

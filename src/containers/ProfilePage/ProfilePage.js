@@ -164,6 +164,9 @@ export const MainContent = props => {
     user,
   } = props;
 
+  const isAuthorDefined = !!props.user?.attributes?.profile.publicData?.providerName;
+  const providerName = isAuthorDefined ? props.user.attributes.profile.publicData.providerName : '';
+
   const hasListings = listings.length > 0;
   const isMobileLayout = viewport.width < MAX_MOBILE_SCREEN_WIDTH;
   const hasBio = !!bio;
@@ -181,9 +184,15 @@ export const MainContent = props => {
   }
   return (
     <div>
-      <H2 as="h1" className={css.desktopHeading}>
-        {`${props.user.attributes.profile.publicData.providerName}` ?? ''}
-      </H2>
+      {isAuthorDefined ? (
+        <H2 as="h1" className={css.desktopHeading}>
+          {providerName}
+        </H2>
+      ) : (
+        <H2 as="h1" className={css.desktopHeading}>
+          {displayName}
+        </H2>
+      )}
       <H2 as="h1" className={css.desktopHeading}>
         <FormattedMessage id="ProfilePage.desktopHeading" values={{ name: displayName }} />
       </H2>

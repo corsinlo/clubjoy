@@ -869,19 +869,22 @@
 }
 
 
-@media (min-width: 1025px) and (max-width: 1459px) {
+@media (min-width: 1025px) and (max-width: 1625px) {
 
   .DateRangePickerInput {
     border: 1px solid #ccc; 
     text-align: center;
-   
   }
 
   .DateInput {
     margin: 0;
     background: #fff;
     display: inline-block;
-    width: 40%;
-    vertical-align: middle
+    width: 30%;
+    vertical-align: middle;
+  }
+
+  .DateInput_input {
+    font-size:14px
   }
 }

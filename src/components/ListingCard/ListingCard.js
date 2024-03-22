@@ -85,6 +85,7 @@ export const ListingCardComponent = props => {
   const slug = createSlug(title);
   const author = ensureUser(listing.author);
   const authorName = author.attributes.profile.displayName;
+  const providerName = author.attributes.profile.publicData?.providerName || '';
   const firstImage =
     currentListing.images && currentListing.images.length > 0 ? currentListing.images[0] : null;
 
@@ -131,7 +132,7 @@ export const ListingCardComponent = props => {
           </div>
           {showAuthorInfo ? (
             <div className={css.authorInfo}>
-              <FormattedMessage id="ListingCard.author" values={{ authorName }} />
+              {providerName} by <FormattedMessage id="ListingCard.author" values={{ authorName }} />
             </div>
           ) : null}
         </div>
