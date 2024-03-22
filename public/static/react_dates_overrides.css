@@ -843,9 +843,8 @@
     margin: 0;
     padding: 0;
     background: #fff;
-    display: inline-block;
-    width: 20%;
-    vertical-align: middle
+    width: 40%;
+    vertical-align: middle;
   }
 }
 
@@ -864,12 +863,17 @@
     margin: 0;
     padding: 0;
     background: #fff;
-    vertical-align: middle
+    vertical-align: middle;
+    width: 42%;
+  }
+
+  .DateInput_input {
+    font-size:14px
   }
 }
 
 
-@media (min-width: 1025px) and (max-width: 1625px) {
+@media (min-width: 1025px) {
 
   .DateRangePickerInput {
     border: 1px solid #ccc; 
@@ -878,13 +882,33 @@
 
   .DateInput {
     margin: 0;
+    padding: 0;
     background: #fff;
-    display: inline-block;
-    width: 30%;
     vertical-align: middle;
+    width: 30%;
   }
 
   .DateInput_input {
-    font-size:14px
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1800px) {
+
+  .DateRangePickerInput {
+    border: 1px solid #ccc; 
+    text-align: center;
+  }
+
+  .DateInput {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    vertical-align: middle;
+    width: 30%;
+  }
+
+  .DateInput_input {
+    font-size: 20px;
   }
 }
