@@ -141,10 +141,15 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
     }
   };
 
+  const selectedJoyText =
+    joy.length > 0
+      ? `${joy.map(value => intl.formatMessage({ id: `SearchBar.selection.${value}` })).join(', ')}`
+      : intl.formatMessage({ id: 'SearchBar.selection' });
+
   return (
     <form onSubmit={handleSubmit} className={`${css.form} ${className || ''}`}>
       <button type="button" onClick={toggleDropdown} className={css.fieldSearch}>
-        {intl.formatMessage({ id: 'SearchBar.selection' })}
+        {selectedJoyText}
       </button>
       {isDropdownOpen && (
         <div className={css.dropdownContent}>

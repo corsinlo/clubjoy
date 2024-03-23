@@ -13,7 +13,7 @@ import loadable from '@loadable/component';
 import difference from 'lodash/difference';
 import mapValues from 'lodash/mapValues';
 import moment from 'moment';
-
+import CookieConsent from 'react-cookie-consent';
 // Configs and store setup
 import defaultConfig from './config/configDefault';
 import appSettings from './config/settings';
@@ -261,6 +261,26 @@ export const ClientApp = props => {
           <HelmetProvider>
             <IncludeScripts config={appConfig} />
             <BrowserRouter>
+              <CookieConsent
+                enableDeclineButton
+                location="bottom"
+                buttonText="Accetto" // "I accept" in Italian
+                declineButtonText="Rifiuto" // "I refuse" in Italian
+                cookieName="userCookieConsent"
+                style={{ background: '#012FA7', color: 'white' }} // Banner background and text color
+                buttonStyle={{ background: 'green', color: 'white', fontSize: '13px' }} // Accept button style
+                declineButtonStyle={{ background: 'red', color: 'white', fontSize: '13px' }} // Decline button style
+                expires={150} // Duration in days before the cookie expires
+                onAccept={() => {
+                  alert("Hai accettato l'utilizzo dei cookie."); // Alert or function for when cookies are accepted
+                }}
+                onDecline={() => {
+                  alert("Hai rifiutato l'utilizzo dei cookie non essenziali."); // Alert or function for when cookies are declined
+                }}
+              >
+                Questo sito utilizza cookie per garantire la migliore esperienza sul nostro sito
+                web.
+              </CookieConsent>
               <Routes logLoadDataCalls={logLoadDataCalls} />
             </BrowserRouter>
           </HelmetProvider>
