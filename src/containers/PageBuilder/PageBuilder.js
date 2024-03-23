@@ -5,6 +5,7 @@ import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer.js
 import FooterContainer from '../FooterContainer/FooterContainer.js';
 import LandingSearchBarContainer from '../../components/LandingSearchBarContainer/LandingSearchBarContainer.js';
 import Newsletter from '../../components/Newsletter/Newsletter.js';
+import Counter from '../../components/Counter/Counter.js';
 import { validProps } from './Field';
 import classNames from 'classnames';
 
@@ -162,6 +163,7 @@ const PageBuilder = props => {
                         ) : isLandingPage ? (
                           <>
                             <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} />
+                            <Counter />
                             <SectionBuilder sections={sections} options={options} />
                             <Newsletter />
                           </>

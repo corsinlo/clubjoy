@@ -148,6 +148,7 @@
   "ContactDetailsForm.tooManyVerificationRequests": "Too many verification requests have been sent for this email.",
   "ContactDetailsPage.heading": "Contact details",
   "ContactDetailsPage.title": "Contact details",
+  "Counter.title":"Changed plans Today",
   "CustomExtendedDataField.placeholderBoolean": "Select…",
   "CustomExtendedDataField.placeholderLong": "Add number",
   "CustomExtendedDataField.placeholderSingleSelect": "Select…",
