@@ -247,6 +247,10 @@ input, select, .DateRangePicker {
   .landingBarContainer .fieldSearch {
     width: 400px; /* Sets the width of input fields when part of the landing bar container */
   }
+
+  .barContainer{
+    margin-left: 5px;
+  }
 }
 
 @media (min-width: 1800px) {
@@ -274,7 +278,7 @@ input, select, .DateRangePicker {
   }
 
   .barContainer{
-    margin-left: 150px;
+    margin-left: 160px;
   }
 
   .button {
