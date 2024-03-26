@@ -50,11 +50,12 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
   const history = useHistory();
   const [joy, setJoy] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const { width } = useWindowSize();
   const isSmallScreen = width < 1024;
   const closeDropdown = () => setIsDropdownOpen(false);
-
+  const closeDropdown2 = () => setIsDropdownOpen2(false);
   // Removed useEffect for Google Maps Autocomplete
 
   const fetchLocationBounds = async inputLocation => {
@@ -95,7 +96,7 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
   };
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-
+  const toggleDropdown2 = () => setIsDropdownOpen2(!isDropdownOpen2);
   const handleJoyChange = value => {
     if (joy.includes(value)) {
       setJoy(joy.filter(item => item !== value)); // Remove item if already selected
@@ -207,7 +208,38 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
           />
         </div>
       )}
-      <input
+
+      <button type="button" onClick={toggleDropdown2} className={css.fieldSearch}>
+        {location || intl.formatMessage({ id: 'SearchBar.location' })}
+      </button>
+      {isDropdownOpen2 && (
+        <div className={css.dropdownContent2}>
+          <div
+            key="Milan"
+            className={css.dropdownLabel2}
+            onClick={() => {
+              setLocation('Milan');
+              setBounds({
+                ne: { _sdkType: 'LatLng', lat: 45.69035477, lng: 9.45274511 },
+                sw: { _sdkType: 'LatLng', lat: 45.35118175, lng: 8.92540136 },
+                _sdkType: 'LatLngBounds',
+              });
+              setIsDropdownOpen2(false); // Close dropdown after selection
+            }}
+          >
+            Milan
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsDropdownOpen2(false)}
+            className={css.closeButton}
+          >
+            {intl.formatMessage({ id: 'SearchBar.close' })}
+          </button>
+        </div>
+      )}
+
+      {/*<input
         id="location-input"
         type="text"
         placeholder={intl.formatMessage({
@@ -220,7 +252,7 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
           fetchLocationBounds(newLocation); // Fetch bounds for new location
         }}
         className={css.fieldSearch}
-      />
+      />*/}
       <button type="submit" className={css.button}>
         {intl.formatMessage({
           id: 'SearchBar.time.button',

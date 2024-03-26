@@ -4,7 +4,30 @@
 .dropdown {
   position: relative; /* This makes sure that the dropdownContent positions itself relative to this container */
 }
+.dropdownContent2 {
+  position: absolute;
+  display: flex; /* Add flex display to dropdown content */
+  flex-direction: column; /* Stack items vertically in a column */
+  align-items: flex-start; /* Align items to the start (left) ensuring checkboxes are aligned in a column */
+  z-index: 1000;
+  right: 60px; /* Align to the left edge of the dropdownWrapper */
+  top: 80px; /* Position below the button */
+  width:25%;
+  background: white;
+  border: 1px solid #ccc; /* Optional: adds a border */
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* Optional: adds shadow for depth */
+  padding: 10px 0; /* Adds some padding inside the dropdown */
+  font-size: 15px;
+  color: #333;
+}
 
+.dropdownLabel2 {
+  display: grid; /* Changed from flex to grid */
+  grid-template-columns: min-content auto; /* Allocate space for checkbox and label */
+  gap: 10px; /* Space between checkbox and label */
+  align-items: center; /* Align items vertically */
+  padding: 5px 20px; /* Add padding for better touch */
+}
 /* Adjust the checkbox size and margin */
 .dropdownLabel {
   display: grid; /* Changed from flex to grid */
@@ -421,10 +444,21 @@ input, select, .DateRangePicker {
     margin-left: 0px; 
   }
   
+  .dropdownOption {
+    background-color: blue; /* Example property */
+    color: white; /* Example property */
+  }
+
   .dropdownContent {
-    top: 175px; /* Adjusts the position on smaller screens */
+    top: 155px; 
     width: 700px;
-    left: 80px;
+    left: 120px;
+  }
+
+  .dropdownContent2 {
+    top: 510px;
+    width: 700px;
+    left: 120px;
   }
   
 }
@@ -509,8 +543,14 @@ input, select, .DateRangePicker {
   }
 
   .dropdownContent {
-    top: 155px; /* Adjusts the position on smaller screens */
+    top: 155px; 
     width: 300px;
-    left: 40px;
+    left: 70px;
+  }
+
+  .dropdownContent2 {
+    top: 310px;
+    width: 300px;
+    left: 65px;
   }
 }

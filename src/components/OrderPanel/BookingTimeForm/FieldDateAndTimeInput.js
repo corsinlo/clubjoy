@@ -418,7 +418,7 @@ class FieldDateAndTimeInput extends Component {
       seatsLabel,
       form,
     } = this.props;
-
+    console.log(this.props);
     const classes = classNames(rootClassName || css.root, className);
 
     const bookingStartDate =
@@ -488,9 +488,14 @@ class FieldDateAndTimeInput extends Component {
     }
 
     const seatsArray =
-      Array(selectedTimeSlot?.attributes.seats)
-        .fill()
-        .map((_, i) => i + 1) || null;
+      this.props.listingId && this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+        ? Array(selectedTimeSlot?.attributes.seats)
+            .fill()
+            .map((_, i) => i + 1)
+            .filter(seat => seat % 2 === 0) // For the specific listing ID
+        : Array(selectedTimeSlot?.attributes.seats)
+            .fill()
+            .map((_, i) => i + 1); // For all other listings
 
     const seatsSelectionMaybe =
       seatsArray?.length > 1 ? (
