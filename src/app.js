@@ -278,8 +278,15 @@ export const ClientApp = props => {
                   alert("Hai rifiutato l'utilizzo dei cookie non essenziali."); // Alert or function for when cookies are declined
                 }}
               >
-                Questo sito utilizza cookie per garantire la migliore esperienza sul nostro sito
-                web.
+                Questo sito utilizza cookie per garantire la migliore esperienza sul nostro sito web
+                per maggiori informazione leggi ls notstra{' '}
+                <a
+                  href="https://www.clubjoy.it/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Privacy Policy
+                </a>
               </CookieConsent>
               <Routes logLoadDataCalls={logLoadDataCalls} />
             </BrowserRouter>

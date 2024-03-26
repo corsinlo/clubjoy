@@ -446,8 +446,11 @@ input, select, .DateRangePicker {
     font-weight: bold;
     height:auto;
     margin-top: 40px; 
-    font-size: 30px; 
+    font-size: 22px; 
     color: #333; 
+  }
+  .introText2 {
+    font-size:18px;  
   }
   
   .dateWrapper{
@@ -494,14 +497,14 @@ input, select, .DateRangePicker {
     color: #b0b0b5 !important;
     border: 1px solid #ccc;
     font-weight: 300;
-    font-size: 19px;
+    font-size: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
   .button {
     padding: 10px 0; 
     height: 60px;
-    font-size: 19px;
+    font-size: 12px;
     box-shadow: 0 5px 5px rgba(255, 255, 255, 0.5);
   }
 

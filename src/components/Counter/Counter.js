@@ -34,6 +34,7 @@ const Counter = () => {
       <h3 style={{ color: 'white' }}>
         <span className={css.counterValue}>
           {String(counter)
+            .padStart(3, '0')
             .split('')
             .map((digit, index) => (
               <span key={index} className={css.digitBox}>
