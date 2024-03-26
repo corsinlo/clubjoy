@@ -57,7 +57,9 @@ const Newsletter = () => {
   return (
     <div className={css.formContainer}>
       <form onSubmit={handleSubmit} className={css.form}>
-        <h3 style={{ color: 'white' }}>{intl.formatMessage({ id: 'Newsletter.header' })}</h3>
+        <h3 style={{ color: 'white', textAlign: 'center' }}>
+          {intl.formatMessage({ id: 'Newsletter.header' })}
+        </h3>
         {errorMessage && <div className={css.alert}>{errorMessage}</div>}
         <div className={css.nameRow}>
           <input

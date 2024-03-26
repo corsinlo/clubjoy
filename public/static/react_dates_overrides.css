@@ -846,6 +846,10 @@
     width: 40%;
     vertical-align: middle;
   }
+
+  .DateInput_input {
+    font-size: 12px;
+  }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
