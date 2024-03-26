@@ -33,13 +33,13 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
   const [bounds, setBounds] = useState({
     ne: {
       _sdkType: 'LatLng',
-      lat: 45.535689,
-      lng: 9.2903463,
+      lat: 46.1206089,
+      lng: 9.87571875,
     },
     sw: {
       _sdkType: 'LatLng',
-      lat: 45.3897787,
-      lng: 8.228119999999999,
+      lat: 45.07327975,
+      lng: 8.7056748,
     },
     _sdkType: 'LatLngBounds',
   });
@@ -220,8 +220,16 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
             onClick={() => {
               setLocation('Milan');
               setBounds({
-                ne: { _sdkType: 'LatLng', lat: 45.69035477, lng: 9.45274511 },
-                sw: { _sdkType: 'LatLng', lat: 45.35118175, lng: 8.92540136 },
+                ne: {
+                  _sdkType: 'LatLng',
+                  lat: 46.1206089,
+                  lng: 9.87571875,
+                },
+                sw: {
+                  _sdkType: 'LatLng',
+                  lat: 45.07327975,
+                  lng: 8.7056748,
+                },
                 _sdkType: 'LatLngBounds',
               });
               setIsDropdownOpen2(false); // Close dropdown after selection
