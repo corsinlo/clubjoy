@@ -1,36 +1,44 @@
 .formContainer {
-    background-color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-  }
-  
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row; 
+}
 
-  .counterTitle {
-    color:  #012FA7;
-    font-size: 24px; 
-    text-align: center; 
-    padding:20px;
-  }
-  
+.counterTitle {
+  color: #012FA7;
+  font-size: 20px; 
+  text-align: center; 
+  padding: 20px;
+}
 
-  .counterValue {
-    color: #012FA7;
-    display: inline-flex;
-    font-size: 2em; 
+@media (max-width: 768px) {
+.formContainer {
+  flex-direction: column; 
   }
-  .digitBox {
-    background-color: #f0f0f0; 
-    width: 50px; 
-    height: 50px;
-    margin: 0 5px; 
-    padding: 10px;
-    border-radius: 5px; 
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
+}
+
+.counterTitle {
+  font-size: 18px; 
+}
+
+.counterValue {
+  color: #012FA7;
+  display: inline-flex;
+  font-size: 2em;
+}
+
+.digitBox {
+  background-color: #f0f0f0; 
+  width: 50px; 
+  height: 50px;
+  margin: 0 5px; 
+  padding: 10px;
+  border-radius: 5px; 
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

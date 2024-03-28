@@ -418,7 +418,7 @@ class FieldDateAndTimeInput extends Component {
       seatsLabel,
       form,
     } = this.props;
-    console.log(this.props);
+
     const classes = classNames(rootClassName || css.root, className);
 
     const bookingStartDate =
@@ -487,15 +487,9 @@ class FieldDateAndTimeInput extends Component {
       // No need to handle error
     }
 
-    const seatsArray =
-      this.props.listingId && this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
-        ? Array(selectedTimeSlot?.attributes.seats)
-            .fill()
-            .map((_, i) => i + 1)
-            .filter(seat => seat % 2 === 0) // For the specific listing ID
-        : Array(selectedTimeSlot?.attributes.seats)
-            .fill()
-            .map((_, i) => i + 1); // For all other listings
+    const seatsArray = Array(selectedTimeSlot?.attributes.seats)
+      .fill()
+      .map((_, i) => i + 1);
 
     const seatsSelectionMaybe =
       seatsArray?.length > 1 ? (
@@ -514,7 +508,15 @@ class FieldDateAndTimeInput extends Component {
           label={seatsLabel}
         >
           {seatsArray.map(s => (
-            <option value={s} key={s}>
+            <option
+              value={s}
+              key={s}
+              disabled={
+                this.props.listingId &&
+                this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+                s % 2 !== 0
+              }
+            >
               {s}
             </option>
           ))}

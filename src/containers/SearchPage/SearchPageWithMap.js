@@ -498,7 +498,7 @@ export class SearchPageComponent extends Component {
               >
                 {searchListingsError ? (
                   <H3 className={css.error}>
-                    <FormattedMessage id="SearchPage.searchError" />
+                    {/* <FormattedMessage id="SearchPage.searchError" />*/}
                   </H3>
                 ) : null}
                 {!isValidDatesFilter ? (

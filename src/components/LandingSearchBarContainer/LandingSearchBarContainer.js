@@ -28,15 +28,19 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
 
   const backgroundStyle = {
     backgroundImage: `url(${isMobile ? landingCoverMobile : landingCover})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center center',
+    backgroundSize: 'contain',
     height: isMobile ? '800px' : '700px',
   };
 
   return (
     <div className={css.landingBarContainer} style={backgroundStyle}>
       <div className={css.introText}>Di creativo ti rimane solo il parcheggio?</div>
-      <div className={css.introText2}>Scopri il tuo nuovo hobby preferito con Club Joy</div>
+      <div className={css.introText2}>
+        Dal corso di ceramica alla lezione di pittura, su Club Joy
+        <br /> trovi le migliori esperienze creative di Milano e dintorni
+        <br />
+        <br /> Il tuo nuovo hobby preferito e' distanza di un click
+      </div>
       <div className={css.barContainer}>
         <LandingSearchBarForm onSearchSubmit={onSearchSubmit} />
       </div>
