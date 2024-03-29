@@ -154,7 +154,7 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
       </button>
       {isDropdownOpen && (
         <div className={css.dropdownContent}>
-          {[1, 2, 3, 4, 5, 6].map(option => (
+          {[1, 2, 3, 6].map(option => (
             <label key={option} className={css.dropdownLabel}>
               <input
                 type="checkbox"
@@ -205,6 +205,7 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
             numberOfMonths={isSmallScreen ? 1 : 2}
             autoFocus={isSmallScreen}
             noBorder={isSmallScreen}
+            displayFormat="M/D"
           />
         </div>
       )}
@@ -218,7 +219,7 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
             key="Milan"
             className={css.dropdownLabel2}
             onClick={() => {
-              setLocation('Milan');
+              setLocation('Milano e Dintorni');
               setBounds({
                 ne: {
                   _sdkType: 'LatLng',
@@ -232,10 +233,10 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
                 },
                 _sdkType: 'LatLngBounds',
               });
-              setIsDropdownOpen2(false); // Close dropdown after selection
+              setIsDropdownOpen2(false);
             }}
           >
-            Milan
+            <span className={css.option}>Milano e Dintorni</span>
           </div>
           <button
             type="button"

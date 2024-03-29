@@ -1,24 +1,29 @@
 @import '../../styles/customMediaQueries.css';
 
-
+.option{
+  font-size: 12px;
+}
 .dropdown {
   position: relative; /* This makes sure that the dropdownContent positions itself relative to this container */
 }
 .dropdownContent2 {
   position: absolute;
+  white-space: nowrap;
+  overflow: hidden; /* Prevents overflow */
+  text-overflow: ellipsis; 
   display: flex; /* Add flex display to dropdown content */
   flex-direction: column; /* Stack items vertically in a column */
   align-items: flex-start; /* Align items to the start (left) ensuring checkboxes are aligned in a column */
   z-index: 1000;
-  right: 60px; /* Align to the left edge of the dropdownWrapper */
+  left: 310px; /* Align to the left edge of the dropdownWrapper */
   top: 80px; /* Position below the button */
-  width:25%;
+  width:45%;
   background: white;
   border: 1px solid #ccc; /* Optional: adds a border */
   box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* Optional: adds shadow for depth */
   padding: 10px 0; /* Adds some padding inside the dropdown */
-  font-size: 15px;
-  color: #333;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .dropdownLabel2 {
@@ -161,7 +166,8 @@ input, select, .DateRangePicker {
   border: none;
   cursor: pointer;
   color: gray;
-  transition: color 0.3s; 
+  transition: color 0.3s;
+  font-size: small; 
 }
 
 .fieldSearch {
@@ -190,8 +196,17 @@ input, select, .DateRangePicker {
   }
 
   .introText, .introText2 {
-    margin-left: 30px; 
+    margin-left: 100px; 
   }
+
+  .introText {
+    font-size:18px
+  }
+  .introText2 {
+    font-size:14px;
+    font-weight:600
+  }
+
   .closeButton{
     margin-top: 10px;
     font-size: small;
@@ -272,7 +287,19 @@ input, select, .DateRangePicker {
   }
 
   .barContainer{
-    margin-left: 5px;
+    margin-left: 80px;
+  }
+
+  .dropdownContent {
+    top: 80px; 
+    width: 200px;
+    left: 50px;
+  }
+
+  .dropdownContent2 {
+    top: 80px;
+    width: 200px;
+    left: 550px;
   }
 }
 
@@ -299,7 +326,12 @@ input, select, .DateRangePicker {
   .introText, .introText2 {
     margin-left: 180px; 
   }
-
+  .introText {
+    font-size:24px
+  }
+.introText2 {
+    font-size:20px
+  }
   .barContainer{
     margin-left: 160px;
   }
@@ -360,6 +392,18 @@ input, select, .DateRangePicker {
       border-left: 0;
     }
   }
+
+  .dropdownContent {
+    top: 80px; 
+    width: 200px;
+    left: 50px;
+  }
+
+  .dropdownContent2 {
+    top: 80px;
+    width: 200px;
+    left: 550px;
+  }
 }
 
 
@@ -387,8 +431,11 @@ input, select, .DateRangePicker {
     font-weight: bold;
     height:auto;
     margin-top: 40px; 
-    font-size: 30px; 
+    font-size: 24px; 
     color: #333; 
+  }
+  .introText2 {
+    font-size: 18px; 
   }
 
   .dateWrapper{
@@ -431,7 +478,7 @@ input, select, .DateRangePicker {
     width: 768px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-weight: 300;
-    font-size: 19px;
+    font-size: 14px;
   }
 
   .button {
@@ -450,14 +497,14 @@ input, select, .DateRangePicker {
   }
 
   .dropdownContent {
-    top: 155px; 
-    width: 700px;
+    top: 255px; 
+    width: 635px;
     left: 120px;
   }
 
   .dropdownContent2 {
-    top: 510px;
-    width: 700px;
+    top: 640px;
+    width: 635px;
     left: 120px;
   }
   
@@ -480,11 +527,11 @@ input, select, .DateRangePicker {
     font-weight: bold;
     height:auto;
     margin-top: 40px; 
-    font-size: 22px; 
+    font-size:18px; 
     color: #333; 
   }
   .introText2 {
-    font-size:18px;  
+    font-size:12px;  
   }
   
   .dateWrapper{
@@ -538,19 +585,19 @@ input, select, .DateRangePicker {
   .button {
     padding: 10px 0; 
     height: 60px;
-    font-size: 12px;
+    font-size: 15px;
     box-shadow: 0 5px 5px rgba(255, 255, 255, 0.5);
   }
 
   .dropdownContent {
-    top: 155px; 
+    top: 225px; 
     width: 300px;
-    left: 70px;
+    left: 25px;
   }
 
   .dropdownContent2 {
-    top: 310px;
+    top: 430px;
     width: 300px;
-    left: 65px;
+    left: 25px;
   }
 }
