@@ -16,8 +16,9 @@
 
 @media (max-width: 768px) {
 .formContainer {
+  margin-top: 100px;
   flex-direction: column; 
-  }
+  };
 }
 
 .counterTitle {
@@ -25,6 +26,7 @@
 }
 
 .counterValue {
+  margin-top: 100px;
   color: #012FA7;
   display: inline-flex;
   font-size: 2em;

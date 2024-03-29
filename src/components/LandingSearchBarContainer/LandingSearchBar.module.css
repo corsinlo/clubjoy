@@ -196,14 +196,15 @@ input, select, .DateRangePicker {
   }
 
   .introText, .introText2 {
-    margin-left: 30px; 
+    margin-left: 100px; 
   }
 
   .introText {
     font-size:18px
   }
   .introText2 {
-    font-size:14px
+    font-size:14px;
+    font-weight:600
   }
 
   .closeButton{
@@ -286,7 +287,7 @@ input, select, .DateRangePicker {
   }
 
   .barContainer{
-    margin-left: 5px;
+    margin-left: 80px;
   }
 
   .dropdownContent {
@@ -589,14 +590,14 @@ input, select, .DateRangePicker {
   }
 
   .dropdownContent {
-    top: 255px; 
+    top: 225px; 
     width: 300px;
-    left: 70px;
+    left: 25px;
   }
 
   .dropdownContent2 {
-    top: 630px;
+    top: 430px;
     width: 300px;
-    left: 65px;
+    left: 25px;
   }
 }
