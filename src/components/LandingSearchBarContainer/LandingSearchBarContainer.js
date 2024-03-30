@@ -39,7 +39,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
             style={{
               position: 'absolute',
               left: 0,
-              top: 0,
+              top: 40,
               bottom: 0,
               width: '50%',
               backgroundImage: `url(${landingCoverL})`,
@@ -47,7 +47,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'left center',
               zIndex: 1, // Ensure background is below text
-              opacity: '50%',
+              opacity: '70%',
             }}
           ></div>
           <div
@@ -62,7 +62,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right center',
               zIndex: 1, // Ensure background is below text
-              opacity: '50%',
+              opacity: '70%',
             }}
           ></div>
         </>
@@ -74,13 +74,13 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
             style={{
               position: 'absolute',
               left: 0,
-              top: -200,
+              top: -100,
               width: '100%',
-              height: '50%',
+              height: '30%',
               backgroundImage: `url(${landingCoverMobile})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center top',
-              opacity: '50%',
+              opacity: '70%',
             }}
           ></div>
 
@@ -89,14 +89,14 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
             style={{
               position: 'absolute',
               left: 0,
-              bottom: -200,
+              bottom: -40,
               width: '100%',
-              height: '50%',
+              height: '30%',
               backgroundImage: `url(${landingCoverMobile})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center bottom',
               zIndex: 1,
-              opacity: '50%',
+              opacity: '70%',
             }}
           ></div>
         </>
@@ -105,10 +105,11 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
       <div style={{ position: 'relative', zIndex: 2 }}>
         <div className={css.introText}>Di creativo ti rimane solo il parcheggio?</div>
         <div className={css.introText2}>
-          Dal corso di ceramica alla lezione di pittura, su Club Joy
-          <br /> trovi le migliori esperienze creative di Milano e dintorni
-          <br />
-          <br /> Il tuo nuovo hobby preferito e' distanza di un click
+          Dal corso di ceramica alla lezione di pittura, su Club Joy{isMobile && <br />}
+          trovi le migliori esperienze creative di Milano e dintorni {!isMobile && <br />}
+          {!isMobile && <br />}
+          {isMobile && <br />}
+          {isMobile && <br />}Il tuo nuovo hobby preferito e' distanza di un click
         </div>
         <div className={css.barContainer}>
           <LandingSearchBarForm onSearchSubmit={onSearchSubmit} />

@@ -893,7 +893,7 @@
   }
 
   .DateInput_input {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 
@@ -913,6 +913,6 @@
   }
 
   .DateInput_input {
-    font-size: 20px;
+    font-size: 16px;
   }
 }

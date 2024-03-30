@@ -350,6 +350,7 @@
   "FieldBoolean.no": "No",
   "FieldBoolean.yes": "Yes",
   "FieldDateAndTimeInput.guestNameLabel": "Guest Name:",
+  "FieldDateAndTimeInput.coupleGuestNameLabel": "This event is for couple select 2 and proceed with the purchase :)",
   "FieldDateAndTimeInput.guestNamePlaceholder": "Guest#{number}",
   "FieldDateAndTimeInput.endTime": "End time",
   "FieldDateAndTimeInput.startTime": "Start time",

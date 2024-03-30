@@ -54,11 +54,19 @@ const Newsletter = () => {
     }
   };
 
+  const heartStyle = {
+    color: 'red',
+    margin: '2px',
+  };
+
   return (
     <div className={css.formContainer}>
       <form onSubmit={handleSubmit} className={css.form}>
         <h3 style={{ color: 'white', textAlign: 'center' }}>
           {intl.formatMessage({ id: 'Newsletter.header' })}
+          <span role="img" aria-label="heart emoji" style={heartStyle}>
+            ❤️
+          </span>
         </h3>
         {errorMessage && <div className={css.alert}>{errorMessage}</div>}
         <div className={css.nameRow}>
