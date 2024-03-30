@@ -342,7 +342,7 @@
     "FieldBoolean.no": "No",
     "FieldBoolean.yes": "Sì",
     "FieldDateAndTimeInput.guestNameLabel": "Nome Partecipante #{number}",
-    "FieldDateAndTimeInput.coupleGuestNameLabel": "Questo evento è per coppie, seleziona 2 e procedi con l'acquisto :)",
+    "FieldDateAndTimeInput.coupleGuestNameLabel": "Questo evento è per coppie, seleziona 2 o 4 e procedi con l'acquisto :)",
     "FieldDateAndTimeInput.guestNamePlaceholder": "Nome Partecipante #{number}",
     "FieldDateAndTimeInput.endTime": "Orario fine",
     "FieldDateAndTimeInput.startTime": "Orario inizio",
