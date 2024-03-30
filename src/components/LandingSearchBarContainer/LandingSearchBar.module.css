@@ -196,15 +196,15 @@ input, select, .DateRangePicker {
   }
 
   .introText, .introText2 {
-    margin-left: 100px; 
+    margin-left: 150px; 
   }
 
   .introText {
-    font-size:18px
+    font-size:32px
   }
   .introText2 {
-    font-size:14px;
-    font-weight:600
+    font-size:16px;
+    font-weight:0
   }
 
   .closeButton{
@@ -217,6 +217,7 @@ input, select, .DateRangePicker {
     flex-direction: row;
     width: 100%;
     max-width: 800px;
+    margin-top: 5px;
     gap: unset;
     background-color: transparent;
     box-shadow: unset;
@@ -253,7 +254,8 @@ input, select, .DateRangePicker {
     padding-left: 10px;
     flex: 1 0 33.33%;
     height: 60px;
-    font-size: 14px;
+    font-size: 16px;
+    background-color: #fff;
     width: 140px;
     font-weight: lighter;
     font-family: var(--fontFamily);
@@ -287,7 +289,7 @@ input, select, .DateRangePicker {
   }
 
   .barContainer{
-    margin-left: 80px;
+    margin-left: 130px;
   }
 
   .dropdownContent {
@@ -327,10 +329,10 @@ input, select, .DateRangePicker {
     margin-left: 180px; 
   }
   .introText {
-    font-size:24px
+    font-size:32px
   }
 .introText2 {
-    font-size:20px
+    font-size:16px
   }
   .barContainer{
     margin-left: 160px;
@@ -364,11 +366,12 @@ input, select, .DateRangePicker {
     padding: 10px;
     flex: 1 0 33.33%;
     height: 60px;
-    font-size: 20px;
+    font-size: 16px;
     width: 500px;
     font-weight: lighter;
     font-family: var(--fontFamily);
     color: #b0b0b5 !important;
+    background-color: #fff;
     border: 1px solid #ccc;
     
 
@@ -431,7 +434,7 @@ input, select, .DateRangePicker {
     font-weight: bold;
     height:auto;
     margin-top: 40px; 
-    font-size: 24px; 
+    font-size: 32px; 
     color: #333; 
   }
   .introText2 {
@@ -503,7 +506,7 @@ input, select, .DateRangePicker {
   }
 
   .dropdownContent2 {
-    top: 640px;
+    top: 40px;
     width: 635px;
     left: 120px;
   }
@@ -512,9 +515,9 @@ input, select, .DateRangePicker {
 
 @media (max-width: 768px) { 
   .landingBarContainer {
-    margin-top: 60px;
+    margin-top: 10px;
     align-items: center;
-    margin-bottom: 60px;
+    margin-bottom: 10px;
     text-align: center;
     height: auto;
     padding:0px;
@@ -526,7 +529,7 @@ input, select, .DateRangePicker {
   .introText {
     font-weight: bold;
     height:auto;
-    margin-top: 40px; 
+    margin-top: 10px; 
     font-size:18px; 
     color: #333; 
   }
@@ -549,9 +552,12 @@ input, select, .DateRangePicker {
 
   .introText, .introText2 {
     margin-left: 0px; 
+  
   }
   
-
+  .breakpointText {
+    display: inline; 
+  }
   .time .DateRangePicker {
     border-radius: 20px;
   }
