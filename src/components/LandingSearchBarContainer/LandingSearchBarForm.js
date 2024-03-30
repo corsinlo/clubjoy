@@ -33,13 +33,13 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
   const [bounds, setBounds] = useState({
     ne: {
       _sdkType: 'LatLng',
-      lat: 46.1206089,
-      lng: 9.87571875,
+      lat: 45.62700561,
+      lng: 9.45961157,
     },
     sw: {
       _sdkType: 'LatLng',
-      lat: 45.07327975,
-      lng: 8.7056748,
+      lat: 45.37433925,
+      lng: 9.01466528,
     },
     _sdkType: 'LatLngBounds',
   });
@@ -212,42 +212,42 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
 
       <button type="button" onClick={toggleDropdown2} className={css.fieldSearch}>
         {location || intl.formatMessage({ id: 'SearchBar.location' })}
-      </button>
-      {isDropdownOpen2 && (
-        <div className={css.dropdownContent2}>
-          <div
-            key="Milan"
-            className={css.dropdownLabel2}
-            onClick={() => {
-              setLocation('Milano e Dintorni');
-              setBounds({
-                ne: {
-                  _sdkType: 'LatLng',
-                  lat: 46.1206089,
-                  lng: 9.87571875,
-                },
-                sw: {
-                  _sdkType: 'LatLng',
-                  lat: 45.07327975,
-                  lng: 8.7056748,
-                },
-                _sdkType: 'LatLngBounds',
-              });
-              setIsDropdownOpen2(false);
-            }}
-          >
-            <span className={css.option}>Milano e Dintorni</span>
-          </div>
-          <button
-            type="button"
-            onClick={() => setIsDropdownOpen2(false)}
-            className={css.closeButton}
-          >
-            {intl.formatMessage({ id: 'SearchBar.close' })}
-          </button>
-        </div>
-      )}
 
+        {isDropdownOpen2 && (
+          <div className={css.dropdownContent2}>
+            <div
+              key="Milan"
+              className={css.dropdownLabel2}
+              onClick={() => {
+                setLocation('Milano e Dintorni');
+                setBounds({
+                  ne: {
+                    _sdkType: 'LatLng',
+                    lat: 45.62700561,
+                    lng: 9.45961157,
+                  },
+                  sw: {
+                    _sdkType: 'LatLng',
+                    lat: 45.37433925,
+                    lng: 9.01466528,
+                  },
+                  _sdkType: 'LatLngBounds',
+                });
+                setIsDropdownOpen2(false);
+              }}
+            >
+              <span className={css.option}>Milano e Dintorni</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsDropdownOpen2(false)}
+              className={css.closeButton}
+            >
+              {intl.formatMessage({ id: 'SearchBar.close' })}
+            </button>
+          </div>
+        )}
+      </button>
       {/*<input
         id="location-input"
         type="text"
