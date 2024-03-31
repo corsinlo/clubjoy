@@ -386,6 +386,7 @@ input, select, .DateRangePicker {
       min-width: auto;
       border:none;
       border: 1px solid #ccc;
+      border-right:  2px solid #ccc; 
     }
     &:nth-child(3) {
       border: 1px solid #ccc;
