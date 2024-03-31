@@ -256,7 +256,7 @@ input, select, .DateRangePicker {
     height: 60px;
     font-size: 16px;
     background-color: #fff;
-    width: 140px;
+    width: 180px;
     font-weight: lighter;
     font-family: var(--fontFamily);
     color: #b0b0b5 !important;
@@ -276,6 +276,7 @@ input, select, .DateRangePicker {
       min-width: auto;
       border:none;
       border: 1px solid #ccc;
+      border-right:  2px solid #ccc; 
     }
     &:nth-child(3) {
       border: 1px solid #ccc;
@@ -385,6 +386,7 @@ input, select, .DateRangePicker {
       min-width: auto;
       border:none;
       border: 1px solid #ccc;
+      border-right:  2px solid #ccc; 
     }
     &:nth-child(3) {
       border: 1px solid #ccc;
