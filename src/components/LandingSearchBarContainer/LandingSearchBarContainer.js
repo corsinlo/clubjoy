@@ -3,7 +3,7 @@ import css from './LandingSearchBar.module.css';
 import landingCover from '../../media/landingCover.jpg';
 import landingCoverR from '../../media/landingCoverR.jpeg';
 import landingCoverL from '../../media/landingCoverL.jpeg';
-import landingCoverMobile from '../../media/landingCoverMobile.jpeg';
+import landingCoverMobile from '../../media/landingCoverMobile.jpg';
 
 import LandingSearchBarForm from './LandingSearchBarForm';
 
@@ -68,24 +68,29 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
         </>
       )}
       {isMobile && (
-        <>
-          {/* Top Image */}
-          <div
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '18%',
+            transform: 'translate(-50%, -50%)',
+            width: '80%', // Adjust width as needed
+            maxWidth: '300px', // Maximum width of the image
+            height: 'auto', // Height will adjust automatically to maintain aspect ratio
+          }}
+        >
+          <img
+            src={landingCoverMobile}
+            alt="Mobile Landing Cover"
             style={{
-              position: 'absolute',
-              left: 0,
-              top: -100,
-              width: '100%',
-              height: '30%',
-              backgroundImage: `url(${landingCoverMobile})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center top',
-              opacity: '70%',
+              width: '80%',
+              height: '80%',
+              objectFit: 'cover', // Maintain aspect ratio and cover entire div
+              borderRadius: '10px', // Optional: Add border-radius for rounded corners
             }}
-          ></div>
-
+          />
           {/* Bottom Image */}
-          <div
+          {/*<div
             style={{
               position: 'absolute',
               left: 0,
@@ -98,8 +103,8 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               zIndex: 1,
               opacity: '70%',
             }}
-          ></div>
-        </>
+          ></div>*/}
+        </div>
       )}
       {/* Wrap intro texts and form in a div with higher z-index */}
       <div style={{ position: 'relative', zIndex: 2 }}>

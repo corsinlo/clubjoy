@@ -432,7 +432,7 @@ input, select, .DateRangePicker {
   .introText {
     font-weight: bold;
     height:auto;
-    margin-top: 40px; 
+    margin-top: 250px; 
     font-size: 32px; 
     color: #333; 
   }
@@ -514,9 +514,9 @@ input, select, .DateRangePicker {
 
 @media (max-width: 768px) { 
   .landingBarContainer {
-    margin-top: 10px;
+    margin-top: 0px;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     text-align: center;
     height: auto;
     padding:0px;
@@ -528,7 +528,7 @@ input, select, .DateRangePicker {
   .introText {
     font-weight: bold;
     height:auto;
-    margin-top: 10px; 
+    margin-top: 180px; 
     font-size:18px; 
     color: #333; 
   }
