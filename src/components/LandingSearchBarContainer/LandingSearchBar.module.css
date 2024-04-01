@@ -432,7 +432,7 @@ input, select, .DateRangePicker {
   .introText {
     font-weight: bold;
     height:auto;
-    margin-top: 40px; 
+    margin-top: 250px; 
     font-size: 32px; 
     color: #333; 
   }
@@ -514,9 +514,9 @@ input, select, .DateRangePicker {
 
 @media (max-width: 768px) { 
   .landingBarContainer {
-    margin-top: 10px;
+    margin-top: 0px;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     text-align: center;
     height: auto;
     padding:0px;
@@ -528,7 +528,7 @@ input, select, .DateRangePicker {
   .introText {
     font-weight: bold;
     height:auto;
-    margin-top: 10px; 
+    margin-top: 180px; 
     font-size:18px; 
     color: #333; 
   }
@@ -543,7 +543,7 @@ input, select, .DateRangePicker {
   .form {
     background: none; 
     box-shadow: none; 
-    padding: 20px; 
+    padding: 10px; 
     width: 90vw;
     box-sizing: border-box;
     margin-left: 0px;
@@ -576,7 +576,7 @@ input, select, .DateRangePicker {
     justify-content: flex-start; 
     box-sizing: border-box;
     height: 60px;
-    margin-top: 10px;
+    margin-top: 5px;
     padding-left: 10px;
     border-radius: 20px;
     background: #FFF;
@@ -595,14 +595,14 @@ input, select, .DateRangePicker {
   }
 
   .dropdownContent {
-    top: 225px; 
+    top: 165px; 
     width: 300px;
-    left: 25px;
+    left: 45px;
   }
 
   .dropdownContent2 {
-    top: 430px;
+    top: 450px;
     width: 300px;
-    left: 25px;
+    left: 45px;
   }
 }
