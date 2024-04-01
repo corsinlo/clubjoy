@@ -22,7 +22,7 @@ import {
   ModalMissingInformation,
   NamedLink,
 } from '../../../components';
-
+import landingCoverMobile from '../../../media/landingCoverMobile.jpg';
 import MenuIcon from './MenuIcon';
 import SearchIcon from './SearchIcon';
 import TopbarSearchForm from './TopbarSearchForm/TopbarSearchForm';
@@ -283,7 +283,18 @@ class TopbarComponent extends Component {
           >
             <div className={css.searchContainer}>
               <LinkedLogo layout={'mobile'} alt={intl.formatMessage({ id: 'Topbar.logoIcon' })} />
+              <img
+                src={landingCoverMobile}
+                alt="Mobile Landing Cover"
+                style={{
+                  width: '80%',
+                  height: '80%',
+                  objectFit: 'cover', // Maintain aspect ratio and cover entire div
+                }}
+              />
+
               <LandingSearchBarForm onSearchSubmit={this.handleSubmit} />
+
               <div className={css.socialContainer}>
                 <div className={css.socialTitle}>
                   {intl.formatMessage({ id: 'Topbar.socialTitle' })}

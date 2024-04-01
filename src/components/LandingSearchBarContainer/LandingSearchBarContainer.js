@@ -114,7 +114,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
           trovi le migliori esperienze creative di Milano e dintorni {!isMobile && <br />}
           {!isMobile && <br />}
           {isMobile && <br />}
-          {isMobile && <br />}Il tuo nuovo hobby preferito e' distanza di un click
+          {isMobile && <br />}Il tuo nuovo hobby preferito è a distanza di un click
         </div>
         <div className={css.barContainer}>
           <LandingSearchBarForm onSearchSubmit={onSearchSubmit} />
