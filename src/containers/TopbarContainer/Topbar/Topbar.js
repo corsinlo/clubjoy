@@ -273,34 +273,25 @@ class TopbarComponent extends Component {
           usePortal
           onManageDisableScrolling={onManageDisableScrolling}
         >
-          <div
-            style={{
-              backgroundImage: `url(${mobileFooter})`,
-              backgroundSize: '100% 100%',
-              backgroundPosition: 'center 10px',
-              height: '100vh',
-            }}
-          >
-            <div className={css.searchContainer}>
-              <LinkedLogo layout={'mobile'} alt={intl.formatMessage({ id: 'Topbar.logoIcon' })} />
-              <img
-                src={landingCoverMobile}
-                alt="Mobile Landing Cover"
-                style={{
-                  width: '80%',
-                  height: '80%',
-                  objectFit: 'cover', // Maintain aspect ratio and cover entire div
-                }}
-              />
+          <div className={css.searchContainer}>
+            <LinkedLogo layout={'mobile'} alt={intl.formatMessage({ id: 'Topbar.logoIcon' })} />
+            <img
+              src={landingCoverMobile}
+              alt="Mobile Landing Cover"
+              style={{
+                width: '80%',
+                height: '80%',
+                objectFit: 'cover', // Maintain aspect ratio and cover entire div
+              }}
+            />
 
-              <LandingSearchBarForm onSearchSubmit={this.handleSubmit} />
+            <LandingSearchBarForm onSearchSubmit={this.handleSubmit} />
 
-              <div className={css.socialContainer}>
-                <div className={css.socialTitle}>
-                  {intl.formatMessage({ id: 'Topbar.socialTitle' })}
-                </div>
-                <SocialBar />
+            <div className={css.socialContainer}>
+              <div className={css.socialTitle}>
+                {intl.formatMessage({ id: 'Topbar.socialTitle' })}
               </div>
+              <SocialBar />
             </div>
           </div>
         </Modal>
