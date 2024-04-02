@@ -3,7 +3,7 @@ import { array, bool, func, number, object, string } from 'prop-types';
 import { compose } from 'redux';
 import { Form as FinalForm, FormSpy } from 'react-final-form';
 import classNames from 'classnames';
-
+import { NamedLink } from '../../../components';
 import { FormattedMessage, intlShape, injectIntl } from '../../../util/reactIntl';
 import { timestampToDate } from '../../../util/dates';
 import { propTypes } from '../../../util/types';
@@ -71,7 +71,7 @@ export class BookingTimeFormComponent extends Component {
       ...rest
     } = this.props;
     const classes = classNames(rootClassName || css.root, className);
-    //log
+
     const emailVerified =
       currentUser && currentUser.attributes && currentUser.attributes.emailVerified;
 
@@ -119,6 +119,18 @@ export class BookingTimeFormComponent extends Component {
 
           const showEstimatedBreakdown =
             breakdownData && lineItems && !fetchLineItemsInProgress && !fetchLineItemsError;
+
+          const signup = (
+            <NamedLink name="SignupPage" className={css.signupLink}>
+              <FormattedMessage id="TopbarMobileMenu.signupLink" />
+            </NamedLink>
+          );
+
+          const login = (
+            <NamedLink name="LoginPage" className={css.loginLink}>
+              <FormattedMessage id="TopbarMobileMenu.loginLink" />
+            </NamedLink>
+          );
 
           return (
             <Form onSubmit={handleSubmit} className={classes} enforcePagePreloadFor="CheckoutPage">
@@ -178,14 +190,16 @@ export class BookingTimeFormComponent extends Component {
                 <PrimaryButton
                   type="submit"
                   inProgress={fetchLineItemsInProgress}
-                  disabled={!emailVerified}
+                  disabled={!currentUser || !emailVerified}
                 >
                   <FormattedMessage id="BookingTimeForm.requestToBook" />
                 </PrimaryButton>
               </div>
 
               <p className={css.finePrint}>
-                {!emailVerified ? (
+                {!currentUser ? (
+                  <FormattedMessage id="BookingTimeForm.verifyAccount" values={{ signup, login }} />
+                ) : !emailVerified ? (
                   <FormattedMessage id="BookingTimeForm.verifyEmail" />
                 ) : payoutDetailsWarning ? (
                   payoutDetailsWarning
