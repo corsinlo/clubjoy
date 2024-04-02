@@ -60,6 +60,7 @@
     "BookingTimeForm.timeSlotsError": "Abbiamo riscontrato un errore nel caricamento delle date disponibili. Si prega di aggiornare la pagina.",
     "BookingTimeForm.youWontBeChargedInfo": "Non ti verrà addebitato ancora",
     "BookingTimeForm.verifyEmail": "Si prega di verificare il tuo indirizzo email per procede all'acquisto, controlla la tua casella di posta o aggiorna la pagina per maggiori informazioni",
+    "BookingTimeForm.verifyAccount": "{login} or {signup} perprenotare questa gioia!",
     "BusinessForm.type.button":"Invia",
     "BusinessForm.intro": "Entra in Club Joy!",
     "BusinessForm.intro2": "Hai un’azienda che offre workshop creativi, e vuoi avere accesso a migliaia di italiani pronti a dedicarsi alla loro creatività? Non vediamo l’ora di conoscerti - compila il form, ti contatteremo a breve!",
