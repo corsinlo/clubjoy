@@ -52,25 +52,45 @@ const AttendanceForm = ({ activity, onBack }) => {
   };
 
   const handleSave = async () => {
-    const promises = names.map(name => {
-      const record = {
-        booking_id: activity.resource.bookingData.bookingId,
-        name,
-        checked_status: checkedNames.includes(name),
-      };
+    const promises = names.map(async name => {
+      const existingRecord = await supabase
+        .from('attendance')
+        .select('*')
+        .eq('name', name)
+        .eq('booking_id', activity.resource.bookingData.bookingId)
+        .single();
 
-      return supabase.from('attendance').upsert(record); // Implicitly uses the composite primary key for conflict resolution
+      if (existingRecord.data) {
+        // Update existing record
+        const record = {
+          ...existingRecord.data,
+          checked_status: checkedNames.includes(name),
+        };
+
+        try {
+          await supabase.from('attendance').upsert(record);
+        } catch (error) {
+          console.error('Error updating record:', error);
+          // Optionally handle this error more gracefully
+        }
+      } else {
+        // Insert new record
+        const record = {
+          booking_id: activity.resource.bookingData.bookingId,
+          name,
+          checked_status: checkedNames.includes(name),
+        };
+
+        try {
+          await supabase.from('attendance').upsert(record);
+        } catch (error) {
+          console.error('Error saving record:', error);
+          // Optionally handle this error more gracefully
+        }
+      }
     });
 
-    const results = await Promise.all(promises);
-
-    for (const { error } of results) {
-      if (error) {
-        console.error('Error saving record:', error);
-        // Optionally handle this error more gracefully
-        return;
-      }
-    }
+    await Promise.all(promises);
   };
 
   const handleDelete = async () => {
