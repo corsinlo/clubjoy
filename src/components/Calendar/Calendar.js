@@ -27,7 +27,7 @@ function mergeTransactionsAndBookings(response) {
   const { data: transactions, included: bookingsAndOthers } = response;
   const bookings = bookingsAndOthers.filter(item => item.type === 'booking');
   const mergedData = transactions.map(transaction => {
-    const bookingId = transaction.relationships.booking.data.id.uuid;
+    const bookingId = transaction.relationships.booking.data?.id.uuid;
     const transactionBooking = bookings.find(booking => booking.id.uuid === bookingId);
     const { unitType, seatNames } = transaction.attributes.protectedData;
     return {
