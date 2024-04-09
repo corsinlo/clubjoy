@@ -499,16 +499,17 @@ input, select, .DateRangePicker {
   }
 
   .dropdownContent {
-    top: 255px; 
+    top: 275px; 
     width: 635px;
     left: 120px;
   }
 
   .dropdownContent2 {
-    top: 40px;
+    top: 600px;
     width: 635px;
     left: 120px;
   }
+
   
 }
 
