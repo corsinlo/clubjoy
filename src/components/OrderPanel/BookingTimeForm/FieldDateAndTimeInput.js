@@ -494,7 +494,7 @@ class FieldDateAndTimeInput extends Component {
     const seatsSelectionMaybe =
       seatsArray?.length > 1 ? (
         <FieldSelect
-          className={css.fieldSelect}
+          className={css.fieldSeats}
           onChange={value => {
             form.batch(() => {
               form.change('guestNames', []);
@@ -589,7 +589,7 @@ class FieldDateAndTimeInput extends Component {
             </FieldSelect>
           </div>
 
-          <div className={bookingStartDate ? css.lineBetween : css.lineBetweenDisabled}>-</div>
+          <div className={bookingStartDate ? css.lineBetween : css.lineBetweenDisabled}></div>
 
           <div className={css.field}>
             <FieldSelect
@@ -614,7 +614,7 @@ class FieldDateAndTimeInput extends Component {
         </div>
         {seatsSelectionMaybe}
         {!!seatsSelectionMaybe && (
-          <FieldArray name="guestNames" className={css.fieldSelect}>
+          <FieldArray name="guestNames" className={css.fieldSaets}>
             {({ fields }) =>
               fields.map((name, index) => {
                 const isOddNumber = (index + 1) % 2 !== 0;
