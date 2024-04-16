@@ -33,13 +33,13 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
   const [bounds, setBounds] = useState({
     ne: {
       _sdkType: 'LatLng',
-      lat: 45.62700561,
-      lng: 9.45961157,
+      lat: 46.17103579,
+      lng: 9.76860205,
     },
     sw: {
       _sdkType: 'LatLng',
-      lat: 45.37433925,
-      lng: 9.01466528,
+      lat: 45.1401582,
+      lng: 8.66996924,
     },
     _sdkType: 'LatLngBounds',
   });
@@ -223,13 +223,13 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
                 setBounds({
                   ne: {
                     _sdkType: 'LatLng',
-                    lat: 45.62700561,
-                    lng: 9.45961157,
+                    lat: 46.17103579,
+                    lng: 9.76860205,
                   },
                   sw: {
                     _sdkType: 'LatLng',
-                    lat: 45.37433925,
-                    lng: 9.01466528,
+                    lat: 45.1401582,
+                    lng: 8.66996924,
                   },
                   _sdkType: 'LatLngBounds',
                 });
