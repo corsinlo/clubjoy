@@ -151,7 +151,9 @@ html, body {
 .searchContainer {
   margin-bottom: 0;
   position: relative;
+  padding: 0px 20px 0 0px;
   margin-top: 50px;
+  margin-left: 4px;
   display: flex; /* Use flexbox */
   flex-direction: column; /* Stack children vertically */
   align-items: center; /* Center children horizontally */

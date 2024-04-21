@@ -279,11 +279,11 @@ class TopbarComponent extends Component {
               src={landingCoverMobile}
               alt="Mobile Landing Cover"
               style={{
-                width: '40%',
-                height: '40%',
+                width: '70%',
+                height: '70%',
                 objectFit: 'cover',
-                marginBottom: '20px',
-                marginTop: '20px',
+                marginBottom: '40px',
+                marginTop: '40px',
               }}
             />
 
