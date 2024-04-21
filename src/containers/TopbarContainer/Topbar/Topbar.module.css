@@ -151,7 +151,9 @@ html, body {
 .searchContainer {
   margin-bottom: 0;
   position: relative;
+  padding: 0px 20px 0 0px;
   margin-top: 50px;
+  margin-left: 4px;
   display: flex; /* Use flexbox */
   flex-direction: column; /* Stack children vertically */
   align-items: center; /* Center children horizontally */
@@ -297,5 +299,35 @@ html, body {
 
   @media (--viewportMedium) {
     margin: 0;
+  }
+}
+
+/* ================ Search ================ */
+
+.landingCoverMobil {
+  width: 70%;
+  height: 70%;
+  object-fit: cover;
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+
+@media (max-width: 767px) { 
+  .landingCoverMobil {
+    width: 70%;
+    height: 70%;
+    object-fit: cover;
+    margin-bottom: 40px;
+    margin-top: 40px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .landingCoverMobil {
+    width: 50%;
+    height: 50%;
+    object-fit: cover;
+    margin-bottom: 25px;
+    margin-top: 25px;
   }
 }

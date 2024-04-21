@@ -409,7 +409,7 @@ input, select, .DateRangePicker {
 }
 
 
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   .landingBarContainer {
     margin-top: 60px;
     align-items: center;
@@ -513,7 +513,7 @@ input, select, .DateRangePicker {
   
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 767px) { 
   .landingBarContainer {
     margin-top: 0px;
     align-items: center;
@@ -599,11 +599,14 @@ input, select, .DateRangePicker {
     top: 165px; 
     width: 300px;
     left: 45px;
+    position: absolute;
+
   }
 
   .dropdownContent2 {
     top: 450px;
     width: 300px;
     left: 45px;
+    position: absolute;
   }
 }

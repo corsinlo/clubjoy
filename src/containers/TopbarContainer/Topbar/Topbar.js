@@ -278,13 +278,7 @@ class TopbarComponent extends Component {
             <img
               src={landingCoverMobile}
               alt="Mobile Landing Cover"
-              style={{
-                width: '40%',
-                height: '40%',
-                objectFit: 'cover',
-                marginBottom: '20px',
-                marginTop: '20px',
-              }}
+              className={css.landingCoverMobil}
             />
 
             <LandingSearchBarForm onSearchSubmit={this.handleSubmit} />
