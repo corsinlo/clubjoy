@@ -33,13 +33,13 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
   const [bounds, setBounds] = useState({
     ne: {
       _sdkType: 'LatLng',
-      lat: 46.17103579,
-      lng: 9.76860205,
+      lat: 46.37133393,
+      lng: 11.30806128,
     },
     sw: {
       _sdkType: 'LatLng',
-      lat: 45.1401582,
-      lng: 8.66996924,
+      lat: 44.63128509,
+      lng: 8.37745825,
     },
     _sdkType: 'LatLngBounds',
   });
@@ -154,7 +154,7 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
       </button>
       {isDropdownOpen && (
         <div className={css.dropdownContent}>
-          {[1, 2, 3, 6].map(option => (
+          {[1, 2, 3, 5].map(option => (
             <label key={option} className={css.dropdownLabel}>
               <input
                 type="checkbox"
@@ -223,13 +223,13 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
                 setBounds({
                   ne: {
                     _sdkType: 'LatLng',
-                    lat: 46.17103579,
-                    lng: 9.76860205,
+                    lat: 46.37133393,
+                    lng: 11.30806128,
                   },
                   sw: {
                     _sdkType: 'LatLng',
-                    lat: 45.1401582,
-                    lng: 8.66996924,
+                    lat: 44.63128509,
+                    lng: 8.37745825,
                   },
                   _sdkType: 'LatLngBounds',
                 });
