@@ -128,7 +128,7 @@ const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
     if (startDate && endDate) {
       const startDateFormatted = startDate.format('YYYY-MM-DD');
       const endDateFormatted = endDate.format('YYYY-MM-DD');
-      queryParts.push(`dates=${startDateFormatted},${endDateFormatted}`);
+      queryParts.push(`dates=${startDateFormatted}%2C${endDateFormatted}`);
     }
 
     let searchParams = queryParts.join('&');
