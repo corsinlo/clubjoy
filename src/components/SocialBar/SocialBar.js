@@ -5,7 +5,7 @@ import WhatsAppIcon from './Icons/whatsapp';
 import css from './SocialBar.module.css';
 
 export default function SocialBar() {
-  const whatsappNumber = '3534303831';
+  const whatsappNumber = '3757765898';
 
   return (
     <>
