@@ -1,9 +1,12 @@
 import React from 'react';
 import TikTok from './Icons/tikitok';
-import Instragram from './Icons/instagram';
+import Instagram from './Icons/instagram';
+import WhatsAppIcon from './Icons/whatsapp';
 import css from './SocialBar.module.css';
 
 export default function SocialBar() {
+  const whatsappNumber = '3534303831';
+
   return (
     <>
       <a
@@ -12,7 +15,7 @@ export default function SocialBar() {
         rel="noopener noreferrer"
         className={css.customClass}
       >
-        <Instragram className={css.customClass} />
+        <Instagram className={css.customClass} />
       </a>
       <a
         href="https://www.tiktok.com/@clubjoy.it"
@@ -21,6 +24,14 @@ export default function SocialBar() {
         className={css.customClass}
       >
         <TikTok className={css.customClass} />
+      </a>
+      <a
+        href={`https://wa.me/${whatsappNumber}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={css.customClass}
+      >
+        <WhatsAppIcon className={css.customClass} />
       </a>
     </>
   );
