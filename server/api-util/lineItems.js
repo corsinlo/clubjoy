@@ -1,9 +1,11 @@
+const { Order } = require('@getbrevo/brevo');
 const {
   calculateQuantityFromDates,
   calculateQuantityFromHours,
   calculateTotalFromLineItems,
   calculateShippingFee,
   hasCommissionPercentage,
+  resolveCouponDiscount,
 } = require('./lineItemHelpers');
 const { types } = require('sharetribe-flex-sdk');
 const { Money } = types;
@@ -97,9 +99,7 @@ const getDateRangeUnitsSeatsLineItems = (orderData, code) => {
   const { bookingStart, bookingEnd, seats } = orderData;
 
   const units =
-    bookingStart && bookingEnd
-      ? calculateQuantityFromDates(bookingStart, bookingEnd, code)
-      : null;
+    bookingStart && bookingEnd ? calculateQuantityFromDates(bookingStart, bookingEnd, code) : null;
 
   return { units, seats, extraLineItems: [] };
 };
@@ -112,10 +112,7 @@ const getDateRangeUnitsSeatsLineItems = (orderData, code) => {
 const getHourUnitsSeatsAndLineItems = orderData => {
   const { bookingStart, bookingEnd, seats } = orderData || {};
 
-  const units =
-    bookingStart && bookingEnd
-      ? 1
-      : null;
+  const units = bookingStart && bookingEnd ? 1 : null;
 
   return { units, seats, extraLineItems: [] };
 };
@@ -147,6 +144,7 @@ const getHourUnitsSeatsAndLineItems = orderData => {
  * @returns {Array} lineItems
  */
 exports.transactionLineItems = (listing, orderData, providerCommission, customerCommission) => {
+  // console.log(orderData);
   const publicData = listing.attributes.publicData;
   const unitPrice = listing.attributes.price;
   const currency = unitPrice.currency;
@@ -180,19 +178,18 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
       ? getDateRangeQuantityAndLineItems(orderData, code)
       : {};
   */
-const quantityAndExtraLineItems =
-  unitType === 'item'
-    ? getItemQuantityAndLineItems(orderData, publicData, currency)
-    : unitType === 'hour'
-    ? getHourUnitsSeatsAndLineItems(orderData) // Adjusted to use the new function
-    : ['day', 'night'].includes(unitType) && !!orderData.seats
-   ? getDateRangeUnitsSeatsLineItems(orderData, code)
-    : ['day', 'night'].includes(unitType)
-    ? getDateRangeQuantityAndLineItems(orderData, code)
-    : {};
+  const quantityAndExtraLineItems =
+    unitType === 'item'
+      ? getItemQuantityAndLineItems(orderData, publicData, currency)
+      : unitType === 'hour'
+      ? getHourUnitsSeatsAndLineItems(orderData) // Adjusted to use the new function
+      : ['day', 'night'].includes(unitType) && !!orderData.seats
+      ? getDateRangeUnitsSeatsLineItems(orderData, code)
+      : ['day', 'night'].includes(unitType)
+      ? getDateRangeQuantityAndLineItems(orderData, code)
+      : {};
 
   const { quantity, units, seats, extraLineItems } = quantityAndExtraLineItems;
-
 
   // Throw error if there is no quantity information given
   if (!quantity && !(units && seats)) {
@@ -205,8 +202,8 @@ const quantityAndExtraLineItems =
     throw error;
   }
   // A booking line item can have either quantity, or units and seats. Add the
- // correct values depending on whether units and seats exist.
-const quantityOrSeats = !!units && !!seats ? { units, seats } : { quantity };
+  // correct values depending on whether units and seats exist.
+  const quantityOrSeats = !!units && !!seats ? { units, seats } : { quantity };
 
   /**
    * If you want to use pre-defined component and translations for printing the lineItems base price for order,
@@ -224,6 +221,9 @@ const quantityOrSeats = !!units && !!seats ? { units, seats } : { quantity };
     ...quantityOrSeats,
     includeFor: ['customer', 'provider'],
   };
+  const tempTotal = order.unitPrice.amount * order.seats;
+  const couponDiscount = orderData.coupon ? resolveCouponDiscount(orderData.coupon, tempTotal) : [];
+  const couponDiscountArray = couponDiscount ? couponDiscount : [];
 
   // Provider commission reduces the amount of money that is paid out to provider.
   // Therefore, the provider commission line-item should have negative effect to the payout total.
@@ -241,7 +241,7 @@ const quantityOrSeats = !!units && !!seats ? { units, seats } : { quantity };
     ? [
         {
           code: 'line-item/provider-commission',
-          unitPrice: calculateTotalFromLineItems([order]),
+          unitPrice: calculateTotalFromLineItems([order, ...couponDiscountArray]),
           percentage: getNegation(providerCommission.percentage),
           includeFor: ['provider'],
         },
@@ -267,6 +267,7 @@ const quantityOrSeats = !!units && !!seats ? { units, seats } : { quantity };
   const lineItems = [
     order,
     ...extraLineItems,
+    ...couponDiscountArray,
     ...providerCommissionMaybe,
     ...customerCommissionMaybe,
   ];

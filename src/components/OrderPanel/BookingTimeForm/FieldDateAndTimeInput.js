@@ -23,7 +23,7 @@ import { propTypes } from '../../../util/types';
 import { bookingDateRequired } from '../../../util/validators';
 import { FieldDateInput, FieldSelect, FieldTextInput, IconArrowHead } from '../../../components';
 import moment from 'moment';
-
+import { checkCoupon } from '../../../util/api';
 import css from './FieldDateAndTimeInput.module.css';
 import { FieldArray } from 'react-final-form-arrays';
 
@@ -249,6 +249,27 @@ class FieldDateAndTimeInput extends Component {
     this.onBookingEndDateChange = this.onBookingEndDateChange.bind(this);
     this.isOutsideRange = this.isOutsideRange.bind(this);
   }
+
+  handleCouponChange = event => {
+    this.setState({ couponCode: event.target.value });
+  };
+
+  handleCouponSubmit = () => {
+    const requestBody = {
+      code: this.state.couponCode,
+    };
+    checkCoupon(requestBody)
+      .then(response => {
+        this.props.form.batch(() => {
+          this.props.form.change('coupon', response);
+        });
+        this.setState({ coupon: '' });
+      })
+      .catch(error => {
+        console.error('Error checking voucher:', error);
+        this.setState({ coupon: '' });
+      });
+  };
 
   fetchMonthData(date) {
     const { listingId, timeZone, onFetchTimeSlots, dayCountAvailableForBooking } = this.props;
@@ -523,6 +544,25 @@ class FieldDateAndTimeInput extends Component {
         </FieldSelect>
       ) : null;
 
+    const couponInsertion = (
+      <div className={css.priceBreakdownContainer}>
+        <p>
+          {/*<FormattedMessage id="BookingTimeForm.priceBreakdownTitle" />*/}
+          Hai un coupon?
+        </p>
+        <hr className={css.totalDivider} />
+        <input
+          type="text"
+          placeholder="Enter your coupon code here"
+          value={this.state.couponCode}
+          onChange={this.handleCouponChange}
+        />
+        <button type="button" onClick={this.handleCouponSubmit} style={{ width: '100%' }}>
+          Apply the coupon
+        </button>
+      </div>
+    );
+
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
     return (
@@ -561,6 +601,7 @@ class FieldDateAndTimeInput extends Component {
               onClose={event =>
                 this.setState({
                   currentMonth: getStartOf(event?.date ?? TODAY, 'month', this.props.timeZone),
+                  couponCode: {},
                 })
               }
             />
@@ -614,50 +655,54 @@ class FieldDateAndTimeInput extends Component {
         </div>
         {seatsSelectionMaybe}
         {!!seatsSelectionMaybe && (
-          <FieldArray name="guestNames" className={css.fieldSaets}>
-            {({ fields }) =>
-              fields.map((name, index) => {
-                const isOddNumber = (index + 1) % 2 !== 0;
+          <>
+            <FieldArray name="guestNames" className={css.fieldSaets}>
+              {({ fields }) =>
+                fields.map((name, index) => {
+                  const isOddNumber = (index + 1) % 2 !== 0;
 
-                return (
-                  <FieldTextInput
-                    id={name}
-                    name={name}
-                    key={index}
-                    className={css.fieldTextInput}
-                    type="text"
-                    label={
-                      this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                      isOddNumber
-                        ? intl.formatMessage(
-                            { id: 'FieldDateAndTimeInput.coupleGuestNameLabel' },
-                            { number: index + 1 }
-                          )
-                        : intl.formatMessage(
-                            { id: 'FieldDateAndTimeInput.guestNameLabel' },
-                            { number: index + 1 }
-                          )
-                    }
-                    placeholder={intl.formatMessage(
-                      {
-                        id: 'FieldDateAndTimeInput.guestNamePlaceholder',
-                      },
-                      { number: index + 1 }
-                    )}
-                    validate={validators.required(
-                      intl.formatMessage({
-                        id: 'FieldDateAndTimeInput.requiredGuestName',
-                      })
-                    )}
-                    disabled={
-                      this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                      isOddNumber
-                    }
-                  />
-                );
-              })
-            }
-          </FieldArray>
+                  return (
+                    <FieldTextInput
+                      id={name}
+                      name={name}
+                      key={index}
+                      className={css.fieldTextInput}
+                      type="text"
+                      label={
+                        this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+                        isOddNumber
+                          ? intl.formatMessage(
+                              { id: 'FieldDateAndTimeInput.coupleGuestNameLabel' },
+                              { number: index + 1 }
+                            )
+                          : intl.formatMessage(
+                              { id: 'FieldDateAndTimeInput.guestNameLabel' },
+                              { number: index + 1 }
+                            )
+                      }
+                      placeholder={intl.formatMessage(
+                        {
+                          id: 'FieldDateAndTimeInput.guestNamePlaceholder',
+                        },
+                        { number: index + 1 }
+                      )}
+                      validate={validators.required(
+                        intl.formatMessage({
+                          id: 'FieldDateAndTimeInput.requiredGuestName',
+                        })
+                      )}
+                      disabled={
+                        this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+                        isOddNumber
+                      }
+                    />
+                  );
+                })
+              }
+            </FieldArray>
+
+            {couponInsertion}
+          </>
         )}
       </div>
     );
