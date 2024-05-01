@@ -10,6 +10,21 @@ const LINE_ITEM_DAY = 'line-item/day';
 
 /** Helper functions for constructing line items*/
 
+exports.resolveVoucherFeePrice = voucherFee => {
+  const voucherDiscount = {
+    amount: voucherFee,
+    currency: 'EUR',
+  };
+
+  const { amount, currency } = voucherDiscount;
+
+  if (amount && currency) {
+    return new Money(amount * -1, currency);
+  }
+
+  return null;
+};
+
 /**
  * Calculates shipping fee based on saved public data fields and quantity.
  * The total will be `shippingPriceInSubunitsOneItem + (shippingPriceInSubunitsAdditionalItems * (quantity - 1))`.
@@ -175,7 +190,6 @@ exports.calculateQuantityFromHours = (startDate, endDate) => {
  */
 exports.calculateLineTotal = lineItem => {
   const { code, unitPrice, quantity, percentage, seats, units } = lineItem;
-
   if (quantity) {
     return this.calculateTotalPriceFromQuantity(unitPrice, quantity);
   } else if (percentage != null) {
@@ -199,13 +213,14 @@ exports.calculateLineTotal = lineItem => {
 exports.calculateTotalFromLineItems = lineItems => {
   const totalPrice = lineItems.reduce((sum, lineItem) => {
     const lineTotal = this.calculateLineTotal(lineItem);
-    if (lineItem.code === 'line-item/coupon') {
+    if (lineItem.code === 'line-item/voucher') {
       return sum.minus(getAmountAsDecimalJS(lineTotal));
     } else {
       return sum.add(getAmountAsDecimalJS(lineTotal));
     }
   }, new Decimal(0));
 
+  // Get total price as Number (and validate that the conversion is safe)
   const numericTotalPrice = convertDecimalJSToNumber(totalPrice);
   const unitPrice = lineItems[0].unitPrice;
 
@@ -282,50 +297,4 @@ exports.hasCommissionPercentage = commission => {
   // Only create a line item if the percentage is set to be more than zero
   const isMoreThanZero = percentage > 0;
   return isDefined && isMoreThanZero;
-};
-
-/**
- * Calculate the coupon discount amount based on the percentage value or cash value.
- *
- */
-
-exports.resolveCouponDiscount = (coupon, total) => {
-  if (coupon.valid && coupon.amount_off !== null) {
-    const couponDiscount = {
-      amount: coupon.amount_off,
-      currency: 'EUR',
-    };
-    const { amount, currency } = couponDiscount;
-
-    if (amount && currency) {
-      return [
-        {
-          code: 'line-item/coupon',
-          unitPrice: new Money(amount * -1, currency),
-          quantity: 1,
-          includeFor: ['customer', 'provider'],
-        },
-      ];
-    }
-  } else if (coupon.valid && coupon.percent_off !== null) {
-    let totalDiscount = total * (coupon.percent_off / 100);
-
-    const couponDiscount = {
-      amount: totalDiscount,
-      currency: 'EUR',
-    };
-    const { amount, currency } = couponDiscount;
-
-    if (amount && currency) {
-      return [
-        {
-          code: 'line-item/coupon',
-          unitPrice: new Money(totalDiscount * -1, currency),
-          quantity: 1,
-          includeFor: ['customer', 'provider'],
-        },
-      ];
-    }
-  }
-  return null;
 };

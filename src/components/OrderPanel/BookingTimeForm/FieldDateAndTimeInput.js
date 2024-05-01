@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { func, number, object, string } from 'prop-types';
 import classNames from 'classnames';
 import * as validators from '../../../util/validators';
@@ -21,7 +21,14 @@ import {
 } from '../../../util/dates';
 import { propTypes } from '../../../util/types';
 import { bookingDateRequired } from '../../../util/validators';
-import { FieldDateInput, FieldSelect, FieldTextInput, IconArrowHead } from '../../../components';
+import {
+  FieldDateInput,
+  FieldSelect,
+  FieldTextInput,
+  IconArrowHead,
+  Form,
+  H6,
+} from '../../../components';
 import moment from 'moment';
 import { checkCoupon } from '../../../util/api';
 import css from './FieldDateAndTimeInput.module.css';
@@ -237,9 +244,9 @@ const Prev = props => {
 class FieldDateAndTimeInput extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       currentMonth: getStartOf(TODAY, 'month', props.timeZone),
+      voucherCode: '',
     };
 
     this.fetchMonthData = this.fetchMonthData.bind(this);
@@ -249,25 +256,26 @@ class FieldDateAndTimeInput extends Component {
     this.onBookingEndDateChange = this.onBookingEndDateChange.bind(this);
     this.isOutsideRange = this.isOutsideRange.bind(this);
   }
-
-  handleCouponChange = event => {
-    this.setState({ couponCode: event.target.value });
+  handleVoucherChange = event => {
+    console.log('Voucher code changed:', event.target.value);
+    this.setState({ voucherCode: event.target.value });
   };
 
-  handleCouponSubmit = () => {
+  handleVoucherSubmit = () => {
+    console.log('Voucher submitted:', this.state.voucherCode);
     const requestBody = {
-      code: this.state.couponCode,
+      code: this.state.voucherCode,
     };
     checkCoupon(requestBody)
       .then(response => {
         this.props.form.batch(() => {
-          this.props.form.change('coupon', response);
+          this.props.form.change('voucherFee', response);
         });
-        this.setState({ coupon: '' });
+        this.setState({ voucherCode: '' });
       })
       .catch(error => {
         console.error('Error checking voucher:', error);
-        this.setState({ coupon: '' });
+        this.setState({ voucherCode: '' });
       });
   };
 
@@ -431,6 +439,7 @@ class FieldDateAndTimeInput extends Component {
       formId,
       startDateInputProps,
       // endDateInputProps,
+      voucher,
       values,
       monthlyTimeSlots,
       timeZone,
@@ -515,7 +524,7 @@ class FieldDateAndTimeInput extends Component {
     const seatsSelectionMaybe =
       seatsArray?.length > 1 ? (
         <FieldSelect
-          className={css.fieldSeats}
+          className={css.fieldSelect}
           onChange={value => {
             form.batch(() => {
               form.change('guestNames', []);
@@ -544,7 +553,7 @@ class FieldDateAndTimeInput extends Component {
         </FieldSelect>
       ) : null;
 
-    const couponInsertion = (
+    const voucherInsertion = (
       <div className={css.priceBreakdownContainer}>
         <p>
           {/*<FormattedMessage id="BookingTimeForm.priceBreakdownTitle" />*/}
@@ -553,11 +562,11 @@ class FieldDateAndTimeInput extends Component {
         <hr className={css.totalDivider} />
         <input
           type="text"
-          placeholder="Enter your coupon code here"
-          value={this.state.couponCode}
-          onChange={this.handleCouponChange}
+          placeholder="Enter your voucher code here"
+          value={this.state.voucherCode} // Make sure voucherCode is passed as value
+          onChange={this.handleVoucherChange}
         />
-        <button type="button" onClick={this.handleCouponSubmit} style={{ width: '100%' }}>
+        <button type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
           Apply the coupon
         </button>
       </div>
@@ -601,7 +610,6 @@ class FieldDateAndTimeInput extends Component {
               onClose={event =>
                 this.setState({
                   currentMonth: getStartOf(event?.date ?? TODAY, 'month', this.props.timeZone),
-                  couponCode: {},
                 })
               }
             />
@@ -630,7 +638,7 @@ class FieldDateAndTimeInput extends Component {
             </FieldSelect>
           </div>
 
-          <div className={bookingStartDate ? css.lineBetween : css.lineBetweenDisabled}></div>
+          <div className={bookingStartDate ? css.lineBetween : css.lineBetweenDisabled}>-</div>
 
           <div className={css.field}>
             <FieldSelect
@@ -654,9 +662,10 @@ class FieldDateAndTimeInput extends Component {
           </div>
         </div>
         {seatsSelectionMaybe}
+
         {!!seatsSelectionMaybe && (
           <>
-            <FieldArray name="guestNames" className={css.fieldSaets}>
+            <FieldArray name="guestNames" className={css.fieldSelect}>
               {({ fields }) =>
                 fields.map((name, index) => {
                   const isOddNumber = (index + 1) % 2 !== 0;
@@ -701,7 +710,7 @@ class FieldDateAndTimeInput extends Component {
               }
             </FieldArray>
 
-            {couponInsertion}
+            {voucherInsertion}
           </>
         )}
       </div>

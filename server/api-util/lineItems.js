@@ -1,11 +1,11 @@
-const { Order } = require('@getbrevo/brevo');
+const { get } = require('lodash');
 const {
   calculateQuantityFromDates,
   calculateQuantityFromHours,
   calculateTotalFromLineItems,
   calculateShippingFee,
   hasCommissionPercentage,
-  resolveCouponDiscount,
+  resolveVoucherFeePrice,
 } = require('./lineItemHelpers');
 const { types } = require('sharetribe-flex-sdk');
 const { Money } = types;
@@ -144,7 +144,6 @@ const getHourUnitsSeatsAndLineItems = orderData => {
  * @returns {Array} lineItems
  */
 exports.transactionLineItems = (listing, orderData, providerCommission, customerCommission) => {
-  // console.log(orderData);
   const publicData = listing.attributes.publicData;
   const unitPrice = listing.attributes.price;
   const currency = unitPrice.currency;
@@ -221,14 +220,44 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
     ...quantityOrSeats,
     includeFor: ['customer', 'provider'],
   };
-  const tempTotal = order.unitPrice.amount * order.seats;
-  const couponDiscount = orderData.coupon ? resolveCouponDiscount(orderData.coupon, tempTotal) : [];
-  const couponDiscountArray = couponDiscount ? couponDiscount : [];
+
+  const voucherFeePrice = orderData.voucherFee
+    ? resolveVoucherFeePrice(orderData.voucherFee.amount_off)
+    : null;
+
+  const voucherFee = voucherFeePrice
+    ? [
+        {
+          code: 'line-item/voucher',
+          unitPrice: voucherFeePrice,
+          quantity: 1,
+          includeFor: ['customer', 'provider'],
+        },
+      ]
+    : [];
+
+  const estimatedTotal = order?.unitPrice.amount * order?.seats;
+  // Adjusted commission percentage basing on total
+  const adjustedCommission = (voucherFeePrice = 0, total = 0) => {
+    if (total === 0) {
+      return 0;
+    }
+    return (Math.abs(voucherFeePrice) / total) * 100;
+  };
 
   // Provider commission reduces the amount of money that is paid out to provider.
   // Therefore, the provider commission line-item should have negative effect to the payout total.
-  const getNegation = percentage => {
-    return -1 * percentage;
+  const getNegation = (percentage, voucherFeePrice, total) => {
+    // Assuming AdjustedCommission correctly calculates a percentage
+    const result = adjustedCommission(voucherFeePrice, total);
+    let percentageAdjusted = result > 0 ? percentage - result : percentage;
+
+    if (percentageAdjusted > 10) {
+      percentageAdjusted = 10;
+    } else if (percentageAdjusted < 0) {
+      percentageAdjusted = 0;
+    }
+    return -1 * percentageAdjusted;
   };
 
   // Note: extraLineItems for product selling (aka shipping fee)
@@ -241,8 +270,12 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
     ? [
         {
           code: 'line-item/provider-commission',
-          unitPrice: calculateTotalFromLineItems([order, ...couponDiscountArray]),
-          percentage: getNegation(providerCommission.percentage),
+          unitPrice: calculateTotalFromLineItems([order, ...voucherFee]),
+          percentage: getNegation(
+            providerCommission.percentage,
+            voucherFeePrice?.amount,
+            estimatedTotal
+          ),
           includeFor: ['provider'],
         },
       ]
@@ -264,12 +297,13 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
 
   // Let's keep the base price (order) as first line item and provider and customer commissions as last.
   // Note: the order matters only if OrderBreakdown component doesn't recognize line-item.
+
   const lineItems = [
     order,
     ...extraLineItems,
-    ...couponDiscountArray,
     ...providerCommissionMaybe,
     ...customerCommissionMaybe,
+    ...voucherFee,
   ];
 
   return lineItems;

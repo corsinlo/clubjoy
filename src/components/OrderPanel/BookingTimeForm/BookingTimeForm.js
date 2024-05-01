@@ -8,9 +8,9 @@ import { FormattedMessage, intlShape, injectIntl } from '../../../util/reactIntl
 import { timestampToDate } from '../../../util/dates';
 import { propTypes } from '../../../util/types';
 import { BOOKING_PROCESS_NAME } from '../../../transactions/transaction';
-
+import { Form as F, Field } from 'react-final-form';
 import { Form, H6, PrimaryButton } from '../../../components';
-
+import axios from 'axios';
 import EstimatedCustomerBreakdownMaybe from '../EstimatedCustomerBreakdownMaybe';
 import FieldDateAndTimeInput from './FieldDateAndTimeInput';
 import arrayMutators from 'final-form-arrays';
@@ -20,7 +20,6 @@ import css from './BookingTimeForm.module.css';
 export class BookingTimeFormComponent extends Component {
   constructor(props) {
     super(props);
-
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
   }
@@ -34,7 +33,7 @@ export class BookingTimeFormComponent extends Component {
   // In case you add more fields to the form, make sure you add
   // the values here to the orderData object.
   handleOnChange(formValues) {
-    const { bookingStartTime, bookingEndTime, seats = 1, coupon = {} } = formValues.values;
+    const { bookingStartTime, bookingEndTime, seats = 1, voucherFee = {} } = formValues.values;
     const startDate = bookingStartTime ? timestampToDate(bookingStartTime) : null;
     const endDate = bookingEndTime ? timestampToDate(bookingEndTime) : null;
 
@@ -51,13 +50,14 @@ export class BookingTimeFormComponent extends Component {
       isStartBeforeEnd &&
       !this.props.fetchLineItemsInProgress
     ) {
+      const orderData = {
+        bookingStart: startDate,
+        bookingEnd: endDate,
+        seats: parseInt(seats, 10),
+        voucherFee,
+      };
       this.props.onFetchTransactionLineItems({
-        orderData: {
-          bookingStart: startDate,
-          bookingEnd: endDate,
-          seats: parseInt(seats, 10),
-          coupon,
-        },
+        orderData,
         listingId,
         isOwnListing,
       });
@@ -104,7 +104,7 @@ export class BookingTimeFormComponent extends Component {
             fetchLineItemsInProgress,
             fetchLineItemsError,
             payoutDetailsWarning,
-            coupon,
+            voucherFee,
           } = fieldRenderProps;
 
           const startTime = values && values.bookingStartTime ? values.bookingStartTime : null;
@@ -138,6 +138,35 @@ export class BookingTimeFormComponent extends Component {
             </NamedLink>
           );
 
+          /*
+          const voucher = (
+            <F
+              onSubmit={this.handleVoucherSubmit}
+              render={({ handleSubmit, form, submitting, pristine, values }) => (
+                <>
+                  <Field
+                    id="bookingForm.voucher"
+                    name="voucher"
+                    component="input"
+                    type="text"
+                    placeholder="Enter your voucher code here"
+                  />
+                  <button
+                    type="submit"
+                    onClick={event => {
+                      event.preventDefault();
+                      handleSubmit();
+                    }}
+                    disabled={submitting}
+                  >
+                    Validate Voucher
+                  </button>
+                </>
+              )}
+            />
+          );
+          */
+
           return (
             <Form onSubmit={handleSubmit} className={classes} enforcePagePreloadFor="CheckoutPage">
               <FormSpy
@@ -166,7 +195,7 @@ export class BookingTimeFormComponent extends Component {
                   pristine={pristine}
                   timeZone={timeZone}
                   dayCountAvailableForBooking={dayCountAvailableForBooking}
-                  coupon={coupon}
+                  voucherFee={voucherFee}
                 />
               ) : null}
 
