@@ -76,6 +76,8 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
   const deliveryMethodMaybe = deliveryMethod ? { deliveryMethod } : {};
   const guestsNameMaybe = seatNames ? { seatNames } : {};
   const { listingType, unitType } = pageData?.listing?.attributes?.publicData || {};
+  const voucherFee = pageData.orderData?.voucherFee || 0;
+
   const protectedDataMaybe = {
     protectedData: {
       ...getTransactionTypeData(listingType, unitType, config),
@@ -91,6 +93,7 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
   const orderParams = {
     listingId: pageData?.listing?.id,
     ...deliveryMethodMaybe,
+    voucherFee,
     ...quantityMaybe,
     ...seatsMaybe,
     ...bookingDatesMaybe(pageData.orderData?.bookingDates),

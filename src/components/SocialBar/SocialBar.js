@@ -1,7 +1,8 @@
 import React from 'react';
 import TikTok from './Icons/tikitok';
-import Instragram from './Icons/instagram';
+import Instagram from './Icons/instagram';
 import css from './SocialBar.module.css';
+import WhatsappIcon from './Icons/whatsapp';
 
 export default function SocialBar() {
   return (
@@ -12,7 +13,7 @@ export default function SocialBar() {
         rel="noopener noreferrer"
         className={css.customClass}
       >
-        <Instragram className={css.customClass} />
+        <Instagram className={css.customClass} />
       </a>
       <a
         href="https://www.tiktok.com/@clubjoy.it"

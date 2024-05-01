@@ -1,9 +1,12 @@
+const { get } = require('lodash');
 const {
   calculateQuantityFromDates,
   calculateQuantityFromHours,
   calculateTotalFromLineItems,
   calculateShippingFee,
   hasCommissionPercentage,
+  resolveVoucherFeePrice,
+  resolveVoucherFeeDiscount,
 } = require('./lineItemHelpers');
 const { types } = require('sharetribe-flex-sdk');
 const { Money } = types;
@@ -97,9 +100,7 @@ const getDateRangeUnitsSeatsLineItems = (orderData, code) => {
   const { bookingStart, bookingEnd, seats } = orderData;
 
   const units =
-    bookingStart && bookingEnd
-      ? calculateQuantityFromDates(bookingStart, bookingEnd, code)
-      : null;
+    bookingStart && bookingEnd ? calculateQuantityFromDates(bookingStart, bookingEnd, code) : null;
 
   return { units, seats, extraLineItems: [] };
 };
@@ -112,10 +113,7 @@ const getDateRangeUnitsSeatsLineItems = (orderData, code) => {
 const getHourUnitsSeatsAndLineItems = orderData => {
   const { bookingStart, bookingEnd, seats } = orderData || {};
 
-  const units =
-    bookingStart && bookingEnd
-      ? 1
-      : null;
+  const units = bookingStart && bookingEnd ? 1 : null;
 
   return { units, seats, extraLineItems: [] };
 };
@@ -180,19 +178,18 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
       ? getDateRangeQuantityAndLineItems(orderData, code)
       : {};
   */
-const quantityAndExtraLineItems =
-  unitType === 'item'
-    ? getItemQuantityAndLineItems(orderData, publicData, currency)
-    : unitType === 'hour'
-    ? getHourUnitsSeatsAndLineItems(orderData) // Adjusted to use the new function
-    : ['day', 'night'].includes(unitType) && !!orderData.seats
-   ? getDateRangeUnitsSeatsLineItems(orderData, code)
-    : ['day', 'night'].includes(unitType)
-    ? getDateRangeQuantityAndLineItems(orderData, code)
-    : {};
+  const quantityAndExtraLineItems =
+    unitType === 'item'
+      ? getItemQuantityAndLineItems(orderData, publicData, currency)
+      : unitType === 'hour'
+      ? getHourUnitsSeatsAndLineItems(orderData) // Adjusted to use the new function
+      : ['day', 'night'].includes(unitType) && !!orderData.seats
+      ? getDateRangeUnitsSeatsLineItems(orderData, code)
+      : ['day', 'night'].includes(unitType)
+      ? getDateRangeQuantityAndLineItems(orderData, code)
+      : {};
 
   const { quantity, units, seats, extraLineItems } = quantityAndExtraLineItems;
-
 
   // Throw error if there is no quantity information given
   if (!quantity && !(units && seats)) {
@@ -205,8 +202,8 @@ const quantityAndExtraLineItems =
     throw error;
   }
   // A booking line item can have either quantity, or units and seats. Add the
- // correct values depending on whether units and seats exist.
-const quantityOrSeats = !!units && !!seats ? { units, seats } : { quantity };
+  // correct values depending on whether units and seats exist.
+  const quantityOrSeats = !!units && !!seats ? { units, seats } : { quantity };
 
   /**
    * If you want to use pre-defined component and translations for printing the lineItems base price for order,
@@ -224,11 +221,43 @@ const quantityOrSeats = !!units && !!seats ? { units, seats } : { quantity };
     ...quantityOrSeats,
     includeFor: ['customer', 'provider'],
   };
+  const estimatedTotal = order?.unitPrice.amount * order?.seats;
+  const voucherFeePrice = orderData.voucherFee.amount_off
+    ? resolveVoucherFeePrice(orderData.voucherFee.amount_off)
+    : orderData.voucherFee.percent_off
+    ? resolveVoucherFeeDiscount(orderData.voucherFee.percent_off, estimatedTotal)
+    : null;
+
+  const voucherFee = voucherFeePrice
+    ? [
+        {
+          code: 'line-item/voucher',
+          unitPrice: voucherFeePrice,
+          quantity: 1,
+          includeFor: ['customer', 'provider'],
+        },
+      ]
+    : [];
+
+  // Adjusted commission percentage basing on total
+  const adjustedCommission = (voucherFeePrice = 0, total = 0) => {
+    if (total === 0) {
+      return 0;
+    }
+    return (Math.abs(voucherFeePrice) / total) * 100;
+  };
 
   // Provider commission reduces the amount of money that is paid out to provider.
   // Therefore, the provider commission line-item should have negative effect to the payout total.
-  const getNegation = percentage => {
-    return -1 * percentage;
+  const getNegation = (percentage, voucherFeePrice, total) => {
+    const result = adjustedCommission(voucherFeePrice, total);
+    let percentageAdjusted = result > 0 ? percentage - result : percentage;
+    if (percentageAdjusted > 10) {
+      percentageAdjusted = 10;
+    } else if (percentageAdjusted < 0) {
+      percentageAdjusted = 0;
+    }
+    return -1 * percentageAdjusted;
   };
 
   // Note: extraLineItems for product selling (aka shipping fee)
@@ -241,8 +270,12 @@ const quantityOrSeats = !!units && !!seats ? { units, seats } : { quantity };
     ? [
         {
           code: 'line-item/provider-commission',
-          unitPrice: calculateTotalFromLineItems([order]),
-          percentage: getNegation(providerCommission.percentage),
+          unitPrice: calculateTotalFromLineItems([order, ...voucherFee]),
+          percentage: getNegation(
+            providerCommission.percentage,
+            voucherFeePrice?.amount,
+            estimatedTotal
+          ),
           includeFor: ['provider'],
         },
       ]
@@ -264,11 +297,13 @@ const quantityOrSeats = !!units && !!seats ? { units, seats } : { quantity };
 
   // Let's keep the base price (order) as first line item and provider and customer commissions as last.
   // Note: the order matters only if OrderBreakdown component doesn't recognize line-item.
+
   const lineItems = [
     order,
     ...extraLineItems,
     ...providerCommissionMaybe,
     ...customerCommissionMaybe,
+    ...voucherFee,
   ];
 
   return lineItems;

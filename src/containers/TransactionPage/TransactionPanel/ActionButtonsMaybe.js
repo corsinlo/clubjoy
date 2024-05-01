@@ -41,8 +41,6 @@ const ActionButtonsMaybe = props => {
 
     if (error) {
       console.error('Error inserting booking into Supabase:', error);
-    } else {
-      console.log('Inserted booking into Supabase', data);
     }
   };
 

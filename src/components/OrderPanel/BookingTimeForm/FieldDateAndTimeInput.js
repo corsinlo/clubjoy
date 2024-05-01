@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { func, number, object, string } from 'prop-types';
 import classNames from 'classnames';
 import * as validators from '../../../util/validators';
@@ -21,9 +21,17 @@ import {
 } from '../../../util/dates';
 import { propTypes } from '../../../util/types';
 import { bookingDateRequired } from '../../../util/validators';
-import { FieldDateInput, FieldSelect, FieldTextInput, IconArrowHead } from '../../../components';
+import {
+  FieldDateInput,
+  FieldSelect,
+  FieldTextInput,
+  IconArrowHead,
+  Form,
+  H6,
+  PrimaryButton,
+} from '../../../components';
 import moment from 'moment';
-
+import { checkCoupon } from '../../../util/api';
 import css from './FieldDateAndTimeInput.module.css';
 import { FieldArray } from 'react-final-form-arrays';
 
@@ -237,9 +245,10 @@ const Prev = props => {
 class FieldDateAndTimeInput extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       currentMonth: getStartOf(TODAY, 'month', props.timeZone),
+      voucherCode: '',
+      validSeatsInput: false,
     };
 
     this.fetchMonthData = this.fetchMonthData.bind(this);
@@ -249,6 +258,33 @@ class FieldDateAndTimeInput extends Component {
     this.onBookingEndDateChange = this.onBookingEndDateChange.bind(this);
     this.isOutsideRange = this.isOutsideRange.bind(this);
   }
+
+  validateSeatsInput = value => {
+    const isValid = /[a-zA-Z]+/.test(value); // Checks if there are any letters
+    this.setState({ validSeatsInput: isValid });
+    this.props.onSeatsInputValidChange(isValid); // Propagate to parent
+  };
+
+  handleVoucherChange = event => {
+    this.setState({ voucherCode: event.target.value });
+  };
+
+  handleVoucherSubmit = () => {
+    const requestBody = {
+      code: this.state.voucherCode,
+    };
+    checkCoupon(requestBody)
+      .then(response => {
+        this.props.form.batch(() => {
+          this.props.form.change('voucherFee', response);
+        });
+        this.setState({ voucherCode: '' });
+      })
+      .catch(error => {
+        console.error('Error checking voucher:', error);
+        this.setState({ voucherCode: '' });
+      });
+  };
 
   fetchMonthData(date) {
     const { listingId, timeZone, onFetchTimeSlots, dayCountAvailableForBooking } = this.props;
@@ -410,6 +446,7 @@ class FieldDateAndTimeInput extends Component {
       formId,
       startDateInputProps,
       // endDateInputProps,
+      voucher,
       values,
       monthlyTimeSlots,
       timeZone,
@@ -493,35 +530,56 @@ class FieldDateAndTimeInput extends Component {
     //65fc542d-96ee-422d-b0e6-0075f9a1c683
     const seatsSelectionMaybe =
       seatsArray?.length > 1 ? (
-        <FieldSelect
-          className={css.fieldSeats}
-          onChange={value => {
-            form.batch(() => {
-              form.change('guestNames', []);
-              if (value > 0)
-                for (let index = 0; index < value; index++)
-                  form.mutators.push(`guestNames[${index}]`, '');
-            });
-          }}
-          name="seats"
-          id="seats"
-          label={seatsLabel}
-        >
-          {seatsArray.map(s => (
-            <option
-              value={s}
-              key={s}
-              disabled={
-                this.props.listingId &&
-                this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                s % 2 !== 0
-              }
-            >
-              {s}
-            </option>
-          ))}
-        </FieldSelect>
+        <div className={css.fieldTextInput}>
+          {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
+          <FieldSelect
+            className={css.fieldSelect}
+            onChange={value => {
+              form.batch(() => {
+                form.change('guestNames', []);
+                if (value > 0)
+                  for (let index = 0; index < value; index++)
+                    form.mutators.push(`guestNames[${index}]`, '');
+              });
+            }}
+            name="seats"
+            id="seats"
+            label={seatsLabel}
+          >
+            {seatsArray.map(s => (
+              <option
+                value={s}
+                key={s}
+                disabled={
+                  this.props.listingId &&
+                  this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+                  s % 2 !== 0
+                }
+              >
+                {s}
+              </option>
+            ))}
+          </FieldSelect>
+        </div>
       ) : null;
+
+    const voucherInsertion = (
+      <div className={css.fieldTextInput}>
+        <div className={css.priceBreakdownContainer}>
+          <p>{intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}</p>
+          <hr className={css.totalDivider} />
+          <input
+            type="text"
+            placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
+            value={this.state.voucherCode} // Make sure voucherCode is passed as value
+            onChange={this.handleVoucherChange}
+          />
+          <PrimaryButton type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
+            {intl.formatMessage({ id: 'BookingTimeForm.coupon.button' })}
+          </PrimaryButton>
+        </div>
+      </div>
+    );
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
@@ -589,7 +647,7 @@ class FieldDateAndTimeInput extends Component {
             </FieldSelect>
           </div>
 
-          <div className={bookingStartDate ? css.lineBetween : css.lineBetweenDisabled}></div>
+          <div className={bookingStartDate ? css.lineBetween : css.lineBetweenDisabled}>-</div>
 
           <div className={css.field}>
             <FieldSelect
@@ -613,51 +671,57 @@ class FieldDateAndTimeInput extends Component {
           </div>
         </div>
         {seatsSelectionMaybe}
-        {!!seatsSelectionMaybe && (
-          <FieldArray name="guestNames" className={css.fieldSaets}>
-            {({ fields }) =>
-              fields.map((name, index) => {
-                const isOddNumber = (index + 1) % 2 !== 0;
 
-                return (
-                  <FieldTextInput
-                    id={name}
-                    name={name}
-                    key={index}
-                    className={css.fieldTextInput}
-                    type="text"
-                    label={
-                      this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                      isOddNumber
-                        ? intl.formatMessage(
-                            { id: 'FieldDateAndTimeInput.coupleGuestNameLabel' },
-                            { number: index + 1 }
-                          )
-                        : intl.formatMessage(
-                            { id: 'FieldDateAndTimeInput.guestNameLabel' },
-                            { number: index + 1 }
-                          )
-                    }
-                    placeholder={intl.formatMessage(
-                      {
-                        id: 'FieldDateAndTimeInput.guestNamePlaceholder',
-                      },
-                      { number: index + 1 }
-                    )}
-                    validate={validators.required(
-                      intl.formatMessage({
-                        id: 'FieldDateAndTimeInput.requiredGuestName',
-                      })
-                    )}
-                    disabled={
-                      this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                      isOddNumber
-                    }
-                  />
-                );
-              })
-            }
-          </FieldArray>
+        {!!seatsSelectionMaybe && (
+          <>
+            <FieldArray name="guestNames" className={css.fieldSelect}>
+              {({ fields }) =>
+                fields.map((name, index) => {
+                  const isOddNumber = (index + 1) % 2 !== 0;
+
+                  return (
+                    <FieldTextInput
+                      id={name}
+                      name={name}
+                      key={index}
+                      className={css.fieldTextInput}
+                      //onChange={event => this.validateSeatsInput(event.target.value)}
+                      type="text"
+                      label={
+                        this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+                        isOddNumber
+                          ? intl.formatMessage(
+                              { id: 'FieldDateAndTimeInput.coupleGuestNameLabel' },
+                              { number: index + 1 }
+                            )
+                          : intl.formatMessage(
+                              { id: 'FieldDateAndTimeInput.guestNameLabel' },
+                              { number: index + 1 }
+                            )
+                      }
+                      placeholder={intl.formatMessage(
+                        {
+                          id: 'FieldDateAndTimeInput.guestNamePlaceholder',
+                        },
+                        { number: index + 1 }
+                      )}
+                      validate={validators.required(
+                        intl.formatMessage({
+                          id: 'FieldDateAndTimeInput.requiredGuestName',
+                        })
+                      )}
+                      disabled={
+                        this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+                        isOddNumber
+                      }
+                    />
+                  );
+                })
+              }
+            </FieldArray>
+
+            {voucherInsertion}
+          </>
         )}
       </div>
     );

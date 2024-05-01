@@ -20,21 +20,27 @@ import css from './BookingTimeForm.module.css';
 export class BookingTimeFormComponent extends Component {
   constructor(props) {
     super(props);
-
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.state = {
+      isSeatsInputValid: false,
+    };
   }
 
   handleFormSubmit(e) {
     this.props.onSubmit(e);
   }
 
+  handleSeatsInputValidChange = isValid => {
+    this.setState({ isSeatsInputValid: isValid });
+  };
+
   // When the values of the form are updated we need to fetch
   // lineItems from this template's backend for the EstimatedTransactionMaybe
   // In case you add more fields to the form, make sure you add
   // the values here to the orderData object.
   handleOnChange(formValues) {
-    const { bookingStartTime, bookingEndTime, seats = 1 } = formValues.values;
+    const { bookingStartTime, bookingEndTime, seats = 1, voucherFee = {} } = formValues.values;
     const startDate = bookingStartTime ? timestampToDate(bookingStartTime) : null;
     const endDate = bookingEndTime ? timestampToDate(bookingEndTime) : null;
 
@@ -51,8 +57,14 @@ export class BookingTimeFormComponent extends Component {
       isStartBeforeEnd &&
       !this.props.fetchLineItemsInProgress
     ) {
+      const orderData = {
+        bookingStart: startDate,
+        bookingEnd: endDate,
+        seats: parseInt(seats, 10),
+        voucherFee,
+      };
       this.props.onFetchTransactionLineItems({
-        orderData: { bookingStart: startDate, bookingEnd: endDate, seats: parseInt(seats, 10) },
+        orderData,
         listingId,
         isOwnListing,
       });
@@ -99,6 +111,7 @@ export class BookingTimeFormComponent extends Component {
             fetchLineItemsInProgress,
             fetchLineItemsError,
             payoutDetailsWarning,
+            voucherFee,
           } = fieldRenderProps;
 
           const startTime = values && values.bookingStartTime ? values.bookingStartTime : null;
@@ -160,6 +173,8 @@ export class BookingTimeFormComponent extends Component {
                   pristine={pristine}
                   timeZone={timeZone}
                   dayCountAvailableForBooking={dayCountAvailableForBooking}
+                  onSeatsInputValidChange={this.handleSeatsInputValidChange}
+                  voucherFee={voucherFee}
                 />
               ) : null}
 
@@ -190,7 +205,7 @@ export class BookingTimeFormComponent extends Component {
                 <PrimaryButton
                   type="submit"
                   inProgress={fetchLineItemsInProgress}
-                  disabled={!currentUser || !emailVerified}
+                  disabled={!currentUser || !emailVerified} // !this.state.isSeatsInputValid
                 >
                   <FormattedMessage id="BookingTimeForm.requestToBook" />
                 </PrimaryButton>
