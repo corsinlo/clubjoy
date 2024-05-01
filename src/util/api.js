@@ -144,3 +144,14 @@ export const transitionPrivileged = body => {
 export const createUserWithIdp = body => {
   return post('/api/auth/create-user-with-idp', body);
 };
+
+// Create user uncaptured charge for coupon for the provider
+// See `server/api/stripe.js` to see what data should
+export const createCouponCharge = body => {
+  return post('/api/stripe/create-coupon', body);
+};
+
+// Check the validity of a coupon code
+export const checkCoupon = body => {
+  return post('/api/stripe/coupon', body);
+};

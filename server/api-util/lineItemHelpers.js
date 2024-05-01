@@ -10,6 +10,37 @@ const LINE_ITEM_DAY = 'line-item/day';
 
 /** Helper functions for constructing line items*/
 
+exports.resolveVoucherFeePrice = voucherFee => {
+  const voucherDiscount = {
+    amount: voucherFee,
+    currency: 'EUR',
+  };
+
+  const { amount, currency } = voucherDiscount;
+
+  if (amount && currency) {
+    return new Money(amount * -1, currency);
+  }
+
+  return null;
+};
+
+exports.resolveVoucherFeeDiscount = (voucherFee, total) => {
+  let discountedPrice = (total * voucherFee) / 100;
+  const voucherDiscount = {
+    amount: discountedPrice,
+    currency: 'EUR',
+  };
+
+  const { amount, currency } = voucherDiscount;
+
+  if (amount && currency) {
+    return new Money(amount * -1, currency);
+  }
+
+  return null;
+};
+
 /**
  * Calculates shipping fee based on saved public data fields and quantity.
  * The total will be `shippingPriceInSubunitsOneItem + (shippingPriceInSubunitsAdditionalItems * (quantity - 1))`.
@@ -175,7 +206,6 @@ exports.calculateQuantityFromHours = (startDate, endDate) => {
  */
 exports.calculateLineTotal = lineItem => {
   const { code, unitPrice, quantity, percentage, seats, units } = lineItem;
-
   if (quantity) {
     return this.calculateTotalPriceFromQuantity(unitPrice, quantity);
   } else if (percentage != null) {
@@ -195,11 +225,16 @@ exports.calculateLineTotal = lineItem => {
  * @param {Array} lineItems
  * @retuns {Money} total sum
  */
+
 exports.calculateTotalFromLineItems = lineItems => {
   const totalPrice = lineItems.reduce((sum, lineItem) => {
     const lineTotal = this.calculateLineTotal(lineItem);
-    return getAmountAsDecimalJS(lineTotal).add(sum);
-  }, 0);
+    if (lineItem.code === 'line-item/voucher') {
+      return sum.minus(getAmountAsDecimalJS(lineTotal));
+    } else {
+      return sum.add(getAmountAsDecimalJS(lineTotal));
+    }
+  }, new Decimal(0));
 
   // Get total price as Number (and validate that the conversion is safe)
   const numericTotalPrice = convertDecimalJSToNumber(totalPrice);
