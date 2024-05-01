@@ -25,6 +25,22 @@ exports.resolveVoucherFeePrice = voucherFee => {
   return null;
 };
 
+exports.resolveVoucherFeeDiscount = (voucherFee, total) => {
+  let discountedPrice = (total * voucherFee) / 100;
+  const voucherDiscount = {
+    amount: discountedPrice,
+    currency: 'EUR',
+  };
+
+  const { amount, currency } = voucherDiscount;
+
+  if (amount && currency) {
+    return new Money(amount * -1, currency);
+  }
+
+  return null;
+};
+
 /**
  * Calculates shipping fee based on saved public data fields and quantity.
  * The total will be `shippingPriceInSubunitsOneItem + (shippingPriceInSubunitsAdditionalItems * (quantity - 1))`.

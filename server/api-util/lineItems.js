@@ -6,6 +6,7 @@ const {
   calculateShippingFee,
   hasCommissionPercentage,
   resolveVoucherFeePrice,
+  resolveVoucherFeeDiscount,
 } = require('./lineItemHelpers');
 const { types } = require('sharetribe-flex-sdk');
 const { Money } = types;
@@ -220,9 +221,11 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
     ...quantityOrSeats,
     includeFor: ['customer', 'provider'],
   };
-
-  const voucherFeePrice = orderData.voucherFee
+  const estimatedTotal = order?.unitPrice.amount * order?.seats;
+  const voucherFeePrice = orderData.voucherFee.amount_off
     ? resolveVoucherFeePrice(orderData.voucherFee.amount_off)
+    : orderData.voucherFee.percent_off
+    ? resolveVoucherFeeDiscount(orderData.voucherFee.percent_off, estimatedTotal)
     : null;
 
   const voucherFee = voucherFeePrice
@@ -236,7 +239,6 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
       ]
     : [];
 
-  const estimatedTotal = order?.unitPrice.amount * order?.seats;
   // Adjusted commission percentage basing on total
   const adjustedCommission = (voucherFeePrice = 0, total = 0) => {
     if (total === 0) {
@@ -248,10 +250,8 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
   // Provider commission reduces the amount of money that is paid out to provider.
   // Therefore, the provider commission line-item should have negative effect to the payout total.
   const getNegation = (percentage, voucherFeePrice, total) => {
-    // Assuming AdjustedCommission correctly calculates a percentage
     const result = adjustedCommission(voucherFeePrice, total);
     let percentageAdjusted = result > 0 ? percentage - result : percentage;
-
     if (percentageAdjusted > 10) {
       percentageAdjusted = 10;
     } else if (percentageAdjusted < 0) {
