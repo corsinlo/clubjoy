@@ -8,9 +8,9 @@ import { FormattedMessage, intlShape, injectIntl } from '../../../util/reactIntl
 import { timestampToDate } from '../../../util/dates';
 import { propTypes } from '../../../util/types';
 import { BOOKING_PROCESS_NAME } from '../../../transactions/transaction';
-import { Form as F, Field } from 'react-final-form';
+
 import { Form, H6, PrimaryButton } from '../../../components';
-import axios from 'axios';
+
 import EstimatedCustomerBreakdownMaybe from '../EstimatedCustomerBreakdownMaybe';
 import FieldDateAndTimeInput from './FieldDateAndTimeInput';
 import arrayMutators from 'final-form-arrays';
@@ -22,11 +22,18 @@ export class BookingTimeFormComponent extends Component {
     super(props);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.state = {
+      isSeatsInputValid: false,
+    };
   }
 
   handleFormSubmit(e) {
     this.props.onSubmit(e);
   }
+
+  handleSeatsInputValidChange = isValid => {
+    this.setState({ isSeatsInputValid: isValid });
+  };
 
   // When the values of the form are updated we need to fetch
   // lineItems from this template's backend for the EstimatedTransactionMaybe
@@ -138,35 +145,6 @@ export class BookingTimeFormComponent extends Component {
             </NamedLink>
           );
 
-          /*
-          const voucher = (
-            <F
-              onSubmit={this.handleVoucherSubmit}
-              render={({ handleSubmit, form, submitting, pristine, values }) => (
-                <>
-                  <Field
-                    id="bookingForm.voucher"
-                    name="voucher"
-                    component="input"
-                    type="text"
-                    placeholder="Enter your voucher code here"
-                  />
-                  <button
-                    type="submit"
-                    onClick={event => {
-                      event.preventDefault();
-                      handleSubmit();
-                    }}
-                    disabled={submitting}
-                  >
-                    Validate Voucher
-                  </button>
-                </>
-              )}
-            />
-          );
-          */
-
           return (
             <Form onSubmit={handleSubmit} className={classes} enforcePagePreloadFor="CheckoutPage">
               <FormSpy
@@ -195,6 +173,7 @@ export class BookingTimeFormComponent extends Component {
                   pristine={pristine}
                   timeZone={timeZone}
                   dayCountAvailableForBooking={dayCountAvailableForBooking}
+                  onSeatsInputValidChange={this.handleSeatsInputValidChange}
                   voucherFee={voucherFee}
                 />
               ) : null}
@@ -226,7 +205,7 @@ export class BookingTimeFormComponent extends Component {
                 <PrimaryButton
                   type="submit"
                   inProgress={fetchLineItemsInProgress}
-                  disabled={!currentUser || !emailVerified}
+                  disabled={!currentUser || !emailVerified} // !this.state.isSeatsInputValid
                 >
                   <FormattedMessage id="BookingTimeForm.requestToBook" />
                 </PrimaryButton>

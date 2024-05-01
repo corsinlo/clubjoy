@@ -28,6 +28,7 @@ import {
   IconArrowHead,
   Form,
   H6,
+  PrimaryButton,
 } from '../../../components';
 import moment from 'moment';
 import { checkCoupon } from '../../../util/api';
@@ -247,6 +248,7 @@ class FieldDateAndTimeInput extends Component {
     this.state = {
       currentMonth: getStartOf(TODAY, 'month', props.timeZone),
       voucherCode: '',
+      validSeatsInput: false,
     };
 
     this.fetchMonthData = this.fetchMonthData.bind(this);
@@ -256,13 +258,18 @@ class FieldDateAndTimeInput extends Component {
     this.onBookingEndDateChange = this.onBookingEndDateChange.bind(this);
     this.isOutsideRange = this.isOutsideRange.bind(this);
   }
+
+  validateSeatsInput = value => {
+    const isValid = /[a-zA-Z]+/.test(value); // Checks if there are any letters
+    this.setState({ validSeatsInput: isValid });
+    this.props.onSeatsInputValidChange(isValid); // Propagate to parent
+  };
+
   handleVoucherChange = event => {
-    console.log('Voucher code changed:', event.target.value);
     this.setState({ voucherCode: event.target.value });
   };
 
   handleVoucherSubmit = () => {
-    console.log('Voucher submitted:', this.state.voucherCode);
     const requestBody = {
       code: this.state.voucherCode,
     };
@@ -523,52 +530,54 @@ class FieldDateAndTimeInput extends Component {
     //65fc542d-96ee-422d-b0e6-0075f9a1c683
     const seatsSelectionMaybe =
       seatsArray?.length > 1 ? (
-        <FieldSelect
-          className={css.fieldSelect}
-          onChange={value => {
-            form.batch(() => {
-              form.change('guestNames', []);
-              if (value > 0)
-                for (let index = 0; index < value; index++)
-                  form.mutators.push(`guestNames[${index}]`, '');
-            });
-          }}
-          name="seats"
-          id="seats"
-          label={seatsLabel}
-        >
-          {seatsArray.map(s => (
-            <option
-              value={s}
-              key={s}
-              disabled={
-                this.props.listingId &&
-                this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                s % 2 !== 0
-              }
-            >
-              {s}
-            </option>
-          ))}
-        </FieldSelect>
+        <div className={css.fieldTextInput}>
+          {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
+          <FieldSelect
+            className={css.fieldSelect}
+            onChange={value => {
+              form.batch(() => {
+                form.change('guestNames', []);
+                if (value > 0)
+                  for (let index = 0; index < value; index++)
+                    form.mutators.push(`guestNames[${index}]`, '');
+              });
+            }}
+            name="seats"
+            id="seats"
+            label={seatsLabel}
+          >
+            {seatsArray.map(s => (
+              <option
+                value={s}
+                key={s}
+                disabled={
+                  this.props.listingId &&
+                  this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+                  s % 2 !== 0
+                }
+              >
+                {s}
+              </option>
+            ))}
+          </FieldSelect>
+        </div>
       ) : null;
 
     const voucherInsertion = (
-      <div className={css.priceBreakdownContainer}>
-        <p>
-          {/*<FormattedMessage id="BookingTimeForm.priceBreakdownTitle" />*/}
-          Hai un coupon?
-        </p>
-        <hr className={css.totalDivider} />
-        <input
-          type="text"
-          placeholder="Enter your voucher code here"
-          value={this.state.voucherCode} // Make sure voucherCode is passed as value
-          onChange={this.handleVoucherChange}
-        />
-        <button type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
-          Apply the coupon
-        </button>
+      <div className={css.fieldTextInput}>
+        <div className={css.priceBreakdownContainer}>
+          <p>{intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}</p>
+          <hr className={css.totalDivider} />
+          <input
+            type="text"
+            placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
+            value={this.state.voucherCode} // Make sure voucherCode is passed as value
+            onChange={this.handleVoucherChange}
+          />
+          <PrimaryButton type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
+            {intl.formatMessage({ id: 'BookingTimeForm.coupon.button' })}
+          </PrimaryButton>
+        </div>
       </div>
     );
 
@@ -676,6 +685,7 @@ class FieldDateAndTimeInput extends Component {
                       name={name}
                       key={index}
                       className={css.fieldTextInput}
+                      //onChange={event => this.validateSeatsInput(event.target.value)}
                       type="text"
                       label={
                         this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
