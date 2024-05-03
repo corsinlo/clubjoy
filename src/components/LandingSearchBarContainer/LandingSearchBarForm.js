@@ -23,7 +23,7 @@ function useWindowSize() {
   return windowSize;
 }
 
-const LandingSearchBarForm = ({ onSearchSubmit, className }) => {
+const LandingSearchBarForm = ({ onSearchSubmit, className, isTeambuilding }) => {
   const routeConfiguration = useRouteConfiguration();
   const intl = useIntl();
   const searchPagePath = routeConfiguration
