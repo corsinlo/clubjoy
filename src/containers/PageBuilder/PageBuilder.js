@@ -102,6 +102,7 @@ const PageBuilder = props => {
     return fallbackPage;
   }
   const isAbout = pageId === 'about';
+  const isTeamBuilding = pageId === 'teambuilding';
   // Page asset contains UI info and metadata related to it.
   // - "sections" (data that goes inside <body>)
   // - "meta" (which is data that goes inside <head>)
@@ -165,6 +166,12 @@ const PageBuilder = props => {
                           <>
                             <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} />
                             <Counter />
+                            <SectionBuilder sections={sections} options={options} />
+                            <Newsletter />
+                          </>
+                        ) : isTeamBuilding ? (
+                          <>
+                            <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} />
                             <SectionBuilder sections={sections} options={options} />
                             <Newsletter />
                           </>

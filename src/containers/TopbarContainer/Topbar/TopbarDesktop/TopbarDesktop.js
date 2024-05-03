@@ -72,8 +72,11 @@ const TopbarDesktop = props => {
 
   // Determine if the current page is the landing page based on the pathname
   const isLandingPage = location.pathname === '/';
-
-  const search = !isLandingPage ? <LandingSearchBarForm onSearchSubmit={onSearchSubmit} /> : null; // Only render TopbarSearchForm if not on landing page
+  const isTeamBuilding = location.pathname === '/p/teambuilding';
+  const search =
+    !isLandingPage || !isTeamBuilding ? (
+      <LandingSearchBarForm onSearchSubmit={onSearchSubmit} />
+    ) : null;
 
   const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
   const inboxLink = authenticatedOnClientSide ? (
@@ -180,14 +183,14 @@ const TopbarDesktop = props => {
   );
 
   const teamBuildingLink = isAuthenticatedOrJustHydrated ? null : (
-    <NamedLink name="bSignupPage" className={css.loginLink}>
+    <NamedLink name="TeambuildingPage" className={css.loginLink}>
       <span className={css.login}>{intl.formatMessage({ id: 'TopbarDesktop.team' })}</span>
     </NamedLink>
   );
 
   return (
     <nav className={classes}>
-      {isLandingPage ? (
+      {isLandingPage || isTeamBuilding ? (
         <>
           <div className={css.leftContent}>
             <LinkedLogo
@@ -198,7 +201,6 @@ const TopbarDesktop = props => {
             />
           </div>
           <div className={css.rightContent}>
-            {search}
             {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
