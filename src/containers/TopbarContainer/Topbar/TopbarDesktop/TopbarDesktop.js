@@ -17,11 +17,9 @@ import {
   NamedLink,
 } from '../../../../components';
 
-import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
 import LandingSearchBarForm from '../../../../components/LandingSearchBarContainer/LandingSearchBarForm';
 
 import css from './TopbarDesktop.module.css';
-import SocialBar from '../../../../components/SocialBar/SocialBar';
 
 const TopbarDesktop = props => {
   const {
@@ -177,7 +175,13 @@ const TopbarDesktop = props => {
 
   const signupBusinessLink = isAuthenticatedOrJustHydrated ? null : (
     <NamedLink name="bSignupPage" className={css.loginLink}>
-      <span className={css.login}>Business</span>
+      <span className={css.login}>{intl.formatMessage({ id: 'TopbarDesktop.provider' })}</span>
+    </NamedLink>
+  );
+
+  const teamBuildingLink = isAuthenticatedOrJustHydrated ? null : (
+    <NamedLink name="bSignupPage" className={css.loginLink}>
+      <span className={css.login}>{intl.formatMessage({ id: 'TopbarDesktop.team' })}</span>
     </NamedLink>
   );
 
@@ -202,10 +206,10 @@ const TopbarDesktop = props => {
                 </span>
               </NamedLink>
             )}
-            <SocialBar />
             {inboxLink}
             {profileMenu}
             <div className={css.authLinks}>
+              {teamBuildingLink}
               {signupBusinessLink}
               {signupLink}
               {loginLink}
@@ -224,7 +228,6 @@ const TopbarDesktop = props => {
             {search}
           </div>
           <div className={css.rightContent}>
-            <SocialBar />
             {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
@@ -235,6 +238,7 @@ const TopbarDesktop = props => {
             {inboxLink}
             {profileMenu}
             <div className={css.authLinks}>
+              {teamBuildingLink}
               {signupBusinessLink}
               {signupLink}
               {loginLink}
