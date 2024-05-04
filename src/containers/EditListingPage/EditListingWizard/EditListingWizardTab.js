@@ -111,7 +111,7 @@ const EditListingWizardTab = props => {
   const isNewListingFlow = isNewURI || isDraftURI;
 
   const currentListing = ensureListing(listing);
-
+  const isTeamBuilding = props?.listing?.attributes?.publicData?.listingType;
   // New listing flow has automatic redirects to new tab on the wizard
   // and the last panel calls publishListing API endpoint.
   const automaticRedirectsForNewListingFlow = (tab, listingId) => {
@@ -203,6 +203,7 @@ const EditListingWizardTab = props => {
           {...panelProps(PRICING)}
           marketplaceCurrency={config.currency}
           listingMinimumPriceSubUnits={config.listingMinimumPriceSubUnits}
+          isTeamBuilding={isTeamBuilding}
         />
       );
     }
@@ -236,6 +237,7 @@ const EditListingWizardTab = props => {
           config={config}
           history={history}
           routeConfiguration={routeConfiguration}
+          isTeamBuilding={isTeamBuilding}
           {...panelProps(AVAILABILITY)}
         />
       );
