@@ -97,6 +97,7 @@
 
   z-index: 1;
 }
+
 .formRowHidden {
   display: none;
 }
@@ -108,7 +109,7 @@
   fill: var(--colorGrey300);
   /* align icon with the select fields */
   padding: 5px 0 7px 0;
-
+  margin-left: 20px;
   &:hover {
     fill: var(--colorGrey700);
   }
@@ -169,7 +170,7 @@
   composes: marketplaceTabNavHorizontalFontStyles from global;
   background: none;
   padding: 0px;
-  width: 100px;
+  width: 87px;
   text-align: center;
 
   &:select {
@@ -180,36 +181,22 @@
   color: var(--colorGrey300);
 }
 
-@media (min-width: 769px) and (max-width: 1024px){
-  .seatfieldSelect {
-    composes: marketplaceTabNavHorizontalFontStyles from global;
-    background: none;
-    padding: 0px;
-    width: 53px;
-    text-align: center;
-  
-    &:select {
-      margin-right: 0;
-    }
-  }
-  .notSelected {
-    color: var(--colorGrey300);
-  }
+
+.timefieldWrapper {
+  /* Change display to block */
+  display: block;
+  width: 100%; /* Ensure it takes the full width */
+  padding-bottom: 6px;
+  position: relative;
 }
 
-@media (max-width: 768px) { 
-  .seatfieldSelect {
-    composes: marketplaceTabNavHorizontalFontStyles from global;
-    background: none;
-    padding: 0px;
-    width: 53px;
-    text-align: center;
-  
-    &:select {
-      margin-right: 0;
-    }
-  }
-  .notSelected {
-    color: var(--colorGrey300);
-  }
+.timeformRow {
+  display: flex; /* Use flexbox layout */
+  flex-direction: column; /* Stack elements vertically */
+  padding-bottom: 6px;
+}
+
+.seatsTitle {
+  margin-bottom: 6px; /* Add some bottom margin for spacing */
+  margin-top: 5px;
 }
