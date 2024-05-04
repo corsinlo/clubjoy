@@ -40,7 +40,7 @@ const createEntryDayGroups = (entries = {}) => {
   // Collect info about which days are active in the availability plan form:
   let activePlanDays = [];
   return entries.reduce((groupedEntries, entry) => {
-   const { startTime, endTime: endHour, seats, dayOfWeek } = entry;
+    const { startTime, endTime: endHour, seats, dayOfWeek } = entry;
     const dayGroup = groupedEntries[dayOfWeek] || [];
     activePlanDays = activePlanDays.includes(dayOfWeek)
       ? activePlanDays
@@ -52,7 +52,7 @@ const createEntryDayGroups = (entries = {}) => {
         {
           startTime,
           endTime: endHour === '00:00' ? '24:00' : endHour,
-         seats,
+          seats,
         },
       ],
       activePlanDays,
@@ -127,8 +127,10 @@ const EditListingAvailabilityPanel = props => {
     config,
     routeConfiguration,
     history,
+    isTeamBuilding,
   } = props;
   // Hooks
+
   const [isEditPlanModalOpen, setIsEditPlanModalOpen] = useState(false);
   const [isEditExceptionsModalOpen, setIsEditExceptionsModalOpen] = useState(false);
   const [valuesFromLastSubmit, setValuesFromLastSubmit] = useState(null);
@@ -315,6 +317,7 @@ const EditListingAvailabilityPanel = props => {
             initialValues={initialValues}
             inProgress={updateInProgress}
             fetchErrors={errors}
+            isTeamBuilding={isTeamBuilding}
           />
         </Modal>
       ) : null}
@@ -340,6 +343,7 @@ const EditListingAvailabilityPanel = props => {
             isDaily={unitType === DAY}
             updateInProgress={updateInProgress}
             useFullDays={useFullDays}
+            isTeamBuilding={isTeamBuilding}
           />
         </Modal>
       ) : null}

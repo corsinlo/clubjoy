@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import classNames from 'classnames';
@@ -200,7 +200,16 @@ const TimeRangeSelects = props => {
     entries,
     onRemove,
     intl,
+    isTeamBuilding,
   } = props;
+  const [firstInputValue, setFirstInputValue] = useState(null);
+  const [isFirstInputFilled, setIsFirstInputFilled] = useState(false);
+
+  const handleFirstInputChange = e => {
+    const value = e.target.value;
+    setFirstInputValue(value);
+    setIsFirstInputFilled(!!value);
+  };
 
   return (
     <div className={css.timefieldWrapper} key={name}>
@@ -254,21 +263,37 @@ const TimeRangeSelects = props => {
             })}
           </span>
           <div className={css.formRow}>
-            <FieldTextInput
-              id={`${name}.seats`}
-              name={`${name}.seats`}
-              className={css.seatfieldSelect}
-              type="number"
-              min="1"
-            />
-            <span className={css.dashBetweenTimes}>-</span>
-            <FieldTextInput
-              id={`${name}.seats`}
-              name={`${name}.seats`}
-              className={css.seatfieldSelect}
-              type="number"
-              min="1"
-            />
+            {isTeamBuilding === 'teambuilding' ? (
+              <>
+                <FieldTextInput
+                  id={`${name}.seats`}
+                  name={`${name}.seats`}
+                  className={css.seatfieldSelect}
+                  type="number"
+                  min="1"
+                  onChange={handleFirstInputChange}
+                />
+                <span className={css.dashBetweenTimes}>-</span>
+                <FieldTextInput
+                  id={`${name}.seats`}
+                  name={`${name}.seats`}
+                  className={css.seatfieldSelect}
+                  type="number"
+                  min={isFirstInputFilled ? firstInputValue : '1'}
+                  disabled={!isFirstInputFilled}
+                />
+              </>
+            ) : (
+              <>
+                <FieldTextInput
+                  id={`${name}.seats`}
+                  name={`${name}.seats`}
+                  className={css.seatfieldSelect}
+                  type="number"
+                  min="1"
+                />
+              </>
+            )}
           </div>
         </div>
         <div className={classNames(css.plus1Day, { [css.showPlus1Day]: isNextDay })}>
@@ -418,6 +443,7 @@ const AvailabilityPlanEntries = props => {
                         }
                       }}
                       intl={intl}
+                      isTeamBuilding={props.isTeamBuilding}
                     />
                   );
                 })}
