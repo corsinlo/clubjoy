@@ -281,6 +281,7 @@ const TimeRangeSelects = props => {
                   value={minSeat}
                   onChange={handleMinSeatChange}
                   placeholder="Min"
+                  min="0"
                 />
                 <span className={css.dashBetweenTimes}>-</span>
                 <FieldTextInput
@@ -304,6 +305,9 @@ const TimeRangeSelects = props => {
               </>
             )}
           </div>
+          {intl.formatMessage({
+            id: 'EditListingAvailabilityPlanForm.minSeatMessage',
+          })}
         </div>
         <div className={classNames(css.plus1Day, { [css.showPlus1Day]: isNextDay })}>
           <FormattedMessage id="EditListingAvailabilityPlanForm.plus1Day" />

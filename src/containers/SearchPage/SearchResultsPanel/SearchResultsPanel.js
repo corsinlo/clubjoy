@@ -17,7 +17,6 @@ const SearchResultsPanel = props => {
     setActiveListing,
     isMapVariant,
   } = props;
-  console.log('listings', listings);
   const classes = classNames(rootClassName || css.root, className);
 
   const paginationLinks =

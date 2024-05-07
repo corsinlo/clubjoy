@@ -212,6 +212,7 @@
     "EditListingDeliveryForm.addressRequired": "È necessario fornire una posizione.",
     "EditListingDeliveryForm.building": "Appartamento, suite, edificio {optionalText}",
     "EditListingDeliveryForm.buildingPlaceholder": "A 42",
+    "EditListingAvailabilityPlanForm.minSeatMessage":"* Inserire lo stesso numero minimo di posti per tutti i giorni desiderati",
     "EditListingDeliveryForm.optionalText": "• opzionale",
     "EditListingDeliveryForm.pickupLabel": "Ritiro",
     "EditListingDeliveryForm.shippingAdditionalItemsLabel": "Tariffa di spedizione per articoli aggiuntivi",
