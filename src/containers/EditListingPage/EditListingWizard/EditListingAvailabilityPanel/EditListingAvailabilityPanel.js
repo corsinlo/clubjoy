@@ -98,6 +98,7 @@ const createAvailabilityPlan = values => ({
     timezone: values.timezone,
     entries: createEntriesFromSubmitValues(values),
   },
+  min: values.min,
 });
 
 //////////////////////////////////

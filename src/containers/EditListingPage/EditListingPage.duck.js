@@ -638,14 +638,26 @@ export function requestCreateListingDraft(data, config) {
 // display the state.
 // NOTE: what comes to stock management, this follows the same pattern used in create listing call
 export function requestUpdateListing(tab, data, config) {
-  console.log(data);
   return (dispatch, getState, sdk) => {
     dispatch(updateListingRequest(data));
-    const { id, stockUpdate, images, ...rest } = data;
+    const { id, stockUpdate, images, min, ...rest } = data;
 
-    // If images should be saved, create array out of the image UUIDs for the API call
+    // Prepare publicData ensuring all necessary existing fields are included
+    const existingPublicData = getState().marketplaceData.entities.ownListing[id.uuid]?.attributes
+      .publicData;
+    const updatedPublicData = {
+      ...existingPublicData, // Spread existing data to maintain other properties
+      min: min, // Overwrite or add 'min' value
+    };
+
     const imageProperty = typeof images !== 'undefined' ? { images: imageIds(images) } : {};
-    const ownListingUpdateValues = { id, ...imageProperty, ...rest };
+
+    const ownListingUpdateValues = {
+      id,
+      ...imageProperty,
+      ...rest,
+      publicData: updatedPublicData,
+    };
     const imageVariantInfo = getImageVariantInfo(config.layout.listingImage);
     const queryParams = {
       expand: true,
@@ -659,8 +671,6 @@ export function requestUpdateListing(tab, data, config) {
       state.marketplaceData.entities.ownListing[id.uuid]?.attributes?.availabilityPlan?.timezone;
     const includedTimeZone = rest?.availabilityPlan?.timezone;
 
-    // Note: if update values include stockUpdate, we'll do that first
-    // That way we get updated currentStock info among ownListings.update
     return updateStockOfListingMaybe(id, stockUpdate, dispatch)
       .then(() => sdk.ownListings.update(ownListingUpdateValues, queryParams))
       .then(response => {
