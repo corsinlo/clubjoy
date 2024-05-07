@@ -201,14 +201,22 @@ const TimeRangeSelects = props => {
     onRemove,
     intl,
     isTeamBuilding,
+    formApi,
   } = props;
-  const [firstInputValue, setFirstInputValue] = useState(null);
-  const [isFirstInputFilled, setIsFirstInputFilled] = useState(false);
+  const [minSeat, setMinSeat] = useState('');
+  const [minSeatError, setMinSeatError] = useState(false);
 
-  const handleFirstInputChange = e => {
-    const value = e.target.value;
-    setFirstInputValue(value);
-    setIsFirstInputFilled(!!value);
+  const handleMinSeatChange = e => {
+    const newValue = e.target.value;
+    setMinSeat(newValue);
+    formApi.change(`min`, newValue);
+
+    const seatsValue = entries[index]?.seats || 0;
+    if (newValue && parseInt(newValue, 10) >= parseInt(seatsValue, 10)) {
+      setMinSeatError(true);
+    } else {
+      setMinSeatError(false);
+    }
   };
 
   return (
@@ -265,13 +273,14 @@ const TimeRangeSelects = props => {
           <div className={css.formRow}>
             {isTeamBuilding === 'teambuilding' ? (
               <>
-                <FieldTextInput
-                  id={`${name}.seats`}
-                  name={`${name}.seats`}
+                <input
+                  id={`${name}.minSeat`}
+                  name={`${name}.minSeat`}
                   className={css.seatfieldSelect}
                   type="number"
-                  min="1"
-                  onChange={handleFirstInputChange}
+                  value={minSeat}
+                  onChange={handleMinSeatChange}
+                  placeholder="Min"
                 />
                 <span className={css.dashBetweenTimes}>-</span>
                 <FieldTextInput
@@ -279,8 +288,8 @@ const TimeRangeSelects = props => {
                   name={`${name}.seats`}
                   className={css.seatfieldSelect}
                   type="number"
-                  min={isFirstInputFilled ? firstInputValue : '1'}
-                  disabled={!isFirstInputFilled}
+                  min={minSeat || '1'}
+                  disabled={!minSeat}
                 />
               </>
             ) : (
@@ -347,6 +356,7 @@ const AvailabilityPlanEntries = props => {
   const getEntryEndTimes = getEntryBoundaries(entries, intl, false);
 
   const checkboxName = `checkbox_${dayOfWeek}`;
+
   return (
     <div className={classNames(css.weekDay, hasEntries ? css.hasEntries : null)}>
       <div className={css.dayToggle}></div>
@@ -444,6 +454,7 @@ const AvailabilityPlanEntries = props => {
                       }}
                       intl={intl}
                       isTeamBuilding={props.isTeamBuilding}
+                      formApi={formApi}
                     />
                   );
                 })}

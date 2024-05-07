@@ -23,6 +23,7 @@ import {
   fetchStripeAccount,
 } from '../../ducks/stripeConnectAccount.duck';
 import { fetchCurrentUser } from '../../ducks/user.duck';
+import { values } from 'lodash';
 
 const { UUID } = sdkTypes;
 
@@ -637,6 +638,7 @@ export function requestCreateListingDraft(data, config) {
 // display the state.
 // NOTE: what comes to stock management, this follows the same pattern used in create listing call
 export function requestUpdateListing(tab, data, config) {
+  console.log(data);
   return (dispatch, getState, sdk) => {
     dispatch(updateListingRequest(data));
     const { id, stockUpdate, images, ...rest } = data;

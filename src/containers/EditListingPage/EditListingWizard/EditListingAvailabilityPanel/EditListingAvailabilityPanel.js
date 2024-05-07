@@ -162,7 +162,6 @@ const EditListingAvailabilityPanel = props => {
 
   const handleSubmit = values => {
     setValuesFromLastSubmit(values);
-
     // Final Form can wait for Promises to return.
     return onSubmit(createAvailabilityPlan(values))
       .then(() => {
