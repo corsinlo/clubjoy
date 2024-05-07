@@ -99,6 +99,7 @@ const createAvailabilityPlan = values => ({
     entries: createEntriesFromSubmitValues(values),
   },
   min: values.min,
+  //max: values.max,
 });
 
 //////////////////////////////////

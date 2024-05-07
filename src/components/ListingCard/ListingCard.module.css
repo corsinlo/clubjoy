@@ -47,6 +47,10 @@
   margin-bottom: 4px;
 }
 
+.priceContainer{
+  display: flex;
+}
+
 .priceValue {
   /* Font */
   composes: textSmall from global;

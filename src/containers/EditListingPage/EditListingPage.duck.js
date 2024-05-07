@@ -640,28 +640,21 @@ export function requestCreateListingDraft(data, config) {
 export function requestUpdateListing(tab, data, config) {
   return (dispatch, getState, sdk) => {
     dispatch(updateListingRequest(data));
-    const { id, stockUpdate, images, min, ...rest } = data;
-
-    // Prepare publicData ensuring all necessary existing fields are included
+    const { id, stockUpdate, images, min, max, ...rest } = data;
     const existingPublicData = getState().marketplaceData.entities.ownListing[id.uuid]?.attributes
       .publicData;
     const updatedPublicData = {
       ...existingPublicData, // Spread existing data to maintain other properties
-      min: min, // Overwrite or add 'min' value
+      ...(min !== undefined && { min: min }),
+      ...(max !== undefined && { max: max }),
     };
-
+    // If images should be saved, create array out of the image UUIDs for the API call
     const imageProperty = typeof images !== 'undefined' ? { images: imageIds(images) } : {};
-
-    const ownListingUpdateValues = {
-      id,
-      ...imageProperty,
-      ...rest,
-      publicData: updatedPublicData,
-    };
+    const ownListingUpdateValues = { id, ...imageProperty, publicData: updatedPublicData, ...rest };
     const imageVariantInfo = getImageVariantInfo(config.layout.listingImage);
     const queryParams = {
       expand: true,
-      include: ['author', 'images', 'currentStock'],
+      include: ['author', 'images', 'currentStock', 'publicData'],
       'fields.image': imageVariantInfo.fieldsImage,
       ...imageVariantInfo.imageVariants,
     };
@@ -671,6 +664,8 @@ export function requestUpdateListing(tab, data, config) {
       state.marketplaceData.entities.ownListing[id.uuid]?.attributes?.availabilityPlan?.timezone;
     const includedTimeZone = rest?.availabilityPlan?.timezone;
 
+    // Note: if update values include stockUpdate, we'll do that first
+    // That way we get updated currentStock info among ownListings.update
     return updateStockOfListingMaybe(id, stockUpdate, dispatch)
       .then(() => sdk.ownListings.update(ownListingUpdateValues, queryParams))
       .then(response => {

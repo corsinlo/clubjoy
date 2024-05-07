@@ -77,6 +77,9 @@ export const ListingCardComponent = props => {
     renderSizes,
     setActiveListing,
     showAuthorInfo,
+    isTeamBuilding,
+    min,
+    max,
   } = props;
   const classes = classNames(rootClassName || css.root, className);
   const currentListing = ensureListing(listing);
@@ -122,7 +125,15 @@ export const ListingCardComponent = props => {
         />
       </AspectRatioWrapper>
       <div className={css.info}>
-        <PriceMaybe price={price} publicData={publicData} config={config} intl={intl} />
+        <div className={css.priceContainer}>
+          <PriceMaybe price={price} publicData={publicData} config={config} intl={intl} />
+          {isTeamBuilding === 'teambuilding' ? (
+            <>
+              {min}
+              {max}
+            </>
+          ) : null}
+        </div>
         <div className={css.mainInfo}>
           <div className={css.title}>
             {richText(title, {
