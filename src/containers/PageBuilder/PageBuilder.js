@@ -171,7 +171,7 @@ const PageBuilder = props => {
                           </>
                         ) : isTeamBuilding ? (
                           <>
-                            <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} />
+                            <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} isTeamBuilding={isTeamBuilding}/>
                             <SectionBuilder sections={sections} options={options} />
                             <Newsletter />
                           </>
