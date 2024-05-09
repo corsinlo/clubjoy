@@ -132,7 +132,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
           </>
         )}
         <div className={css.barContainer}>
-          <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={true} />
+          <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding}/>
         </div>
       </div>
     </div>

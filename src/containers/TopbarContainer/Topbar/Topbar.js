@@ -211,6 +211,8 @@ class TopbarComponent extends Component {
     const initialSearchFormValues = topbarSearcInitialValues();
 
     const classes = classNames(rootClassName || css.root, className);
+    const isTeamBuilding = location.pathname === '/p/teambuilding';
+    const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
 
     return (
       <div className={classes}>
@@ -281,7 +283,7 @@ class TopbarComponent extends Component {
               className={css.landingCoverMobil}
             />
 
-            <LandingSearchBarForm onSearchSubmit={this.handleSubmit} />
+            <LandingSearchBarForm onSearchSubmit={this.handleSubmit} isTeamBuilding={isTeamBuildingOnTop}/>
 
             <div className={css.socialContainer}>
               <div className={css.socialTitle}>

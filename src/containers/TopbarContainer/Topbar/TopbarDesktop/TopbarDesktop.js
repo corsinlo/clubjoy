@@ -73,9 +73,10 @@ const TopbarDesktop = props => {
   // Determine if the current page is the landing page based on the pathname
   const isLandingPage = location.pathname === '/';
   const isTeamBuilding = location.pathname === '/p/teambuilding';
+  const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
   const search =
     !isLandingPage || !isTeamBuilding ? (
-      <LandingSearchBarForm onSearchSubmit={onSearchSubmit} />
+      <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuildingOnTop}/>
     ) : null;
 
   const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
