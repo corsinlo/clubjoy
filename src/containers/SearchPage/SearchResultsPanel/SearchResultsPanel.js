@@ -53,7 +53,7 @@ const SearchResultsPanel = props => {
       ].join(', ');
     }
   };
-  console.log('HERE', isTeamBuilding)
+
   return (
     <div className={classes}>
       <div className={isMapVariant ? css.listingCardsMapVariant : css.listingCards}>

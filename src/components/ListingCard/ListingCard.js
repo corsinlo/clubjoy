@@ -1,7 +1,7 @@
 import React from 'react';
 import { string, func, bool } from 'prop-types';
 import classNames from 'classnames';
-
+import IconsPerson from './images/iconsPerson';
 import { useConfiguration } from '../../context/configurationContext';
 
 import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl';
@@ -125,15 +125,15 @@ export const ListingCardComponent = props => {
         />
       </AspectRatioWrapper>
       <div className={css.info}>
-        <div className={css.priceContainer}>
-          <PriceMaybe price={price} publicData={publicData} config={config} intl={intl} />
-          {isTeamBuilding === 'teambuilding' ? (
-            <>
-              {min}
-              {max}
-            </>
-          ) : null}
-        </div>
+      <div className={css.priceContainer}>
+  <PriceMaybe price={price} publicData={publicData} config={config} intl={intl} />
+  {isTeamBuilding === 'teambuilding' ? (
+    <div className={css.teamBuilding}>
+      <IconsPerson size="18px" color="blu" />
+      {min}+
+    </div>
+  ) : null}
+</div>
         <div className={css.mainInfo}>
           <div className={css.title}>
             {richText(title, {
