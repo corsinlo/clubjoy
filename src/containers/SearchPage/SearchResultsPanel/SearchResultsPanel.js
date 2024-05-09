@@ -18,7 +18,7 @@ const SearchResultsPanel = props => {
     isMapVariant,
   } = props;
   const classes = classNames(rootClassName || css.root, className);
-
+  const isTeamBuilding = location.pathname.startsWith('/ts');
   const paginationLinks =
     pagination && pagination.totalPages > 1 ? (
       <PaginationLinks
@@ -53,12 +53,12 @@ const SearchResultsPanel = props => {
       ].join(', ');
     }
   };
-
+  console.log('HERE', isTeamBuilding)
   return (
     <div className={classes}>
       <div className={isMapVariant ? css.listingCardsMapVariant : css.listingCards}>
-        {listings.map(l => (
-          <>
+      {isTeamBuilding ? 
+          listings.filter(ll => ll.attributes.publicData?.listingType === 'teambuilding').map(l => (
             <ListingCard
               className={css.listingCard}
               key={l.id.uuid}
@@ -69,8 +69,22 @@ const SearchResultsPanel = props => {
               max={l.attributes.publicData?.max}
               isTeamBuilding={l.attributes.publicData.listingType}
             />
-          </>
-        ))}
+          ))
+        :
+          listings.filter(ll => ll.attributes.publicData?.listingType === 'class').map(l => (
+            <ListingCard
+              className={css.listingCard}
+              key={l.id.uuid}
+              listing={l}
+              renderSizes={cardRenderSizes(isMapVariant)}
+              setActiveListing={setActiveListing}
+              min={l.attributes.publicData?.min}
+              max={l.attributes.publicData?.max}
+              isTeamBuilding={l.attributes.publicData.listingType}
+            />
+          ))
+        }
+
         {props.children}
       </div>
       {paginationLinks}

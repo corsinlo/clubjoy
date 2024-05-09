@@ -394,6 +394,7 @@ export class SearchPageComponent extends Component {
                   pagination={listingsAreLoaded ? pagination : null}
                   search={parse(location.search)}
                   isMapVariant={false}
+                  isTeamBuilding={isTeamBuildingOnTop}
                 />
               </div>
             </div>

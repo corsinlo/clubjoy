@@ -511,6 +511,7 @@ export class SearchPageComponent extends Component {
                   search={parse(location.search)}
                   setActiveListing={onActivateListing}
                   isMapVariant
+                  isTeamBuilding={isTeamBuildingOnTop}
                 />
               </div>
             )}
