@@ -6,11 +6,13 @@ import landingCoverL from '../../media/landingCoverL.jpeg';
 import landingCoverMobile from '../../media/landingCoverMobile.jpg';
 
 import LandingSearchBarForm from './LandingSearchBarForm';
+import { useLocation } from 'react-router-dom';
 
 const LandingSearchBarContainer = ({ onSearchSubmit }) => {
   const [isMobile, setIsMobile] = useState(
     typeof window !== 'undefined' ? window.innerWidth < 1024 : null
   );
+  const location = useLocation();
   const isTeamBuilding = location.pathname === '/p/teambuilding';
   useEffect(() => {
     const handleResize = () => {
@@ -132,7 +134,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
           </>
         )}
         <div className={css.barContainer}>
-          <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding}/>
+          <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding} />
         </div>
       </div>
     </div>
