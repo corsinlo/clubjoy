@@ -60,8 +60,8 @@ export const EditListingPricingFormComponent = props => (
         updated,
         updateInProgress,
         fetchErrors,
+        isTeamBuilding,
       } = formRenderProps;
-
       const priceValidators = getPriceValidators(
         listingMinimumPriceSubUnits,
         marketplaceCurrency,
@@ -99,7 +99,16 @@ export const EditListingPricingFormComponent = props => (
             currencyConfig={appSettings.getCurrencyFormatting(marketplaceCurrency)}
             validate={priceValidators}
           />
-
+          {isTeamBuilding !== 'class' ? (
+            <>
+              <p>
+                Indicare prezzo per singola persona Nella prossima schermata sceglierete il min e
+                max numero di partecipanti al vostro evento Team Building, per esempio da 4 a 15 Il
+                prezzo mostrato sara’ [min partecipanti] x [prezzo per singola persona] Esempio:
+                [€20] x [4] = €80
+              </p>
+            </>
+          ) : null}
           <Button
             className={css.submitButton}
             type="submit"

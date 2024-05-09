@@ -50,7 +50,7 @@ const MODAL_BREAKPOINT = 768; // Search is in modal on mobile layout
 // SortBy component has its content in dropdown-popup.
 // With this offset we move the dropdown a few pixels on desktop layout.
 const FILTER_DROPDOWN_OFFSET = -14;
-
+const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
 export class SearchPageComponent extends Component {
   constructor(props) {
     super(props);
@@ -394,6 +394,7 @@ export class SearchPageComponent extends Component {
                   pagination={listingsAreLoaded ? pagination : null}
                   search={parse(location.search)}
                   isMapVariant={false}
+                  isTeamBuilding={isTeamBuildingOnTop}
                 />
               </div>
             </div>

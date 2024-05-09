@@ -55,7 +55,7 @@ const SEARCH_WITH_MAP_DEBOUNCE = 300; // Little bit of debounce before search is
 // Primary filters have their content in dropdown-popup.
 // With this offset we move the dropdown to the left a few pixels on desktop layout.
 const FILTER_DROPDOWN_OFFSET = -14;
-
+const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
 export class SearchPageComponent extends Component {
   constructor(props) {
     super(props);
@@ -511,6 +511,7 @@ export class SearchPageComponent extends Component {
                   search={parse(location.search)}
                   setActiveListing={onActivateListing}
                   isMapVariant
+                  isTeamBuilding={isTeamBuildingOnTop}
                 />
               </div>
             )}

@@ -213,6 +213,8 @@ class TopbarComponent extends Component {
     const initialSearchFormValues = topbarSearcInitialValues();
 
     const classes = classNames(rootClassName || css.root, className);
+    const isTeamBuilding = location.pathname === '/p/teambuilding';
+    const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
 
     return (
       <div className={classes}>

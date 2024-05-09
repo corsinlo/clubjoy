@@ -11,7 +11,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
   const [isMobile, setIsMobile] = useState(
     typeof window !== 'undefined' ? window.innerWidth < 1024 : null
   );
-
+  const isTeamBuilding = location.pathname === '/p/teambuilding';
   useEffect(() => {
     const handleResize = () => {
       if (typeof window !== 'undefined') {
@@ -42,7 +42,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               top: 40,
               bottom: 0,
               width: '50%',
-              backgroundImage: `url(${landingCoverL})`,
+              backgroundImage: !isTeamBuilding ? `url(${landingCoverL})` : null,
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'left center',
@@ -57,7 +57,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               top: 0,
               bottom: 0,
               width: '50%',
-              backgroundImage: `url(${landingCoverR})`,
+              backgroundImage: !isTeamBuilding ? `url(${landingCoverR})` : null,
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right center',
@@ -108,16 +108,31 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
       )}
       {/* Wrap intro texts and form in a div with higher z-index */}
       <div style={{ position: 'relative', zIndex: 2 }}>
-        <div className={css.introText}>Di creativo ti rimane solo il parcheggio?</div>
-        <div className={css.introText2}>
-          Dal corso di ceramica alla lezione di pittura, su Club Joy{isMobile && <br />}
-          trovi le migliori esperienze creative di Milano e dintorni {!isMobile && <br />}
-          {!isMobile && <br />}
-          {isMobile && <br />}
-          {isMobile && <br />}Il tuo nuovo hobby preferito è a distanza di un click
-        </div>
+        {!isTeamBuilding ? (
+          <>
+            <div className={css.introText}>Di creativo ti rimane solo il parcheggio?</div>
+            <div className={css.introText2}>
+              Dal corso di ceramica alla lezione di pittura, su Club Joy{isMobile && <br />}
+              trovi le migliori esperienze creative di Milano e dintorni {!isMobile && <br />}
+              {!isMobile && <br />}
+              {isMobile && <br />}
+              {isMobile && <br />}Il tuo nuovo hobby preferito è a distanza di un click
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={css.introText}>Ancora a fare gli Happy Hour Aziendali?</div>
+            <div className={css.introText2}>
+              Su Club Joy {isMobile && <br />}
+              le migliori esperienze creative di Milano e dintorni, anche per la tua azienda.{' '}
+              {!isMobile && <br />}
+              {!isMobile && <br />}
+              {isMobile && <br />}
+            </div>
+          </>
+        )}
         <div className={css.barContainer}>
-          <LandingSearchBarForm onSearchSubmit={onSearchSubmit} />
+          <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding}/>
         </div>
       </div>
     </div>
