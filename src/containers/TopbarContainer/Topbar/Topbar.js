@@ -168,6 +168,8 @@ class TopbarComponent extends Component {
       searchParams,
     } = this.props;
 
+    //const isTeamBuilding = this.props.location.pathname === '/p/teambuilding';
+    const isTeamBuildingOnTop = this.props.location.pathname.startsWith('/ts');
     const { mobilemenu, mobilesearch, keywords, address, origin, bounds } = parse(location.search, {
       latlng: ['origin'],
       latlngBounds: ['bounds'],
@@ -281,7 +283,14 @@ class TopbarComponent extends Component {
               className={css.landingCoverMobil}
             />
 
+<<<<<<< Updated upstream
             <LandingSearchBarForm onSearchSubmit={this.handleSubmit} />
+=======
+            <LandingSearchBarForm
+              onSearchSubmit={this.handleSubmit}
+              isTeamBuilding={isTeamBuildingOnTop}
+            />
+>>>>>>> Stashed changes
 
             <div className={css.socialContainer}>
               <div className={css.socialTitle}>
