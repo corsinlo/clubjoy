@@ -219,7 +219,6 @@ const TopbarDesktop = props => {
             {inboxLink}
             {profileMenu}
             <div className={css.authLinks}>
-              {teamBuildingLink}
               {signupBusinessLink}
               {signupLink}
               {loginLink}
@@ -255,7 +254,6 @@ const TopbarDesktop = props => {
             {inboxLink}
             {profileMenu}
             <div className={css.authLinks}>
-              {teamBuildingLink}
               {signupBusinessLink}
               {signupLink}
               {loginLink}
