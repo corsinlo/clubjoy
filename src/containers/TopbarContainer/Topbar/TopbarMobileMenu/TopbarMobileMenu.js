@@ -60,6 +60,17 @@ const TopbarMobileMenu = props => {
               values={{ lineBreak: <br />, signupOrLogin }}
             />
           </div>
+          <div className={css.otherGreeting}>
+            Oppure:
+            <br />
+            <NamedLink name="TeambuildingPage">
+              <FormattedMessage id="TopbarDesktop.provider" />
+            </NamedLink>
+            <br />
+            <NamedLink name="TeambuildingPage">
+              <FormattedMessage id="TopbarDesktop.team" />
+            </NamedLink>
+          </div>
         </div>
         {/*<div className={css.footer}>
           <NamedLink className={css.createNewListingLink} name="NewListingPage">
