@@ -271,9 +271,11 @@ export const ClientApp = props => {
                 buttonStyle={{ background: 'green', color: 'white', fontSize: '13px' }} // Accept button style
                 declineButtonStyle={{ background: 'red', color: 'white', fontSize: '13px' }} // Decline button style
                 expires={150} // Duration in days before the cookie expires
+                /*
                 onAccept={() => {
                   alert("Hai accettato l'utilizzo dei cookie."); // Alert or function for when cookies are accepted
                 }}
+                */
                 onDecline={() => {
                   alert("Hai rifiutato l'utilizzo dei cookie non essenziali."); // Alert or function for when cookies are declined
                 }}
