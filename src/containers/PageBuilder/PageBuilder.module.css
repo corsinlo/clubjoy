@@ -34,13 +34,29 @@
 /*WHATSAPPICON*/
 .customClass {
   position: fixed; /* Fixed positioning relative to the viewport */
-  bottom: 20px;    /* Distance from the bottom of the viewport */
-  right: 20px;     /* Distance from the right side of the viewport */
-  height: 60px;    /* Height of the icon */
-  width: 90px;     /* Width of the icon */
+  bottom: 80px;    /* Distance from the bottom of the viewport */
+  right: 5px;     /* Distance from the right side of the viewport */
+  height: 50px;    /* Height of the icon */
+  width: 80px;     /* Width of the icon */
   color: #012FA7;  /* Color of the icon or text */
   cursor: pointer; /* Pointer cursor on hover */
   z-index: 1000;   /* High z-index to ensure it's on top of other content */
   flex-direction: row; /* Align children in a row */
   margin: 2px;
+}
+
+@media screen and (max-width: 768px) {
+/*WHATSAPPICON*/
+.customClass {
+  position: fixed; /* Fixed positioning relative to the viewport */
+  bottom: 10px;    /* Distance from the bottom of the viewport */
+  right: 5px;     /* Distance from the right side of the viewport */
+  height: 50px;    /* Height of the icon */
+  width: 80px;     /* Width of the icon */
+  color: #012FA7;  /* Color of the icon or text */
+  cursor: pointer; /* Pointer cursor on hover */
+  z-index: 1000;   /* High z-index to ensure it's on top of other content */
+  flex-direction: row; /* Align children in a row */
+  margin: 2px;
+}
 }
