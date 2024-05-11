@@ -76,7 +76,7 @@ const TopbarDesktop = props => {
   const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
   const search =
     !isLandingPage || !isTeamBuilding ? (
-      <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuildingOnTop}/>
+      <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuildingOnTop} />
     ) : null;
 
   const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
@@ -202,6 +202,13 @@ const TopbarDesktop = props => {
             />
           </div>
           <div className={css.rightContent}>
+            {
+              <NamedLink name="TeambuildingPage" className={css.loginLink}>
+                <span className={css.login}>
+                  {intl.formatMessage({ id: 'TopbarDesktop.team' })}
+                </span>
+              </NamedLink>
+            }
             {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
@@ -231,6 +238,13 @@ const TopbarDesktop = props => {
             {search}
           </div>
           <div className={css.rightContent}>
+            {
+              <NamedLink name="TeambuildingPage" className={css.loginLink}>
+                <span className={css.login}>
+                  {intl.formatMessage({ id: 'TopbarDesktop.team' })}
+                </span>
+              </NamedLink>
+            }
             {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
