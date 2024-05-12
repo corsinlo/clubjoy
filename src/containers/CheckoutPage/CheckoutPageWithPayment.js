@@ -339,7 +339,7 @@ export const CheckoutPageWithPayment = props => {
   const listingNotFound =
     isTransactionInitiateListingNotFoundError(speculateTransactionError) ||
     isTransactionInitiateListingNotFoundError(initiateOrderError);
-
+  const isTeamBuilding = pageData?.listing?.attributes?.publicData?.listingType === 'teambuilding';
   const { listing, transaction, orderData } = pageData;
   const existingTransaction = ensureTransaction(transaction);
   const speculatedTransaction = ensureTransaction(speculatedTransactionMaybe, {}, null);
@@ -498,6 +498,7 @@ export const CheckoutPageWithPayment = props => {
                 marketplaceName={config.marketplaceName}
                 isBooking={isBookingProcessAlias(transactionProcessAlias)}
                 isFuzzyLocation={config.maps.fuzzy.enabled}
+                isTeamBuilding={isTeamBuilding}
               />
             ) : null}
           </section>

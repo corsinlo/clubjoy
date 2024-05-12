@@ -156,3 +156,16 @@
 .missingStripeKey {
   color: var(--colorFail);
 }
+
+/*INVOICE*/
+.needInvoiceCheckbox{
+  margin-top: 20px;
+}
+
+.invoiceForm{
+  margin-top: 20px;
+}
+
+.invoiceFormFields{
+  margin-top: 5px;
+}
