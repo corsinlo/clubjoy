@@ -418,6 +418,7 @@ export const CheckoutPageWithPayment = props => {
     ? `${currentUser.attributes.profile.firstName} ${currentUser.attributes.profile.lastName}`
     : null;
 
+  const isVerified = currentUser.attributes?.emailVerified;
   // If paymentIntent status is not waiting user action,
   // confirmCardPayment has been called previously.
   const hasPaymentIntentUserActionsDone =
@@ -499,6 +500,7 @@ export const CheckoutPageWithPayment = props => {
                 isBooking={isBookingProcessAlias(transactionProcessAlias)}
                 isFuzzyLocation={config.maps.fuzzy.enabled}
                 isTeamBuilding={isTeamBuilding}
+                isVerified={isVerified}
               />
             ) : null}
           </section>

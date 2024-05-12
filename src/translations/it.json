@@ -974,6 +974,7 @@
     "StripePaymentForm.needInvoice": "Hai bisogno di una fattura?",
     "StripePaymentForm.companyName" : "Nome azienda",
     "StripePaymentForm.social": "Ragione Sociale",
+    "StripePaymentForm.VerifyEmail": "CONTROLLA LA TUA CASELLA DI POSTA PER VERIFICARE IL TUO INDIRIZZO EMAIL E RICEVERE AGGIORNAMENTI SULLA TUA PRENOTAZIONE!",
     "StripePayoutPage.heading": "Dettagli del pagamento",
     "StripePayoutPage.loadingData": "Caricamento dati in corso…",
     "StripePayoutPage.redirectingToStripe": "Sei tornato presto da Stripe. Reindirizzamento a Stripe in corso…",

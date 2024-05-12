@@ -456,6 +456,7 @@ class StripePaymentForm extends Component {
       isBooking,
       isFuzzyLocation,
       values,
+      isVerified,
       isTeamBuilding,
     } = formRenderProps;
     this.finalFormAPI = formApi;
@@ -571,9 +572,16 @@ class StripePaymentForm extends Component {
               />
             ) : (
               <React.Fragment>
-                CIAO
+                {!isVerified && (
+                  <span style={{ color: 'red' }}>
+                    {intl.formatMessage({ id: 'StripePaymentForm.VerifyEmail' })}
+                  </span>
+                )}
                 <Heading as="h3" rootClassName={css.heading}>
-                  <FormattedMessage id="StripePaymentForm.paymentHeading" />
+                  <FormattedMessage
+                    id="StripePaymentForm.paymentHeading"
+                    style={{ color: 'red' }}
+                  />
                 </Heading>
                 <OneTimePaymentWithCardElement
                   cardClasses={cardClasses}
