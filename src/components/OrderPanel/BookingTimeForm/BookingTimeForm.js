@@ -202,6 +202,25 @@ export class BookingTimeFormComponent extends Component {
               ) : null}
 
               <div className={css.submitButton}>
+                <PrimaryButton type="submit" inProgress={fetchLineItemsInProgress}>
+                  <FormattedMessage id="BookingTimeForm.requestToBook" />
+                </PrimaryButton>
+              </div>
+
+              <p className={css.finePrint}>
+                {payoutDetailsWarning ? (
+                  payoutDetailsWarning
+                ) : (
+                  <FormattedMessage
+                    id={
+                      isOwnListing
+                        ? 'BookingTimeForm.ownListing'
+                        : 'BookingTimeForm.youWontBeChargedInfo'
+                    }
+                  />
+                )}
+              </p>
+              {/*<div className={css.submitButton}>
                 <PrimaryButton
                   type="submit"
                   inProgress={fetchLineItemsInProgress}
@@ -227,7 +246,7 @@ export class BookingTimeFormComponent extends Component {
                     }
                   />
                 )}
-              </p>
+              </p>*/}
             </Form>
           );
         }}

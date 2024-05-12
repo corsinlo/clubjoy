@@ -571,6 +571,7 @@ class StripePaymentForm extends Component {
               />
             ) : (
               <React.Fragment>
+                CIAO
                 <Heading as="h3" rootClassName={css.heading}>
                   <FormattedMessage id="StripePaymentForm.paymentHeading" />
                 </Heading>
