@@ -16,11 +16,12 @@ const MainPanelHeader = props => {
     listingsAreLoaded,
     resultsCount,
     searchInProgress,
+    filteredListingsCount,
+    isTeamBuildingOnTop,
     noResultsInfo,
   } = props;
 
   const classes = classNames(rootClassName || css.root, className);
-
   return (
     <div className={classes}>
       <div className={css.searchOptions}>
@@ -31,7 +32,7 @@ const MainPanelHeader = props => {
             ) : (
               <FormattedMessage
                 id="MainPanelHeader.foundResults"
-                values={{ count: resultsCount }}
+                values={{ count: isTeamBuildingOnTop ? filteredListingsCount : resultsCount }}
               />
             )}
           </span>

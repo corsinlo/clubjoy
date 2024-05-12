@@ -55,7 +55,7 @@ const SEARCH_WITH_MAP_DEBOUNCE = 300; // Little bit of debounce before search is
 // Primary filters have their content in dropdown-popup.
 // With this offset we move the dropdown to the left a few pixels on desktop layout.
 const FILTER_DROPDOWN_OFFSET = -14;
-const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
+// const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
 export class SearchPageComponent extends Component {
   constructor(props) {
     super(props);
@@ -248,10 +248,9 @@ export class SearchPageComponent extends Component {
       routeConfiguration,
       config,
     } = this.props;
-
+    const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
     const { listingFields: listingFieldsConfig } = config?.listing || {};
     const { defaultFilters: defaultFiltersConfig, sortConfig } = config?.search || {};
-
     const activeListingTypes = config?.listing?.listingTypes.map(config => config.listingType);
     const marketplaceCurrency = config.currency;
 
@@ -385,6 +384,11 @@ export class SearchPageComponent extends Component {
 
     // N.B. openMobileMap button is sticky.
     // For some reason, stickyness doesn't work on Safari, if the element is <button>
+    const filteredListings = listings.filter(
+      listing =>
+        listing.attributes.publicData &&
+        listing.attributes.publicData.listingType === 'teambuilding'
+    );
     return (
       <Page
         scrollingDisabled={scrollingDisabled}
@@ -439,10 +443,14 @@ export class SearchPageComponent extends Component {
               sortByComponent={sortBy('desktop')}
               isSortByActive={sortConfig.active}
               listingsAreLoaded={listingsAreLoaded}
-              resultsCount={totalItems}
+              resultsCount={
+                isTeamBuildingOnTop ? filteredListings.length : totalItems - filteredListings.length
+              }
+              filteredListingsCount={filteredListings.length}
               searchInProgress={searchInProgress}
               searchListingsError={searchListingsError}
               noResultsInfo={noResultsInfo}
+              isTeamBuildingOnTop={isTeamBuildingOnTop}
             >
               <SearchFiltersPrimary {...propsForSecondaryFiltersToggle}>
                 {availablePrimaryFilters.map(config => {
@@ -533,7 +541,7 @@ export class SearchPageComponent extends Component {
                   center={origin}
                   isSearchMapOpenOnMobile={this.state.isSearchMapOpenOnMobile}
                   location={location}
-                  listings={listings || []}
+                  listings={isTeamBuildingOnTop ? filteredListings : listings || []}
                   onMapMoveEnd={this.onMapMoveEnd}
                   onCloseAsModal={() => {
                     onManageDisableScrolling('SearchPage.map', false);
