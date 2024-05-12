@@ -444,9 +444,10 @@ export class SearchPageComponent extends Component {
               isSortByActive={sortConfig.active}
               listingsAreLoaded={listingsAreLoaded}
               resultsCount={
-                isTeamBuildingOnTop ? filteredListings.length : totalItems - filteredListings.length
+                isTeamBuildingOnTop
+                  ? filteredListings.length ?? 0
+                  : totalItems - (filteredListings.length ?? 0)
               }
-              filteredListingsCount={filteredListings.length}
               searchInProgress={searchInProgress}
               searchListingsError={searchListingsError}
               noResultsInfo={noResultsInfo}

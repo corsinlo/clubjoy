@@ -16,7 +16,6 @@ const MainPanelHeader = props => {
     listingsAreLoaded,
     resultsCount,
     searchInProgress,
-    filteredListingsCount,
     isTeamBuildingOnTop,
     noResultsInfo,
   } = props;
@@ -32,7 +31,7 @@ const MainPanelHeader = props => {
             ) : (
               <FormattedMessage
                 id="MainPanelHeader.foundResults"
-                values={{ count: isTeamBuildingOnTop ? filteredListingsCount : resultsCount }}
+                values={{ count: resultsCount }}
               />
             )}
           </span>
