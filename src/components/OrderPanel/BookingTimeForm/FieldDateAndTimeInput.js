@@ -456,7 +456,6 @@ class FieldDateAndTimeInput extends Component {
       seatsLabel,
       form,
     } = this.props;
-    console.log('publicData', publicData);
     const classes = classNames(rootClassName || css.root, className);
 
     const bookingStartDate =
@@ -685,26 +684,29 @@ class FieldDateAndTimeInput extends Component {
                 fields.map((name, index) => {
                   const isOddNumber = (index + 1) % 2 !== 0;
 
+                  if (
+                    (this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+                      isOddNumber &&
+                      index !== 0) ||
+                    (this.props.publicData &&
+                      this.props.publicData.listingType === 'teambuilding' &&
+                      isOddNumber &&
+                      index !== 0)
+                  ) {
+                    return null; // Skip rendering for all odd-numbered indexes except the first one
+                  }
+
                   return (
                     <FieldTextInput
                       id={name}
                       name={name}
                       key={index}
                       className={css.fieldTextInput}
-                      //onChange={event => this.validateSeatsInput(event.target.value)}
                       type="text"
-                      label={
-                        this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                        isOddNumber
-                          ? intl.formatMessage(
-                              { id: 'FieldDateAndTimeInput.coupleGuestNameLabel' },
-                              { number: index + 1 }
-                            )
-                          : intl.formatMessage(
-                              { id: 'FieldDateAndTimeInput.guestNameLabel' },
-                              { number: index + 1 }
-                            )
-                      }
+                      label={intl.formatMessage(
+                        { id: 'FieldDateAndTimeInput.guestNameLabel' },
+                        { number: index + 1 }
+                      )}
                       placeholder={intl.formatMessage(
                         {
                           id: 'FieldDateAndTimeInput.guestNamePlaceholder',
@@ -716,10 +718,6 @@ class FieldDateAndTimeInput extends Component {
                           id: 'FieldDateAndTimeInput.requiredGuestName',
                         })
                       )}
-                      disabled={
-                        this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                        isOddNumber
-                      }
                     />
                   );
                 })
