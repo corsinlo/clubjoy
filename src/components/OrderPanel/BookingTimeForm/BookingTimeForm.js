@@ -80,6 +80,7 @@ export class BookingTimeFormComponent extends Component {
       marketplaceName,
       author,
       currentUser,
+      publicData,
       ...rest
     } = this.props;
     const classes = classNames(rootClassName || css.root, className);
@@ -175,6 +176,7 @@ export class BookingTimeFormComponent extends Component {
                   dayCountAvailableForBooking={dayCountAvailableForBooking}
                   onSeatsInputValidChange={this.handleSeatsInputValidChange}
                   voucherFee={voucherFee}
+                  publicData={publicData}
                 />
               ) : null}
 

@@ -449,13 +449,14 @@ class FieldDateAndTimeInput extends Component {
       voucher,
       values,
       monthlyTimeSlots,
+      publicData,
       timeZone,
       intl,
       dayCountAvailableForBooking,
       seatsLabel,
       form,
     } = this.props;
-
+    console.log('publicData', publicData);
     const classes = classNames(rootClassName || css.root, className);
 
     const bookingStartDate =
@@ -524,12 +525,25 @@ class FieldDateAndTimeInput extends Component {
       // No need to handle error
     }
 
+    const isSeatDisabled = seatNumber => {
+      const isSpecialListing =
+        this.props.listingId &&
+        this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+        seatNumber % 2 !== 0;
+      const minSeats = parseInt(publicData.min);
+      const isBelowMinimum = minSeats && seatNumber < minSeats;
+
+      return isSpecialListing || isBelowMinimum;
+    };
+
     const seatsArray = Array(selectedTimeSlot?.attributes.seats)
       .fill()
       .map((_, i) => i + 1);
     //65fc542d-96ee-422d-b0e6-0075f9a1c683
+    const visibleSeats = seatsArray.filter(seat => !isSeatDisabled(seat));
+
     const seatsSelectionMaybe =
-      seatsArray?.length > 1 ? (
+      visibleSeats.length > 1 ? (
         <div className={css.fieldTextInput}>
           {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
           <FieldSelect
@@ -546,16 +560,8 @@ class FieldDateAndTimeInput extends Component {
             id="seats"
             label={seatsLabel}
           >
-            {seatsArray.map(s => (
-              <option
-                value={s}
-                key={s}
-                disabled={
-                  this.props.listingId &&
-                  this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                  s % 2 !== 0
-                }
-              >
+            {visibleSeats.map(s => (
+              <option value={s} key={s}>
                 {s}
               </option>
             ))}
