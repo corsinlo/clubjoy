@@ -231,7 +231,7 @@ const handleSubmit = (values, process, props, stripe, submitting, setSubmitting)
     setPageData,
     needInvoice, 
   };
-console.log('requestPaymentParams', requestPaymentParams)
+
   const shippingDetails = getShippingDetailsMaybe(formValues);
   const optionalPaymentParams =
     selectedPaymentFlow === USE_SAVED_CARD && hasDefaultPaymentMethodSaved

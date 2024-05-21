@@ -1,4 +1,5 @@
 import { storableError } from '../util/errors';
+import { createInvoice } from '../util/api';
 import * as log from '../util/log';
 
 // https://stripe.com/docs/api/payment_intents/object#payment_intent_object-status
@@ -273,8 +274,10 @@ export const confirmCardPayment = params => dispatch => {
       if (response.error) {
         return Promise.reject(response);
       } else if (STRIPE_PI_HAS_PASSED_CONFIRM.includes(response?.paymentIntent?.status)) {
+      
         if(needInvoice){
-          //TODO
+          //TODO 
+          createInvoice(response)
         }
         dispatch(confirmCardPaymentSuccess(response));
         return { ...response, transactionId }; 
