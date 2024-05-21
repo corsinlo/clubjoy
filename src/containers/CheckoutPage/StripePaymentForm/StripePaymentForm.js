@@ -390,42 +390,44 @@ class StripePaymentForm extends Component {
       };
     });
   }
-  handleSubmit(values) {
-    const {
-      onSubmit,
-      inProgress,
-      formId,
-      hasHandledCardPayment,
-      defaultPaymentMethod,
-    } = this.props;
-    const { initialMessage } = values;
-    const { cardValueValid, paymentMethod } = this.state;
-    const hasDefaultPaymentMethod = defaultPaymentMethod?.id;
-    const selectedPaymentMethod = getPaymentMethod(paymentMethod, hasDefaultPaymentMethod);
-    const { onetimePaymentNeedsAttention } = checkOnetimePaymentFields(
-      cardValueValid,
-      selectedPaymentMethod,
-      hasDefaultPaymentMethod,
-      hasHandledCardPayment
-    );
 
-    if (inProgress || onetimePaymentNeedsAttention) {
-      // Already submitting or card value incomplete/invalid
-      return;
-    }
+handleSubmit(values) {
+  const {
+    onSubmit,
+    inProgress,
+    formId,
+    hasHandledCardPayment,
+    defaultPaymentMethod,
+  } = this.props;
+  const { initialMessage } = values;
+  const { cardValueValid, paymentMethod, needInvoice } = this.state; 
+  const hasDefaultPaymentMethod = defaultPaymentMethod?.id;
+  const selectedPaymentMethod = getPaymentMethod(paymentMethod, hasDefaultPaymentMethod);
+  const { onetimePaymentNeedsAttention } = checkOnetimePaymentFields(
+    cardValueValid,
+    selectedPaymentMethod,
+    hasDefaultPaymentMethod,
+    hasHandledCardPayment
+  );
 
-    const params = {
-      message: initialMessage ? initialMessage.trim() : null,
-      card: this.card,
-      formId,
-      formValues: values,
-      paymentMethod: getPaymentMethod(
-        paymentMethod,
-        ensurePaymentMethodCard(defaultPaymentMethod).id
-      ),
-    };
-    onSubmit(params);
+  if (inProgress || onetimePaymentNeedsAttention) {
+
+    return;
   }
+
+  const params = {
+    message: initialMessage ? initialMessage.trim() : null,
+    card: this.card,
+    formId,
+    formValues: { ...values, needInvoice }, 
+    paymentMethod: getPaymentMethod(
+      paymentMethod,
+      ensurePaymentMethodCard(defaultPaymentMethod).id
+    ),
+  };
+  onSubmit(params);
+}
+
 
   paymentForm(formRenderProps) {
     const {
