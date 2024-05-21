@@ -1,5 +1,4 @@
 import { storableError } from '../util/errors';
-import { createInvoice } from '../util/api';
 import * as log from '../util/log';
 
 // https://stripe.com/docs/api/payment_intents/object#payment_intent_object-status
@@ -244,15 +243,17 @@ export const retrievePaymentIntent = params => dispatch => {
     });
 };
 
-
 export const confirmCardPayment = params => dispatch => {
-  const { stripe, paymentParams, stripePaymentIntentClientSecret, needInvoice } = params; 
+  // It's required to use the same instance of Stripe as where the card has been created
+  // so that's why Stripe needs to be passed here and we can't create a new instance.
+  const { stripe, paymentParams, stripePaymentIntentClientSecret } = params;
   const transactionId = params.orderId;
 
   dispatch(confirmCardPaymentRequest());
+
   // When using default payment method paymentParams.payment_method is
   // already set Marketplace API side, when request-payment transition is made
-  // so there's no need for paymentParam
+  // so there's no need for paymentParams
   const args = paymentParams
     ? [stripePaymentIntentClientSecret, paymentParams]
     : [stripePaymentIntentClientSecret];
@@ -263,48 +264,48 @@ export const confirmCardPayment = params => dispatch => {
         return Promise.reject(response);
       } else {
         dispatch(confirmCardPaymentSuccess(response));
-  
-        return { ...response, transactionId }; 
+        return { ...response, transactionId };
       }
     });
 
+  // First, check if the payment intent has already been confirmed and it just requires capture.
   return stripe
     .retrievePaymentIntent(stripePaymentIntentClientSecret)
     .then(response => {
+      // Handle response.error or response.paymentIntent
       if (response.error) {
         return Promise.reject(response);
       } else if (STRIPE_PI_HAS_PASSED_CONFIRM.includes(response?.paymentIntent?.status)) {
-      
-        if(needInvoice){
-          //TODO 
-          createInvoice(response)
-        }
+        // Payment Intent has been confirmed already, move forward.
         dispatch(confirmCardPaymentSuccess(response));
-        return { ...response, transactionId }; 
+        return { ...response, transactionId };
       } else {
+        // If payment intent has not been confirmed yet, confirm it.
         return doConfirmCardPayment();
       }
     })
     .catch(err => {
+      // Unwrap Stripe error.
       const e = err.error || storableError(err);
       dispatch(confirmCardPaymentError(e));
+
+      // Log error
       const containsPaymentIntent = err.error && err.error.payment_intent;
       const { code, doc_url, message, payment_intent } = containsPaymentIntent ? err.error : {};
       const loggableError = containsPaymentIntent
-      ? {
-          code,
-          message,
-          doc_url,
-          paymentIntentStatus: payment_intent.status,
-        }
-      : e;
-    log.error(loggableError, 'stripe-handle-card-payment-failed', {
-      stripeMessage: loggableError.message,
-    });
-    throw e;
+        ? {
+            code,
+            message,
+            doc_url,
+            paymentIntentStatus: payment_intent.status,
+          }
+        : e;
+      log.error(loggableError, 'stripe-handle-card-payment-failed', {
+        stripeMessage: loggableError.message,
+      });
+      throw e;
     });
 };
-
 
 export const handleCardSetup = params => dispatch => {
   // It's required to use the same instance of Stripe as where the card has been created

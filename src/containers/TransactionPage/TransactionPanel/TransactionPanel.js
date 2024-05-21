@@ -23,6 +23,7 @@ import BookingLocationMaybe from './BookingLocationMaybe';
 import InquiryMessageMaybe from './InquiryMessageMaybe';
 import FeedSection from './FeedSection';
 import ActionButtonsMaybe from './ActionButtonsMaybe';
+import TeamButtonsMaybe from './TeamButtonsMaybe';
 import DiminishedActionButtonMaybe from './DiminishedActionButtonMaybe';
 import PanelHeading from './PanelHeading';
 
@@ -142,7 +143,9 @@ export class TransactionPanelComponent extends Component {
       orderPanel,
       customerObj,
       config,
+      transactionId,
     } = this.props;
+
 
     const isCustomer = transactionRole === 'customer';
     const isProvider = transactionRole === 'provider';
@@ -165,6 +168,15 @@ export class TransactionPanelComponent extends Component {
 
     const listingTitle = listingDeleted ? deletedListingTitle : listing?.attributes?.title;
     const firstImage = listing?.images?.length > 0 ? listing?.images[0] : null;
+    const listingType = listing?.attributes?.publicData?.listingType;
+    const tId= transactionId?.uuid
+
+    const bookingState= stateData.processState
+
+    const teamButtons = (
+    <TeamButtonsMaybe
+    />
+    );
 
     const actionButtons = (
       <ActionButtonsMaybe
@@ -177,7 +189,6 @@ export class TransactionPanelComponent extends Component {
       />
     );
 
-    const listingType = listing?.attributes?.publicData?.listingType;
     const listingTypeConfigs = config.listing.listingTypes;
     const listingTypeConfig = listingTypeConfigs.find(conf => conf.listingType === listingType);
     const showPrice = isInquiryProcess && displayPrice(listingTypeConfig);
@@ -282,6 +293,7 @@ export class TransactionPanelComponent extends Component {
               activityFeed={activityFeed}
               isConversation={isInquiryProcess}
             />
+   
             {showSendMessageForm ? (
               <SendMessageForm
                 formId={this.sendMessageFormName}
@@ -301,6 +313,11 @@ export class TransactionPanelComponent extends Component {
                 <FormattedMessage id="TransactionPanel.sendingMessageNotAllowed" />
               </div>
             )}
+                     <TeamButtonsMaybe
+                     customerObj={customerObj}
+                     transactionId={tId}
+
+/>  
 
             {stateData.showActionButtons ? (
               <>

@@ -36,19 +36,24 @@ import MobileOrderBreakdown from './MobileOrderBreakdown';
 import css from './CheckoutPage.module.css';
 
 // Stripe PaymentIntent statuses, where user actions are already completed
+// https://stripe.com/docs/payments/payment-intents/status
 const STRIPE_PI_USER_ACTIONS_DONE_STATUSES = ['processing', 'requires_capture', 'succeeded'];
 
+// Payment charge options
 const ONETIME_PAYMENT = 'ONETIME_PAYMENT';
 const PAY_AND_SAVE_FOR_LATER_USE = 'PAY_AND_SAVE_FOR_LATER_USE';
 const USE_SAVED_CARD = 'USE_SAVED_CARD';
 
 const paymentFlow = (selectedPaymentMethod, saveAfterOnetimePayment) => {
+  // Payment mode could be 'replaceCard', but without explicit saveAfterOnetimePayment flag,
+  // we'll handle it as one-time payment
   return selectedPaymentMethod === 'defaultCard'
     ? USE_SAVED_CARD
     : saveAfterOnetimePayment
     ? PAY_AND_SAVE_FOR_LATER_USE
     : ONETIME_PAYMENT;
 };
+
 /**
  * Construct orderParams object using pageData from session storage, shipping details, and optional payment params.
  * Note: This is used for both speculate transition and real transition
@@ -83,6 +88,8 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
     },
   };
 
+  // These are the order parameters for the first payment-related transition
+  // which is either initiate-transition or initiate-transition-after-enquiry
   const orderParams = {
     listingId: pageData?.listing?.id,
     ...deliveryMethodMaybe,
@@ -105,6 +112,7 @@ const fetchSpeculatedTransactionIfNeeded = (orderParams, pageData, fetchSpeculat
     pageDataListing?.attributes?.publicData?.transactionProcessAlias?.split('/')[0];
   const process = processName ? getProcess(processName) : null;
 
+  // If transaction has passed payment-pending state, speculated tx is not needed.
   const shouldFetchSpeculatedTransaction =
     !!pageData?.listing?.id &&
     !!pageData.orderData &&
@@ -131,6 +139,7 @@ const fetchSpeculatedTransactionIfNeeded = (orderParams, pageData, fetchSpeculat
     );
   }
 };
+
 /**
  * Load initial data for the page
  *
@@ -168,7 +177,6 @@ export const loadInitialDataForStripePayments = ({
   fetchSpeculatedTransactionIfNeeded(orderParams, pageData, fetchSpeculatedTransaction);
 };
 
-// CheckoutPageWithPayment.js
 const handleSubmit = (values, process, props, stripe, submitting, setSubmitting) => {
   if (submitting) {
     return;
@@ -195,8 +203,7 @@ const handleSubmit = (values, process, props, stripe, submitting, setSubmitting)
     sessionStorageKey,
   } = props;
   const { card, message, paymentMethod: selectedPaymentMethod, formValues } = values;
-  const { saveAfterOnetimePayment: saveAfterOnetimePaymentRaw, needInvoice } = formValues;
-
+  const { saveAfterOnetimePayment: saveAfterOnetimePaymentRaw } = formValues;
   const saveAfterOnetimePayment =
     Array.isArray(saveAfterOnetimePaymentRaw) && saveAfterOnetimePaymentRaw.length > 0;
   const selectedPaymentFlow = paymentFlow(selectedPaymentMethod, saveAfterOnetimePayment);
@@ -205,6 +212,8 @@ const handleSubmit = (values, process, props, stripe, submitting, setSubmitting)
     ? currentUser?.stripeCustomer?.defaultPaymentMethod?.attributes?.stripePaymentMethodId
     : null;
 
+  // If paymentIntent status is not waiting user action,
+  // confirmCardPayment has been called previously.
   const hasPaymentIntentUserActionsDone =
     paymentIntent && STRIPE_PI_USER_ACTIONS_DONE_STATUSES.includes(paymentIntent.status);
 
@@ -229,10 +238,12 @@ const handleSubmit = (values, process, props, stripe, submitting, setSubmitting)
     isPaymentFlowUseSavedCard: selectedPaymentFlow === USE_SAVED_CARD,
     isPaymentFlowPayAndSaveCard: selectedPaymentFlow === PAY_AND_SAVE_FOR_LATER_USE,
     setPageData,
-    needInvoice, 
   };
 
   const shippingDetails = getShippingDetailsMaybe(formValues);
+  // Note: optionalPaymentParams contains Stripe paymentMethod,
+  // but that can also be passed on Step 2
+  // stripe.confirmCardPayment(stripe, { payment_method: stripePaymentMethodId })
   const optionalPaymentParams =
     selectedPaymentFlow === USE_SAVED_CARD && hasDefaultPaymentMethodSaved
       ? { paymentMethod: stripePaymentMethodId }
@@ -240,6 +251,8 @@ const handleSubmit = (values, process, props, stripe, submitting, setSubmitting)
       ? { setupPaymentMethodForSaving: true }
       : {};
 
+  // These are the order parameters for the first payment-related transition
+  // which is either initiate-transition or initiate-transition-after-enquiry
   const orderParams = getOrderParams(
     pageData,
     shippingDetails,
@@ -248,6 +261,7 @@ const handleSubmit = (values, process, props, stripe, submitting, setSubmitting)
     currentUser
   );
 
+  // There are multiple XHR calls that needs to be made against Stripe API and Sharetribe Marketplace API on checkout with payments
   processCheckoutWithPayment(orderParams, requestPaymentParams)
     .then(response => {
       const { orderId, messageSuccess, paymentMethodSaved } = response;
@@ -271,11 +285,11 @@ const handleSubmit = (values, process, props, stripe, submitting, setSubmitting)
     });
 };
 
-
 const onStripeInitialized = (stripe, process, props) => {
   const { paymentIntent, onRetrievePaymentIntent, pageData } = props;
   const tx = pageData?.transaction || null;
 
+  // We need to get up to date PI, if payment is pending but it's not expired.
   const shouldFetchPaymentIntent =
     stripe &&
     !paymentIntent &&
@@ -287,12 +301,14 @@ const onStripeInitialized = (stripe, process, props) => {
     const { stripePaymentIntentClientSecret } =
       tx.attributes.protectedData?.stripePaymentIntents?.default || {};
 
+    // Fetch up to date PaymentIntent from Stripe
     onRetrievePaymentIntent({ stripe, stripePaymentIntentClientSecret });
   }
 };
 
 export const CheckoutPageWithPayment = props => {
   const [submitting, setSubmitting] = useState(false);
+  // Initialized stripe library is saved to state - if it's needed at some point here too.
   const [stripe, setStripe] = useState(null);
 
   const {
@@ -314,6 +330,12 @@ export const CheckoutPageWithPayment = props => {
     config,
   } = props;
 
+  // Since the listing data is already given from the ListingPage
+  // and stored to handle refreshes, it might not have the possible
+  // deleted or closed information in it. If the transaction
+  // initiate or the speculative initiate fail due to the listing
+  // being deleted or closed, we should dig the information from the
+  // errors and not the listing data.
   const listingNotFound =
     isTransactionInitiateListingNotFoundError(speculateTransactionError) ||
     isTransactionInitiateListingNotFoundError(initiateOrderError);
@@ -322,6 +344,8 @@ export const CheckoutPageWithPayment = props => {
   const existingTransaction = ensureTransaction(transaction);
   const speculatedTransaction = ensureTransaction(speculatedTransactionMaybe, {}, null);
 
+  // If existing transaction has line-items, it has gone through one of the request-payment transitions.
+  // Otherwise, we try to rely on speculatedTransaction for order breakdown data.
   const tx =
     existingTransaction?.attributes?.lineItems?.length > 0
       ? existingTransaction
@@ -333,6 +357,8 @@ export const CheckoutPageWithPayment = props => {
   const dateType = lineItemUnitType === LINE_ITEM_HOUR ? DATE_TYPE_DATETIME : DATE_TYPE_DATE;
   const txBookingMaybe = tx?.booking?.id ? { booking: tx.booking, dateType, timeZone } : {};
 
+  // Show breakdown only when (speculated?) transaction is loaded
+  // (i.e. it has an id and lineItems)
   const breakdown =
     tx.id && tx.attributes.lineItems?.length > 0 ? (
       <OrderBreakdown
@@ -352,6 +378,8 @@ export const CheckoutPageWithPayment = props => {
   const transitions = process.transitions;
   const isPaymentExpired = hasPaymentExpired(existingTransaction, process);
 
+  // Allow showing page when currentUser is still being downloaded,
+  // but show payment form only when user info is loaded.
   const showPaymentForm = !!(
     currentUser &&
     !listingNotFound &&
@@ -385,13 +413,19 @@ export const CheckoutPageWithPayment = props => {
   const hasInquireTransition = txTransitions.find(tr => tr.transition === transitions.INQUIRE);
   const showInitialMessageInput = !hasInquireTransition;
 
+  // Get first and last name of the current user and use it in the StripePaymentForm to autofill the name field
   const userName = currentUser?.attributes?.profile
     ? `${currentUser.attributes.profile.firstName} ${currentUser.attributes.profile.lastName}`
     : null;
 
   const isVerified = currentUser.attributes?.emailVerified;
+  // If paymentIntent status is not waiting user action,
+  // confirmCardPayment has been called previously.
   const hasPaymentIntentUserActionsDone =
     paymentIntent && STRIPE_PI_USER_ACTIONS_DONE_STATUSES.includes(paymentIntent.status);
+
+  // If your marketplace works mostly in one country you can use initial values to select country automatically
+  // e.g. {country: 'FI'}
 
   const initalValuesForStripePayment = { name: userName, recipientName: userName };
   const askShippingDetails =
@@ -525,17 +559,23 @@ CheckoutPageWithPayment.propTypes = {
   onSendMessage: func.isRequired,
   initiateOrderError: propTypes.error,
   confirmPaymentError: propTypes.error,
+  // confirmCardPaymentError comes from Stripe so that's why we can't expect it to be in a specific form
   confirmCardPaymentError: oneOfType([propTypes.error, object]),
   paymentIntent: object,
 
+  // from connect
   dispatch: func.isRequired,
 
+  // from useIntl
   intl: intlShape.isRequired,
 
+  // from useConfiguration
   config: object.isRequired,
 
+  // from useRouteConfiguration
   routeConfiguration: arrayOf(propTypes.route).isRequired,
 
+  // from useHistory
   history: shape({
     push: func.isRequired,
   }).isRequired,

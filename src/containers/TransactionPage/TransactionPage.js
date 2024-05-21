@@ -146,6 +146,7 @@ export const TransactionPageComponent = props => {
     eventlocation: transaction?.listing.attributes.publicData?.location?.address,
     eventgeoLocation: transaction?.listing.attributes?.geolocation,
     providername: transaction?.listing.author.attributes.profile.publicData?.providerName,
+    cid: transaction?.customer.id?.uuid,
   };
 
   const processName = resolveLatestProcessName(transaction?.attributes?.processName);

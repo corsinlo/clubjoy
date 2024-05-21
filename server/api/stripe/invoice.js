@@ -1,44 +1,83 @@
 const axios = require('axios');
-const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
-const STRIPE_API_URL = 'https://api.stripe.com/v1';
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 module.exports = async (req, res) => {
+  console.log(req.body);
   try {
-    // Retrieve the Payment Intent details from Stripe
-    const paymentIntentId = req.body.paymentIntent.id;
-    console.log('Payment Intent ID:', paymentIntentId);
+    const transactionId = req.body.transactionId;
+    const customerId = req.body.customerObj.cid;
 
-    const paymentIntentResponse = await axios.get(`${STRIPE_API_URL}/payment_intents/${paymentIntentId}`, {
-      headers: {
-        Authorization: `Bearer ${STRIPE_SECRET_KEY}`,
-      },
+    let paymentIntents = await stripe.paymentIntents.list({
+      limit: 100, // Adjust limit as necessary
     });
 
-    const paymentIntent = paymentIntentResponse.data;
+    // Filter the PaymentIntents by metadata
+    let matchingPaymentIntent = paymentIntents.data.find(pi =>
+      pi.metadata['sharetribe-transaction-id'] === transactionId &&
+      pi.metadata['sharetribe-customer-id'] === customerId
+    );
 
+    // If there's no matching PaymentIntent, try to fetch more (pagination)
+    while (!matchingPaymentIntent && paymentIntents.has_more) {
+      paymentIntents = await stripe.paymentIntents.list({
+        limit: 100,
+        starting_after: paymentIntents.data[paymentIntents.data.length - 1].id,
+      });
 
-    // Extract necessary details from the payment intent
-    const amount = paymentIntent.amount;
-    const currency = paymentIntent.currency;
-    const customer = paymentIntent.customer;
-    console.log('Customer:', customer)
-    const description = paymentIntent.description;
+      matchingPaymentIntent = paymentIntents.data.find(pi =>
+        pi.metadata['sharetribe-transaction-id'] === transactionId &&
+        pi.metadata['sharetribe-customer-id'] === customerId
+      );
+    }
+
+    if (!matchingPaymentIntent) {
+      throw new Error('No PaymentIntent found with the specified metadata');
+    }
+
+    console.log('Matching PaymentIntent:', matchingPaymentIntent);
+
+    // Ensure the customer email is set
+    await stripe.customers.update(matchingPaymentIntent.customer, {
+      email: req.body.customerObj.email,
+    });
+
+    // Create an invoice item
+    await stripe.invoiceItems.create({
+      customer: matchingPaymentIntent.customer,
+      amount: matchingPaymentIntent.amount,
+      currency: matchingPaymentIntent.currency,
+      description: matchingPaymentIntent.description,
+      metadata: matchingPaymentIntent.metadata,
+    });
 
     // Create the invoice
-    const invoiceResponse = await axios.post(`${STRIPE_API_URL}/invoices/create_preview`, {
-      customer: customer,
-    }, {
-      headers: {
-        Authorization: `Bearer ${STRIPE_SECRET_KEY}`,
+    const invoice = await stripe.invoices.create({
+      customer: matchingPaymentIntent.customer,
+      auto_advance: true, // Auto-finalize the invoice
+      collection_method: 'send_invoice', // Use send_invoice collection method
+      days_until_due: 0, // Invoice due immediately
+      metadata: {
+        transaction_id: transactionId,
+        booking_id: req.body.customerObj.bookingid,
+        customer_name: req.body.customerObj.name,
+        customer_email: req.body.customerObj.email,
+        event_name: req.body.customerObj.eventname,
+        seats: String(req.body.customerObj.seats), // Convert to string
+        seat_names: JSON.stringify(req.body.customerObj.seatnames), // Convert array to JSON string
+        start_date: req.body.customerObj.startdate.toISOString(), // Convert to ISO string
+        end_date: req.body.customerObj.enddate.toISOString(), // Convert to ISO string
+        event_location: req.body.customerObj.eventlocation,
+        event_geo_location: JSON.stringify(req.body.customerObj.eventgeoLocation), // Convert to JSON string
+        provider_name: req.body.customerObj.providername,
       },
     });
 
-    const invoice = invoiceResponse.data;
-    console.log('Invoice:', invoice);
+    // Finalize the invoice
+    const finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id);
 
-    res.status(200);
+    res.status(200).json(finalizedInvoice);
   } catch (error) {
-    console.error('Error creating invoice:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error finding PaymentIntent or creating invoice:', error);
+    res.status(500).json({ error: error.message });
   }
 };

@@ -252,7 +252,6 @@ const initialState = {
   // The mode can be 'onetimePayment', 'defaultCard', or 'replaceCard'
   // Check SavedCardDetails component for more information
   paymentMethod: null,
-  needInvoice: false,
 };
 
 /**
@@ -278,13 +277,8 @@ class StripePaymentForm extends Component {
     this.initializeStripeElement = this.initializeStripeElement.bind(this);
     this.handleStripeElementRef = this.handleStripeElementRef.bind(this);
     this.changePaymentMethod = this.changePaymentMethod.bind(this);
-    this.handleInvoiceChange = this.handleInvoiceChange.bind(this);
     this.finalFormAPI = null;
     this.cardContainer = null;
-  }
-
-  handleInvoiceChange(event) {
-    this.setState({ needInvoice: event.target.checked });
   }
 
   componentDidMount() {
@@ -390,44 +384,42 @@ class StripePaymentForm extends Component {
       };
     });
   }
+  handleSubmit(values) {
+    const {
+      onSubmit,
+      inProgress,
+      formId,
+      hasHandledCardPayment,
+      defaultPaymentMethod,
+    } = this.props;
+    const { initialMessage } = values;
+    const { cardValueValid, paymentMethod } = this.state;
+    const hasDefaultPaymentMethod = defaultPaymentMethod?.id;
+    const selectedPaymentMethod = getPaymentMethod(paymentMethod, hasDefaultPaymentMethod);
+    const { onetimePaymentNeedsAttention } = checkOnetimePaymentFields(
+      cardValueValid,
+      selectedPaymentMethod,
+      hasDefaultPaymentMethod,
+      hasHandledCardPayment
+    );
 
-handleSubmit(values) {
-  const {
-    onSubmit,
-    inProgress,
-    formId,
-    hasHandledCardPayment,
-    defaultPaymentMethod,
-  } = this.props;
-  const { initialMessage } = values;
-  const { cardValueValid, paymentMethod, needInvoice } = this.state; 
-  const hasDefaultPaymentMethod = defaultPaymentMethod?.id;
-  const selectedPaymentMethod = getPaymentMethod(paymentMethod, hasDefaultPaymentMethod);
-  const { onetimePaymentNeedsAttention } = checkOnetimePaymentFields(
-    cardValueValid,
-    selectedPaymentMethod,
-    hasDefaultPaymentMethod,
-    hasHandledCardPayment
-  );
+    if (inProgress || onetimePaymentNeedsAttention) {
+      // Already submitting or card value incomplete/invalid
+      return;
+    }
 
-  if (inProgress || onetimePaymentNeedsAttention) {
-
-    return;
+    const params = {
+      message: initialMessage ? initialMessage.trim() : null,
+      card: this.card,
+      formId,
+      formValues: values,
+      paymentMethod: getPaymentMethod(
+        paymentMethod,
+        ensurePaymentMethodCard(defaultPaymentMethod).id
+      ),
+    };
+    onSubmit(params);
   }
-
-  const params = {
-    message: initialMessage ? initialMessage.trim() : null,
-    card: this.card,
-    formId,
-    formValues: { ...values, needInvoice }, 
-    paymentMethod: getPaymentMethod(
-      paymentMethod,
-      ensurePaymentMethodCard(defaultPaymentMethod).id
-    ),
-  };
-  onSubmit(params);
-}
-
 
   paymentForm(formRenderProps) {
     const {
@@ -657,35 +649,6 @@ handleSubmit(values) {
             />
           </div>
         ) : null}
-
-        {isTeamBuilding && (
-          <React.Fragment>
-            <FieldCheckbox
-              id="needInvoiceCheckbox"
-              name="needInvoiceCheckbox"
-              label={intl.formatMessage({ id: 'StripePaymentForm.needInvoice' })}
-              onChange={this.handleInvoiceChange}
-              className={css.needInvoiceCheckbox}
-            />
-
-            {this.state.needInvoice && (
-              <div className={css.invoiceForm}>
-                <FieldTextInput
-                  id="company"
-                  name="company"
-                  label={intl.formatMessage({ id: 'StripePaymentForm.companyName' })}
-                  className={css.invoiceFormFields}
-                />
-                <FieldTextInput
-                  id="social"
-                  name="social"
-                  label={intl.formatMessage({ id: 'StripePaymentForm.social' })}
-                  className={css.invoiceFormFields}
-                />
-              </div>
-            )}
-          </React.Fragment>
-        )}
 
         <div className={css.submitContainer}>
           {hasPaymentErrors ? (
