@@ -170,7 +170,8 @@ export class TransactionPanelComponent extends Component {
     const firstImage = listing?.images?.length > 0 ? listing?.images[0] : null;
     const listingType = listing?.attributes?.publicData?.listingType;
     const tId= transactionId?.uuid
-
+    const start= orderBreakdown?.props?.booking?.attributes?.start
+ 
     const bookingState= stateData.processState
 
     const teamButtons = (
@@ -357,9 +358,10 @@ export class TransactionPanelComponent extends Component {
                   orderBreakdown={orderBreakdown}
                   processName={stateData.processName}
                 />
-                {stateData.processState == 'accepted' & listingType == 'teambuilding'?(
+                {stateData?.processState == 'accepted' & listingType == 'teambuilding'?(
                   <div className={css.desktopActionButtons}>
                 <TeamButtonsMaybe
+                start={start}
                      customerObj={customerObj}
                      transactionId={tId}/>
                      </div>):null}

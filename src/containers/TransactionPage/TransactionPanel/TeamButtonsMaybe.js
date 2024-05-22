@@ -12,10 +12,19 @@ const TeamButtonsMaybe = props => {
     rootClassName,
     customerObj,
     transactionId,
-
+    start,
   } = props;
 
 
+  const startDate = new Date(start);
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+
+  const timeDiff = startDate - currentDate;
+
+  const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
+
+  const isWithinFiveDays = daysDiff >= 0 && daysDiff <= 5;
 
   const handlePrimaryButtonClick = () => {
     createInvoice({ customerObj, transactionId });
@@ -26,18 +35,15 @@ const TeamButtonsMaybe = props => {
   return (
     <div className={css.actionButtonWrapper}>
       <div className={classes}>
-        <PrimaryButton
-          onClick={handlePrimaryButtonClick}
-        >
+        <PrimaryButton onClick={handlePrimaryButtonClick}>
           {intl.formatMessage({ id: 'TeamButtons.button.receipt' })}
         </PrimaryButton>
-        <SecondaryButton
-        >
-         {intl.formatMessage({ id: 'TeamButtons.button.cancel' })}
+        <SecondaryButton disabled={isWithinFiveDays}>
+          {intl.formatMessage({ id: 'TeamButtons.button.cancel' })}
         </SecondaryButton>
       </div>
     </div>
-  )
+  );
 };
 
 export default TeamButtonsMaybe;
