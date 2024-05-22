@@ -313,12 +313,6 @@ export class TransactionPanelComponent extends Component {
                 <FormattedMessage id="TransactionPanel.sendingMessageNotAllowed" />
               </div>
             )}
-                     <TeamButtonsMaybe
-                     customerObj={customerObj}
-                     transactionId={tId}
-
-/>  
-
             {stateData.showActionButtons ? (
               <>
                 <div className={css.mobileActionButtonSpacer}></div>
@@ -363,7 +357,12 @@ export class TransactionPanelComponent extends Component {
                   orderBreakdown={orderBreakdown}
                   processName={stateData.processName}
                 />
-
+                {stateData.processState == 'accepted' & listingType == 'teambuilding'?(
+                  <div className={css.desktopActionButtons}>
+                <TeamButtonsMaybe
+                     customerObj={customerObj}
+                     transactionId={tId}/>
+                     </div>):null}
                 {stateData.showActionButtons ? (
                   <div className={css.desktopActionButtons}>{actionButtons}</div>
                 ) : null}

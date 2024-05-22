@@ -3,8 +3,10 @@ import classNames from 'classnames';
 import { createInvoice } from '../../../util/api';
 import { PrimaryButton, SecondaryButton } from '../../../components';
 import css from './TransactionPanel.module.css';
+import { useIntl } from 'react-intl';
 
 const TeamButtonsMaybe = props => {
+  const intl = useIntl();
   const {
     className,
     rootClassName,
@@ -16,43 +18,26 @@ const TeamButtonsMaybe = props => {
 
 
   const handlePrimaryButtonClick = () => {
-  
     createInvoice({ customerObj, transactionId });
-
   };
-
-  const primaryButton =()=> (
-    <PrimaryButton
-      onClick={handlePrimaryButtonClick}
-    >
-    s
-    </PrimaryButton>)
-
-
-
-  const secondaryButton =()=> (
-    <SecondaryButton
-    >
-      {'secondaryButtonProps.buttonText'}
-    </SecondaryButton>
-  )
-
 
   const classes = classNames(rootClassName || css.actionButtons, className);
 
   return (
-<>
-<PrimaryButton
-      onClick={handlePrimaryButtonClick}
-    >
-    s
-    </PrimaryButton>
-<SecondaryButton
-    >
-      {'secondaryButtonProps.buttonText'}
-    </SecondaryButton>
-</>
-  ) 
+    <div className={css.actionButtonWrapper}>
+      <div className={classes}>
+        <PrimaryButton
+          onClick={handlePrimaryButtonClick}
+        >
+          {intl.formatMessage({ id: 'TeamButtons.button.receipt' })}
+        </PrimaryButton>
+        <SecondaryButton
+        >
+         {intl.formatMessage({ id: 'TeamButtons.button.cancel' })}
+        </SecondaryButton>
+      </div>
+    </div>
+  )
 };
 
 export default TeamButtonsMaybe;

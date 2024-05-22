@@ -988,6 +988,8 @@
   "StripePayoutPage.redirectingToStripe": "You returned early from Stripe. Redirecting you back to Stripe…",
   "StripePayoutPage.submitButtonText": "Save details",
   "StripePayoutPage.title": "Payout details",
+  "TeamButtons.button.cancel":"Cancel Booking",
+  "TeamButtons.button.receipt":"Request Invoice",
   "Topbar.genericError": "Oh no, something went wrong. Please check your network connection and try again.",
   "Topbar.logoIcon": "Go to homepage",
   "Topbar.menuIcon": "Open menu",
