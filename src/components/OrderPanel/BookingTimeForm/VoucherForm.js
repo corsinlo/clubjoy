@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { func, number, object, string } from 'prop-types';
 import classNames from 'classnames';
-import * as validators from '../../../util/validators';
-
-import {
-  getStartOf,
-} from '../../../util/dates';
+import { FormattedMessage } from '../../../util/reactIntl';
+import { H6 } from '../../../components';
+import { getStartOf } from '../../../util/dates';
 import { propTypes } from '../../../util/types';
 import { checkCoupon } from '../../../util/api';
+import { Field } from 'react-final-form';
 import {
   FieldTextInput,
-  PrimaryButton,
+  SecondaryButton,
 } from '../..';
 import css from './FieldDateAndTimeInput.module.css';
 
@@ -57,20 +56,19 @@ class VoucherForm extends Component {
     } = this.props;
 
     const voucherInsertion = (
-      <div className={css.fieldTextInput}>
-        <div className={css.priceBreakdownContainer}>
-          <p>{intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}</p>
-          <hr className={css.totalDivider} />
+      <div className={css.fieldDateInput}>
+
+          <p className={css.voucherTitleBox}>{intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}</p>
           <input
-            type="text"
-            placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
+              type="text"
+              placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
             value={this.state.voucherCode}
             onChange={this.handleVoucherChange}
-          />
-          <PrimaryButton type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
-            {intl.formatMessage({ id: 'BookingTimeForm.coupon.button' })}
-          </PrimaryButton>
-        </div>
+        />
+        <SecondaryButton type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
+          {intl.formatMessage({ id: 'BookingTimeForm.coupon.button' })}
+        </SecondaryButton>
+  
       </div>
     );
 
@@ -81,7 +79,6 @@ class VoucherForm extends Component {
     );
   }
 }
-
 /*
 VoucherForm.propTypes = {
   rootClassName: string,

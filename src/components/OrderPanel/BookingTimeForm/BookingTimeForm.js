@@ -204,7 +204,7 @@ export class BookingTimeFormComponent extends Component {
               ) : null}
 
               {showEstimatedBreakdown ? (
-                <div className={css.priceBreakdownContainer}>
+<div className={css.priceBreakdownContainer}>
               <VoucherForm  
                  className={css.bookingDates}
                  listingId={listingId}

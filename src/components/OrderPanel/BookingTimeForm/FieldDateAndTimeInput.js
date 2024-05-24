@@ -520,10 +520,9 @@ class FieldDateAndTimeInput extends Component {
 
     const seatsSelectionMaybe =
       visibleSeats.length > 1 ? (
-        <div className={css.fieldTextInput}>
-          {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
+       
           <FieldSelect
-            className={css.fieldSelect}
+            className={css.fieldDateInput}
             onChange={value => {
               form.batch(() => {
                 form.change('guestNames', []);
@@ -534,7 +533,7 @@ class FieldDateAndTimeInput extends Component {
             }}
             name="seats"
             id="seats"
-            label={seatsLabel}
+            label= {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
           >
             {visibleSeats.map(s => (
               <option value={s} key={s}>
@@ -542,7 +541,7 @@ class FieldDateAndTimeInput extends Component {
               </option>
             ))}
           </FieldSelect>
-        </div>
+    
       ) : null;
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
@@ -611,7 +610,7 @@ class FieldDateAndTimeInput extends Component {
             </FieldSelect>
           </div>
 
-          <div className={bookingStartDate ? css.lineBetween : css.lineBetweenDisabled}>-</div>
+          <div className={bookingStartDate ? css.lineBetween : css.lineBetweenDisabled}> </div>
 
           <div className={css.field}>
             <FieldSelect
@@ -634,10 +633,11 @@ class FieldDateAndTimeInput extends Component {
             </FieldSelect>
           </div>
         </div>
+        <div className={css.formRow}>
         {seatsSelectionMaybe}
-
+        </div>
         {!!seatsSelectionMaybe && (
-          <>
+           <div className={css.formRow}>
             <FieldArray name="guestNames" className={css.fieldSelect}>
               {({ fields }) =>
                 fields.map((name, index) => {
@@ -660,7 +660,7 @@ class FieldDateAndTimeInput extends Component {
                       id={name}
                       name={name}
                       key={index}
-                      className={css.fieldTextInput}
+                      className={css.fieldDateInput}
                       type="text"
                       label={intl.formatMessage(
                         { id: 'FieldDateAndTimeInput.guestNameLabel' },
@@ -684,7 +684,7 @@ class FieldDateAndTimeInput extends Component {
             </FieldArray>
 
      
-          </>
+            </div>
         )}
       </div>
     );
