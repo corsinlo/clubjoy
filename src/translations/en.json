@@ -357,6 +357,7 @@
   "FieldDateAndTimeInput.guestNameLabel": "Guest Name:",
   "FieldDateAndTimeInput.coupleGuestNameLabel": "This event is for couple select 2 and proceed with the purchase :)",
   "FieldDateAndTimeInput.guestNamePlaceholder": "Guest#{number}",
+  "FieldDateAndTimeInput.teamNameLabel": "Team Name",
   "FieldDateAndTimeInput.endTime": "End time",
   "FieldDateAndTimeInput.startTime": "Start time",
   "FieldDateInput.screenReaderInputMessage": "Date input",

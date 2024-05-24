@@ -8,7 +8,7 @@ import { FormattedMessage, intlShape, injectIntl } from '../../../util/reactIntl
 import { timestampToDate } from '../../../util/dates';
 import { propTypes } from '../../../util/types';
 import { BOOKING_PROCESS_NAME } from '../../../transactions/transaction';
-
+import VoucherForm from './VoucherForm';
 import { Form, H6, PrimaryButton } from '../../../components';
 
 import EstimatedCustomerBreakdownMaybe from '../EstimatedCustomerBreakdownMaybe';
@@ -203,6 +203,23 @@ export class BookingTimeFormComponent extends Component {
                 </span>
               ) : null}
 
+              {showEstimatedBreakdown ? (
+                <div className={css.priceBreakdownContainer}>
+              <VoucherForm  
+                 className={css.bookingDates}
+                 listingId={listingId}
+                 onFetchTimeSlots={onFetchTimeSlots}
+                 monthlyTimeSlots={monthlyTimeSlots}
+                 values={values}
+                 intl={intl}
+                 form={form}
+                 pristine={pristine}
+                 timeZone={timeZone}
+                 voucherFee={voucherFee}
+                 publicData={publicData}
+              />
+            </div>
+              ) : null}
               <div className={css.submitButton}>
                 <PrimaryButton type="submit" inProgress={fetchLineItemsInProgress}>
                   <FormattedMessage id="BookingTimeForm.requestToBook" />

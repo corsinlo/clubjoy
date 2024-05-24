@@ -247,7 +247,6 @@ class FieldDateAndTimeInput extends Component {
     super(props);
     this.state = {
       currentMonth: getStartOf(TODAY, 'month', props.timeZone),
-      voucherCode: '',
       validSeatsInput: false,
     };
 
@@ -263,27 +262,6 @@ class FieldDateAndTimeInput extends Component {
     const isValid = /[a-zA-Z]+/.test(value); // Checks if there are any letters
     this.setState({ validSeatsInput: isValid });
     this.props.onSeatsInputValidChange(isValid); // Propagate to parent
-  };
-
-  handleVoucherChange = event => {
-    this.setState({ voucherCode: event.target.value });
-  };
-
-  handleVoucherSubmit = () => {
-    const requestBody = {
-      code: this.state.voucherCode,
-    };
-    checkCoupon(requestBody)
-      .then(response => {
-        this.props.form.batch(() => {
-          this.props.form.change('voucherFee', response);
-        });
-        this.setState({ voucherCode: '' });
-      })
-      .catch(error => {
-        console.error('Error checking voucher:', error);
-        this.setState({ voucherCode: '' });
-      });
   };
 
   fetchMonthData(date) {
@@ -446,7 +424,6 @@ class FieldDateAndTimeInput extends Component {
       formId,
       startDateInputProps,
       // endDateInputProps,
-      voucher,
       values,
       monthlyTimeSlots,
       publicData,
@@ -567,24 +544,6 @@ class FieldDateAndTimeInput extends Component {
           </FieldSelect>
         </div>
       ) : null;
-
-    const voucherInsertion = (
-      <div className={css.fieldTextInput}>
-        <div className={css.priceBreakdownContainer}>
-          <p>{intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}</p>
-          <hr className={css.totalDivider} />
-          <input
-            type="text"
-            placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
-            value={this.state.voucherCode} // Make sure voucherCode is passed as value
-            onChange={this.handleVoucherChange}
-          />
-          <PrimaryButton type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
-            {intl.formatMessage({ id: 'BookingTimeForm.coupon.button' })}
-          </PrimaryButton>
-        </div>
-      </div>
-    );
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
@@ -724,7 +683,7 @@ class FieldDateAndTimeInput extends Component {
               }
             </FieldArray>
 
-            {voucherInsertion}
+     
           </>
         )}
       </div>
