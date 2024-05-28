@@ -433,6 +433,7 @@ class FieldDateAndTimeInput extends Component {
       seatsLabel,
       form,
     } = this.props;
+
     const classes = classNames(rootClassName || css.root, className);
 
     const bookingStartDate =
@@ -544,7 +545,6 @@ class FieldDateAndTimeInput extends Component {
       ))}
     </FieldSelect>
   ) : null;
-
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
@@ -669,7 +669,7 @@ class FieldDateAndTimeInput extends Component {
                         id:
                         this.props.publicData?.listingType === 'teambuilding'
                             ? 'FieldDateAndTimeInput.teamNameLabel'
-                            : listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                            : this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
                             ? 'FieldDateAndTimeInput.coupleNameLabel'
                             : 'FieldDateAndTimeInput.guestNameLabel',
                       },
@@ -681,7 +681,7 @@ class FieldDateAndTimeInput extends Component {
                         id:
                         this.props.publicData?.listingType === 'teambuilding'
                             ? 'FieldDateAndTimeInput.teamNamePlaceholder'
-                            : listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                            : this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
                             ? 'FieldDateAndTimeInput.coupleNamePlaceholder'
                             : 'FieldDateAndTimeInput.guestNamePlaceholder',
                       },

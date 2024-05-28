@@ -361,7 +361,7 @@ export class TransactionPanelComponent extends Component {
                   orderBreakdown={orderBreakdown}
                   processName={stateData.processName}
                 />
-                {stateData?.processState == 'accepted' & listingType == 'teambuilding'?(
+                {stateData?.processState == 'accepted' & !isProvider & listingType == 'teambuilding'?(
                   <div className={css.desktopActionButtons}>
                 <TeamButtonsMaybe
                 start={start}
