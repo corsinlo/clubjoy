@@ -519,30 +519,32 @@ class FieldDateAndTimeInput extends Component {
     const visibleSeats = seatsArray.filter(seat => !isSeatDisabled(seat));
 
     const seatsSelectionMaybe =
-      visibleSeats.length > 1 ? (
-       
-          <FieldSelect
-            className={css.fieldDateInput}
-            onChange={value => {
-              form.batch(() => {
-                form.change('guestNames', []);
-                if (value > 0)
-                  for (let index = 0; index < value; index++)
-                    form.mutators.push(`guestNames[${index}]`, '');
-              });
-            }}
-            name="seats"
-            id="seats"
-            label= {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
-          >
-            {visibleSeats.map(s => (
-              <option value={s} key={s}>
-                {s}
-              </option>
-            ))}
-          </FieldSelect>
-    
-      ) : null;
+  visibleSeats.length > 1 ? (
+    <FieldSelect
+      className={css.fieldDateInput}
+      onChange={value => {
+        form.batch(() => {
+          form.change('guestNames', []);
+          if (value > 0)
+            for (let index = 0; index < value; index++)
+              form.mutators.push(`guestNames[${index}]`, '');
+        });
+      }}
+      name="seats"
+      id="seats"
+      label={intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
+    >
+      <option value="" key="default">
+        {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })}
+      </option>
+      {visibleSeats.map(s => (
+        <option value={s} key={s}>
+          {s}
+        </option>
+      ))}
+    </FieldSelect>
+  ) : null;
+
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
