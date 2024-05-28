@@ -519,7 +519,7 @@ class FieldDateAndTimeInput extends Component {
     //65fc542d-96ee-422d-b0e6-0075f9a1c683
     const visibleSeats = seatsArray.filter(seat => !isSeatDisabled(seat));
 
-    const seatsSelectionMaybe =
+const seatsSelectionMaybe =
   visibleSeats.length > 1 ? (
     <FieldSelect
       className={css.fieldDateInput}
@@ -639,69 +639,91 @@ class FieldDateAndTimeInput extends Component {
         {seatsSelectionMaybe}
         </div>
         {!!seatsSelectionMaybe && (
-           
-            <FieldArray name="guestNames" className={css.fieldSelect}>
-              {({ fields }) =>
-                fields.map((name, index) => {
-                  const isOddNumber = (index + 1) % 2 !== 0;
+  <FieldArray name="guestNames" className={css.fieldSelect}>
+    {({ fields }) => {
+      // If the listing type is 'teambuilding', only render one FieldTextInput
+      if (this.props.publicData?.listingType === 'teambuilding') {
+        return (
+          <FieldTextInput
+            id="teamName"
+            name="guestNames[0]" // Ensure it's part of the guestNames array
+            key={0}
+            className={css.fieldDateInput}
+            type="text"
+            label={intl.formatMessage(
+              {
+                id: 'FieldDateAndTimeInput.teamNameLabel',
+              },
+              { number: 1 }
+            )}
+            placeholder={intl.formatMessage(
+              {
+                id: 'FieldDateAndTimeInput.teamNamePlaceholder',
+              },
+              { number: 1 }
+            )}
+            validate={validators.required(
+              intl.formatMessage({
+                id: 'FieldDateAndTimeInput.requiredGuestName',
+              })
+            )}
+          />
+        );
+      }
 
-                  if (
-                    (this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                      isOddNumber &&
-                      index !== 0) ||
-                    (this.props.publicData &&
-                      this.props.publicData.listingType === 'teambuilding' &&
-                      isOddNumber &&
-                      index !== 0)
-                  ) {
-                    return null; // Skip rendering for all odd-numbered indexes except the first one
-                  }
+      // Otherwise, use the existing logic for rendering the fields
+      return fields.map((name, index) => {
+        const isOddNumber = (index + 1) % 2 !== 0;
 
-                  return (
-                    <FieldTextInput
-                    id={name}
-                    name={name}
-                    key={index}
-                    className={css.fieldDateInput}
-                    type="text"
-                    label={intl.formatMessage(
-                      {
-                        id:
-                        this.props.publicData?.listingType === 'teambuilding'
-                            ? 'FieldDateAndTimeInput.teamNameLabel'
-                            : this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
-                            ? 'FieldDateAndTimeInput.coupleNameLabel'
-                            : 'FieldDateAndTimeInput.guestNameLabel',
-                      },
-                      { number: index + 1 }
-                    )}
+        if (
+          (this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+            isOddNumber &&
+            index !== 0) ||
+          (this.props.publicData &&
+            this.props.publicData.listingType === 'teambuilding' &&
+            isOddNumber &&
+            index !== 0)
+        ) {
+          return null; // Skip rendering for all odd-numbered indexes except the first one
+        }
 
-                    placeholder={intl.formatMessage(
-                      {
-                        id:
-                        this.props.publicData?.listingType === 'teambuilding'
-                            ? 'FieldDateAndTimeInput.teamNamePlaceholder'
-                            : this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
-                            ? 'FieldDateAndTimeInput.coupleNamePlaceholder'
-                            : 'FieldDateAndTimeInput.guestNamePlaceholder',
-                      },
-                      { number: index + 1 }
-                    )}
-                    
-                    validate={validators.required(
-                      intl.formatMessage({
-                        id: 'FieldDateAndTimeInput.requiredGuestName',
-                      })
-                    )}
-                  />                 
-                  );
-                })
-              }
-            </FieldArray>
+        return (
+          <FieldTextInput
+            id={name}
+            name={name}
+            key={index}
+            className={css.fieldDateInput}
+            type="text"
+            label={intl.formatMessage(
+              {
+                id:
+                  this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                    ? 'FieldDateAndTimeInput.coupleNameLabel'
+                    : 'FieldDateAndTimeInput.guestNameLabel',
+              },
+              { number: index + 1 }
+            )}
+            placeholder={intl.formatMessage(
+              {
+                id:
+                  this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                    ? 'FieldDateAndTimeInput.coupleNamePlaceholder'
+                    : 'FieldDateAndTimeInput.guestNamePlaceholder',
+              },
+              { number: index + 1 }
+            )}
+            validate={validators.required(
+              intl.formatMessage({
+                id: 'FieldDateAndTimeInput.requiredGuestName',
+              })
+            )}
+          />
+        );
+      });
+    }}
+  </FieldArray>
+)}
 
-     
-          
-        )}
       </div>
     );
   }
