@@ -126,7 +126,9 @@ export const ListingCardComponent = props => {
       </AspectRatioWrapper>
       <div className={css.info}>
       <div className={css.priceContainer}>
-  <PriceMaybe price={price} publicData={publicData} config={config} intl={intl} /> /  <IconsPerson size="14px" color="blu" />
+  <PriceMaybe price={price} publicData={publicData} config={config} intl={intl} /> {isTeamBuilding === 'teambuilding' ? (  <div>
+     / <IconsPerson size="14px" color="blu" />
+    </div> ) : null}
   {isTeamBuilding === 'teambuilding' ? (
     <div className={css.teamBuilding}>
       <IconsPerson size="14px" color="blu" />

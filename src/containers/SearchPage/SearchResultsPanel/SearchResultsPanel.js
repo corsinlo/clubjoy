@@ -73,7 +73,7 @@ const SearchResultsPanel = props => {
                 />
               ))
           : listings
-              .filter(ll => ll.attributes.publicData?.listingType === 'class')
+              .filter(ll => ll.attributes.publicData?.listingType !== 'teambuilding')
               .map(l => (
                 <ListingCard
                   className={css.listingCard}
