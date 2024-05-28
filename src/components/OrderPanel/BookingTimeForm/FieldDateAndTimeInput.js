@@ -637,7 +637,7 @@ class FieldDateAndTimeInput extends Component {
         {seatsSelectionMaybe}
         </div>
         {!!seatsSelectionMaybe && (
-           <div className={css.formRow}>
+           
             <FieldArray name="guestNames" className={css.fieldSelect}>
               {({ fields }) =>
                 fields.map((name, index) => {
@@ -657,34 +657,48 @@ class FieldDateAndTimeInput extends Component {
 
                   return (
                     <FieldTextInput
-                      id={name}
-                      name={name}
-                      key={index}
-                      className={css.fieldDateInput}
-                      type="text"
-                      label={intl.formatMessage(
-                        { id: 'FieldDateAndTimeInput.guestNameLabel' },
-                        { number: index + 1 }
-                      )}
-                      placeholder={intl.formatMessage(
-                        {
-                          id: 'FieldDateAndTimeInput.guestNamePlaceholder',
-                        },
-                        { number: index + 1 }
-                      )}
-                      validate={validators.required(
-                        intl.formatMessage({
-                          id: 'FieldDateAndTimeInput.requiredGuestName',
-                        })
-                      )}
-                    />
+                    id={name}
+                    name={name}
+                    key={index}
+                    className={css.fieldDateInput}
+                    type="text"
+                    label={intl.formatMessage(
+                      {
+                        id:
+                        this.props.publicData?.listingType === 'teambuilding'
+                            ? 'FieldDateAndTimeInput.teamNameLabel'
+                            : listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                            ? 'FieldDateAndTimeInput.coupleNameLabel'
+                            : 'FieldDateAndTimeInput.guestNameLabel',
+                      },
+                      { number: index + 1 }
+                    )}
+
+                    placeholder={intl.formatMessage(
+                      {
+                        id:
+                        this.props.publicData?.listingType === 'teambuilding'
+                            ? 'FieldDateAndTimeInput.teamNamePlaceholder'
+                            : listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                            ? 'FieldDateAndTimeInput.coupleNamePlaceholder'
+                            : 'FieldDateAndTimeInput.guestNamePlaceholder',
+                      },
+                      { number: index + 1 }
+                    )}
+                    
+                    validate={validators.required(
+                      intl.formatMessage({
+                        id: 'FieldDateAndTimeInput.requiredGuestName',
+                      })
+                    )}
+                  />                 
                   );
                 })
               }
             </FieldArray>
 
      
-            </div>
+          
         )}
       </div>
     );
