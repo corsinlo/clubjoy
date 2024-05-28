@@ -15,16 +15,15 @@ const TeamButtonsMaybe = props => {
     start,
   } = props;
 
-
   const startDate = new Date(start);
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
 
   const timeDiff = startDate - currentDate;
-
   const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
 
   const isWithinFiveDays = daysDiff >= 0 && daysDiff <= 5;
+  const isAfterFiveDays = daysDiff < -5;
 
   const handlePrimaryButtonClick = () => {
     createInvoice({ customerObj, transactionId });
@@ -39,7 +38,7 @@ const TeamButtonsMaybe = props => {
   return (
     <div className={css.actionButtonWrapper}>
       <div className={classes}>
-        <PrimaryButton onClick={handlePrimaryButtonClick}>
+        <PrimaryButton disabled={!isAfterFiveDays} onClick={handlePrimaryButtonClick}>
           {intl.formatMessage({ id: 'TeamButtons.button.receipt' })}
         </PrimaryButton>
         <SecondaryButton disabled={isWithinFiveDays} onClick={handleSecondaryButtonClick}>

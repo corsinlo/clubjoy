@@ -1,104 +1,116 @@
 const axios = require('axios');
+const { createClient } = require('@supabase/supabase-js');
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
-
-module.exports = (req, res) => {
-  const { code } = req.body;
-  if (!code) return res.status(400).json({ message: 'Coupon code is required.' });
-
-  axios
-    .get(`https://api.stripe.com/v1/coupons/${code}`, {
-      headers: {
-        Authorization: `Bearer ${STRIPE_SECRET_KEY}`,
-      },
-    })
-    .then(response => {
-      res.status(200).json(response.data);
-    })
-    .catch(error => {
-      res.status(400).json({ message: 'Coupon code is not valid.' });
-    });
-};
-/*
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correctly set in your .env file
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 module.exports = async (req, res) => {
-  console.log(req.body);
   try {
-    const transactionId = req.body.transactionId;
-    const customerId = req.body.customerObj.cid;
+    console.log(req.body);
+    // Query Supabase to find the record by bookingid
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*')
+      .eq('bookingid', req.body.customerObj.bookingid);
 
-    let paymentIntents = await stripe.paymentIntents.list({
-      limit: 100, // Adjust limit as necessary
-    });
-
-    // Filter the PaymentIntents by metadata
-    let matchingPaymentIntent = paymentIntents.data.find(pi =>
-      pi.metadata['sharetribe-transaction-id'] === transactionId &&
-      pi.metadata['sharetribe-customer-id'] === customerId
-    );
-
-    // If there's no matching PaymentIntent, try to fetch more (pagination)
-    while (!matchingPaymentIntent && paymentIntents.has_more) {
-      paymentIntents = await stripe.paymentIntents.list({
-        limit: 100,
-        starting_after: paymentIntents.data[paymentIntents.data.length - 1].id,
-      });
-
-      matchingPaymentIntent = paymentIntents.data.find(pi =>
-        pi.metadata['sharetribe-transaction-id'] === transactionId &&
-        pi.metadata['sharetribe-customer-id'] === customerId
-      );
+    if (error) {
+      console.error('Error fetching booking:', error);
+      return res.status(500).json({ error: 'Error fetching booking' });
     }
 
-    if (!matchingPaymentIntent) {
-      throw new Error('No PaymentIntent found with the specified metadata');
+    if (data.length === 0) {
+      return res.status(404).json({ error: 'Booking not found' });
     }
 
-    console.log('Matching PaymentIntent:', matchingPaymentIntent);
+    const bookingRecord = data[0];
+    console.log('Booking record:', bookingRecord);
 
-    // Ensure the customer email is set
-    await stripe.customers.update(matchingPaymentIntent.customer, {
-      email: req.body.customerObj.email,
-    });
+    // Proceed with further processing using bookingRecord and customerObj if needed
+    // For example, creating a transaction record in Supabase
 
-    // Create an invoice item
-    await stripe.invoiceItems.create({
-      customer: matchingPaymentIntent.customer,
-      amount: matchingPaymentIntent.amount,
-      currency: matchingPaymentIntent.currency,
-      description: matchingPaymentIntent.description,
-      metadata: matchingPaymentIntent.metadata,
-    });
+    // Respond with success
+    res.status(200).json({ message: 'Booking found', booking: bookingRecord });
 
-    // Create the invoice
-    const invoice = await stripe.invoices.create({
-      customer: matchingPaymentIntent.customer,
-      auto_advance: true, // Auto-finalize the invoice
-      collection_method: 'send_invoice', // Use send_invoice collection method
-      days_until_due: 0, // Invoice due immediately
-      metadata: {
-        transaction_id: transactionId,
-        booking_id: req.body.customerObj.bookingid,
-        customer_name: req.body.customerObj.name,
-        customer_email: req.body.customerObj.email,
-        event_name: req.body.customerObj.eventname,
-        seats: String(req.body.customerObj.seats), // Convert to string
-        seat_names: JSON.stringify(req.body.customerObj.seatnames), // Convert array to JSON string
-        start_date: req.body.customerObj.startdate.toISOString(), // Convert to ISO string
-        end_date: req.body.customerObj.enddate.toISOString(), // Convert to ISO string
-        event_location: req.body.customerObj.eventlocation,
-        event_geo_location: JSON.stringify(req.body.customerObj.eventgeoLocation), // Convert to JSON string
-        provider_name: req.body.customerObj.providername,
-      },
-    });
-
-    // Finalize the invoice
-    const finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id);
-
-    res.status(200).json(finalizedInvoice);
-  } catch (error) {
-    console.error('Error finding PaymentIntent or creating invoice:', error);
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+/*
+app.post('/send-reminder', async (req, res) => {
+  const {
+    name,
+    email,
+    startDate,
+    endDate,
+    seats,
+    seatNames,
+    eventName,
+    eventLocation,
+    eventGeoLocation,
+  } = req.body;
+  const formatDate = 'YYYY-MM-DD';
+  const formatTime = 'HH:mm:ss';
+  const displayStartDate = moment(startDate).format(formatDate);
+  const displayStartTime = moment(startDate).format(formatTime);
+  const displayEndDate = moment(endDate).format(formatDate);
+  const displayEndTime = moment(endDate).format(formatTime);
+  const formatForGoogle = 'YYYYMMDDTHHmmss[Z]';
+  const formattedStartDate = moment(startDate)
+    .utc()
+    .format(formatForGoogle);
+  const formattedEndDate = moment(endDate)
+    .utc()
+    .format(formatForGoogle);
+  const hasGeoLocation =
+    eventGeoLocation &&
+    typeof eventGeoLocation.lat === 'number' &&
+    typeof eventGeoLocation.lng === 'number';
+  const googleMapsLink = hasGeoLocation
+    ? `https://www.google.com/maps/?q=${eventGeoLocation.lat},${eventGeoLocation.lng}`
+    : '';
+
+  const formatForYahoo = 'YYYYMMDDTHHmmss'; // Adjust format if needed
+  const formattedStartDateForYahoo = moment(startDate).format(formatForYahoo);
+  const formattedEndDateForYahoo = moment(endDate).format(formatForYahoo);
+
+  let defaultClient = SibApiV3.ApiClient.instance;
+  let apiKey = defaultClient.authentications['api-key'];
+  apiKey.apiKey = process.env.BREVO_API_KEY;
+  let apiInstance = new SibApiV3.TransactionalEmailsApi();
+  let sendSmtpEmail = new SibApiV3.SendSmtpEmail();
+  sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
+  sendSmtpEmail.to = [{ email: email, name: firstName }];
+  sendSmtpEmail.templateId = 3;
+
+  sendSmtpEmail.params = {
+    name: name,
+    startDate: displayStartDate,
+    startTime: displayStartTime,
+    endDate: displayEndDate,
+    endTime: displayEndTime,
+    seats: seats,
+    seatNames: seatNames.join(', <br>'),
+    eventName: eventName,
+    location: eventLocation,
+    googleMapsLink: googleMapsLink, // Add Google Maps link here
+    yahooCalendarLink: `https://calendar.yahoo.com/?v=60&view=d&type=20&title=${encodeURIComponent(
+      eventName
+    )}&st=${formattedStartDateForYahoo}&et=${formattedEndDateForYahoo}&desc=${encodeURIComponent(
+      seatNames.join(', ')
+    )}&in_loc=${encodeURIComponent(eventLocation.address)}`,
+    googleCalendarLink: `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventName}&dates=${formattedStartDate}/${formattedEndDate}&details=For+details,+link+here:+http://www.clubjoy.it`,
+  };
+  apiInstance.sendTransacEmail(sendSmtpEmail).then(
+    function(data) {
+      res.json({ message: 'Email sent successfully', data }); // Send response back to client
+    },
+    function(error) {
+      console.error(error);
+      res.status(500).send({ message: 'Failed to send email', error }); // Send error response back to client
+    }
+  );
+});
 */
