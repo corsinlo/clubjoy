@@ -77,7 +77,7 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
   const guestsNameMaybe = seatNames ? { seatNames } : {};
   const { listingType, unitType } = pageData?.listing?.attributes?.publicData || {};
   const voucherFee = pageData.orderData?.voucherFee || 0;
-
+  console.log(pageData)
   const protectedDataMaybe = {
     protectedData: {
       ...getTransactionTypeData(listingType, unitType, config),

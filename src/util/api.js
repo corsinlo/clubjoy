@@ -151,6 +151,10 @@ export const createInvoice = body => {
   return post('/api/stripe/invoice', body);
 };
 
+export const createRefund = body => {
+  return post('/api/stripe/refund', body);
+};
+
 // Check the validity of a coupon code
 export const checkCoupon = body => {
   return post('/api/stripe/coupon', body);

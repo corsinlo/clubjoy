@@ -154,7 +154,7 @@ export class TransactionPanelComponent extends Component {
     const isCustomerDeleted = !!customer?.attributes?.deleted;
     const isProviderBanned = !!provider?.attributes?.banned;
     const isProviderDeleted = !!provider?.attributes?.deleted;
-
+    const providerEmail = isProvider ? currentUser.attributes?.email : null;
     const { authorDisplayName, customerDisplayName, otherUserDisplayNameString } = displayNames(
       currentUser,
       provider,
@@ -171,8 +171,11 @@ export class TransactionPanelComponent extends Component {
     const listingType = listing?.attributes?.publicData?.listingType;
     const tId= transactionId?.uuid
     const start= orderBreakdown?.props?.booking?.attributes?.start
- 
+
     const bookingState= stateData.processState
+    const bookingRequestDate =this.props?.activityFeed?.props?.transaction?.attributes?.transitions?.find(t => t.transition === "transition/accept")?.createdAt || null;
+
+    const updatedCustomerObj = { ...customerObj, providerEmail };
 
     const teamButtons = (
     <TeamButtonsMaybe
@@ -186,7 +189,7 @@ export class TransactionPanelComponent extends Component {
         secondaryButtonProps={stateData?.secondaryButtonProps}
         isListingDeleted={listingDeleted}
         isProvider={isProvider}
-        customerObj={customerObj}
+        customerObj={updatedCustomerObj}
       />
     );
 

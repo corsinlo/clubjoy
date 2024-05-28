@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { createInvoice } from '../../../util/api';
+import { createInvoice, createRefund } from '../../../util/api';
 import { PrimaryButton, SecondaryButton } from '../../../components';
 import css from './TransactionPanel.module.css';
 import { useIntl } from 'react-intl';
@@ -30,6 +30,10 @@ const TeamButtonsMaybe = props => {
     createInvoice({ customerObj, transactionId });
   };
 
+  const handleSecondaryButtonClick = () => {
+    createRefund({ customerObj, transactionId });
+  };
+
   const classes = classNames(rootClassName || css.actionButtons, className);
 
   return (
@@ -38,7 +42,7 @@ const TeamButtonsMaybe = props => {
         <PrimaryButton onClick={handlePrimaryButtonClick}>
           {intl.formatMessage({ id: 'TeamButtons.button.receipt' })}
         </PrimaryButton>
-        <SecondaryButton disabled={isWithinFiveDays}>
+        <SecondaryButton disabled={isWithinFiveDays} onClick={handleSecondaryButtonClick}>
           {intl.formatMessage({ id: 'TeamButtons.button.cancel' })}
         </SecondaryButton>
       </div>
