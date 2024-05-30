@@ -340,6 +340,7 @@ export const CheckoutPageWithPayment = props => {
     isTransactionInitiateListingNotFoundError(speculateTransactionError) ||
     isTransactionInitiateListingNotFoundError(initiateOrderError);
   const isTeamBuilding = pageData?.listing?.attributes?.publicData?.listingType === 'teambuilding';
+  const popUpShop = pageData?.listing?.attributes?.publicData?.listingType
   const { listing, transaction, orderData } = pageData;
   const existingTransaction = ensureTransaction(transaction);
   const speculatedTransaction = ensureTransaction(speculatedTransactionMaybe, {}, null);
@@ -501,6 +502,7 @@ export const CheckoutPageWithPayment = props => {
                 isFuzzyLocation={config.maps.fuzzy.enabled}
                 isTeamBuilding={isTeamBuilding}
                 isVerified={isVerified}
+                popUpShop={popUpShop}
               />
             ) : null}
           </section>

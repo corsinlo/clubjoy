@@ -183,11 +183,13 @@ const TopbarDesktop = props => {
     </NamedLink>
   );
 
+  /*
   const teamBuildingLink = isAuthenticatedOrJustHydrated ? null : (
     <NamedLink name="TeambuildingPage" className={css.loginLink}>
       <span className={css.login}>{intl.formatMessage({ id: 'TopbarDesktop.team' })}</span>
     </NamedLink>
   );
+  */
 
   return (
     <nav className={classes}>
@@ -202,13 +204,13 @@ const TopbarDesktop = props => {
             />
           </div>
           <div className={css.rightContent}>
-            {
+            {/*
               <NamedLink name="TeambuildingPage" className={css.loginLink}>
                 <span className={css.login}>
                   {intl.formatMessage({ id: 'TopbarDesktop.team' })}
                 </span>
-              </NamedLink>
-            }
+            </NamedLink>
+            */}
             {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
@@ -238,11 +240,11 @@ const TopbarDesktop = props => {
           </div>
           <div className={css.rightContent}>
             {
-              <NamedLink name="TeambuildingPage" className={css.loginLink}>
+             /* <NamedLink name="TeambuildingPage" className={css.loginLink}>
                 <span className={css.login}>
                   {intl.formatMessage({ id: 'TopbarDesktop.team' })}
                 </span>
-              </NamedLink>
+            </NamedLink>*/
             }
             {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">

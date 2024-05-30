@@ -452,6 +452,7 @@ class StripePaymentForm extends Component {
       values,
       isVerified,
       isTeamBuilding,
+      popUpShop,
     } = formRenderProps;
     this.finalFormAPI = formApi;
 
@@ -620,7 +621,7 @@ class StripePaymentForm extends Component {
                   placeholder={billingDetailsNamePlaceholder}
                 />
 
-                {billingAddress}
+                { popUpShop==='store'? null: (billingAddress)}
               </div>
             ) : null}
           </React.Fragment>

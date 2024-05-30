@@ -67,9 +67,9 @@ const TopbarMobileMenu = props => {
               <FormattedMessage id="TopbarDesktop.provider" />
             </NamedLink>
             <br />
-            <NamedLink name="TeambuildingPage">
+            {/*<NamedLink name="TeambuildingPage">
               <FormattedMessage id="TopbarDesktop.team" />
-            </NamedLink>
+    </NamedLink>*/}
           </div>
         </div>
         {/*<div className={css.footer}>
@@ -140,12 +140,12 @@ const TopbarMobileMenu = props => {
         >
           <FormattedMessage id="TopbarMobileMenu.accountSettingsLink" />
         </NamedLink>
-        <NamedLink
+        {/*<NamedLink
           className={classNames(css.navigationLink, currentPageClass('TeambuildingPage'))}
           name="TeambuildingPage"
         >
           <FormattedMessage id="TopbarDesktop.team" />
-        </NamedLink>
+      </NamedLink>*/}
         <div className={css.spacer} />
       </div>
       {userRole === 'provider' && (
