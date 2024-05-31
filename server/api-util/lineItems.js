@@ -20,6 +20,7 @@ const { Money } = types;
  */
 const getItemQuantityAndLineItems = (orderData, publicData, currency) => {
   // Check delivery method and shipping prices
+
   const quantity = orderData ? orderData.stockReservationQuantity : null;
   const deliveryMethod = orderData && orderData.deliveryMethod;
   const isShipping = deliveryMethod === 'shipping';
@@ -148,6 +149,7 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
   const publicData = listing.attributes.publicData;
   const unitPrice = listing.attributes.price;
   const currency = unitPrice.currency;
+  const listingType = publicData.listingType;
 
   /**
    * Pricing starts with order's base price:
@@ -222,10 +224,10 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
     includeFor: ['customer', 'provider'],
   };
   const estimatedTotal = order?.unitPrice.amount * order?.seats;
-  const voucherFeePrice = orderData.voucherFee.amount_off
-    ? resolveVoucherFeePrice(orderData.voucherFee.amount_off)
-    : orderData.voucherFee.percent_off
-    ? resolveVoucherFeeDiscount(orderData.voucherFee.percent_off, estimatedTotal)
+  const voucherFeePrice = orderData?.voucherFee.amount_off
+    ? resolveVoucherFeePrice(orderData?.voucherFee.amount_off)
+    : orderData?.voucherFee.percent_off
+    ? resolveVoucherFeeDiscount(orderData?.voucherFee.percent_off, estimatedTotal)
     : null;
 
   const voucherFee = voucherFeePrice
@@ -249,13 +251,17 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
 
   // Provider commission reduces the amount of money that is paid out to provider.
   // Therefore, the provider commission line-item should have negative effect to the payout total.
-  const getNegation = (percentage, voucherFeePrice, total) => {
+  const getNegation = (percentage, voucherFeePrice, total, listingType) => {
     const result = adjustedCommission(voucherFeePrice, total);
     let percentageAdjusted = result > 0 ? percentage - result : percentage;
     if (percentageAdjusted > 10) {
       percentageAdjusted = 10;
     } else if (percentageAdjusted < 0) {
       percentageAdjusted = 0;
+    } 
+    
+    if ( listingType === 'store'){
+      percentageAdjusted = 50;
     }
     return -1 * percentageAdjusted;
   };
@@ -274,7 +280,8 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
           percentage: getNegation(
             providerCommission.percentage,
             voucherFeePrice?.amount,
-            estimatedTotal
+            estimatedTotal,
+            listingType 
           ),
           includeFor: ['provider'],
         },
@@ -293,7 +300,7 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
           includeFor: ['customer'],
         },
       ]
-    : [];
+    : []; 
 
   // Let's keep the base price (order) as first line item and provider and customer commissions as last.
   // Note: the order matters only if OrderBreakdown component doesn't recognize line-item.
