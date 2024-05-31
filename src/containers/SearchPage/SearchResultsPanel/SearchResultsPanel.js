@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { propTypes } from '../../../util/types';
 import { ListingCard, PaginationLinks } from '../../../components';
-
+import EventForm from '../../../components/EventForm/EventForm';
 import css from './SearchResultsPanel.module.css';
 
 const SearchResultsPanel = props => {
@@ -86,7 +86,7 @@ const SearchResultsPanel = props => {
                   isTeamBuilding={l.attributes.publicData.listingType}
                 />
               ))}
-
+        {isTeamBuilding? <EventForm/>:null}
         {props.children}
       </div>
       {paginationLinks}
