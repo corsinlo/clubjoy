@@ -567,11 +567,11 @@ class StripePaymentForm extends Component {
               />
             ) : (
               <React.Fragment>
-                {!isVerified && popUpShop !=='store'(
+                {/*!isVerified && popUpShop !=='store'(
                   <span style={{ color: 'red' }}>
                     {intl.formatMessage({ id: 'StripePaymentForm.VerifyEmail' })}
                   </span>
-                )}
+                )*/}
                 <Heading as="h3" rootClassName={css.heading}>
                   <FormattedMessage
                     id="StripePaymentForm.paymentHeading"
