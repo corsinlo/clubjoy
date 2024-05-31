@@ -567,7 +567,7 @@ class StripePaymentForm extends Component {
               />
             ) : (
               <React.Fragment>
-                {!isVerified && (
+                {!isVerified && popUpShop !=='store'(
                   <span style={{ color: 'red' }}>
                     {intl.formatMessage({ id: 'StripePaymentForm.VerifyEmail' })}
                   </span>
