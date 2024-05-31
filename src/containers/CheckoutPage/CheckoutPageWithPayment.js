@@ -339,7 +339,8 @@ export const CheckoutPageWithPayment = props => {
   const listingNotFound =
     isTransactionInitiateListingNotFoundError(speculateTransactionError) ||
     isTransactionInitiateListingNotFoundError(initiateOrderError);
-
+  const isTeamBuilding = pageData?.listing?.attributes?.publicData?.listingType === 'teambuilding';
+  const popUpShop = pageData?.listing?.attributes?.publicData?.listingType
   const { listing, transaction, orderData } = pageData;
   const existingTransaction = ensureTransaction(transaction);
   const speculatedTransaction = ensureTransaction(speculatedTransactionMaybe, {}, null);
@@ -418,6 +419,7 @@ export const CheckoutPageWithPayment = props => {
     ? `${currentUser.attributes.profile.firstName} ${currentUser.attributes.profile.lastName}`
     : null;
 
+  const isVerified = currentUser.attributes?.emailVerified;
   // If paymentIntent status is not waiting user action,
   // confirmCardPayment has been called previously.
   const hasPaymentIntentUserActionsDone =
@@ -498,6 +500,9 @@ export const CheckoutPageWithPayment = props => {
                 marketplaceName={config.marketplaceName}
                 isBooking={isBookingProcessAlias(transactionProcessAlias)}
                 isFuzzyLocation={config.maps.fuzzy.enabled}
+                isTeamBuilding={isTeamBuilding}
+                isVerified={isVerified}
+                popUpShop={popUpShop}
               />
             ) : null}
           </section>

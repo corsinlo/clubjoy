@@ -13,7 +13,6 @@ import SectionBuilder from './SectionBuilder/SectionBuilder.js';
 import StaticPage from './StaticPage.js';
 
 import css from './PageBuilder.module.css';
-import WhatsappIcon from '../../components/SocialBar/Icons/whatsapp.js';
 
 const getMetadata = (meta, schemaType, fieldOptions) => {
   const { pageTitle, pageDescription, socialSharing } = meta;
@@ -102,6 +101,7 @@ const PageBuilder = props => {
     return fallbackPage;
   }
   const isAbout = pageId === 'about';
+  const isTeamBuilding = pageId === 'teambuilding';
   // Page asset contains UI info and metadata related to it.
   // - "sections" (data that goes inside <body>)
   // - "meta" (which is data that goes inside <head>)
@@ -168,6 +168,15 @@ const PageBuilder = props => {
                             <SectionBuilder sections={sections} options={options} />
                             <Newsletter />
                           </>
+                        ) : isTeamBuilding ? (
+                          <>
+                            <LandingSearchBarContainer
+                              onSearchSubmit={handleSearchSubmit}
+                              isTeamBuilding={isTeamBuilding}
+                            />
+                            <SectionBuilder sections={sections} options={options} />
+                            <Newsletter />
+                          </>
                         ) : (
                           <SectionBuilder sections={sections} options={options} />
                         )}
@@ -176,7 +185,6 @@ const PageBuilder = props => {
                   </>
                 )}
               </Main>
-              <WhatsappIcon className={css.customClass} />
               <Footer>
                 <FooterContainer />
               </Footer>

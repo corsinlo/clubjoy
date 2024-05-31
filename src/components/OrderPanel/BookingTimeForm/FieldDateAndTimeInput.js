@@ -247,7 +247,6 @@ class FieldDateAndTimeInput extends Component {
     super(props);
     this.state = {
       currentMonth: getStartOf(TODAY, 'month', props.timeZone),
-      voucherCode: '',
       validSeatsInput: false,
     };
 
@@ -263,27 +262,6 @@ class FieldDateAndTimeInput extends Component {
     const isValid = /[a-zA-Z]+/.test(value); // Checks if there are any letters
     this.setState({ validSeatsInput: isValid });
     this.props.onSeatsInputValidChange(isValid); // Propagate to parent
-  };
-
-  handleVoucherChange = event => {
-    this.setState({ voucherCode: event.target.value });
-  };
-
-  handleVoucherSubmit = () => {
-    const requestBody = {
-      code: this.state.voucherCode,
-    };
-    checkCoupon(requestBody)
-      .then(response => {
-        this.props.form.batch(() => {
-          this.props.form.change('voucherFee', response);
-        });
-        this.setState({ voucherCode: '' });
-      })
-      .catch(error => {
-        console.error('Error checking voucher:', error);
-        this.setState({ voucherCode: '' });
-      });
   };
 
   fetchMonthData(date) {
@@ -446,9 +424,9 @@ class FieldDateAndTimeInput extends Component {
       formId,
       startDateInputProps,
       // endDateInputProps,
-      voucher,
       values,
       monthlyTimeSlots,
+      publicData,
       timeZone,
       intl,
       dayCountAvailableForBooking,
@@ -524,62 +502,49 @@ class FieldDateAndTimeInput extends Component {
       // No need to handle error
     }
 
+    const isSeatDisabled = seatNumber => {
+      const isSpecialListing =
+        this.props.listingId &&
+        this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+        seatNumber % 2 !== 0;
+      const minSeats = parseInt(publicData.min);
+      const isBelowMinimum = minSeats && seatNumber < minSeats;
+
+      return isSpecialListing || isBelowMinimum;
+    };
+
     const seatsArray = Array(selectedTimeSlot?.attributes.seats)
       .fill()
       .map((_, i) => i + 1);
     //65fc542d-96ee-422d-b0e6-0075f9a1c683
-    const seatsSelectionMaybe =
-      seatsArray?.length > 1 ? (
-        <div className={css.fieldTextInput}>
-          {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
-          <FieldSelect
-            className={css.fieldSelect}
-            onChange={value => {
-              form.batch(() => {
-                form.change('guestNames', []);
-                if (value > 0)
-                  for (let index = 0; index < value; index++)
-                    form.mutators.push(`guestNames[${index}]`, '');
-              });
-            }}
-            name="seats"
-            id="seats"
-            label={seatsLabel}
-          >
-            {seatsArray.map(s => (
-              <option
-                value={s}
-                key={s}
-                disabled={
-                  this.props.listingId &&
-                  this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                  s % 2 !== 0
-                }
-              >
-                {s}
-              </option>
-            ))}
-          </FieldSelect>
-        </div>
-      ) : null;
+    const visibleSeats = seatsArray.filter(seat => !isSeatDisabled(seat));
 
-    const voucherInsertion = (
-      <div className={css.fieldTextInput}>
-        <div className={css.priceBreakdownContainer}>
-          <p>{intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}</p>
-          <hr className={css.totalDivider} />
-          <input
-            type="text"
-            placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
-            value={this.state.voucherCode} // Make sure voucherCode is passed as value
-            onChange={this.handleVoucherChange}
-          />
-          <PrimaryButton type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
-            {intl.formatMessage({ id: 'BookingTimeForm.coupon.button' })}
-          </PrimaryButton>
-        </div>
-      </div>
-    );
+const seatsSelectionMaybe =
+  visibleSeats.length > 1 ? (
+    <FieldSelect
+      className={css.fieldDateInput}
+      onChange={value => {
+        form.batch(() => {
+          form.change('guestNames', []);
+          if (value > 0)
+            for (let index = 0; index < value; index++)
+              form.mutators.push(`guestNames[${index}]`, '');
+        });
+      }}
+      name="seats"
+      id="seats"
+      label={intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
+    >
+      <option value="" key="default">
+        {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })}
+      </option>
+      {visibleSeats.map(s => (
+        <option value={s} key={s}>
+          {s}
+        </option>
+      ))}
+    </FieldSelect>
+  ) : null;
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
@@ -647,7 +612,7 @@ class FieldDateAndTimeInput extends Component {
             </FieldSelect>
           </div>
 
-          <div className={bookingStartDate ? css.lineBetween : css.lineBetweenDisabled}>-</div>
+          <div className={bookingStartDate ? css.lineBetween : css.lineBetweenDisabled}> </div>
 
           <div className={css.field}>
             <FieldSelect
@@ -670,59 +635,95 @@ class FieldDateAndTimeInput extends Component {
             </FieldSelect>
           </div>
         </div>
+        <div className={css.formRow}>
         {seatsSelectionMaybe}
-
+        </div>
         {!!seatsSelectionMaybe && (
-          <>
-            <FieldArray name="guestNames" className={css.fieldSelect}>
-              {({ fields }) =>
-                fields.map((name, index) => {
-                  const isOddNumber = (index + 1) % 2 !== 0;
+  <FieldArray name="guestNames" className={css.fieldSelect}>
+    {({ fields }) => {
+      // If the listing type is 'teambuilding', only render one FieldTextInput
+      if (this.props.publicData?.listingType === 'teambuilding') {
+        return (
+          <FieldTextInput
+            id="teamName"
+            name="guestNames[0]" // Ensure it's part of the guestNames array
+            key={0}
+            className={css.fieldDateInput}
+            type="text"
+            label={intl.formatMessage(
+              {
+                id: 'FieldDateAndTimeInput.teamNameLabel',
+              },
+              { number: 1 }
+            )}
+            placeholder={intl.formatMessage(
+              {
+                id: 'FieldDateAndTimeInput.teamNamePlaceholder',
+              },
+              { number: 1 }
+            )}
+            validate={validators.required(
+              intl.formatMessage({
+                id: 'FieldDateAndTimeInput.requiredGuestName',
+              })
+            )}
+          />
+        );
+      }
 
-                  return (
-                    <FieldTextInput
-                      id={name}
-                      name={name}
-                      key={index}
-                      className={css.fieldTextInput}
-                      //onChange={event => this.validateSeatsInput(event.target.value)}
-                      type="text"
-                      label={
-                        this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                        isOddNumber
-                          ? intl.formatMessage(
-                              { id: 'FieldDateAndTimeInput.coupleGuestNameLabel' },
-                              { number: index + 1 }
-                            )
-                          : intl.formatMessage(
-                              { id: 'FieldDateAndTimeInput.guestNameLabel' },
-                              { number: index + 1 }
-                            )
-                      }
-                      placeholder={intl.formatMessage(
-                        {
-                          id: 'FieldDateAndTimeInput.guestNamePlaceholder',
-                        },
-                        { number: index + 1 }
-                      )}
-                      validate={validators.required(
-                        intl.formatMessage({
-                          id: 'FieldDateAndTimeInput.requiredGuestName',
-                        })
-                      )}
-                      disabled={
-                        this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-                        isOddNumber
-                      }
-                    />
-                  );
-                })
-              }
-            </FieldArray>
+      // Otherwise, use the existing logic for rendering the fields
+      return fields.map((name, index) => {
+        const isOddNumber = (index + 1) % 2 !== 0;
 
-            {voucherInsertion}
-          </>
-        )}
+        if (
+          (this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+            isOddNumber &&
+            index !== 0) ||
+          (this.props.publicData &&
+            this.props.publicData.listingType === 'teambuilding' &&
+            isOddNumber &&
+            index !== 0)
+        ) {
+          return null; // Skip rendering for all odd-numbered indexes except the first one
+        }
+
+        return (
+          <FieldTextInput
+            id={name}
+            name={name}
+            key={index}
+            className={css.fieldDateInput}
+            type="text"
+            label={intl.formatMessage(
+              {
+                id:
+                  this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                    ? 'FieldDateAndTimeInput.coupleNameLabel'
+                    : 'FieldDateAndTimeInput.guestNameLabel',
+              },
+              { number: index + 1 }
+            )}
+            placeholder={intl.formatMessage(
+              {
+                id:
+                  this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                    ? 'FieldDateAndTimeInput.coupleNamePlaceholder'
+                    : 'FieldDateAndTimeInput.guestNamePlaceholder',
+              },
+              { number: index + 1 }
+            )}
+            validate={validators.required(
+              intl.formatMessage({
+                id: 'FieldDateAndTimeInput.requiredGuestName',
+              })
+            )}
+          />
+        );
+      });
+    }}
+  </FieldArray>
+)}
+
       </div>
     );
   }

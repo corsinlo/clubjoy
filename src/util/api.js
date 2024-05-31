@@ -147,8 +147,12 @@ export const createUserWithIdp = body => {
 
 // Create user uncaptured charge for coupon for the provider
 // See `server/api/stripe.js` to see what data should
-export const createCouponCharge = body => {
-  return post('/api/stripe/create-coupon', body);
+export const createInvoice = body => {
+  return post('/api/stripe/invoice', body);
+};
+
+export const createRefund = body => {
+  return post('/api/stripe/refund', body);
 };
 
 // Check the validity of a coupon code

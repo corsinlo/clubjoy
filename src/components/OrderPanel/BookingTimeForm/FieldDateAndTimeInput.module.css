@@ -55,6 +55,7 @@
 
 .fieldDateInput {
   flex-grow: 1;
+  margin-top: 10px;
 }
 
 .fieldTextInput {
@@ -175,3 +176,17 @@ Remember to do required code changes also in FieldDateAndTimeInput.js!
 /**
 CSS for hiding the end date above
 **/
+
+
+.orderBreakdownTitle {
+  color: var(--colorGrey700);
+}
+
+.totalDivider {
+  color: var(--colorGrey100);
+}
+
+.voucherTitleBox{
+  font-size: 13px;
+  font-weight: 600;
+}

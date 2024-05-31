@@ -52,6 +52,7 @@ const submit = (onSubmit, weekdays) => values => {
  */
 const EditListingAvailabilityPlanFormComponent = props => {
   const { onSubmit, ...restOfprops } = props;
+
   return (
     <FinalForm
       {...restOfprops}
@@ -115,6 +116,7 @@ const EditListingAvailabilityPlanFormComponent = props => {
                     values={values}
                     formApi={formApi}
                     intl={intl}
+                    isTeamBuilding={props.isTeamBuilding}
                   />
                 );
               })}

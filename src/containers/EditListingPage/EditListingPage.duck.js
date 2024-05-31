@@ -23,6 +23,7 @@ import {
   fetchStripeAccount,
 } from '../../ducks/stripeConnectAccount.duck';
 import { fetchCurrentUser } from '../../ducks/user.duck';
+import { values } from 'lodash';
 
 const { UUID } = sdkTypes;
 
@@ -639,15 +640,21 @@ export function requestCreateListingDraft(data, config) {
 export function requestUpdateListing(tab, data, config) {
   return (dispatch, getState, sdk) => {
     dispatch(updateListingRequest(data));
-    const { id, stockUpdate, images, ...rest } = data;
-
+    const { id, stockUpdate, images, min, max, ...rest } = data;
+    const existingPublicData = getState().marketplaceData.entities.ownListing[id.uuid]?.attributes
+      .publicData;
+    const updatedPublicData = {
+      ...existingPublicData, // Spread existing data to maintain other properties
+      ...(min !== undefined && { min: min }),
+      ...(max !== undefined && { max: max }),
+    };
     // If images should be saved, create array out of the image UUIDs for the API call
     const imageProperty = typeof images !== 'undefined' ? { images: imageIds(images) } : {};
-    const ownListingUpdateValues = { id, ...imageProperty, ...rest };
+    const ownListingUpdateValues = { id, ...imageProperty, publicData: updatedPublicData, ...rest };
     const imageVariantInfo = getImageVariantInfo(config.layout.listingImage);
     const queryParams = {
       expand: true,
-      include: ['author', 'images', 'currentStock'],
+      include: ['author', 'images', 'currentStock', 'publicData'],
       'fields.image': imageVariantInfo.fieldsImage,
       ...imageVariantInfo.imageVariants,
     };

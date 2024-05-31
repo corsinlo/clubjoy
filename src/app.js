@@ -18,7 +18,7 @@ import CookieConsent from 'react-cookie-consent';
 import defaultConfig from './config/configDefault';
 import appSettings from './config/settings';
 import configureStore from './store';
-
+import WhatsappIcon from './components/SocialBar/Icons/whatsapp';
 // utils
 import { RouteConfigurationProvider } from './context/routeConfigurationContext';
 import { ConfigurationProvider } from './context/configurationContext';
@@ -261,6 +261,29 @@ export const ClientApp = props => {
           <HelmetProvider>
             <IncludeScripts config={appConfig} />
             <BrowserRouter>
+              <style>
+                {`
+                .customClass {
+                  position: fixed;
+                  bottom: 80px;
+                  right: 5px;
+                  height: 50px;
+                  width: 80px;
+                  color: #012FA7;
+                  cursor: pointer;
+                  z-index: 1000;
+                  flex-direction: row;
+                  margin: 2px;
+                }
+
+                @media screen and (max-width: 768px) {
+                  .customClass {
+                    bottom: 10px;
+                  }
+                }
+              `}
+              </style>
+              <WhatsappIcon className="customClass" />
               <CookieConsent
                 enableDeclineButton
                 location="bottom"
@@ -271,9 +294,11 @@ export const ClientApp = props => {
                 buttonStyle={{ background: 'green', color: 'white', fontSize: '13px' }} // Accept button style
                 declineButtonStyle={{ background: 'red', color: 'white', fontSize: '13px' }} // Decline button style
                 expires={150} // Duration in days before the cookie expires
+                /*
                 onAccept={() => {
                   alert("Hai accettato l'utilizzo dei cookie."); // Alert or function for when cookies are accepted
                 }}
+                */
                 onDecline={() => {
                   alert("Hai rifiutato l'utilizzo dei cookie non essenziali."); // Alert or function for when cookies are declined
                 }}

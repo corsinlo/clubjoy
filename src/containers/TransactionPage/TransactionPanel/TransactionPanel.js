@@ -23,6 +23,7 @@ import BookingLocationMaybe from './BookingLocationMaybe';
 import InquiryMessageMaybe from './InquiryMessageMaybe';
 import FeedSection from './FeedSection';
 import ActionButtonsMaybe from './ActionButtonsMaybe';
+import TeamButtonsMaybe from './TeamButtonsMaybe';
 import DiminishedActionButtonMaybe from './DiminishedActionButtonMaybe';
 import PanelHeading from './PanelHeading';
 
@@ -142,7 +143,9 @@ export class TransactionPanelComponent extends Component {
       orderPanel,
       customerObj,
       config,
+      transactionId,
     } = this.props;
+
 
     const isCustomer = transactionRole === 'customer';
     const isProvider = transactionRole === 'provider';
@@ -151,7 +154,7 @@ export class TransactionPanelComponent extends Component {
     const isCustomerDeleted = !!customer?.attributes?.deleted;
     const isProviderBanned = !!provider?.attributes?.banned;
     const isProviderDeleted = !!provider?.attributes?.deleted;
-
+    const providerEmail = isProvider ? currentUser.attributes?.email : null;
     const { authorDisplayName, customerDisplayName, otherUserDisplayNameString } = displayNames(
       currentUser,
       provider,
@@ -165,6 +168,19 @@ export class TransactionPanelComponent extends Component {
 
     const listingTitle = listingDeleted ? deletedListingTitle : listing?.attributes?.title;
     const firstImage = listing?.images?.length > 0 ? listing?.images[0] : null;
+    const listingType = listing?.attributes?.publicData?.listingType;
+    const tId= transactionId?.uuid
+    const start= orderBreakdown?.props?.booking?.attributes?.start
+
+    const bookingState= stateData.processState
+    const bookingRequestDate =this.props?.activityFeed?.props?.transaction?.attributes?.transitions?.find(t => t.transition === "transition/accept")?.createdAt || null;
+
+    const updatedCustomerObj = { ...customerObj, providerEmail };
+
+    const teamButtons = (
+    <TeamButtonsMaybe
+    />
+    );
 
     const actionButtons = (
       <ActionButtonsMaybe
@@ -173,11 +189,10 @@ export class TransactionPanelComponent extends Component {
         secondaryButtonProps={stateData?.secondaryButtonProps}
         isListingDeleted={listingDeleted}
         isProvider={isProvider}
-        customerObj={customerObj}
+        customerObj={updatedCustomerObj}
       />
     );
 
-    const listingType = listing?.attributes?.publicData?.listingType;
     const listingTypeConfigs = config.listing.listingTypes;
     const listingTypeConfig = listingTypeConfigs.find(conf => conf.listingType === listingType);
     const showPrice = isInquiryProcess && displayPrice(listingTypeConfig);
@@ -282,6 +297,7 @@ export class TransactionPanelComponent extends Component {
               activityFeed={activityFeed}
               isConversation={isInquiryProcess}
             />
+   
             {showSendMessageForm ? (
               <SendMessageForm
                 formId={this.sendMessageFormName}
@@ -301,7 +317,6 @@ export class TransactionPanelComponent extends Component {
                 <FormattedMessage id="TransactionPanel.sendingMessageNotAllowed" />
               </div>
             )}
-
             {stateData.showActionButtons ? (
               <>
                 <div className={css.mobileActionButtonSpacer}></div>
@@ -346,7 +361,13 @@ export class TransactionPanelComponent extends Component {
                   orderBreakdown={orderBreakdown}
                   processName={stateData.processName}
                 />
-
+                {stateData?.processState == 'accepted' & !isProvider & listingType == 'teambuilding'?(
+                  <div className={css.desktopActionButtons}>
+                <TeamButtonsMaybe
+                start={start}
+                     customerObj={customerObj}
+                     transactionId={tId}/>
+                     </div>):null}
                 {stateData.showActionButtons ? (
                   <div className={css.desktopActionButtons}>{actionButtons}</div>
                 ) : null}

@@ -17,11 +17,9 @@ import {
   NamedLink,
 } from '../../../../components';
 
-import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
 import LandingSearchBarForm from '../../../../components/LandingSearchBarContainer/LandingSearchBarForm';
 
 import css from './TopbarDesktop.module.css';
-import SocialBar from '../../../../components/SocialBar/SocialBar';
 
 const TopbarDesktop = props => {
   const {
@@ -74,8 +72,12 @@ const TopbarDesktop = props => {
 
   // Determine if the current page is the landing page based on the pathname
   const isLandingPage = location.pathname === '/';
-
-  const search = !isLandingPage ? <LandingSearchBarForm onSearchSubmit={onSearchSubmit} /> : null; // Only render TopbarSearchForm if not on landing page
+  const isTeamBuilding = location.pathname === '/p/teambuilding';
+  const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
+  const search =
+    !isLandingPage || !isTeamBuilding ? (
+      <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuildingOnTop} />
+    ) : null;
 
   const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
   const inboxLink = authenticatedOnClientSide ? (
@@ -177,13 +179,21 @@ const TopbarDesktop = props => {
 
   const signupBusinessLink = isAuthenticatedOrJustHydrated ? null : (
     <NamedLink name="bSignupPage" className={css.loginLink}>
-      <span className={css.login}>Business</span>
+      <span className={css.login}>{intl.formatMessage({ id: 'TopbarDesktop.provider' })}</span>
     </NamedLink>
   );
 
+  /*
+  const teamBuildingLink = isAuthenticatedOrJustHydrated ? null : (
+    <NamedLink name="TeambuildingPage" className={css.loginLink}>
+      <span className={css.login}>{intl.formatMessage({ id: 'TopbarDesktop.team' })}</span>
+    </NamedLink>
+  );
+  */
+
   return (
     <nav className={classes}>
-      {isLandingPage ? (
+      {isLandingPage || isTeamBuilding ? (
         <>
           <div className={css.leftContent}>
             <LinkedLogo
@@ -194,7 +204,13 @@ const TopbarDesktop = props => {
             />
           </div>
           <div className={css.rightContent}>
-            {search}
+            {/*
+              <NamedLink name="TeambuildingPage" className={css.loginLink}>
+                <span className={css.login}>
+                  {intl.formatMessage({ id: 'TopbarDesktop.team' })}
+                </span>
+            </NamedLink>
+            */}
             {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>
@@ -202,7 +218,6 @@ const TopbarDesktop = props => {
                 </span>
               </NamedLink>
             )}
-            <SocialBar />
             {inboxLink}
             {profileMenu}
             <div className={css.authLinks}>
@@ -224,7 +239,13 @@ const TopbarDesktop = props => {
             {search}
           </div>
           <div className={css.rightContent}>
-            <SocialBar />
+            {
+             /* <NamedLink name="TeambuildingPage" className={css.loginLink}>
+                <span className={css.login}>
+                  {intl.formatMessage({ id: 'TopbarDesktop.team' })}
+                </span>
+            </NamedLink>*/
+            }
             {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
                 <span className={css.createListing}>

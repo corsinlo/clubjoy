@@ -25,7 +25,7 @@ import {
 import landingCoverMobile from '../../../media/landingCoverMobile.jpg';
 import MenuIcon from './MenuIcon';
 import SearchIcon from './SearchIcon';
-import TopbarSearchForm from './TopbarSearchForm/TopbarSearchForm';
+// import TopbarSearchForm from './TopbarSearchForm/TopbarSearchForm';
 import TopbarMobileMenu from './TopbarMobileMenu/TopbarMobileMenu';
 import TopbarDesktop from './TopbarDesktop/TopbarDesktop';
 
@@ -168,6 +168,8 @@ class TopbarComponent extends Component {
       searchParams,
     } = this.props;
 
+    //const isTeamBuilding = this.props.location.pathname === '/p/teambuilding';
+    const isTeamBuildingOnTop = this.props.location.pathname.startsWith('/ts');
     const { mobilemenu, mobilesearch, keywords, address, origin, bounds } = parse(location.search, {
       latlng: ['origin'],
       latlngBounds: ['bounds'],
@@ -280,8 +282,10 @@ class TopbarComponent extends Component {
               alt="Mobile Landing Cover"
               className={css.landingCoverMobil}
             />
-
-            <LandingSearchBarForm onSearchSubmit={this.handleSubmit} />
+            <LandingSearchBarForm
+              onSearchSubmit={this.handleSubmit}
+              isTeamBuilding={isTeamBuildingOnTop}
+            />
 
             <div className={css.socialContainer}>
               <div className={css.socialTitle}>

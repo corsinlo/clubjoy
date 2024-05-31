@@ -64,6 +64,9 @@ const routeConfiguration = (layoutConfig) => {
   const SearchPage = layoutConfig.searchPage?.variantType === 'map' 
     ? SearchPageWithMap 
     : SearchPageWithGrid;
+    const teamSearchPage = layoutConfig.searchPage?.variantType === 'map' 
+    ? SearchPageWithMap 
+    : SearchPageWithGrid;
   const ListingPage = layoutConfig.listingPage?.variantType === 'carousel' 
     ? ListingPageCarousel 
     : ListingPageCoverPhoto;
@@ -82,8 +85,20 @@ const routeConfiguration = (layoutConfig) => {
       loadData: pageDataLoadingAPI.CMSPage.loadData,
     },
     {
+      path: '/p/teambuilding',
+      name: 'TeambuildingPage',
+      component: CMSPage,
+      loadData: pageDataLoadingAPI.CMSPage.loadData,
+    },
+    {
       path: '/s',
       name: 'SearchPage',
+      component: SearchPage,
+      loadData: pageDataLoadingAPI.SearchPage.loadData,
+    },
+    {
+      path: '/ts',
+      name: 'teamSearchPage',
       component: SearchPage,
       loadData: pageDataLoadingAPI.SearchPage.loadData,
     },

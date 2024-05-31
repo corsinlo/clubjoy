@@ -325,6 +325,7 @@ const OrderPanel = props => {
             fetchLineItemsError={fetchLineItemsError}
             payoutDetailsWarning={payoutDetailsWarning}
             author={author}
+            publicData={publicData}
             currentUser={currentUser}
           />
         ) : showBookingDatesForm ? (

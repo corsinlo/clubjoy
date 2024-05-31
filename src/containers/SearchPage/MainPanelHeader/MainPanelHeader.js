@@ -16,11 +16,11 @@ const MainPanelHeader = props => {
     listingsAreLoaded,
     resultsCount,
     searchInProgress,
+    isTeamBuildingOnTop,
     noResultsInfo,
   } = props;
 
   const classes = classNames(rootClassName || css.root, className);
-
   return (
     <div className={classes}>
       <div className={css.searchOptions}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import classNames from 'classnames';
@@ -43,24 +43,21 @@ const ALL_END_HOURS = [...ALL_START_HOURS, '24:00'];
  * @returns localized time format (e.g. '9:00 AM')
  */
 const localizedHourStrings = (hour24, intl) => {
-  console.log(`Input time: ${hour24}`);
   const splitTime = hour24.split(':');
   const hour = Number.parseInt(splitTime[0]);
   const minute = Number.parseInt(splitTime[1]);
-  console.log(`Parsed hour: ${hour}, Parsed minute: ${minute}`);
 
   // We use UTC (Jan 1) to generate hour strings
   const date = new Date(`${new Date().getUTCFullYear()}-01-01T00:00:00.000Z`);
   date.setUTCHours(hour);
   date.setUTCMinutes(minute);
-  console.log(`UTC Date set to: ${date.toISOString()}`);
 
   const formattedHour = intl.formatTime(date, {
     hour: 'numeric',
     minute: 'numeric',
     timeZone: 'Etc/UTC',
   });
-  console.log(`Formatted time: ${formattedHour}`);
+
   return formattedHour;
 };
 
@@ -203,66 +200,118 @@ const TimeRangeSelects = props => {
     entries,
     onRemove,
     intl,
+    isTeamBuilding,
+    formApi,
   } = props;
+  const [minSeat, setMinSeat] = useState('');
+  const [minSeatError, setMinSeatError] = useState(false);
+
+  const handleMinSeatChange = e => {
+    const newValue = e.target.value;
+    setMinSeat(newValue);
+    formApi.change(`min`, newValue);
+
+    const seatsValue = entries[index]?.seats || 0;
+    if (newValue && parseInt(newValue, 10) >= parseInt(seatsValue, 10)) {
+      setMinSeatError(true);
+    } else {
+      setMinSeatError(false);
+    }
+  };
 
   return (
-    <div className={css.fieldWrapper} key={name}>
-      <div className={css.formRow}>
-        <FieldSelect
-          id={`${name}.startTime`}
-          name={`${name}.startTime`}
-          selectClassName={classNames(css.fieldSelect, {
-            [css.notSelected]: !isTimeSetFn('startTime'),
-          })}
-        >
-          <option disabled value="">
-            {intl.formatMessage({
-              id: 'EditListingAvailabilityPlanForm.startTimePlaceholder',
+    <div className={css.timefieldWrapper} key={name}>
+      <div className={css.timeformRow}>
+        <div className={css.formRow}>
+          <FieldSelect
+            id={`${name}.startTime`}
+            name={`${name}.startTime`}
+            selectClassName={classNames(css.fieldSelect, {
+              [css.notSelected]: !isTimeSetFn('startTime'),
             })}
-          </option>
-          {filterStartHours(availableStartHours, entries, index).map(s => (
-            <option value={s} key={s}>
-              {localizedHourStrings(s, intl)}
+          >
+            <option disabled value="">
+              {intl.formatMessage({
+                id: 'EditListingAvailabilityPlanForm.startTimePlaceholder',
+              })}
             </option>
-          ))}
-        </FieldSelect>
-        <span className={css.dashBetweenTimes}>-</span>
-        <FieldSelect
-          id={`${name}.endTime`}
-          name={`${name}.endTime`}
-          selectClassName={classNames(css.fieldSelect, {
-            [css.notSelected]: !isTimeSetFn('endTime'),
-          })}
-        >
-          <option disabled value="">
-            {intl.formatMessage({
-              id: 'EditListingAvailabilityPlanForm.endTimePlaceholder',
+            {filterStartHours(availableStartHours, entries, index).map(s => (
+              <option value={s} key={s}>
+                {localizedHourStrings(s, intl)}
+              </option>
+            ))}
+          </FieldSelect>
+          <span className={css.dashBetweenTimes}>-</span>
+          <FieldSelect
+            id={`${name}.endTime`}
+            name={`${name}.endTime`}
+            selectClassName={classNames(css.fieldSelect, {
+              [css.notSelected]: !isTimeSetFn('endTime'),
             })}
-          </option>
-          {filterEndHours(availableEndHours, entries, index).map(s => (
-            <option value={s} key={s}>
-              {localizedHourStrings(s, intl)}
+          >
+            <option disabled value="">
+              {intl.formatMessage({
+                id: 'EditListingAvailabilityPlanForm.endTimePlaceholder',
+              })}
             </option>
-          ))}
-        </FieldSelect>
-        <span className={css.dashBetweenTimes}>
+            {filterEndHours(availableEndHours, entries, index).map(s => (
+              <option value={s} key={s}>
+                {localizedHourStrings(s, intl)}
+              </option>
+            ))}
+          </FieldSelect>
+          <div className={css.fieldArrayRemove} onClick={onRemove} style={{ cursor: 'pointer' }}>
+            <IconClose rootClassName={css.closeIcon} />
+          </div>
+        </div>
+        <div className={css.timeformRow}>
+          <span className={css.seatsTitle}>
+            {intl.formatMessage({
+              id: 'EditListingAvailabilityPlanForm.seats',
+            })}
+          </span>
+          <div className={css.formRow}>
+            {isTeamBuilding === 'teambuilding' ? (
+              <>
+                <input
+                  id={`${name}.minSeat`}
+                  name={`${name}.minSeat`}
+                  className={css.seatfieldSelect}
+                  type="number"
+                  value={minSeat}
+                  onChange={handleMinSeatChange}
+                  placeholder="Min"
+                  min="0"
+                />
+                <span className={css.dashBetweenTimes}>-</span>
+                <FieldTextInput
+                  id={`${name}.seats`}
+                  name={`${name}.seats`}
+                  className={css.seatfieldSelect}
+                  type="number"
+                  min={minSeat || '1'}
+                  disabled={!minSeat}
+                />
+              </>
+            ) : (
+              <>
+                <FieldTextInput
+                  id={`${name}.seats`}
+                  name={`${name}.seats`}
+                  className={css.seatfieldSelect}
+                  type="number"
+                  min="1"
+                />
+              </>
+            )}
+          </div>
           {intl.formatMessage({
-            id: 'EditListingAvailabilityPlanForm.seats',
+            id: 'EditListingAvailabilityPlanForm.minSeatMessage',
           })}
-        </span>
-        <FieldTextInput
-          id={`${name}.seats`}
-          name={`${name}.seats`}
-          className={css.seatfieldSelect}
-          type="number"
-          min="1"
-        />
+        </div>
         <div className={classNames(css.plus1Day, { [css.showPlus1Day]: isNextDay })}>
           <FormattedMessage id="EditListingAvailabilityPlanForm.plus1Day" />
         </div>
-      </div>
-      <div className={css.fieldArrayRemove} onClick={onRemove} style={{ cursor: 'pointer' }}>
-        <IconClose rootClassName={css.closeIcon} />
       </div>
     </div>
   );
@@ -311,6 +360,7 @@ const AvailabilityPlanEntries = props => {
   const getEntryEndTimes = getEntryBoundaries(entries, intl, false);
 
   const checkboxName = `checkbox_${dayOfWeek}`;
+
   return (
     <div className={classNames(css.weekDay, hasEntries ? css.hasEntries : null)}>
       <div className={css.dayToggle}></div>
@@ -407,6 +457,8 @@ const AvailabilityPlanEntries = props => {
                         }
                       }}
                       intl={intl}
+                      isTeamBuilding={props.isTeamBuilding}
+                      formApi={formApi}
                     />
                   );
                 })}

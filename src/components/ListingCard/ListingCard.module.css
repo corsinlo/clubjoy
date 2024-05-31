@@ -47,6 +47,10 @@
   margin-bottom: 4px;
 }
 
+.priceContainer{
+  display: flex;
+}
+
 .priceValue {
   /* Font */
   composes: textSmall from global;
@@ -120,4 +124,12 @@
   /* use break-word if available */
   word-break: break-word;
   hyphens: auto;
+}
+
+.teamBuilding {
+  display: flex;
+  align-items: center; /* Center the items vertically */
+  margin-left: auto; /* Push to the end of the flex container */
+  padding-left: 10px; /* Spacing from the price or previous element */
+  margin-top: -12px; /* Adjust the vertical alignment */
 }
