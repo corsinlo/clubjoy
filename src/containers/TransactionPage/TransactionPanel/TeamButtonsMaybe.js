@@ -44,7 +44,9 @@ const TeamButtonsMaybe = props => {
         <SecondaryButton disabled={isWithinFiveDays} onClick={handleSecondaryButtonClick}>
           {intl.formatMessage({ id: 'TeamButtons.button.cancel' })}
         </SecondaryButton>
+        <div className={css.cancellationPolicy}>{intl.formatMessage({ id: 'TeamButton.cancelPolicy' })}</div>
       </div>
+      
     </div>
   );
 };
