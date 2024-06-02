@@ -111,7 +111,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
       {/* Wrap intro texts and form in a div with higher z-index */}
       <div style={{ position: 'relative', zIndex: 2 }}>
         {!isTeamBuilding ? (
-          <>
+          <div className={css.container}>
             <div className={css.introText}>Di creativo ti rimane solo il parcheggio?</div>
             <div className={css.introText2}>
               Dal corso di ceramica alla lezione di pittura, su Club Joy{isMobile && <br />}
@@ -120,9 +120,9 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               {isMobile && <br />}
               {isMobile && <br />}Il tuo nuovo hobby preferito è a distanza di un click
             </div>
-          </>
+            </div>
         ) : (
-          <>
+          <div className={css.container}>
             <div className={css.introText}>Ancora a fare gli Happy Hour Aziendali?</div>
             <div className={css.introText2}>
               Su Club Joy {isMobile && <br />}
@@ -131,7 +131,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               {!isMobile && <br />}
               {isMobile && <br />}
             </div>
-          </>
+            </div>
         )}
         <div className={css.barContainer}>
           <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding} />

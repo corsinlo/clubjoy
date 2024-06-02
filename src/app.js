@@ -287,13 +287,13 @@ export const ClientApp = props => {
               <CookieConsent
                 enableDeclineButton
                 location="bottom"
-                buttonText="Accetto" // "I accept" in Italian
-                declineButtonText="Rifiuto" // "I refuse" in Italian
+                buttonText="Accetto" 
+                declineButtonText="Rifiuto" 
                 cookieName="userCookieConsent"
-                style={{ background: '#012FA7', color: 'white' }} // Banner background and text color
-                buttonStyle={{ background: 'green', color: 'white', fontSize: '13px' }} // Accept button style
-                declineButtonStyle={{ background: 'red', color: 'white', fontSize: '13px' }} // Decline button style
-                expires={150} // Duration in days before the cookie expires
+                style={{ background: '#FCFCFC', color: 'black' }} 
+                buttonStyle={{ background: '#012FA7', color: 'white', fontSize: '13px' }} 
+                declineButtonStyle={{ background: '#ED514A', color: 'white', fontSize: '13px' }} 
+                expires={150} 
                 /*
                 onAccept={() => {
                   alert("Hai accettato l'utilizzo dei cookie."); // Alert or function for when cookies are accepted
