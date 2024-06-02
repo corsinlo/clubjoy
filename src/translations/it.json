@@ -987,7 +987,7 @@
     "StripePayoutPage.submitButtonText": "Salva dettagli",
     "StripePayoutPage.title": "Dettagli del pagamento",
     "TeamButtons.button.cancel":"Cancella Prenotazione*",
-    "TeamButton.cancelPolicy":"*No stress - cancellazione gratuita fino a 5 giorni dall’evento",
+    "TeamButton.cancelPolicy":"*No stress - cancellazione gratuita fino a 5 giorni dall’evento. Provider fornirà fattura quando il periodo di cancellazione sarà terminato che potrai scaricare qui.",
     "TeamButtons.button.receipt":"Rechiedi Fattura",
     "Topbar.genericError": "Oh no, qualcosa è andato storto. Si prega di controllare la connessione di rete e riprovare.",
     "Topbar.logoIcon": "Vai alla homepage",

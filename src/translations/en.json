@@ -995,7 +995,7 @@
   "StripePayoutPage.submitButtonText": "Save details",
   "StripePayoutPage.title": "Payout details",
   "TeamButtons.button.cancel":"Cancel Booking*",
-  "TeamButton.cancelPolicy":"*No stress - Free cancellation up to 5 days before the booking starts.",
+  "TeamButton.cancelPolicy":"*No stress - Free cancellation up to 5 days before the booking starts. Provider will upload invoice once cancellation period ends, which you'll be able to download here.",
   "TeamButtons.button.receipt":"Request Invoice",
   "Topbar.genericError": "Oh no, something went wrong. Please check your network connection and try again.",
   "Topbar.logoIcon": "Go to homepage",

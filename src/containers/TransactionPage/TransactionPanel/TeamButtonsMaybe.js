@@ -40,9 +40,8 @@ const TeamButtonsMaybe = props => {
     setShowPopUp(false);
   };
 
-  const handleConfirmRefund = () => {
-    createRefund({ customerObj, transactionId });
-    setShowPopUp(false);
+  const handleConfirmRefund = (selectedOption) => {
+    createRefund({ customerObj, transactionId, selectedOption });
   };
 
   const classes = classNames(rootClassName || css.actionButtons, className);
