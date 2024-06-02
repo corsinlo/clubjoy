@@ -342,22 +342,22 @@ width:40vw;
 
   .button {
     display: flex;
-    font-size: 20px;
+    font-size: 16px;
     align-content: center;
     justify-content: center;
     position: absolute; 
     right: -35px; 
     top: 50%; 
     transform: translateY(-50%); 
-    padding: 10px 20px; 
+    padding: 18px 20px; 
     background-color: #012FA7; 
     color: white; 
     border: none; 
     border-radius: 40px !important;
-    height: 60px;
+    height: 65px;
     max-width: 100px;
     width: 100px;
-    padding: 20px;
+
     cursor: pointer; 
   }
 
@@ -373,7 +373,7 @@ width:40vw;
     font-weight: lighter;
     font-family: var(--fontFamily);
     color: #b0b0b5 !important;
-    background-color: #fff;
+    background-color: transparent;
     border: 1px solid #ccc;
     
 
