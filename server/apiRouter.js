@@ -20,7 +20,7 @@ const moment = require('moment');
 const createUserWithIdp = require('./api/auth/createUserWithIdp');
 const invoice = require('./api/stripe/invoice');
 const coupon = require('./api/stripe/coupon');
-
+const refund = require('./api/stripe/refund');
 const { authenticateFacebook, authenticateFacebookCallback } = require('./api/auth/facebook');
 const { authenticateGoogle, authenticateGoogleCallback } = require('./api/auth/google');
 
@@ -59,7 +59,7 @@ router.post('/initiate-privileged', initiatePrivileged);
 router.post('/transition-privileged', transitionPrivileged);
 router.post('/stripe/coupon', coupon);
 router.post('/stripe/invoice', invoice);
-
+router.post('/stripe/refund', refund);
 // Create user with identity provider (e.g. Facebook or Google)
 // This endpoint is called to create a new user after user has confirmed
 // they want to continue with the data fetched from IdP (e.g. name and email)

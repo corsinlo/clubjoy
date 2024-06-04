@@ -79,6 +79,7 @@ const SignupFormComponent = props => (
       const submitDisabled = invalid || submitInProgress;
 
       // newsletter
+      /*
       const newsletterBox = (
         <FieldCheckboxGroup
       name="newsletter"
@@ -94,7 +95,7 @@ const SignupFormComponent = props => (
       ]}
     />
       );
-
+    */
       return (
         <Form className={classes} onSubmit={handleSubmit}>
           <div>
