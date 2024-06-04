@@ -204,7 +204,7 @@ router.post('/add-contact', (req, res) => {
   if (isNewsletter) {
     createContact.listIds = [4];
   } else {
-    createContact.listIds = [4, 5];
+    createContact.listIds = [4, 7];
   }
 
   createContact.attributes = { FIRSTNAME: firstName, LASTNAME: lastName };

@@ -188,7 +188,7 @@ export const AuthenticationForms = props => {
 
   const handleSubmitSignup = async values => {
     const role = tab === 'bsignup' ? 'provider' : 'customer';
-    const { fname: firstName, lname: lastName, ...rest } = values;
+    const { fname: firstName, lname: lastName, iNL:isNewsletter, ...rest } = values;
     const params = { firstName, lastName, ...rest, role };
 
     try {
@@ -196,7 +196,7 @@ export const AuthenticationForms = props => {
         email: values.email,
         firstName: values.fname,
         lastName: values.lname,
-        isNewsLetter: false,
+        isNewsLetter: values.iNL ?? false ,
       };
 
       const { data, error } = await supabase

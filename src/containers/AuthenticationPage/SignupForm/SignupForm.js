@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { Form as FinalForm } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import classNames from 'classnames';
-
+import { Checkbox } from '../../../components/FieldCheckbox/FieldCheckbox.example';
 import { FormattedMessage, injectIntl, intlShape } from '../../../util/reactIntl';
 import * as validators from '../../../util/validators';
 import { Form, PrimaryButton, FieldTextInput } from '../../../components';
@@ -78,6 +78,23 @@ const SignupFormComponent = props => (
       const submitInProgress = inProgress;
       const submitDisabled = invalid || submitInProgress;
 
+      // newsletter
+      const newsletterBox = (
+        <FieldCheckboxGroup
+      name="newsletter"
+      id="newsletter-accepted"
+      optionLabelClassName={css.finePrint}
+      options={[
+        {
+          key: '', //DO NOT ADD TO NEWSLETTER
+          label: intl.formatMessage(
+            { id: 'AuthenticationPage.NewsLetter' }
+          ),
+        },
+      ]}
+    />
+      );
+
       return (
         <Form className={classes} onSubmit={handleSubmit}>
           <div>
@@ -150,6 +167,7 @@ const SignupFormComponent = props => (
 
           <div className={css.bottomWrapper}>
             {termsAndConditions}
+            {/*newsletterBox*/}
             <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
               <FormattedMessage id="SignupForm.signUp" />
             </PrimaryButton>

@@ -67,19 +67,6 @@ const TermsAndConditions = props => {
           intl.formatMessage({ id: 'AuthenticationPage.termsAndConditionsAcceptRequired' })
         )}
       /> 
-      <FieldCheckboxGroup
-      name="newsletter"
-      id="newsletter-accepted"
-      optionLabelClassName={css.finePrint}
-      options={[
-        {
-          key: '', //DO NOT ADD TO NEWSLETTER
-          label: intl.formatMessage(
-            { id: 'AuthenticationPage.NewsLetter' }
-          ),
-        },
-      ]}
-    />
     </div>
   );
 };
