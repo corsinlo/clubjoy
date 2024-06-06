@@ -193,7 +193,6 @@ router.post('/send-reminder', async (req, res) => {
 */
 router.post('/add-contact', (req, res) => {
   const { email, listId, firstName, lastName, isNewsletter } = req.body;
-
   let defaultClient = SibApiV3.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
@@ -201,10 +200,12 @@ router.post('/add-contact', (req, res) => {
   let createContact = new SibApiV3.CreateContact();
   createContact.email = email;
 
-  if (isNewsletter) {
-    createContact.listIds = [4];
-  } else {
+  if (isNewsletter &&  isSignup) {
     createContact.listIds = [4, 7];
+  } else if (isNewsletter && !isSignup) {
+    createContact.listIds = [4];
+  } else if (!isNewsletter && isSignup) {
+    createContact.listIds = [7];
   }
 
   createContact.attributes = { FIRSTNAME: firstName, LASTNAME: lastName };
