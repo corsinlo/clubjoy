@@ -24,6 +24,7 @@ import InquiryMessageMaybe from './InquiryMessageMaybe';
 import FeedSection from './FeedSection';
 import ActionButtonsMaybe from './ActionButtonsMaybe';
 import TeamButtonsMaybe from './TeamButtonsMaybe';
+import ProviderButtonsMaybe from './ProviderButtonsMaybe';
 import DiminishedActionButtonMaybe from './DiminishedActionButtonMaybe';
 import PanelHeading from './PanelHeading';
 
@@ -181,6 +182,11 @@ export class TransactionPanelComponent extends Component {
     start={start}
          customerObj={customerObj}
          transactionId={tId}/>);
+  
+  const providerButtons =(<ProviderButtonsMaybe
+          start={start}
+               customerObj={customerObj}
+               transactionId={tId}/>);
 
     const actionButtons = (
       <ActionButtonsMaybe
@@ -371,6 +377,10 @@ export class TransactionPanelComponent extends Component {
                   <div className={css.desktopActionButtons}>
                     {teamButtons}
                 
+                     </div>):null}
+                {stateData?.processState == 'accepted' & isProvider & listingType == 'teambuilding'?(
+                  <div className={css.desktopActionButtons}>
+                    {providerButtons}
                      </div>):null}
                 {stateData.showActionButtons ? (
                   <div className={css.desktopActionButtons}>{actionButtons}</div>
