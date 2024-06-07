@@ -62,18 +62,46 @@ const EventForm = () => {
   };
 
   return (
-    <>
-    SCEMO DI MERDA
-    <input
-    id="name"
-    type="text"
-    value={name}
-    onChange={e => setName(e.target.value)}
-    required
-    className={css.nameInput}
-    placeholder={'Mario'}
-  />
-  </>
+    <div className={css.formContainer}>
+    <form onSubmit={handleSubmit} className={css.form}>
+      <p style={{ color: 'white', textAlign: 'center' }}>
+        {intl.formatMessage({ id: 'EventForm.header' })}
+      </p>
+      {errorMessage && <div className={css.alert}>{errorMessage}</div>}
+      <div className={css.nameRow}>
+        <input
+          id="name"
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          required
+          className={css.nameInput}
+          placeholder={'Mario'}
+        />
+        <input
+          id="lastname"
+          type="text"
+          value={lastname}
+          onChange={e => setLastname(e.target.value)}
+          required
+          className={css.nameInput}
+          placeholder={'Rossi'}
+        />
+      </div>
+      <input
+        id="email"
+        type="email"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        required
+        className={css.inputField}
+        placeholder={'ciao@clubjoy.it'}
+      />
+      <PrimaryButton type="submit" className={css.button}>
+        {intl.formatMessage({ id: 'Newsletter.button' })}
+      </PrimaryButton>
+    </form>
+  </div>
   )
   /*
   return (
