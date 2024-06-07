@@ -47,7 +47,6 @@ const TeamButtonsMaybe = props => {
         console.error('Error checking file:', error);
       } else {
         const exists = data.length > 0;
-        console.log('File exists:', exists);
         setFileExists(exists);
       }
     };
@@ -94,10 +93,11 @@ const TeamButtonsMaybe = props => {
   return (
     <div className={css.actionButtonWrapper}>
       <div className={classes}>
-        <PrimaryButton  disabled={!isAfterFiveDays} onClick={handlePrimaryButtonClick}>
+        <PrimaryButton   onClick={handlePrimaryButtonClick}>
           {fileExists 
-            ? intl.formatMessage({ id: 'TeamButtons.button.receipt' })
-            : intl.formatMessage({ id: 'TeamButtons.button.receipt.download' })}
+            ? intl.formatMessage({ id: 'TeamButtons.button.receipt.download' })
+            : intl.formatMessage({ id: 'TeamButtons.button.receipt' })
+          }
         </PrimaryButton>
         <SecondaryButton disabled={isWithinFiveDays} onClick={handleSecondaryButtonClick}>
           {intl.formatMessage({ id: 'TeamButtons.button.cancel' })}

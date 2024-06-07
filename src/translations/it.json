@@ -206,7 +206,6 @@
     "EditListingAvailabilityPlanForm.title": "Modifica il programma predefinito per {listingTitle}",
     "EditListingAvailabilityPlanForm.updateFailed": "Aggiornamento fallito. Si prega di riprovare.",
     "EditListingAvailabilityPlanForm.seats": "Posti:",
-    "EditListingAvailabilityPlanForm.selectSeats:": "Seleziona posti",
     "EditListingDeliveryForm.address": "Indirizzo di ritiro",
     "EditListingDeliveryForm.addressNotRecognized": "Non abbiamo riconosciuto questa posizione. Si prega di provare un'altra posizione.",
     "EditListingDeliveryForm.addressPlaceholder": "Inizia a digitare…",
@@ -1155,5 +1154,5 @@
     "UserNav.accountSettings": "Impostazioni account",
     "UserNav.profileSettings": "Impostazioni profilo",
     "UserNav.yourListings": "Le tue inserzioni"
-    }
+}
       

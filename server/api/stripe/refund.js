@@ -8,7 +8,6 @@ module.exports = async (req, res) => {
   const customerId = req.body.customerObj.cid;
 
   try {
-    // List all payment intents with the specified metadata
     const paymentIntentsResponse = await axios.get('https://api.stripe.com/v1/payment_intents', {
       headers: {
         'Authorization': `Bearer ${STRIPE_SECRET_KEY}`
@@ -19,9 +18,7 @@ module.exports = async (req, res) => {
     });
 
     const paymentIntents = paymentIntentsResponse.data.data;
-
-    // Filter the payment intents to find the one with matching metadata
-    const foundPaymentIntent = paymentIntents.find(paymentIntent => 
+    const foundPaymentIntent = paymentIntents.find(paymentIntent =>
       paymentIntent.metadata &&
       paymentIntent.metadata['sharetribe-transaction-id'] === transactionId &&
       paymentIntent.metadata['sharetribe-customer-id'] === customerId
@@ -47,6 +44,42 @@ module.exports = async (req, res) => {
           paymentIntent: foundPaymentIntent,
           refund: refund,
         });
+
+        /*
+                try {
+                   sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
+              sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: bookingRecord.providername }]; //bookingRecord.providerEmail
+              sendSmtpEmail.templateId = 25;
+              sendSmtpEmail.params = {
+                providerName: bookingRecord.providername,
+                userName: bookingRecord.name,
+                startDate: bookingRecord.startdate,
+                endDate: bookingRecord.startdate, // +5
+                amount: refund.amount,
+              };
+                  const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
+                  console.log('Email sent successfully to provider', emailResponse);
+                  try {
+                    sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
+                    sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: bookingRecord.providername }]; //bookingRecord.providerEmail
+                    sendSmtpEmail.templateId = 26;
+                    sendSmtpEmail.params = {
+                     providerName: bookingRecord.providername,
+                userName: bookingRecord.name,
+                startDate: bookingRecord.startdate,
+                endDate: bookingRecord.startdate, // +5
+                amount: refund.amount,
+                    };
+                    const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
+                    res.json({ message: 'Email sent successfully to customer', data: emailResponse });
+                  } catch {
+                    console.error('Failed to send customer email', emailError);
+                  }
+                } catch (emailError) {
+                  console.error('Error sending email:', emailError);
+                  res.status(500).json({ error: 'Failed to send provider email', emailError });
+                }
+        */
       } catch (refundError) {
         if (refundError.response && refundError.response.data.error.code === 'charge_already_refunded') {
           console.log('Refund already exists for this payment intent.');
