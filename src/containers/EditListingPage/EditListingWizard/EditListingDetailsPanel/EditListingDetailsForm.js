@@ -140,12 +140,13 @@ const AddListingFields = props => {
         )
       : null;
 
-    // Insert "ciao" element before the field with key 'loc'
     if (listingType === 'teambuilding' && key === 'loc') {
       return [
         ...pickedFields,
         fieldComponent,
-        <div key="ciao">ciao</div>
+        <div style={{ marginBottom:'50px', fontSize: '13px', flexShrink: 0}}>{intl.formatMessage({
+          id: 'EditListingDetailsForm.privateEventMessage',
+        })}</div>
       ];
     }
 
@@ -251,7 +252,11 @@ const EditListingDetailsFormComponent = props => (
                 })
               )}
             />
-            <div>CIAO</div>
+        
+          <div style={{ marginBottom:'100px', fontSize: '13px', flexShrink: 0}}>{intl.formatMessage({
+                  id: 'EditListingDetailsForm.privateDescription'
+                })}
+          </div>
           </>
           ) : null}
 

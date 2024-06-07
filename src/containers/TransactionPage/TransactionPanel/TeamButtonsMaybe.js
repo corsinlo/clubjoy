@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { createInvoice, createRefund } from '../../../util/api';
 import { PrimaryButton, SecondaryButton } from '../../../components';
 import css from './TransactionPanel.module.css';
 import { useIntl } from 'react-intl';
 import PopUp from '../../../components/PopUp/PopUp';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const TeamButtonsMaybe = props => {
   const intl = useIntl();
+  const [fileExists, setFileExists] = useState(false);
   const {
     className,
     rootClassName,
@@ -28,8 +34,47 @@ const TeamButtonsMaybe = props => {
   const isWithinFiveDays = daysDiff >= 0 && daysDiff <= 5;
   const isAfterFiveDays = daysDiff < -5;
 
-  const handlePrimaryButtonClick = () => {
+  useEffect(() => {
+    const checkFileExists = async () => {
+      const { data, error } = await supabase
+        .storage
+        .from('invoices')
+        .list('public', {
+          search: `${customerObj.bookingid}`
+        });
+
+      if (error) {
+        console.error('Error checking file:', error);
+      } else {
+        const exists = data.length > 0;
+        console.log('File exists:', exists);
+        setFileExists(exists);
+      }
+    };
+
+    checkFileExists();
+  }, [customerObj.bookingid]);
+
+  const handlePrimaryButtonClick = async () => {
+    if (fileExists) {
+      const { data, error } = await supabase
+        .storage
+        .from('invoices')
+        .download(`public/${customerObj.bookingid}`);
+        
+      if (error) {
+        console.error('Error downloading file:', error);
+      } else {
+        const url = URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${customerObj.bookingid}`);
+        document.body.appendChild(link);
+        link.click();
+      }
+    } else  {
     createInvoice({ customerObj, transactionId });
+    }
   };
 
   const handleSecondaryButtonClick = () => {
@@ -49,8 +94,10 @@ const TeamButtonsMaybe = props => {
   return (
     <div className={css.actionButtonWrapper}>
       <div className={classes}>
-        <PrimaryButton disabled={!isAfterFiveDays} onClick={handlePrimaryButtonClick}>
-          {intl.formatMessage({ id: 'TeamButtons.button.receipt' })}
+        <PrimaryButton  disabled={!isAfterFiveDays} onClick={handlePrimaryButtonClick}>
+          {fileExists 
+            ? intl.formatMessage({ id: 'TeamButtons.button.receipt' })
+            : intl.formatMessage({ id: 'TeamButtons.button.receipt.download' })}
         </PrimaryButton>
         <SecondaryButton disabled={isWithinFiveDays} onClick={handleSecondaryButtonClick}>
           {intl.formatMessage({ id: 'TeamButtons.button.cancel' })}

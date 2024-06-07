@@ -53,5 +53,9 @@
 }
 
 .button:hover {
+    background-color: #5d85ff;
+}
+
+.button{
     background-color: darkblue;
 }

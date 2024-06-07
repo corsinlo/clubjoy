@@ -23,18 +23,19 @@ const EventForm = () => {
 
     const contactData = {
       email: email,
-      firstName: name,
-      lastName: lastname,
-      isNewsLetter: true,
+      name: name,
+      company: company,
+      event: event,
     };
 
     try {
+      /*
       const { data, error } = await supabase
         .from('newsletter')
         .insert([{ email: email, firstName: name, lastName: lastname }])
         .select();
-
-      const response = await fetch('/api/add-contact', {
+      */
+      const response = await fetch('/api/event', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,14 +45,15 @@ const EventForm = () => {
 
       if (!response.ok) {
         const errorInfo = await response.json();
-        throw new Error(errorInfo.message || 'Failed to add contact to the list');
+        throw new Error(errorInfo.message || 'Failed to plan event');
       }
 
       setEmail('');
       setName('');
-      setLastname('');
+      setCompany('');
+      setEvent('');
     } catch (error) {
-      console.error('Error adding contact:', error.message);
+      console.error('Error creating event:', error.message);
       setErrorMessage(error.message);
     }
   };
@@ -76,16 +78,16 @@ const EventForm = () => {
           onChange={e => setName(e.target.value)}
           required
           className={css.nameInput}
-          placeholder={'Mario'}
+          placeholder={'Nome'}
         />
         <input
-          id="lastname"
+          id="company"
           type="text"
-          value={lastname}
-          onChange={e => setLastname(e.target.value)}
+          value={company}
+          onChange={e => setCompany(e.target.value)}
           required
           className={css.nameInput}
-          placeholder={'Rossi'}
+          placeholder={'Compagnia'}
         />
       </div>
       <input
@@ -95,7 +97,16 @@ const EventForm = () => {
         onChange={e => setEmail(e.target.value)}
         required
         className={css.inputField}
-        placeholder={'ciao@clubjoy.it'}
+        placeholder={'Email'}
+      />
+       <input
+        id="event"
+        type="event"
+        value={email}
+        onChange={e => setEvent(e.target.value)}
+        required
+        className={css.inputField}
+        placeholder={'Descrizione Evento che Vorresti :)'}
       />
       <PrimaryButton type="submit" className={css.button}>
         {intl.formatMessage({ id: 'Newsletter.button' })}
@@ -103,53 +114,6 @@ const EventForm = () => {
     </form>
   </div>
   )
-  /*
-  return (
-    <div className={css.formContainer}>
-      <form onSubmit={handleSubmit} className={css.form}>
-        <p style={{ color: 'white', textAlign: 'center' }}>
-          {intl.formatMessage({ id: 'Newsletter.header' })}
-          <span role="img" aria-label="heart emoji" style={heartStyle}>
-            ❤️
-          </span>
-        </p>
-        {errorMessage && <div className={css.alert}>{errorMessage}</div>}
-        <div className={css.nameRow}>
-          <input
-            id="name"
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            required
-            className={css.nameInput}
-            placeholder={'Mario'}
-          />
-          <input
-            id="lastname"
-            type="text"
-            value={lastname}
-            onChange={e => setLastname(e.target.value)}
-            required
-            className={css.nameInput}
-            placeholder={'Rossi'}
-          />
-        </div>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-          className={css.inputField}
-          placeholder={'ciao@clubjoy.it'}
-        />
-        <PrimaryButton type="submit" className={css.button}>
-          {intl.formatMessage({ id: 'Newsletter.button' })}
-        </PrimaryButton>
-      </form>
-    </div>
-  );
-  */
-};
+}
 
 export default EventForm;
