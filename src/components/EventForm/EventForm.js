@@ -62,6 +62,8 @@ const EventForm = () => {
   };
 
   return (
+    <>
+    SCEMO DI MERDA
     <input
     id="name"
     type="text"
@@ -70,7 +72,9 @@ const EventForm = () => {
     required
     className={css.nameInput}
     placeholder={'Mario'}
-  />)
+  />
+  </>
+  )
   /*
   return (
     <div className={css.formContainer}>
