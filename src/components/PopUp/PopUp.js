@@ -23,7 +23,12 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setConfirmed(true);
-    onConfirm({ selectedOption, receiver, email, address, code, vat, sr, fiscalCode });
+    const flow = showForm ? 1 : 2;
+    onConfirm({ selectedOption, receiver, email, address, code, vat, sr, fiscalCode, flow });
+  };
+
+  const handleReturnClick = () => {
+    window.location.reload();
   };
 
   return (
@@ -32,12 +37,14 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
         {confirmed ? (
           <div>
             <p>{intl.formatMessage({ id: 'Event.PopUp.cancel.confirmation' })}</p>
-            <PrimaryButton onClick={onCancel} className={css.closeButton}>{intl.formatMessage({ id: 'Event.PopUp.cancel.return' })}</PrimaryButton>
+            <PrimaryButton onClick={handleReturnClick} className={css.closeButton}>
+              {intl.formatMessage({ id: 'Event.PopUp.cancel.return' })}
+            </PrimaryButton>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className={css.popUpForm}>
             <p>{message}</p>
-            {showForm && (
+            {showForm ? (
               <>
                 <div>
                   <label>
@@ -74,23 +81,11 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                 </div>
                 <div>
                   <label>
-                    {intl.formatMessage({ id: 'Event.PopUp.form.socialReason' })}
-                    <input
-                      type="text"
-                      value={sr}
-                      onChange={(e) => setSR(e.target.value)}
-                      required
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label>
                     {intl.formatMessage({ id: 'Event.PopUp.form.code' })}
                     <input
                       type="text"
                       value={code}
                       onChange={(e) => setCode(e.target.value)}
-                      required
                     />
                   </label>
                 </div>
@@ -101,13 +96,11 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      required
                     />
                   </label>
                 </div>
               </>
-            )}
-            {!showForm && (
+            ) : (
               <div>
                 <label>
                   {intl.formatMessage({ id: 'Event.PopUp.selectOption' })}
@@ -119,13 +112,18 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                     <option value="option2">{intl.formatMessage({ id: 'Event.PopUp.option2' })}</option>
                     <option value="option3">{intl.formatMessage({ id: 'Event.PopUp.option3' })}</option>
                     <option value="option4">{intl.formatMessage({ id: 'Event.PopUp.option4' })}</option>
+                    <option value="option5">{intl.formatMessage({ id: 'Event.PopUp.option5' })}</option>
                   </select>
                 </label>
               </div>
             )}
             <div className={css.popUpActions}>
-              <PrimaryButton type="submit">{intl.formatMessage({ id: 'Event.PopUp.confirm' })}</PrimaryButton>
-              <SecondaryButton type="button" onClick={onCancel}>{intl.formatMessage({ id: 'Event.PopUp.cancel' })}</SecondaryButton>
+              <PrimaryButton type="submit">
+                {intl.formatMessage({ id: 'Event.PopUp.confirm' })}
+              </PrimaryButton>
+              <SecondaryButton type="button" onClick={onCancel}>
+                {intl.formatMessage({ id: 'Event.PopUp.cancel' })}
+              </SecondaryButton>
             </div>
           </form>
         )}
@@ -146,4 +144,3 @@ PopUp.defaultProps = {
 };
 
 export default PopUp;
-

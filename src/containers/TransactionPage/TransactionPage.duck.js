@@ -561,7 +561,7 @@ export const fetchMoreMessages = (txId, config) => (dispatch, getState, sdk) => 
 
 export const sendMessage = (txId, message, config) => (dispatch, getState, sdk) => {
   dispatch(sendMessageRequest());
-
+  console.log(txId, message, config)
   return sdk.messages
     .send({ transactionId: txId, content: message })
     .then(response => {

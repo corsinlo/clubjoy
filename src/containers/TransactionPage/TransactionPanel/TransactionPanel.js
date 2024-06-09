@@ -145,6 +145,7 @@ export class TransactionPanelComponent extends Component {
       customerObj,
       config,
       transactionId,
+      onSendMessage, // Add onSendMessage prop
     } = this.props;
 
 
@@ -181,7 +182,9 @@ export class TransactionPanelComponent extends Component {
   const teamButtons =(<TeamButtonsMaybe
     start={start}
          customerObj={customerObj}
-         transactionId={tId}/>);
+         transactionId={tId}
+         onSendMessage={onSendMessage} // Pass onSendMessage prop
+         />);
   
   const providerButtons =(<ProviderButtonsMaybe
           start={start}

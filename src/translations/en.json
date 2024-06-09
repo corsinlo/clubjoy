@@ -826,6 +826,7 @@
   "SignupForm.passwordRequired": "You need to add a password.",
   "SignupForm.passwordTooLong": "The password can't be longer than {maxLength} characters.",
   "SignupForm.passwordTooShort": "The password should be at least {minLength} characters.",
+  "SignupForm.newsletterLabel": "Voglio ricevere email da Club Joy con sconti e messaggini d'amore",
   "SignupForm.signUp": "Sign up",
   "SortBy.heading": "Sort by",
   "SortBy.newest": "Newest",

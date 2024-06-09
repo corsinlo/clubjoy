@@ -145,6 +145,11 @@ const SignupFormComponent = props => (
               })}
               validate={passwordValidators}
             />
+           
+          </div>
+
+          <div className={css.bottomWrapper}>
+            {termsAndConditions}
             <FieldCheckbox
               id={formId ? `${formId}.iNL` : 'iNL'}
               name="iNL"
@@ -152,10 +157,8 @@ const SignupFormComponent = props => (
                 id: 'SignupForm.newsletterLabel',
               })}
             />
-          </div>
 
-          <div className={css.bottomWrapper}>
-            {termsAndConditions}
+            
             <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
               <FormattedMessage id="SignupForm.signUp" />
             </PrimaryButton>

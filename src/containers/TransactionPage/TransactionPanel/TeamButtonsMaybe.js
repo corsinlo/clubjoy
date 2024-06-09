@@ -20,6 +20,7 @@ const TeamButtonsMaybe = props => {
     customerObj,
     transactionId,
     start,
+    onSendMessage, // Add onSendMessage prop
   } = props;
 
   const [showPopUp, setShowPopUp] = useState(false);
@@ -87,11 +88,22 @@ const TeamButtonsMaybe = props => {
     setShowForm(false);
   };
 
-  const handleConfirmRefund = (data) => {
-    const { selectedOption, receiver, email, address, code, vat, sr, fiscalCode } = data;
-    if (receiver && email && address && code && vat && sr && fiscalCode) {
-      createInvoice({ customerObj, transactionId, name: receiver, email, address, code, vat, sr, fiscalCode });
-    } else {
+  const handlePopUpFlow = (data) => {
+    const { selectedOption, receiver, email, address, code, vat, sr, fiscalCode, flow } = data;
+    if (flow === 1) {
+      createInvoice({ customerObj, transactionId, name: receiver, email, address, code, vat, sr, fiscalCode })
+        .then(() => {
+          const message = `${intl.formatMessage({ id: 'Event.Invoice.popUp' })}:
+          ${intl.formatMessage({ id: 'Event.PopUp.form.receiver' })}: ${receiver}
+          ${intl.formatMessage({ id: 'Event.PopUp.form.email' })}: ${email}
+          ${intl.formatMessage({ id: 'Event.PopUp.form.address' })}: ${address}
+          ${intl.formatMessage({ id: 'Event.PopUp.form.code' })}: ${code}
+          ${intl.formatMessage({ id: 'Event.PopUp.form.vat' })}: ${vat}
+          ${intl.formatMessage({ id: 'Event.PopUp.form.sr' })}: ${sr}
+          ${intl.formatMessage({ id: 'Event.PopUp.form.fiscalCode' })}: ${fiscalCode}`;
+          onSendMessage(transactionId, message);
+        });
+    } else if (flow === 2) {
       createRefund({ customerObj, transactionId, selectedOption });
     }
     setShowForm(false);
@@ -117,7 +129,7 @@ const TeamButtonsMaybe = props => {
       {showPopUp && (
         <PopUp
           message={intl.formatMessage({ id: showForm ? 'Event.Invoice.popUp' : 'Event.Cancel.popUp' })}
-          onConfirm={handleConfirmRefund}
+          onConfirm={handlePopUpFlow}
           onCancel={handleClosePopUp}
           showForm={showForm}
         />
@@ -127,3 +139,4 @@ const TeamButtonsMaybe = props => {
 };
 
 export default TeamButtonsMaybe;
+
