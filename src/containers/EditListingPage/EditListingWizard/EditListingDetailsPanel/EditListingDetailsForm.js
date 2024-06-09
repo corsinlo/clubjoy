@@ -253,10 +253,6 @@ const EditListingDetailsFormComponent = props => (
               )}
             />
         
-          <div style={{ marginBottom:'100px', fontSize: '13px', flexShrink: 0}}>{intl.formatMessage({
-                  id: 'EditListingDetailsForm.privateDescription'
-                })}
-          </div>
           </>
           ) : null}
 
