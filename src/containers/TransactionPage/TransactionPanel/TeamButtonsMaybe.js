@@ -23,6 +23,7 @@ const TeamButtonsMaybe = props => {
   } = props;
 
   const [showPopUp, setShowPopUp] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   const startDate = new Date(start);
   const currentDate = new Date();
@@ -71,8 +72,9 @@ const TeamButtonsMaybe = props => {
         document.body.appendChild(link);
         link.click();
       }
-    } else  {
-    createInvoice({ customerObj, transactionId });
+    } else {
+      setShowForm(true);
+      setShowPopUp(true);
     }
   };
 
@@ -82,10 +84,17 @@ const TeamButtonsMaybe = props => {
 
   const handleClosePopUp = () => {
     setShowPopUp(false);
+    setShowForm(false);
   };
 
-  const handleConfirmRefund = (selectedOption) => {
-    createRefund({ customerObj, transactionId, selectedOption });
+  const handleConfirmRefund = (data) => {
+    const { selectedOption, name, email } = data;
+    if (name && email) {
+      createInvoice({ customerObj, transactionId, name, email });
+    } else {
+      createRefund({ customerObj, transactionId, selectedOption });
+    }
+    setShowForm(false);
   };
 
   const classes = classNames(rootClassName || css.actionButtons, className);
@@ -93,7 +102,7 @@ const TeamButtonsMaybe = props => {
   return (
     <div className={css.actionButtonWrapper}>
       <div className={classes}>
-        <PrimaryButton   onClick={handlePrimaryButtonClick}>
+        <PrimaryButton onClick={handlePrimaryButtonClick}>
           {fileExists 
             ? intl.formatMessage({ id: 'TeamButtons.button.receipt.download' })
             : intl.formatMessage({ id: 'TeamButtons.button.receipt' })
@@ -104,12 +113,13 @@ const TeamButtonsMaybe = props => {
         </SecondaryButton>
         <div className={css.cancellationPolicy}>{intl.formatMessage({ id: 'TeamButton.cancelPolicy' })}</div>
       </div>
-      
+
       {showPopUp && (
         <PopUp
-          message={intl.formatMessage({ id: 'TeamButtons.popUp.confirmMessage' })}
+          message={intl.formatMessage({ id: showForm ? 'Event.Invoice.popUp' : 'Event.Cancel.popUp' })}
           onConfirm={handleConfirmRefund}
           onCancel={handleClosePopUp}
+          showForm={showForm}
         />
       )}
     </div>
@@ -117,3 +127,5 @@ const TeamButtonsMaybe = props => {
 };
 
 export default TeamButtonsMaybe;
+
+
