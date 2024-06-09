@@ -87,7 +87,7 @@ const EventForm = () => {
           onChange={e => setCompany(e.target.value)}
           required
           className={css.nameInput}
-          placeholder={'Compagnia'}
+          placeholder={'Azienda'}
         />
       </div>
       <input

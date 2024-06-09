@@ -99,7 +99,7 @@ const TeamButtonsMaybe = props => {
             : intl.formatMessage({ id: 'TeamButtons.button.receipt' })
           }
         </PrimaryButton>
-        <SecondaryButton disabled={isWithinFiveDays} onClick={handleSecondaryButtonClick}>
+        <SecondaryButton onClick={handleSecondaryButtonClick}>
           {intl.formatMessage({ id: 'TeamButtons.button.cancel' })}
         </SecondaryButton>
         <div className={css.cancellationPolicy}>{intl.formatMessage({ id: 'TeamButton.cancelPolicy' })}</div>

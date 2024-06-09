@@ -56,11 +56,11 @@ const PriceMaybe = props => {
   return (
     <div className={css.price}>
       <div className={css.priceValue} title={priceTitle}>
-        {formattedPrice}
+      {listingType === 'teambuilding' ? (  <>Da</>  ) : null} {formattedPrice}
       </div>
       {isBookable ? (
         <div className={css.perUnit}>
-          <FormattedMessage id="ListingCard.perUnit" values={{ unitType: publicData?.unitType }} />
+           <FormattedMessage id="ListingCard.perUnit" values={{ unitType: publicData?.unitType }} />
         </div>
       ) : null}
     </div>
@@ -125,9 +125,8 @@ export const ListingCardComponent = props => {
         />
       </AspectRatioWrapper>
       <div className={css.info}>
-      {isTeamBuilding === 'teambuilding' ? (  <div className={css.da}>Da </div> ) : null} 
-      <div className={css.priceContainer}>
-<PriceMaybe price={price} publicData={publicData} config={config} intl={intl} />
+      <div className={css.priceContainer}>    
+      <PriceMaybe price={price} publicData={publicData} config={config} intl={intl} />
     {isTeamBuilding === 'teambuilding' ? ( <div className={css.teamBuilding}><IconsPerson size="14px" color="blu" />{min}+</div>) : null}   
       </div>
         <div className={css.mainInfo}>

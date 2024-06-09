@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import classNames from 'classnames';
 import { createInvoice, createRefund } from '../../../util/api';
 import { PrimaryButton, SecondaryButton } from '../../../components';
@@ -22,6 +22,7 @@ const ProviderButtonsMaybe = props => {
 
   const [showPopUp, setShowPopUp] = useState(false);
   const [file, setFile] = useState(null);
+  const fileInputRef = useRef(null);  // Create a reference for the file input
 
   const startDate = new Date(start);
   const currentDate = new Date();
@@ -43,8 +44,11 @@ const ProviderButtonsMaybe = props => {
         console.error('Error uploading file:', error);
       } else {
         console.log('File uploaded successfully:', data);
-        // You can handle additional logic here, like updating the state or notifying the user
+        setShowPopUp(true);  // Show the pop-up on successful upload
       }
+    } else {
+      // Trigger the file input click if no file is selected yet
+      fileInputRef.current.click();
     }
   };
 
@@ -69,22 +73,21 @@ const ProviderButtonsMaybe = props => {
   return (
     <div className={css.actionButtonWrapper}>
       <div className={classes}>
-        <input type="file" onChange={handleFileChange} />
+        <input
+          type="file"
+          onChange={handleFileChange}
+          ref={fileInputRef}  // Attach the ref to the input element
+          style={{ display: 'none' }}  // Hide the input element
+        />
         <PrimaryButton onClick={handlePrimaryButtonClick}>
           {intl.formatMessage({ id: 'providerButtons.button.upload.receipt' })}
         </PrimaryButton>
-        <SecondaryButton disabled={isWithinFiveDays} onClick={handleSecondaryButtonClick}>
-          {intl.formatMessage({ id: 'providerButtons.button.cancel' })}
-        </SecondaryButton>
-        <div className={css.cancellationPolicy}>Carica</div>
       </div>
       
       {showPopUp && (
-        <PopUp
-          message={intl.formatMessage({ id: 'TeamButtons.popUp.confirmMessage' })}
-          onConfirm={handleConfirmRefund}
-          onCancel={handleClosePopUp}
-        />
+        {
+
+    }
       )}
     </div>
   );
