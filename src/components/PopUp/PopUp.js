@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import css from './PopUp.module.css';
 import { useIntl } from 'react-intl';
-import { PrimaryButton } from '../Button/Button';
-import { SecondaryButton } from '../Button/Button';
+import { PrimaryButton, SecondaryButton } from '../Button/Button';
+
 const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
   const intl = useIntl();
   const [selectedOption, setSelectedOption] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
-  const [code,setCode] =  useState('');
+  const [code, setCode] = useState('');
   const [vat, setVat] = useState('');
-  const [reciever, setReceiver] = useState('');
+  const [receiver, setReceiver] = useState('');
   const [sr, setSR] = useState('');
   const [fiscalCode, setFiscalCode] = useState('');
 
@@ -23,7 +23,7 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setConfirmed(true);
-    onConfirm({ selectedOption, name, email });
+    onConfirm({ selectedOption, receiver, email, address, code, vat, sr, fiscalCode });
   };
 
   return (
@@ -31,11 +31,11 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
       <div className={css.popUpContent}>
         {confirmed ? (
           <div>
-            <p>{intl.formatMessage({ id: 'ConfirmationPopUp.seeYou' })}</p>
-            <button onClick={onCancel} className={css.closeButton}>X</button>
+            <p>{intl.formatMessage({ id: 'Event.PopUp.cancel.confirmation' })}</p>
+            <PrimaryButton onClick={onCancel} className={css.closeButton}>{intl.formatMessage({ id: 'Event.PopUp.cancel.return' })}</PrimaryButton>
           </div>
         ) : (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className={css.popUpForm}>
             <p>{message}</p>
             {showForm && (
               <>
@@ -44,19 +44,8 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                     {intl.formatMessage({ id: 'Event.PopUp.form.receiver' })}
                     <input
                       type="text"
-                      value={email}
+                      value={receiver}
                       onChange={(e) => setReceiver(e.target.value)}
-                      required
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    {intl.formatMessage({ id: 'Event.PopUp.form.address' })}
-                    <input
-                      type="text"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
                       required
                     />
                   </label>
@@ -98,9 +87,9 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                   <label>
                     {intl.formatMessage({ id: 'Event.PopUp.form.code' })}
                     <input
-                      type="test"
-                      value={email}
-                      onChange={(e) => setCode(e.target.code)}
+                      type="text"
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
                       required
                     />
                   </label>
@@ -128,8 +117,8 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                     </option>
                     <option value="option1">{intl.formatMessage({ id: 'Event.PopUp.option1' })}</option>
                     <option value="option2">{intl.formatMessage({ id: 'Event.PopUp.option2' })}</option>
-                    <option value="option1">{intl.formatMessage({ id: 'Event.PopUp.option3' })}</option>
-                    <option value="option2">{intl.formatMessage({ id: 'Event.PopUp.option4' })}</option>
+                    <option value="option3">{intl.formatMessage({ id: 'Event.PopUp.option3' })}</option>
+                    <option value="option4">{intl.formatMessage({ id: 'Event.PopUp.option4' })}</option>
                   </select>
                 </label>
               </div>
@@ -157,3 +146,4 @@ PopUp.defaultProps = {
 };
 
 export default PopUp;
+

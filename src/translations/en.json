@@ -375,6 +375,8 @@
   "Event.PopUp.form.vat": "VAT number",
   "Event.PopUp.form.code": "Recipient code",
   "Event.PopUp.form.email": "PEC email",
+  "Event.PopUp.cancel.confirmation":" La tua richiesta è stata inoltrata, receverai aggioenamenti a brevi",
+  "Event.PopUp.cancel.return":"Conferma",
   "EventForm.header": "Didn't find what you were looking for? Leave us your details and we will contact you to organize a customized event.",
   "FieldBoolean.no": "No",
   "FieldBoolean.yes": "Yes",

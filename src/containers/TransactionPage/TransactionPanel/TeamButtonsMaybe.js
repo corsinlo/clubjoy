@@ -88,9 +88,9 @@ const TeamButtonsMaybe = props => {
   };
 
   const handleConfirmRefund = (data) => {
-    const { selectedOption, name, email } = data;
-    if (name && email) {
-      createInvoice({ customerObj, transactionId, name, email });
+    const { selectedOption, receiver, email, address, code, vat, sr, fiscalCode } = data;
+    if (receiver && email && address && code && vat && sr && fiscalCode) {
+      createInvoice({ customerObj, transactionId, name: receiver, email, address, code, vat, sr, fiscalCode });
     } else {
       createRefund({ customerObj, transactionId, selectedOption });
     }
@@ -127,5 +127,3 @@ const TeamButtonsMaybe = props => {
 };
 
 export default TeamButtonsMaybe;
-
-
