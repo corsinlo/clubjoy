@@ -159,3 +159,7 @@ export const createRefund = body => {
 export const checkCoupon = body => {
   return post('/api/stripe/coupon', body);
 };
+
+export const notifyInvoice = body => {
+  return post('/api/brevo/notifyinvoice', body);
+};

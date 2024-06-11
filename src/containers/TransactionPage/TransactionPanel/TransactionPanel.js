@@ -188,7 +188,7 @@ export class TransactionPanelComponent extends Component {
   
   const providerButtons =(<ProviderButtonsMaybe
           start={start}
-               customerObj={customerObj}
+               customerObj={updatedCustomerObj}
                transactionId={tId}/>);
 
     const actionButtons = (

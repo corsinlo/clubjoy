@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import classNames from 'classnames';
-import { createRefund } from '../../../util/api';
+import { createRefund, notifyInvoice } from '../../../util/api';
 import { PrimaryButton, SecondaryButton } from '../../../components';
 import css from './TransactionPanel.module.css';
 import { useIntl } from 'react-intl';
@@ -43,6 +43,7 @@ const ProviderButtonsMaybe = props => {
 
   const handleClosePopUp = () => {
     setShowPopUp(false);
+    notifyInvoice({ customerObj });
   };
 
   const handleFileChange = async (event) => {
@@ -59,7 +60,7 @@ const ProviderButtonsMaybe = props => {
         .remove([`public/${newFileName}`]);
 
       if (deleteError && deleteError.statusCode !== '404') {
-        console.error('Error deleting existing file:', deleteError);
+        
         setErrorMessage('Error deleting existing file.');
         setSuccessMessage('');
         setLoading(false);
@@ -71,12 +72,12 @@ const ProviderButtonsMaybe = props => {
       });
 
       if (error) {
-        console.error('Error uploading file:', error);
+       
         setErrorMessage('Error uploading file.');
         setSuccessMessage('');
       } else {
-        console.log('File uploaded successfully:', data);
-        setSuccessMessage('File uploaded successfully.');
+        
+        setSuccessMessage(''); //File uploaded successfully
         setErrorMessage('');
         setShowPopUp(true);
       }
@@ -108,7 +109,7 @@ const ProviderButtonsMaybe = props => {
         />
         <PrimaryButton onClick={handlePrimaryButtonClick}>
           {loading ? (
-            <div className={css.loader}>Caricamento..</div>
+            <div className={css.loader}>Caricamento...</div>
           ) : (
             intl.formatMessage({ id: 'ProviderButtons.button.upload.receipt' })
           )}
