@@ -3,6 +3,7 @@ import css from './LandingSearchBar.module.css';
 import landingCover from '../../media/landingCover.jpg';
 import landingCoverR from '../../media/landingCoverR.jpeg';
 import landingCoverL from '../../media/landingCoverL.jpeg';
+import landingEvents from '../../media/landingEvents.png';
 import landingCoverMobile from '../../media/landingCoverMobile.jpg';
 
 import LandingSearchBarForm from './LandingSearchBarForm';
@@ -66,7 +67,24 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               zIndex: 1, // Ensure background is below text
               opacity: '70%',
             }}
-          ></div>
+          >
+          </div>
+          <div
+           style={{
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            bottom: 0,
+            width: '70%',
+            backgroundImage: `url(${landingEvents})`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'right',
+            zIndex: 1,
+            opacity: '70%',
+          }}
+          >
+          </div>
         </>
       )}
       {isMobile && (
