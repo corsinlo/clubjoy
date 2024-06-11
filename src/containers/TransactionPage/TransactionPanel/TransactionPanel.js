@@ -338,6 +338,12 @@ export class TransactionPanelComponent extends Component {
                 <div className={css.mobileActionButtons}>{teamButtons}</div>
               </>
             ) : null}
+             {stateData?.processState == 'accepted' & isProvider & listingType == 'teambuilding'?(
+              <>
+                <div className={css.mobileActionButtonSpacer}></div>
+                <div className={css.mobileActionButtons}>{providerButtons}</div>
+              </>
+            ) : null}
           </div>
 
           <div className={css.asideDesktop}>
@@ -379,7 +385,6 @@ export class TransactionPanelComponent extends Component {
                 {stateData?.processState == 'accepted' & !isProvider & listingType == 'teambuilding'?(
                   <div className={css.desktopActionButtons}>
                     {teamButtons}
-                
                      </div>):null}
                 {stateData?.processState == 'accepted' & isProvider & listingType == 'teambuilding'?(
                   <div className={css.desktopActionButtons}>

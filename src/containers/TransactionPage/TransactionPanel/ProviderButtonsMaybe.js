@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
 import classNames from 'classnames';
-import { createInvoice, createRefund } from '../../../util/api';
+import { createRefund } from '../../../util/api';
 import { PrimaryButton, SecondaryButton } from '../../../components';
 import css from './TransactionPanel.module.css';
 import { useIntl } from 'react-intl';
 import { createClient } from '@supabase/supabase-js';
-
+import PopUpMessage from '../../../components/PopUpMessage/PopUpMessage';
 const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
 const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -22,7 +22,10 @@ const ProviderButtonsMaybe = props => {
 
   const [showPopUp, setShowPopUp] = useState(false);
   const [file, setFile] = useState(null);
-  const fileInputRef = useRef(null);  // Create a reference for the file input
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const fileInputRef = useRef(null);
 
   const startDate = new Date(start);
   const currentDate = new Date();
@@ -34,34 +37,58 @@ const ProviderButtonsMaybe = props => {
   const isWithinFiveDays = daysDiff >= 0 && daysDiff <= 5;
   const isAfterFiveDays = daysDiff < -5;
 
-  const handlePrimaryButtonClick = async () => {
-    if (file) {
-      const fileExtension = file.name.split('.').pop();
-      const newFileName = `${props.customerObj.bookingid}`;
-      
-      const { data, error } = await supabase.storage.from('invoices').upload(`public/${newFileName}`, file);
-      if (error) {
-        console.error('Error uploading file:', error);
-      } else {
-        console.log('File uploaded successfully:', data);
-        setShowPopUp(true);  // Show the pop-up on successful upload
-      }
-    } else {
-      // Trigger the file input click if no file is selected yet
-      fileInputRef.current.click();
-    }
-  };
-
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
-
-  const handleSecondaryButtonClick = () => {
-    setShowPopUp(true);
+  const handlePrimaryButtonClick = () => {
+    fileInputRef.current.click();
   };
 
   const handleClosePopUp = () => {
     setShowPopUp(false);
+  };
+
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+
+    if (selectedFile) {
+      setLoading(true);
+      const newFileName = `${props.customerObj.bookingid}`;
+
+      const { error: deleteError } = await supabase
+        .storage
+        .from('invoices')
+        .remove([`public/${newFileName}`]);
+
+      if (deleteError && deleteError.statusCode !== '404') {
+        console.error('Error deleting existing file:', deleteError);
+        setErrorMessage('Error deleting existing file.');
+        setSuccessMessage('');
+        setLoading(false);
+        return;
+      }
+
+      const { data, error } = await supabase.storage.from('invoices').upload(`public/${newFileName}`, selectedFile, {
+        upsert: true
+      });
+
+      if (error) {
+        console.error('Error uploading file:', error);
+        setErrorMessage('Error uploading file.');
+        setSuccessMessage('');
+      } else {
+        console.log('File uploaded successfully:', data);
+        setSuccessMessage('File uploaded successfully.');
+        setErrorMessage('');
+        setShowPopUp(true);
+      }
+
+      setLoading(false);
+      setFile(null);
+      fileInputRef.current.value = null;
+    }
+  };
+
+  const handleSecondaryButtonClick = () => {
+    setShowPopUp(true);
   };
 
   const handleConfirmRefund = (selectedOption) => {
@@ -76,18 +103,32 @@ const ProviderButtonsMaybe = props => {
         <input
           type="file"
           onChange={handleFileChange}
-          ref={fileInputRef}  // Attach the ref to the input element
-          style={{ display: 'none' }}  // Hide the input element
+          ref={fileInputRef}
+          style={{ display: 'none' }}
         />
         <PrimaryButton onClick={handlePrimaryButtonClick}>
-          {intl.formatMessage({ id: 'providerButtons.button.upload.receipt' })}
+          {loading ? (
+            <div className={css.loader}>Caricamento..</div>
+          ) : (
+            intl.formatMessage({ id: 'ProviderButtons.button.upload.receipt' })
+          )}
         </PrimaryButton>
-      </div>
-      
-      {showPopUp && (
-        {
 
-    }
+        {successMessage && (
+        <div className={css.successMessage}>
+          {successMessage}
+        </div>
+         )}
+
+       {errorMessage && (
+        <div className={css.errorMessage}>
+          {errorMessage}
+        </div>
+       )}
+
+      </div>
+      {showPopUp && (
+        <PopUpMessage message={intl.formatMessage({ id: 'ProviderButtons.button.upload.success' })} onCancel={handleClosePopUp} />
       )}
     </div>
   );
