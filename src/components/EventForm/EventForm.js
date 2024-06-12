@@ -32,15 +32,10 @@ const EventForm = () => {
     try {
       const response = await inquiryEvent(contactData);
   
-      if (!response.ok) {
-        const errorInfo = await response.json();
-        throw new Error(errorInfo.message || 'Failed to plan event');
-      }
-  
       setEmail('');
       setName('');
       setCompany('');
-      setEvent('');
+      setPrivateEvent('');
     } catch (error) {
       console.error('Error creating event:', error.message);
     }

@@ -20,7 +20,7 @@ const TeamButtonsMaybe = props => {
     customerObj,
     transactionId,
     start,
-    onSendMessage, // Add onSendMessage prop
+    onSendMessage, 
   } = props;
 
   const [showPopUp, setShowPopUp] = useState(false);
