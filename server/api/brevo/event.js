@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
 
     sendSmtpEmail.subject = 'Richiesta Di Evento';
     sendSmtpEmail.sender = { name: 'Club Joy App', email: 'no-reply@clubjoy.it' };
-    sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: 'Club Joy Team' }];
+    sendSmtpEmail.to = [{ email: 'hello@clubjoy.it', name: 'Club Joy Team' }];
     sendSmtpEmail.htmlContent = `<html><body>
     <p>Richiesta Evento Privato da: ${req.body.name}</p><br/>
     <p>Email: ${req.body.email}</p><br/>
