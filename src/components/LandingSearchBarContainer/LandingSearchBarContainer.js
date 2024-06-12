@@ -49,7 +49,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'left center',
-              zIndex: 1, // Ensure background is below text
+              zIndex: 1,
               opacity: '70%',
             }}
           ></div>
@@ -64,27 +64,26 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right center',
-              zIndex: 1, // Ensure background is below text
+              zIndex: 1,
               opacity: '70%',
             }}
-          >
-          </div>
+          ></div>
           <div
             style={{
               position: 'absolute',
-              right: 0,
-              top: 0,
+              left: 100,
+              right: 0 ,
+              top: 10, 
               bottom: 0,
-              width: '70%',
+              width: '100%',
               backgroundImage: !isTeamBuilding ? null : `url(${landingEvents})`,
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right',
-              zIndex: 1,
+             
               opacity: '70%',
             }}
-          >
-          </div>
+          ></div>
         </>
       )}
       {isMobile && (
@@ -94,9 +93,9 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
             left: '50%',
             top: '18%',
             transform: 'translate(-50%, -50%)',
-            width: '80%', // Adjust width as needed
-            maxWidth: '300px', // Maximum width of the image
-            height: 'auto', // Height will adjust automatically to maintain aspect ratio
+            width: '80%',
+            maxWidth: '300px',
+            height: 'auto',
           }}
         >
           <img
@@ -105,28 +104,12 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
             style={{
               width: '80%',
               height: '80%',
-              objectFit: 'cover', // Maintain aspect ratio and cover entire div
-              borderRadius: '10px', // Optional: Add border-radius for rounded corners
+              objectFit: 'cover',
+              borderRadius: '10px',
             }}
           />
-          {/* Bottom Image */}
-          {/*<div
-            style={{
-              position: 'absolute',
-              left: 0,
-              bottom: -40,
-              width: '100%',
-              height: '30%',
-              backgroundImage: `url(${landingCoverMobile})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center bottom',
-              zIndex: 1,
-              opacity: '70%',
-            }}
-          ></div>*/}
         </div>
       )}
-      {/* Wrap intro texts and form in a div with higher z-index */}
       <div style={{ position: 'relative', zIndex: 2 }}>
         {!isTeamBuilding ? (
           <div className={css.container}>
@@ -154,7 +137,6 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
         <div className={css.barContainer}>
           <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding} />
         </div>
-        
       </div>
     </div>
   );
