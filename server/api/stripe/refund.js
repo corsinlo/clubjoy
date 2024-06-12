@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
   const transactionId = req.body.transactionId;
   const customerId = req.body.customerObj.cid;
   let bookingRecord;
-/*
+
   try {
     const { data, error } = await supabase
       .from('bookings')
@@ -142,7 +142,7 @@ username: bookingRecord.username,
       error: error.message,
     });
   }
-  */
+
 };
 
 

@@ -107,7 +107,7 @@ const ProviderButtonsMaybe = props => {
           ref={fileInputRef}
           style={{ display: 'none' }}
         />
-        <PrimaryButton onClick={handlePrimaryButtonClick}>
+        <PrimaryButton onClick={handlePrimaryButtonClick} disabled={!isAfterFiveDays}>
           {loading ? (
             <div className={css.loader}>Caricamento...</div>
           ) : (

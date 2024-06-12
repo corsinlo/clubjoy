@@ -113,13 +113,13 @@ const TeamButtonsMaybe = props => {
   return (
     <div className={css.actionButtonWrapper}>
       <div className={classes}>
-        <PrimaryButton onClick={handlePrimaryButtonClick}>
+        <PrimaryButton disabled={!isAfterFiveDays} onClick={handlePrimaryButtonClick}>
           {fileExists 
             ? intl.formatMessage({ id: 'TeamButtons.button.receipt.download' })
             : intl.formatMessage({ id: 'TeamButtons.button.receipt' })
           }
         </PrimaryButton>
-        <SecondaryButton onClick={handleSecondaryButtonClick}>
+        <SecondaryButton disabled={isWithinFiveDays} onClick={handleSecondaryButtonClick}>
           {intl.formatMessage({ id: 'TeamButtons.button.cancel' })}
         </SecondaryButton>
         <div className={css.cancellationPolicy}>{intl.formatMessage({ id: 'TeamButton.cancelPolicy' })}</div>
