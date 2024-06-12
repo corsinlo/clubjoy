@@ -86,8 +86,8 @@ module.exports = async (req, res) => {
 
         // Send emails after sending the initial response
         try {
-          sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
-          sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com',  name: `${bookingRecord.providername}` }]; //bookingRecord.providerEmail
+          sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
+          sendSmtpEmail.to = [{ email: `${bookingRecord.email}`,  name: `${bookingRecord.name}` }]; //bookingRecord.providerEmail
           sendSmtpEmail.templateId = 25;
           sendSmtpEmail.params = {
             providername: bookingRecord.providername,
@@ -100,8 +100,8 @@ module.exports = async (req, res) => {
           console.log('Email sent successfully to provider', emailResponse);
 
           try {
-            sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
-            sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com',  name: `${bookingRecord.providername}` }]; //bookingRecord.providerEmail
+            sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
+            sendSmtpEmail.to = [{ email: `${bookingRecord.providerEmail}`,  name: `${bookingRecord.providername}` }]; //bookingRecord.providerEmail
             sendSmtpEmail.templateId = 26;
             sendSmtpEmail.params = {
               providername: bookingRecord.providername,

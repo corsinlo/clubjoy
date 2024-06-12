@@ -18,8 +18,8 @@ let sendSmtpEmail = new SibApiV3.SendSmtpEmail();
 module.exports = async (req, res) => {
   const formattedDate = (dateString => new Date(dateString).toLocaleDateString('it-IT', { timeZone: 'UTC' }).replace(/\//g, '-'))(req.body.customerObj.startdate);  
   try {
-      sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
-      sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: 'test' }]; //bookingRecord.providerEmail
+      sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
+      sendSmtpEmail.to = [{ email: `${bookingRecord.email}`,  name: `${bookingRecord.name}` }]; //bookingRecord.providerEmail
       sendSmtpEmail.templateId = 31;
       sendSmtpEmail.params = {
         providerName: req.body.customerObj.providername,

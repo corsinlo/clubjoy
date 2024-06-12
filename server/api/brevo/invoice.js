@@ -37,8 +37,8 @@ module.exports = async (req, res) => {
     console.log('Booking record:', bookingRecord);
     const formattedDate = (dateString => new Date(dateString).toLocaleDateString('it-IT', { timeZone: 'UTC' }).replace(/\//g, '-'))(bookingRecord.startdate);  
     if (bookingRecord) {
-      sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
-      sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: bookingRecord.providername }]; //bookingRecord.providerEmail
+      sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
+      sendSmtpEmail.to = [{ email: `${bookingRecord.providerEmail}`,  name: `${bookingRecord.providername}` }]; 
       sendSmtpEmail.templateId = 28;
       sendSmtpEmail.params = {
         providername: bookingRecord.providername,
@@ -49,8 +49,8 @@ module.exports = async (req, res) => {
       try {
         const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
         try {
-          sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
-          sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: bookingRecord.providername }]; //bookingRecord.providerEmail
+          sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
+          sendSmtpEmail.to = [{ email: `${bookingRecord.email}`,  name: `${bookingRecord.name}` }]; 
           sendSmtpEmail.templateId = 29;
           sendSmtpEmail.params = {
             providerName: bookingRecord.providername,

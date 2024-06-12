@@ -289,7 +289,7 @@ app.post('/send-email', async (req, res) => {
 
   if (subject === 'business') {
     sendSmtpEmail.subject = message;
-    sendSmtpEmail.sender = { name: 'Club Joy App', email: 'noreply@clubjoy.it' };
+    sendSmtpEmail.sender = { name: 'Club Joy App', email: 'hello@clubjoy.it' };
     sendSmtpEmail.to = [{ email: 'hello@clubjoy.it', name: 'Club Joy Team' }];
     sendSmtpEmail.htmlContent = `<html><body><p>Registrazione Nuovo Business: ${name}</p><p>Email: ${email}</p></body></html>`;
   } else {
