@@ -179,6 +179,15 @@ input, select, .DateRangePicker {
 .closeButton:hover {
   color:#012FA7; 
 }
+
+
+.subContainer{
+  display: flex;
+  flex-direction: column;
+  background-color: red;
+}
+
+
 @media (min-width: 1025px)  {
   .dropdownContent {
     position: absolute;

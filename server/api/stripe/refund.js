@@ -3,7 +3,7 @@ const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 
 module.exports = async (req, res) => {
   console.log(req.body);
-
+  //req.body.selectedOption
   const transactionId = req.body.transactionId;
   const customerId = req.body.customerObj.cid;
 
@@ -45,16 +45,15 @@ module.exports = async (req, res) => {
           refund: refund,
         });
 
-        /*
                 try {
                    sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
               sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: bookingRecord.providername }]; //bookingRecord.providerEmail
               sendSmtpEmail.templateId = 25;
               sendSmtpEmail.params = {
-                providerName: bookingRecord.providername,
-                userName: bookingRecord.name,
+                providername: bookingRecord.providername,
+                username: bookingRecord.name,
                 startDate: bookingRecord.startdate,
-                endDate: bookingRecord.startdate, // +5
+                reason: req.body.selectedOption,
                 amount: refund.amount,
               };
                   const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
@@ -64,11 +63,11 @@ module.exports = async (req, res) => {
                     sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: bookingRecord.providername }]; //bookingRecord.providerEmail
                     sendSmtpEmail.templateId = 26;
                     sendSmtpEmail.params = {
-                     providerName: bookingRecord.providername,
-                userName: bookingRecord.name,
-                startDate: bookingRecord.startdate,
-                endDate: bookingRecord.startdate, // +5
-                amount: refund.amount,
+                      providername: bookingRecord.providername,
+                      username: bookingRecord.name,
+                      startDate: bookingRecord.startdate,
+                      reason: req.body.message,
+                      amount: refund.amount,
                     };
                     const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
                     res.json({ message: 'Email sent successfully to customer', data: emailResponse });
@@ -79,7 +78,7 @@ module.exports = async (req, res) => {
                   console.error('Error sending email:', emailError);
                   res.status(500).json({ error: 'Failed to send provider email', emailError });
                 }
-        */
+      
       } catch (refundError) {
         if (refundError.response && refundError.response.data.error.code === 'charge_already_refunded') {
           console.log('Refund already exists for this payment intent.');

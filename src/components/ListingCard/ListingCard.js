@@ -56,7 +56,7 @@ const PriceMaybe = props => {
   return (
     <div className={css.price}>
       <div className={css.priceValue} title={priceTitle}>
-      {listingType === 'teambuilding' ? (  <>Da</>  ) : null} {formattedPrice}
+      {formattedPrice}{listingType === 'teambuilding' ? (  <>/persona</>  ) : null} 
       </div>
       {isBookable ? (
         <div className={css.perUnit}>

@@ -99,7 +99,6 @@ const TeamButtonsMaybe = props => {
           ${intl.formatMessage({ id: 'Event.PopUp.form.address' })}: ${address}
           ${intl.formatMessage({ id: 'Event.PopUp.form.code' })}: ${code}
           ${intl.formatMessage({ id: 'Event.PopUp.form.vat' })}: ${vat}
-          ${intl.formatMessage({ id: 'Event.PopUp.form.sr' })}: ${sr}
           ${intl.formatMessage({ id: 'Event.PopUp.form.fiscalCode' })}: ${fiscalCode}`;
           onSendMessage(transactionId, message);
         });

@@ -13,7 +13,6 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
   const [code, setCode] = useState('');
   const [vat, setVat] = useState('');
   const [receiver, setReceiver] = useState('');
-  const [sr, setSR] = useState('');
   const [fiscalCode, setFiscalCode] = useState('');
 
   const handleOptionChange = (event) => {
@@ -24,7 +23,7 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
     event.preventDefault();
     setConfirmed(true);
     const flow = showForm ? 1 : 2;
-    onConfirm({ selectedOption, receiver, email, address, code, vat, sr, fiscalCode, flow });
+    onConfirm({ selectedOption, receiver, email, address, code, vat, fiscalCode, flow });
   };
 
   const handleReturnClick = () => {
@@ -75,6 +74,17 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                       type="text"
                       value={fiscalCode}
                       onChange={(e) => setFiscalCode(e.target.value)}
+                      required
+                    />
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    {intl.formatMessage({ id: 'Event.PopUp.form.vat' })}
+                    <input
+                      type="text"
+                      value={vat}
+                      onChange={(e) => setVat(e.target.value)}
                       required
                     />
                   </label>

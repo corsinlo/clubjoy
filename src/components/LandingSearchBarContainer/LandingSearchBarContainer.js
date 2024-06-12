@@ -70,19 +70,19 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
           >
           </div>
           <div
-           style={{
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            bottom: 0,
-            width: '70%',
-            backgroundImage: `url(${landingEvents})`,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'right',
-            zIndex: 1,
-            opacity: '70%',
-          }}
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              bottom: 0,
+              width: '70%',
+              backgroundImage: !isTeamBuilding ? null : `url(${landingEvents})`,
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'right',
+              zIndex: 1,
+              opacity: '70%',
+            }}
           >
           </div>
         </>
@@ -138,7 +138,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               {isMobile && <br />}
               {isMobile && <br />}Il tuo nuovo hobby preferito è a distanza di un click
             </div>
-            </div>
+          </div>
         ) : (
           <div className={css.container}>
             <div className={css.introText}>Ancora a fare gli Happy Hour aziendali?</div>
@@ -149,11 +149,12 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               {!isMobile && <br />}
               {isMobile && <br />}
             </div>
-            </div>
+          </div>
         )}
         <div className={css.barContainer}>
           <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding} />
         </div>
+        
       </div>
     </div>
   );

@@ -28,27 +28,26 @@ module.exports = async (req, res) => {
       console.error('Error fetching booking:', error);
       return res.status(500).json({ error: 'Error fetching booking' });
     }
-
+ 
     if (data.length === 0) {
       return res.status(404).json({ error: 'Booking not found' });
     }
 
     const bookingRecord = data[0];
     console.log('Booking record:', bookingRecord);
-
+    const formattedDate = (dateString => new Date(dateString).toLocaleDateString('it-IT').replace(/\//g, '-'))(bookingRecord.startdate);
     if (bookingRecord) {
       sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
       sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: bookingRecord.providername }]; //bookingRecord.providerEmail
       sendSmtpEmail.templateId = 28;
       sendSmtpEmail.params = {
-        providerName: bookingRecord.providername,
+        providername: bookingRecord.providername,
         userName: bookingRecord.name,
-        startDate: bookingRecord.startdate,
+        startDate: formattedDate,
       };
 
       try {
         const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
-        console.log('Email sent successfully to provider', emailResponse);
         try {
           sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
           sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: bookingRecord.providername }]; //bookingRecord.providerEmail
@@ -56,7 +55,7 @@ module.exports = async (req, res) => {
           sendSmtpEmail.params = {
             providerName: bookingRecord.providername,
             userName: bookingRecord.name,
-            startDate: bookingRecord.startdate,
+            startDate: formattedDate,
           };
           const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
           res.json({ message: 'Email sent successfully to customer', data: emailResponse });
@@ -67,7 +66,7 @@ module.exports = async (req, res) => {
         console.error('Error sending email:', emailError);
         res.status(500).json({ error: 'Failed to send provider email', emailError });
       }
-    }
+    } 
   } catch (err) {
     console.error('Error:', err);
     res.status(500).json({ error: 'Internal Server Error' });
