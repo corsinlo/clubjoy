@@ -20,6 +20,7 @@ const moment = require('moment');
 const createUserWithIdp = require('./api/auth/createUserWithIdp');
 const invoice = require('./api/brevo/invoice');
 const notifyInvoice = require('./api/brevo/notifyinvoice');
+const inquiryEvent = require('./api/brevo/event');
 const coupon = require('./api/stripe/coupon');
 const refund = require('./api/stripe/refund');
 const { authenticateFacebook, authenticateFacebookCallback } = require('./api/auth/facebook');
@@ -60,6 +61,7 @@ router.post('/initiate-privileged', initiatePrivileged);
 router.post('/transition-privileged', transitionPrivileged);
 router.post('/stripe/coupon', coupon);
 router.post('/brevo/notifyinvoice', notifyInvoice);
+router.post('/brevo/event', inquiryEvent);
 router.post('/brevo/invoice', invoice);
 router.post('/stripe/refund', refund);
 // Create user with identity provider (e.g. Facebook or Google)

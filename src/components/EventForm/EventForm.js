@@ -3,6 +3,7 @@ import css from './EventForm.module.css';
 import { PrimaryButton } from '../Button/Button';
 import { useIntl } from 'react-intl';
 import { createClient } from '@supabase/supabase-js';
+import { inquiryEvent } from '../../util/api';
 
 const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
 const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
@@ -12,7 +13,7 @@ const EventForm = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
-  const [event, setEvent] = useState('');
+  const [privateEvent, setPrivateEvent] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const [lastname, setLastname] = useState('');
@@ -20,56 +21,37 @@ const EventForm = () => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-
+  
     const contactData = {
       email: email,
       name: name,
       company: company,
-      event: event,
+      privateEvent: privateEvent,
     };
-
+  
     try {
-      /*
-      const { data, error } = await supabase
-        .from('newsletter')
-        .insert([{ email: email, firstName: name, lastName: lastname }])
-        .select();
-      */
-      const response = await fetch('/api/event', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(contactData),
-      });
-
+      const response = await inquiryEvent(contactData);
+  
       if (!response.ok) {
         const errorInfo = await response.json();
         throw new Error(errorInfo.message || 'Failed to plan event');
       }
-
+  
       setEmail('');
       setName('');
       setCompany('');
       setEvent('');
     } catch (error) {
       console.error('Error creating event:', error.message);
-      setErrorMessage(error.message);
     }
   };
-
-  const heartStyle = {
-    color: 'red',
-    margin: '2px',
-  };
-
+  
   return (
     <div className={css.formContainer}>
     <form onSubmit={handleSubmit} className={css.form}>
       <p style={{ color: 'white', textAlign: 'center' }}>
         {intl.formatMessage({ id: 'EventForm.header' })}
       </p>
-      {errorMessage && <div className={css.alert}>{errorMessage}</div>}
       <div className={css.nameRow}>
         <input
           id="name"
@@ -102,8 +84,8 @@ const EventForm = () => {
        <input
         id="event"
         type="event"
-        value={email}
-        onChange={e => setEvent(e.target.value)}
+        value={privateEvent}
+        onChange={e => setPrivateEvent(e.target.value)}
         required
         className={css.inputField}
         placeholder={'Descrizione Evento che Vorresti :)'}
