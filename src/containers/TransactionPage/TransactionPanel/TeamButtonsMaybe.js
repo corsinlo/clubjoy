@@ -89,7 +89,7 @@ const TeamButtonsMaybe = props => {
   };
 
   const handlePopUpFlow = (data) => {
-    const { selectedOption, receiver, email, address, code, vat, sr, fiscalCode, flow } = data;
+    const { selectedOptionText, receiver, email, address, code, vat, sr, fiscalCode, flow } = data;
     if (flow === 1) {
       createInvoice({ customerObj, transactionId, name: receiver, email, address, code, vat, sr, fiscalCode })
         .then(() => {
@@ -103,7 +103,7 @@ const TeamButtonsMaybe = props => {
           onSendMessage(transactionId, message);
         });
     } else if (flow === 2) {
-      createRefund({ customerObj, transactionId, selectedOption });
+      createRefund({ customerObj, transactionId, selectedOptionText });
     }
     setShowForm(false);
   };

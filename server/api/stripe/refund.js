@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
   const transactionId = req.body.transactionId;
   const customerId = req.body.customerObj.cid;
   let bookingRecord;
-
+/*
   try {
     const { data, error } = await supabase
       .from('bookings')
@@ -93,7 +93,7 @@ module.exports = async (req, res) => {
             providername: bookingRecord.providername,
             username: bookingRecord.username,
             startDate: formattedDate,
-            reason: req.body.selectedOption,
+            reason: req.body.selectedOptionText,
             amount: refund.amount,
           };
           const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
@@ -107,7 +107,7 @@ module.exports = async (req, res) => {
               providername: bookingRecord.providername,
 username: bookingRecord.username,
               startDate: formattedDate,
-              reason: req.body.selectedOption,
+              reason: req.body.selectedOptionText,
               amount: refund.amount,
             };
             const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
@@ -142,6 +142,7 @@ username: bookingRecord.username,
       error: error.message,
     });
   }
+  */
 };
 
 
