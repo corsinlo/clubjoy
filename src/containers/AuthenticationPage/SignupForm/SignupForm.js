@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { FormattedMessage, injectIntl, intlShape } from '../../../util/reactIntl';
 import * as validators from '../../../util/validators';
 import { Form, PrimaryButton, FieldTextInput, FieldCheckbox } from '../../../components';
-
+import {FieldCheckboxGroup} from '../../../components';
 import css from './SignupForm.module.css';
 
 const SignupFormComponent = props => (
@@ -150,13 +150,17 @@ const SignupFormComponent = props => (
 
           <div className={css.bottomWrapper}>
             {termsAndConditions}
-            <FieldCheckbox
+            <FieldCheckboxGroup
               id={formId ? `${formId}.iNL` : 'iNL'}
               name="iNL"
-              label={intl.formatMessage({
-                id: 'SignupForm.newsletterLabel',
-              })}
-              className={css.finePrint}
+              options={[
+                {
+                  label: intl.formatMessage(
+                    { id: 'SignupForm.newsletterLabel' },
+                  ),
+                },
+              ]}
+              optionLabelClassName={css.finePrint}
             />
             <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
               <FormattedMessage id="SignupForm.signUp" />
