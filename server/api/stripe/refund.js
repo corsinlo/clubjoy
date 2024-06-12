@@ -1,11 +1,51 @@
 const axios = require('axios');
+const { createClient } = require('@supabase/supabase-js');
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correctly set in your .env file
+const supabase = createClient(supabaseUrl, supabaseKey);
+const SibApiV3Sdk = require('@getbrevo/brevo');
+const SibApiV3 = require('sib-api-v3-sdk');
+
+const brevoClient = new SibApiV3.TransactionalEmailsApi();
+
+let defaultClient = SibApiV3.ApiClient.instance;
+let apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = process.env.BREVO_API_KEY;
+let sendSmtpEmail = new SibApiV3.SendSmtpEmail();
 
 module.exports = async (req, res) => {
   console.log(req.body);
-  //req.body.selectedOption
   const transactionId = req.body.transactionId;
   const customerId = req.body.customerObj.cid;
+  let bookingRecord;
+
+  try {
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*')
+      .eq('bookingid', req.body.customerObj.bookingid);
+
+    if (error) {
+      console.error('Error fetching booking:', error);
+      return res.status(500).json({ error: 'Error fetching booking' });
+    }
+
+    if (data.length === 0) {
+      return res.status(404).json({ error: 'Booking not found' });
+    }
+
+    bookingRecord = data[0];
+  } catch (error) {
+    console.error('Error fetching booking:', error);
+    return res.status(500).json({ error: 'Error fetching booking' });
+  }
+
+  const formattedDate = (dateString => {
+    const date = new Date(dateString);
+    date.setUTCDate(date.getUTCDate() - 5);
+    return date.toLocaleDateString('it-IT', { timeZone: 'UTC' }).replace(/\//g, '-');
+  })(bookingRecord.startdate);
 
   try {
     const paymentIntentsResponse = await axios.get('https://api.stripe.com/v1/payment_intents', {
@@ -26,7 +66,6 @@ module.exports = async (req, res) => {
     console.log('Found payment intent:', foundPaymentIntent);
 
     if (foundPaymentIntent) {
-      // Create a refund for the payment intent
       try {
         const refundResponse = await axios.post('https://api.stripe.com/v1/refunds', null, {
           headers: {
@@ -45,40 +84,41 @@ module.exports = async (req, res) => {
           refund: refund,
         });
 
-                try {
-                   sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
-              sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: bookingRecord.providername }]; //bookingRecord.providerEmail
-              sendSmtpEmail.templateId = 25;
-              sendSmtpEmail.params = {
-                providername: bookingRecord.providername,
-                username: bookingRecord.name,
-                startDate: bookingRecord.startdate,
-                reason: req.body.selectedOption,
-                amount: refund.amount,
-              };
-                  const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
-                  console.log('Email sent successfully to provider', emailResponse);
-                  try {
-                    sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
-                    sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: bookingRecord.providername }]; //bookingRecord.providerEmail
-                    sendSmtpEmail.templateId = 26;
-                    sendSmtpEmail.params = {
-                      providername: bookingRecord.providername,
-                      username: bookingRecord.name,
-                      startDate: bookingRecord.startdate,
-                      reason: req.body.message,
-                      amount: refund.amount,
-                    };
-                    const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
-                    res.json({ message: 'Email sent successfully to customer', data: emailResponse });
-                  } catch {
-                    console.error('Failed to send customer email', emailError);
-                  }
-                } catch (emailError) {
-                  console.error('Error sending email:', emailError);
-                  res.status(500).json({ error: 'Failed to send provider email', emailError });
-                }
-      
+        // Send emails after sending the initial response
+        try {
+          sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
+          sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com',  name: `${bookingRecord.providername}` }]; //bookingRecord.providerEmail
+          sendSmtpEmail.templateId = 25;
+          sendSmtpEmail.params = {
+            providername: bookingRecord.providername,
+            username: bookingRecord.username,
+            startDate: formattedDate,
+            reason: req.body.selectedOption,
+            amount: refund.amount,
+          };
+          const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
+          console.log('Email sent successfully to provider', emailResponse);
+
+          try {
+            sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
+            sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com',  name: `${bookingRecord.providername}` }]; //bookingRecord.providerEmail
+            sendSmtpEmail.templateId = 26;
+            sendSmtpEmail.params = {
+              providername: bookingRecord.providername,
+username: bookingRecord.username,
+              startDate: formattedDate,
+              reason: req.body.selectedOption,
+              amount: refund.amount,
+            };
+            const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
+            console.log('Email sent successfully to customer', emailResponse);
+          } catch (emailError) {
+            console.error('Failed to send customer email', emailError);
+          }
+        } catch (emailError) {
+          console.error('Error sending email:', emailError);
+        }
+
       } catch (refundError) {
         if (refundError.response && refundError.response.data.error.code === 'charge_already_refunded') {
           console.log('Refund already exists for this payment intent.');

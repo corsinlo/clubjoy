@@ -7,6 +7,7 @@ import { PrimaryButton, SecondaryButton } from '../Button/Button';
 const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
   const intl = useIntl();
   const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOptionText, setSelectedOptionText] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
@@ -16,14 +17,17 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
   const [fiscalCode, setFiscalCode] = useState('');
 
   const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
+    const selectedOption = event.target.value;
+    const selectedOptionText = event.target.options[event.target.selectedIndex].text;
+    setSelectedOption(selectedOption);
+    setSelectedOptionText(selectedOptionText);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setConfirmed(true);
     const flow = showForm ? 1 : 2;
-    onConfirm({ selectedOption, receiver, email, address, code, vat, fiscalCode, flow });
+    onConfirm({ selectedOptionText, receiver, email, address, code, vat, fiscalCode, flow });
   };
 
   const handleReturnClick = () => {
@@ -146,11 +150,7 @@ PopUp.propTypes = {
   message: PropTypes.string.isRequired,
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  showForm: PropTypes.bool,
-};
-
-PopUp.defaultProps = {
-  showForm: false,
+  showForm: PropTypes.bool.isRequired,
 };
 
 export default PopUp;

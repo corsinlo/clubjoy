@@ -35,14 +35,14 @@ module.exports = async (req, res) => {
 
     const bookingRecord = data[0];
     console.log('Booking record:', bookingRecord);
-    const formattedDate = (dateString => new Date(dateString).toLocaleDateString('it-IT').replace(/\//g, '-'))(bookingRecord.startdate);
+    const formattedDate = (dateString => new Date(dateString).toLocaleDateString('it-IT', { timeZone: 'UTC' }).replace(/\//g, '-'))(bookingRecord.startdate);  
     if (bookingRecord) {
       sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'noreply@clubjoy.it' };
       sendSmtpEmail.to = [{ email: 'corsini.ludovico@gmail.com', name: bookingRecord.providername }]; //bookingRecord.providerEmail
       sendSmtpEmail.templateId = 28;
       sendSmtpEmail.params = {
         providername: bookingRecord.providername,
-        userName: bookingRecord.name,
+        username: bookingRecord.name,
         startDate: formattedDate,
       };
 
@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
           sendSmtpEmail.templateId = 29;
           sendSmtpEmail.params = {
             providerName: bookingRecord.providername,
-            userName: bookingRecord.name,
+            username: bookingRecord.name,
             startDate: formattedDate,
           };
           const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);

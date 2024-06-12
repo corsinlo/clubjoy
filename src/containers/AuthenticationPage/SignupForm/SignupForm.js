@@ -156,9 +156,8 @@ const SignupFormComponent = props => (
               label={intl.formatMessage({
                 id: 'SignupForm.newsletterLabel',
               })}
+              className={css.finePrint}
             />
-
-            
             <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
               <FormattedMessage id="SignupForm.signUp" />
             </PrimaryButton>
