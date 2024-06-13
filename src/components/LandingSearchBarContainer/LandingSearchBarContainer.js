@@ -77,7 +77,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               top: 10, 
               bottom: 0,
               width: '100%',
-              backgroundImage: !isTeamBuilding ? null : `url(${landingEvents})`,
+              backgroundImage: null, //!isTeamBuilding ? null : `url(${landingEvents})`,
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right',
