@@ -67,16 +67,16 @@ const TopbarMobileMenu = props => {
               <FormattedMessage id="TopbarDesktop.provider" />
             </NamedLink>
             <br />
-            {/*<NamedLink name="TeambuildingPage">
+            <NamedLink name="TeambuildingPage">
               <FormattedMessage id="TopbarDesktop.team" />
-    </NamedLink>*/}
+    </NamedLink>
           </div>
         </div>
-        {/*<div className={css.footer}>
+        <div className={css.footer}>
           <NamedLink className={css.createNewListingLink} name="NewListingPage">
             <FormattedMessage id="TopbarMobileMenu.newListingLink" />
           </NamedLink>
-        </div>*/}
+        </div>
       </div>
     );
   }
@@ -140,12 +140,12 @@ const TopbarMobileMenu = props => {
         >
           <FormattedMessage id="TopbarMobileMenu.accountSettingsLink" />
         </NamedLink>
-        {/*<NamedLink
+        <NamedLink
           className={classNames(css.navigationLink, currentPageClass('TeambuildingPage'))}
           name="TeambuildingPage"
         >
           <FormattedMessage id="TopbarDesktop.team" />
-      </NamedLink>*/}
+      </NamedLink>
         <div className={css.spacer} />
       </div>
       {userRole === 'provider' && (
