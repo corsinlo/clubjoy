@@ -144,9 +144,6 @@ const AddListingFields = props => {
       return [
         ...pickedFields,
         fieldComponent,
-        <div style={{ marginBottom:'50px', fontSize: '13px', flexShrink: 0}}>{intl.formatMessage({
-          id: 'EditListingDetailsForm.privateEventMessage',
-        })}</div>
       ];
     }
 
