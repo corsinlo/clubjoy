@@ -6,6 +6,7 @@ import landingCoverL from '../../media/landingCoverL.jpeg';
 import landingEvents from '../../media/landingEvents.png';
 import landingCoverMobile from '../../media/landingCoverMobile.jpg';
 
+import SurveyForm from './SurveyForm';
 import LandingSearchBarForm from './LandingSearchBarForm';
 import { useLocation } from 'react-router-dom';
 
@@ -136,6 +137,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
         )}
         <div className={css.barContainer}>
           <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding} />
+          {/*SurveyForm*/}
         </div>
       </div>
     </div>

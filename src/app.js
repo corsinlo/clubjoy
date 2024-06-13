@@ -278,7 +278,7 @@ export const ClientApp = props => {
 
                 @media screen and (max-width: 768px) {
                   .customClass {
-                    bottom: 10px;
+                    bottom: 100px;
                   }
                 }
               `}
