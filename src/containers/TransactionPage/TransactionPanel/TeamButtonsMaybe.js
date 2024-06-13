@@ -41,7 +41,7 @@ const TeamButtonsMaybe = props => {
         <PrimaryButton disabled={!isAfterFiveDays} onClick={handlePrimaryButtonClick}>
           {intl.formatMessage({ id: 'TeamButtons.button.receipt' })}
         </PrimaryButton>
-        <SecondaryButton disabled={isWithinFiveDays} onClick={handleSecondaryButtonClick}>
+        <SecondaryButton disabled={isWithinFiveDays} onClick={handleSecondaryButtonClick} style={{marginTop: '5px'}}> 
           {intl.formatMessage({ id: 'TeamButtons.button.cancel' })}
         </SecondaryButton>
       </div>
