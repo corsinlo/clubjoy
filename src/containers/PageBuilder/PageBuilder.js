@@ -178,7 +178,7 @@ const PageBuilder = props => {
                             <div className={css.subContainer}>
  
       <div>
-        <div className={css.header}>Prenota Online</div>
+        <div className={css.header}>Prenota online</div>
         <div>senza dover aspettare preventivi</div>
       </div>
       <div>
