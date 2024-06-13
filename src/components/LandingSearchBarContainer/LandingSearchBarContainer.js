@@ -128,7 +128,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
             <div className={css.introText}>Ancora a fare gli Happy Hour aziendali?</div>
             <div className={css.introText2}>
               Su Club Joy {isMobile && <br />}
-              le migliori esperienze creative di Milano e dintorni, anche per la tua azienda.{' '}
+              scopri le migliori esperienze creative di Milano e dintorni, anche per la tua azienda.{' '}
               {!isMobile && <br />}
               {!isMobile && <br />}
               {isMobile && <br />}
