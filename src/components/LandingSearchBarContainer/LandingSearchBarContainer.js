@@ -3,8 +3,10 @@ import css from './LandingSearchBar.module.css';
 import landingCover from '../../media/landingCover.jpg';
 import landingCoverR from '../../media/landingCoverR.jpeg';
 import landingCoverL from '../../media/landingCoverL.jpeg';
+import landingEvents from '../../media/landingEvents.png';
 import landingCoverMobile from '../../media/landingCoverMobile.jpg';
 
+import SurveyForm from './SurveyForm';
 import LandingSearchBarForm from './LandingSearchBarForm';
 import { useLocation } from 'react-router-dom';
 
@@ -48,7 +50,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'left center',
-              zIndex: 1, // Ensure background is below text
+              zIndex: 1,
               opacity: '70%',
             }}
           ></div>
@@ -63,7 +65,23 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right center',
-              zIndex: 1, // Ensure background is below text
+              zIndex: 1,
+              opacity: '70%',
+            }}
+          ></div>
+          <div
+            style={{
+              position: 'absolute',
+              left: 100,
+              right: 0 ,
+              top: 10, 
+              bottom: 0,
+              width: '100%',
+              backgroundImage: null, //!isTeamBuilding ? null : `url(${landingEvents})`,
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'right',
+             
               opacity: '70%',
             }}
           ></div>
@@ -76,9 +94,9 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
             left: '50%',
             top: '18%',
             transform: 'translate(-50%, -50%)',
-            width: '80%', // Adjust width as needed
-            maxWidth: '300px', // Maximum width of the image
-            height: 'auto', // Height will adjust automatically to maintain aspect ratio
+            width: '80%',
+            maxWidth: '300px',
+            height: 'auto',
           }}
         >
           <img
@@ -87,31 +105,15 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
             style={{
               width: '80%',
               height: '80%',
-              objectFit: 'cover', // Maintain aspect ratio and cover entire div
-              borderRadius: '10px', // Optional: Add border-radius for rounded corners
+              objectFit: 'cover',
+              borderRadius: '10px',
             }}
           />
-          {/* Bottom Image */}
-          {/*<div
-            style={{
-              position: 'absolute',
-              left: 0,
-              bottom: -40,
-              width: '100%',
-              height: '30%',
-              backgroundImage: `url(${landingCoverMobile})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center bottom',
-              zIndex: 1,
-              opacity: '70%',
-            }}
-          ></div>*/}
         </div>
       )}
-      {/* Wrap intro texts and form in a div with higher z-index */}
       <div style={{ position: 'relative', zIndex: 2 }}>
         {!isTeamBuilding ? (
-          <>
+          <div className={css.container}>
             <div className={css.introText}>Di creativo ti rimane solo il parcheggio?</div>
             <div className={css.introText2}>
               Dal corso di ceramica alla lezione di pittura, su Club Joy{isMobile && <br />}
@@ -120,10 +122,10 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               {isMobile && <br />}
               {isMobile && <br />}Il tuo nuovo hobby preferito è a distanza di un click
             </div>
-          </>
+          </div>
         ) : (
-          <>
-            <div className={css.introText}>Ancora a fare gli Happy Hour Aziendali?</div>
+          <div className={css.container}>
+            <div className={css.introText}>Ancora a fare gli Happy Hour aziendali?</div>
             <div className={css.introText2}>
               Su Club Joy {isMobile && <br />}
               le migliori esperienze creative di Milano e dintorni, anche per la tua azienda.{' '}
@@ -131,10 +133,11 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               {!isMobile && <br />}
               {isMobile && <br />}
             </div>
-          </>
+          </div>
         )}
         <div className={css.barContainer}>
           <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding} />
+          {/*SurveyForm*/}
         </div>
       </div>
     </div>

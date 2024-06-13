@@ -66,7 +66,7 @@ const TermsAndConditions = props => {
         validate={requiredFieldArrayCheckbox(
           intl.formatMessage({ id: 'AuthenticationPage.termsAndConditionsAcceptRequired' })
         )}
-      />
+      /> 
     </div>
   );
 };

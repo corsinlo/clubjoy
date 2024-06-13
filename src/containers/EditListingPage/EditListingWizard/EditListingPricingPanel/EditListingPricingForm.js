@@ -102,9 +102,9 @@ export const EditListingPricingFormComponent = props => (
           {isTeamBuilding !== 'class' ? (
             <>
               <p>
-                Indicare prezzo per singola persona Nella prossima schermata sceglierete il min e
-                max numero di partecipanti al vostro evento Team Building, per esempio da 4 a 15 Il
-                prezzo mostrato sara’ [min partecipanti] x [prezzo per singola persona] Esempio:
+                Indicare prezzo per singola persona.<br/>Nella prossima schermata sceglierete il min e
+                max numero di partecipanti al vostro evento.<br/> Per esempio da 4 a 15 Il
+                prezzo mostrato sara’: <br/>[min partecipanti] x [prezzo per singola persona] Esempio:
                 [€20] x [4] = €80
               </p>
             </>

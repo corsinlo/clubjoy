@@ -46,7 +46,7 @@ import SearchFiltersMobile from './SearchFiltersMobile/SearchFiltersMobile';
 import SortBy from './SortBy/SortBy';
 import SearchResultsPanel from './SearchResultsPanel/SearchResultsPanel';
 import NoSearchResultsMaybe from './NoSearchResultsMaybe/NoSearchResultsMaybe';
-
+import EventForm from '../../components/EventForm/EventForm';
 import css from './SearchPage.module.css';
 
 const MODAL_BREAKPOINT = 768; // Search is in modal on mobile layout
@@ -522,6 +522,7 @@ export class SearchPageComponent extends Component {
                   isMapVariant
                   isTeamBuilding={isTeamBuildingOnTop}
                 />
+                {isTeamBuildingOnTop? <EventForm/>:null}
               </div>
             )}
           </div>

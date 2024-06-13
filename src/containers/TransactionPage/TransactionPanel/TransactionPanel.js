@@ -24,6 +24,7 @@ import InquiryMessageMaybe from './InquiryMessageMaybe';
 import FeedSection from './FeedSection';
 import ActionButtonsMaybe from './ActionButtonsMaybe';
 import TeamButtonsMaybe from './TeamButtonsMaybe';
+import ProviderButtonsMaybe from './ProviderButtonsMaybe';
 import DiminishedActionButtonMaybe from './DiminishedActionButtonMaybe';
 import PanelHeading from './PanelHeading';
 
@@ -144,6 +145,7 @@ export class TransactionPanelComponent extends Component {
       customerObj,
       config,
       transactionId,
+      onSendMessage, // Add onSendMessage prop
     } = this.props;
 
 
@@ -177,10 +179,17 @@ export class TransactionPanelComponent extends Component {
 
     const updatedCustomerObj = { ...customerObj, providerEmail };
 
-    const teamButtons = (
-    <TeamButtonsMaybe
-    />
-    );
+  const teamButtons =(<TeamButtonsMaybe
+    start={start}
+         customerObj={customerObj}
+         transactionId={tId}
+         onSendMessage={onSendMessage} // Pass onSendMessage prop
+         />);
+  
+  const providerButtons =(<ProviderButtonsMaybe
+          start={start}
+               customerObj={updatedCustomerObj}
+               transactionId={tId}/>);
 
     const actionButtons = (
       <ActionButtonsMaybe
@@ -323,6 +332,18 @@ export class TransactionPanelComponent extends Component {
                 <div className={css.mobileActionButtons}>{actionButtons}</div>
               </>
             ) : null}
+            {stateData?.processState == 'accepted' & !isProvider & listingType == 'teambuilding'?(
+              <>
+                <div className={css.mobileActionButtonSpacer}></div>
+                <div className={css.mobileActionButtons}>{teamButtons}</div>
+              </>
+            ) : null}
+             {stateData?.processState == 'accepted' & isProvider & listingType == 'teambuilding'?(
+              <>
+                <div className={css.mobileActionButtonSpacer}></div>
+                <div className={css.mobileActionButtons}>{providerButtons}</div>
+              </>
+            ) : null}
           </div>
 
           <div className={css.asideDesktop}>
@@ -363,10 +384,11 @@ export class TransactionPanelComponent extends Component {
                 />
                 {stateData?.processState == 'accepted' & !isProvider & listingType == 'teambuilding'?(
                   <div className={css.desktopActionButtons}>
-                <TeamButtonsMaybe
-                start={start}
-                     customerObj={customerObj}
-                     transactionId={tId}/>
+                    {teamButtons}
+                     </div>):null}
+                {stateData?.processState == 'accepted' & isProvider & listingType == 'teambuilding'?(
+                  <div className={css.desktopActionButtons}>
+                    {providerButtons}
                      </div>):null}
                 {stateData.showActionButtons ? (
                   <div className={css.desktopActionButtons}>{actionButtons}</div>

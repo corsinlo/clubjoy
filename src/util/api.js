@@ -148,7 +148,7 @@ export const createUserWithIdp = body => {
 // Create user uncaptured charge for coupon for the provider
 // See `server/api/stripe.js` to see what data should
 export const createInvoice = body => {
-  return post('/api/stripe/invoice', body);
+  return post('/api/brevo/invoice', body);
 };
 
 export const createRefund = body => {
@@ -158,4 +158,12 @@ export const createRefund = body => {
 // Check the validity of a coupon code
 export const checkCoupon = body => {
   return post('/api/stripe/coupon', body);
+};
+
+export const notifyInvoice = body => {
+  return post('/api/brevo/notifyinvoice', body);
+};
+
+export const inquiryEvent = body => {
+  return post('/api/brevo/event', body);
 };

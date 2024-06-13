@@ -168,7 +168,7 @@ class TopbarComponent extends Component {
       searchParams,
     } = this.props;
 
-    //const isTeamBuilding = this.props.location.pathname === '/p/teambuilding';
+    const isTeamBuilding = this.props.location.pathname === '/p/teambuilding';
     const isTeamBuildingOnTop = this.props.location.pathname.startsWith('/ts');
     const { mobilemenu, mobilesearch, keywords, address, origin, bounds } = parse(location.search, {
       latlng: ['origin'],

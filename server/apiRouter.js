@@ -18,9 +18,11 @@ const initiatePrivileged = require('./api/initiate-privileged');
 const transitionPrivileged = require('./api/transition-privileged');
 const moment = require('moment');
 const createUserWithIdp = require('./api/auth/createUserWithIdp');
-const invoice = require('./api/stripe/invoice');
+const invoice = require('./api/brevo/invoice');
+const notifyInvoice = require('./api/brevo/notifyinvoice');
+const inquiryEvent = require('./api/brevo/event');
 const coupon = require('./api/stripe/coupon');
-
+const refund = require('./api/stripe/refund');
 const { authenticateFacebook, authenticateFacebookCallback } = require('./api/auth/facebook');
 const { authenticateGoogle, authenticateGoogleCallback } = require('./api/auth/google');
 
@@ -58,8 +60,10 @@ router.post('/transaction-line-items', transactionLineItems);
 router.post('/initiate-privileged', initiatePrivileged);
 router.post('/transition-privileged', transitionPrivileged);
 router.post('/stripe/coupon', coupon);
-router.post('/stripe/invoice', invoice);
-
+router.post('/brevo/notifyinvoice', notifyInvoice);
+router.post('/brevo/event', inquiryEvent);
+router.post('/brevo/invoice', invoice);
+router.post('/stripe/refund', refund);
 // Create user with identity provider (e.g. Facebook or Google)
 // This endpoint is called to create a new user after user has confirmed
 // they want to continue with the data fetched from IdP (e.g. name and email)
@@ -95,7 +99,7 @@ router.post('/send-email', async (req, res) => {
 
   if (subject === 'business') {
     sendSmtpEmail.subject = message;
-    sendSmtpEmail.sender = { name: 'Club Joy App', email: 'noreply@clubjoy.it' };
+    sendSmtpEmail.sender = { name: 'Club Joy App', email: 'hello@clubjoy.it' };
     sendSmtpEmail.to = [{ email: 'hello@clubjoy.it', name: 'Club Joy Team' }];
     sendSmtpEmail.htmlContent = `<html><body><p>Registrazione Nuovo Business: ${name}</p><p>Email: ${email}</p></body></html>`;
   } else {
@@ -193,7 +197,6 @@ router.post('/send-reminder', async (req, res) => {
 */
 router.post('/add-contact', (req, res) => {
   const { email, listId, firstName, lastName, isNewsletter } = req.body;
-
   let defaultClient = SibApiV3.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
@@ -201,10 +204,12 @@ router.post('/add-contact', (req, res) => {
   let createContact = new SibApiV3.CreateContact();
   createContact.email = email;
 
-  if (isNewsletter) {
+  if (isNewsletter &&  isSignup) {
+    createContact.listIds = [4, 7];
+  } else if (isNewsletter && !isSignup) {
     createContact.listIds = [4];
-  } else {
-    createContact.listIds = [4, 5];
+  } else if (!isNewsletter && isSignup) {
+    createContact.listIds = [7];
   }
 
   createContact.attributes = { FIRSTNAME: firstName, LASTNAME: lastName };
