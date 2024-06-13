@@ -3,6 +3,30 @@
   grid-template-rows: auto 1fr auto;
 }
 
+
+.subContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px; /* Adjust the gap as needed */
+  color: white;
+  background-color: red;
+}
+
+.subContainer > div {
+  flex: 1;
+  text-align: center;
+}
+
+.subContainer > div > div {
+  margin: 10px 0; /* Adjust the margin as needed */
+}
+
+.header {
+  font-weight: bold;
+}
+
+
 .topbar {
   position: fixed;
   top: 0;
@@ -58,5 +82,12 @@
   z-index: 1000;   /* High z-index to ensure it's on top of other content */
   flex-direction: row; /* Align children in a row */
   margin: 2px;
+}
+
+
+.subContainer {
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
+  justify-content: center;
 }
 }

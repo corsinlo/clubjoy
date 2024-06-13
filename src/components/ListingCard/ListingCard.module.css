@@ -133,3 +133,7 @@
   padding-left: 10px; /* Spacing from the price or previous element */
   margin-top: -12px; /* Adjust the vertical alignment */
 }
+
+.da{
+  display: flex;
+}

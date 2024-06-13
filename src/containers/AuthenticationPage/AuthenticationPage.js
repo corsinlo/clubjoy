@@ -188,26 +188,31 @@ export const AuthenticationForms = props => {
 
   const handleSubmitSignup = async values => {
     const role = tab === 'bsignup' ? 'provider' : 'customer';
-    const { fname: firstName, lname: lastName, ...rest } = values;
+    const { fname: firstName, lname: lastName, iNL:isNewsletter, ...rest } = values;
     const params = { firstName, lastName, ...rest, role };
-
+    console.log(values)
     try {
       const contactData = {
         email: values.email,
         firstName: values.fname,
         lastName: values.lname,
-        isNewsLetter: false,
+        isNewsLetter: values.iNL ?? false ,
+        isSignup: true,
       };
 
-      const { data, error } = await supabase
-        .from('newsletter')
-        .insert([{ email: values.email }])
-        .select();
 
-      if (error) {
-        console.error('Error inserting email into Supabase:', error);
-      } else {
-        console.log('Inserted email into Supabase');
+      if (isNewsletter) {
+        console.log('here')
+        const { data, error } = await supabase
+          .from('newsletter')
+          .insert([{ email: values.email }])
+          .select();
+
+        if (error) {
+          console.error('Error inserting email into Supabase:', error);
+        } else {
+          console.log('Inserted email into Supabase');
+        }
       }
 
       const response = await fetch('/api/add-contact', {

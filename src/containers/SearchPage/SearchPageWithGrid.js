@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { useIntl, intlShape, FormattedMessage } from '../../util/reactIntl';
 import { useConfiguration } from '../../context/configurationContext';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
-
+import EventForm from '../../components/EventForm/EventForm';
 import { createResourceLocatorString } from '../../util/routes';
 import {
   isAnyFilterActive,
@@ -396,6 +396,7 @@ export class SearchPageComponent extends Component {
                   isMapVariant={false}
                   isTeamBuilding={isTeamBuildingOnTop}
                 />
+                 {isTeamBuildingOnTop? <EventForm/>:null}
               </div>
             </div>
           </div>
