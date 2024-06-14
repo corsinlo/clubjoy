@@ -78,8 +78,8 @@
   background-color: #FFF;
   background-size: cover;
   padding-left: 40px; 
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
  
 }
 .introText {
@@ -303,7 +303,14 @@ input, select, .DateRangePicker {
   }
 
   .container{
-width:40vw;
+    width:40vw;
+  }
+
+  .surveyContainer{
+    width:40vw;
+    align-items: center;
+    justify-content: center;
+    display: flex;
   }
 
   .dropdownContent {

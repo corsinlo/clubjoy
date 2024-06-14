@@ -6,8 +6,6 @@ import { createResourceLocatorString } from '../../util/routes';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 import { useIntl } from 'react-intl';
 
-//const isTeamBuilding = location.pathname === '/p/teambuilding';
-//console.log('isTeamBuilding', isTeamBuilding);
 function useWindowSize() {
   const [windowSize, setWindowSize] = useState({ width: undefined });
 
@@ -25,11 +23,14 @@ function useWindowSize() {
   return windowSize;
 }
 
-const LandingSearchBarForm = ({ onSearchSubmit, className, isTeamBuilding}) => {
+const SurveyForm = ({ className, isTeamBuilding }) => {
   const routeConfiguration = useRouteConfiguration();
   const intl = useIntl();
-  const searchPagePath = routeConfiguration ? isTeamBuilding ? createResourceLocatorString('teamSearchPage', routeConfiguration, {}, {}) : createResourceLocatorString('SearchPage', routeConfiguration, {}, {})
-  : '';
+  const searchPagePath = routeConfiguration
+    ? isTeamBuilding
+      ? createResourceLocatorString('teamSearchPage', routeConfiguration, {}, {})
+      : createResourceLocatorString('SearchPage', routeConfiguration, {}, {})
+    : '';
 
   const [location, setLocation] = useState('');
   const [bounds, setBounds] = useState({
@@ -51,14 +52,10 @@ const LandingSearchBarForm = ({ onSearchSubmit, className, isTeamBuilding}) => {
   const [focusedInput, setFocusedInput] = useState(null);
   const history = useHistory();
   const [joy, setJoy] = useState([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
-  const [isPickerVisible, setIsPickerVisible] = useState(false);
   const { width } = useWindowSize();
   const isSmallScreen = width < 1024;
-  const closeDropdown = () => setIsDropdownOpen(false);
-  const closeDropdown2 = () => setIsDropdownOpen2(false);
-  // Removed useEffect for Google Maps Autocomplete
+
+  const [currentStep, setCurrentStep] = useState(1);
 
   const fetchLocationBounds = async inputLocation => {
     if (!inputLocation) return; // Don't fetch if input is empty
@@ -97,8 +94,6 @@ const LandingSearchBarForm = ({ onSearchSubmit, className, isTeamBuilding}) => {
     }
   };
 
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-  const toggleDropdown2 = () => setIsDropdownOpen2(!isDropdownOpen2);
   const handleJoyChange = value => {
     if (joy.includes(value)) {
       setJoy(joy.filter(item => item !== value)); // Remove item if already selected
@@ -149,128 +144,98 @@ const LandingSearchBarForm = ({ onSearchSubmit, className, isTeamBuilding}) => {
       ? `${joy.map(value => intl.formatMessage({ id: `SearchBar.selection.${value}` })).join(', ')}`
       : intl.formatMessage({ id: 'SearchBar.selection' });
 
-  return (
-    <form onSubmit={handleSubmit} className={`${css.form} ${className || ''}`}>
-      <button type="button" onClick={toggleDropdown} className={css.fieldSearch}>
-        {selectedJoyText}
-      </button>
-      {isDropdownOpen && (
-        <div className={css.dropdownContent}>
-          {[1, 2, 3, 5, 6, 7].map(option => (
-            <label key={option} className={css.dropdownLabel}>
-              <input
-                type="checkbox"
-                value={option}
-                checked={joy.includes(option.toString())}
-                onChange={() => handleJoyChange(option.toString())}
-              />
-              {intl.formatMessage({ id: `SearchBar.selection.${option}` })}
-            </label>
-          ))}
-          <button type="button" onClick={closeDropdown} className={css.closeButton}>
-            {intl.formatMessage({ id: 'SearchBar.close' })}
-          </button>
-        </div>
-      )}
-
-      {!isPickerVisible && (
-        <input
-          onClick={() => setIsPickerVisible(true)}
-          placeholder={intl.formatMessage({
-            id: 'SearchBar.time',
-          })}
-          className={css.fieldSearch}
-        />
-      )}
-      {isPickerVisible && (
-        <div className={css.dateWrapper}>
-          <DateRangePicker
-            startDate={startDate}
-            startDateId="your_unique_start_date_id"
-            endDate={endDate}
-            endDateId="your_unique_end_date_id"
-            onDatesChange={({ startDate, endDate }) => {
-              setStartDate(startDate);
-              setEndDate(endDate);
-            }}
-            focusedInput={focusedInput}
-            onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-            isOutsideRange={() => false}
-            startDatePlaceholderText={intl.formatMessage({
-              id: 'SearchBar.time.from',
-            })}
-            endDatePlaceholderText={intl.formatMessage({
-              id: 'SearchBar.time.to',
-            })}
-            orientation="horizontal"
-            navPosition={'navPositionTop'}
-            numberOfMonths={isSmallScreen ? 1 : 2}
-            autoFocus={isSmallScreen}
-            noBorder={isSmallScreen}
-            displayFormat="M/D"
-          />
-        </div>
-      )}
-
-      <button type="button" onClick={toggleDropdown2} className={css.fieldSearch}>
-        {location || intl.formatMessage({ id: 'SearchBar.location' })}
-
-        {isDropdownOpen2 && (
-          <div className={css.dropdownContent2}>
-            <div
-              key="Milan"
-              className={css.dropdownLabel2}
-              onClick={() => {
-                setLocation('Milano e Dintorni');
-                setBounds({
-                  ne: {
-                    _sdkType: 'LatLng',
-                    lat: 46.37133393,
-                    lng: 11.30806128,
-                  },
-                  sw: {
-                    _sdkType: 'LatLng',
-                    lat: 44.63128509,
-                    lng: 8.37745825,
-                  },
-                  _sdkType: 'LatLngBounds',
-                });
-                setIsDropdownOpen2(false);
-              }}
-            >
-              <span className={css.option}>Milano e Dintorni</span>
-            </div>
-            <button
-              type="button"
-              onClick={() => setIsDropdownOpen2(false)}
-              className={css.closeButton}
-            >
-              {intl.formatMessage({ id: 'SearchBar.close' })}
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className={css.step}>
+            <h2>{intl.formatMessage({ id: 'Survey.step1.title' })}</h2>
+            {[1, 2, 3, 5, 6, 7].map(option => (
+              <label key={option} className={css.dropdownLabel}>
+                <input
+                  type="checkbox"
+                  value={option}
+                  checked={joy.includes(option.toString())}
+                  onChange={() => handleJoyChange(option.toString())}
+                />
+                {intl.formatMessage({ id: `SearchBar.selection.${option}` })}
+              </label>
+            ))}
+            <button onClick={() => setCurrentStep(2)} className={css.nextButton}>
+              {intl.formatMessage({ id: 'Survey.next' })}
             </button>
           </div>
-        )}
-      </button>
-      {/*<input
-        id="location-input"
-        type="text"
-        placeholder={intl.formatMessage({
-          id: 'SearchBar.location',
-        })}
-        value={location}
-        onChange={e => {
-          const newLocation = e.target.value;
-          setLocation(newLocation); // Update location with user input for immediate feedback
-          fetchLocationBounds(newLocation); // Fetch bounds for new location
-        }}
-        className={css.fieldSearch}
-      />*/}
-      <button type="submit" className={css.button}>
-        {intl.formatMessage({
-          id: 'SearchBar.time.button',
-        })}
-      </button>
-    </form>
+        );
+      case 2:
+        return (
+          <div className={css.step}>
+            <h2>{intl.formatMessage({ id: 'Survey.step2.title' })}</h2>
+            <DateRangePicker
+              startDate={startDate}
+              startDateId="your_unique_start_date_id"
+              endDate={endDate}
+              endDateId="your_unique_end_date_id"
+              onDatesChange={({ startDate, endDate }) => {
+                setStartDate(startDate);
+                setEndDate(endDate);
+              }}
+              focusedInput={focusedInput}
+              onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+              isOutsideRange={() => false}
+              startDatePlaceholderText={intl.formatMessage({
+                id: 'SearchBar.time.from',
+              })}
+              endDatePlaceholderText={intl.formatMessage({
+                id: 'SearchBar.time.to',
+              })}
+              orientation="horizontal"
+              navPosition={'navPositionTop'}
+              numberOfMonths={isSmallScreen ? 1 : 2}
+              autoFocus={isSmallScreen}
+              noBorder={isSmallScreen}
+              displayFormat="M/D"
+            />
+            <button onClick={() => setCurrentStep(3)} className={css.nextButton}>
+              {intl.formatMessage({ id: 'Survey.next' })}
+            </button>
+          </div>
+        );
+      case 3:
+        return (
+          <div className={css.step}>
+            <h2>{intl.formatMessage({ id: 'Survey.step3.title' })}</h2>
+            <input
+              id="location-input"
+              type="text"
+              placeholder={intl.formatMessage({
+                id: 'SearchBar.location',
+              })}
+              value={location}
+              onChange={e => {
+                const newLocation = e.target.value;
+                setLocation(newLocation); // Update location with user input for immediate feedback
+                fetchLocationBounds(newLocation); // Fetch bounds for new location
+              }}
+              className={css.fieldSearch}
+            />
+            <button onClick={handleSubmit} className={css.submitButton}>
+              {intl.formatMessage({
+                id: 'Survey.submit',
+              })}
+            </button>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className={`${css.surveyForm} ${className || ''}`}>
+      {renderStep()}
+    </div>
   );
 };
 
-export default LandingSearchBarForm;
+export default SurveyForm;
+

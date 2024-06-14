@@ -35,7 +35,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
   return (
     <div
       className={css.landingBarContainer}
-      style={{ position: 'relative', height: isMobile ? '800px' : '700px' }}
+      style={{ position: 'relative', height: isMobile ? '700px' : '600px' }}
     >
       {!isMobile && (
         <>
@@ -124,21 +124,17 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
             </div>
           </div>
         ) : (
-          <div className={css.container}>
-            <div className={css.introText}>Ancora a fare gli Happy Hour aziendali?</div>
-            <div className={css.introText2}>
-              Su Club Joy {isMobile && <br />}
-              scopri le migliori esperienze creative di Milano e dintorni, anche per la tua azienda.{' '}
-              {!isMobile && <br />}
-              {!isMobile && <br />}
-              {isMobile && <br />}
-            </div>
+          <div className={css.surveyContainer}>
+          <SurveyForm isTeamBuilding={isTeamBuilding}/>
           </div>
         )}
+        {!isTeamBuilding ? (
         <div className={css.barContainer}>
           <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding} />
-          {/*SurveyForm*/}
         </div>
+         ) : (
+         null
+        )}
       </div>
     </div>
   );
