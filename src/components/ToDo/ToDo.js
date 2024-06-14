@@ -9,11 +9,6 @@ const ToDo = ({ isTeamBuilding }) => {
         <div className={css.subContainer}>
                 <div className={css.header}>
          <PrimaryButton className={css.primaryButton}>
-                        Today
-                    </PrimaryButton>
-                </div>
-                <div className={css.header}>
-         <PrimaryButton className={css.primaryButton}>
                         This Week
                     </PrimaryButton>
                 </div>
