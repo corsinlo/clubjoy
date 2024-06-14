@@ -52,6 +52,7 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
   const [focusedInput, setFocusedInput] = useState(null);
   const history = useHistory();
   const [joy, setJoy] = useState([]);
+  const [peopleCount, setPeopleCount] = useState(1); // New state for number of people
   const { width } = useWindowSize();
   const isSmallScreen = width < 1024;
 
@@ -128,6 +129,8 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
       queryParts.push(`dates=${startDateFormatted}%2C${endDateFormatted}`);
     }
 
+    queryParts.push(`px=${peopleCount}`); // Include number of people in query
+
     let searchParams = queryParts.join('&');
 
     if (routeConfiguration) {
@@ -139,14 +142,29 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
     }
   };
 
-  const selectedJoyText =
-    joy.length > 0
-      ? `${joy.map(value => intl.formatMessage({ id: `SearchBar.selection.${value}` })).join(', ')}`
-      : intl.formatMessage({ id: 'SearchBar.selection' });
-
   const renderStep = () => {
     switch (currentStep) {
       case 1:
+        return (
+          <div className={css.step}>
+            <h2>{intl.formatMessage({ id: 'Survey.step0.title' })}</h2>
+            <select
+              value={peopleCount}
+              onChange={e => setPeopleCount(Number(e.target.value))}
+              className={css.dropdown}
+            >
+              {[...Array(10).keys()].map(i => (
+                <option key={i + 1} value={i + 1}>
+                  {i + 1}
+                </option>
+              ))}
+            </select>
+            <button onClick={() => setCurrentStep(2)} className={css.nextButton}>
+              {intl.formatMessage({ id: 'Survey.next' })}
+            </button>
+          </div>
+        );
+      case 2:
         return (
           <div className={css.step}>
             <h2>{intl.formatMessage({ id: 'Survey.step1.title' })}</h2>
@@ -161,12 +179,12 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
                 {intl.formatMessage({ id: `SearchBar.selection.${option}` })}
               </label>
             ))}
-            <button onClick={() => setCurrentStep(2)} className={css.nextButton}>
+            <button onClick={() => setCurrentStep(3)} className={css.nextButton}>
               {intl.formatMessage({ id: 'Survey.next' })}
             </button>
           </div>
         );
-      case 2:
+      case 3:
         return (
           <div className={css.step}>
             <h2>{intl.formatMessage({ id: 'Survey.step2.title' })}</h2>
@@ -195,12 +213,12 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
               noBorder={isSmallScreen}
               displayFormat="M/D"
             />
-            <button onClick={() => setCurrentStep(3)} className={css.nextButton}>
+            <button onClick={() => setCurrentStep(4)} className={css.nextButton}>
               {intl.formatMessage({ id: 'Survey.next' })}
             </button>
           </div>
         );
-      case 3:
+      case 4:
         return (
           <div className={css.step}>
             <h2>{intl.formatMessage({ id: 'Survey.step3.title' })}</h2>
@@ -238,4 +256,3 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
 };
 
 export default SurveyForm;
-

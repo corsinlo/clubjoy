@@ -1,0 +1,69 @@
+.layout {
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+}
+
+
+.subContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px; /* Adjust the gap as needed */
+  color: white;
+}
+
+.subContainer > div {
+  flex: 1;
+  text-align: center;
+}
+
+.subContainer > div > div {
+  margin: 10px 0; /* Adjust the margin as needed */
+}
+
+.header {
+  font-weight: bold;
+}
+
+.title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.container{
+  margin-top: 10px;
+  margin: 20px;
+  margin-bottom: 10px;
+}
+
+.primaryButton {
+  width: 100%;
+  max-width: 300px; /* Adjust this value as needed */
+  height: 50px; /* Adjust this value as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 768px) {  
+  .container {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+    justify-content: center;
+  }
+
+  .subContainer {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+    justify-content: center;
+  }
+  .primaryButton {
+    width: 100%;
+    width: 300px; 
+
+  }
+  }
+  
