@@ -11,7 +11,6 @@ const ToDo = ({ isTeamBuilding }) => {
   const routeConfiguration = useRouteConfiguration();
   const intl = useIntl();
   const history = useHistory();
-  console.log('here', isTeamBuilding)
   const searchPagePath = routeConfiguration
     ? isTeamBuilding
       ? createResourceLocatorString('teamSearchPage', routeConfiguration, {}, {})

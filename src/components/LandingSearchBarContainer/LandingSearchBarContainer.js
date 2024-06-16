@@ -5,7 +5,7 @@ import landingCoverR from '../../media/landingCoverR.jpeg';
 import landingCoverL from '../../media/landingCoverL.jpeg';
 import landingEvents from '../../media/landingEvents.png';
 import landingCoverMobile from '../../media/landingCoverMobile.jpg';
-
+import landingPE from '../../media/landingPE.JPG';
 import SurveyForm from './SurveyForm';
 import LandingSearchBarForm from './LandingSearchBarForm';
 import { useLocation } from 'react-router-dom';
@@ -36,7 +36,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
   const containerStyle = {
     position: 'relative',
     height: isMobile ? '700px' : '600px',
-    backgroundImage: isTeamBuilding ? `url(${landingCoverL})` : 'none',
+    backgroundImage: isTeamBuilding ? `url(${landingPE})` : 'none',
     backgroundColor: isTeamBuilding ? 'lightblue' : 'none',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',

@@ -16,44 +16,39 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
 
   const history = useHistory();
   const [joy, setJoy] = useState([]);
-  const [moreThanEight, setMoreThanEight] = useState(null); // New state for more than 8 people
+  const [moreThanEight, setMoreThanEight] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
 
-  // Define the emoji sets
   const emojiSets = {
-    1: '🎨', // Option 1 emoji
-    2: '🖌️', // Option 2 emoji
-    3: '🧵', // Option 3 emoji
-    5: '🎭', // Option 5 emoji
-    6: '🎸', // Option 6 emoji
-    7: '🖋️', // Option 7 emoji
+    1: '🎨',
+    2: '🖌️',
+    3: '🧵',
+    5: '🎭',
+    6: '🎸',
+    7: '🖋️',
   };
 
-  // Define the emoji sets for more than 8 or less than 8
   const moreThanEightEmojiSets = {
-    true: '👥', // More than 8
-    false: '👤', // Less than 8
+    true: '👥👥➕',
+    false: '👤',
   };
 
   const handleJoyChange = value => {
     if (joy.includes(value)) {
-      setJoy(joy.filter(item => item !== value)); // Remove item if already selected
+      setJoy(joy.filter(item => item !== value));
     } else {
-      setJoy([...joy, value]); // Add item if not selected
+      setJoy([...joy, value]);
     }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    // Check if joy preferences are selected
     if (joy.length === 0) {
       alert('Please select at least one joy preference.');
       return;
     }
 
     let queryParts = [];
-
     if (joy.length) {
       const joyValues = joy.join(',');
       queryParts.push(`pub_joy=${encodeURIComponent(joyValues)}`);
@@ -64,7 +59,6 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
     }
 
     let searchParams = queryParts.join('&');
-
     if (routeConfiguration) {
       const queryString = `?${searchParams}`;
       const searchPageUrl = `${searchPagePath}${queryString}`;
@@ -72,6 +66,15 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
     } else {
       console.error('Route configuration is undefined');
     }
+  };
+
+  const placeholders = {
+    1: intl.formatMessage({ id: 'Survey.1.placeholder' }),
+    2: intl.formatMessage({ id: 'Survey.2.placeholder' }),
+    3: intl.formatMessage({ id: 'Survey.3.placeholder' }),
+    5: intl.formatMessage({ id: 'Survey.4.placeholder' }),
+    6: intl.formatMessage({ id: 'Survey.5.placeholder' }),
+    7: intl.formatMessage({ id: 'Survey.6.placeholder' }),
   };
 
   const renderStep = () => {
@@ -113,10 +116,13 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
                   onClick={() => handleJoyChange(option.toString())}
                 >
                   <span className={css.emoji}>{emojiSets[option]}</span>
-                  {intl.formatMessage({ id: `SearchBar.selection.${option}` })}
+                  <div className={css.placeholder}>{placeholders[option]}</div>
                 </div>
               ))}
             </div>
+            <button onClick={() => setCurrentStep(1)} className={css.backButton}>
+              {intl.formatMessage({ id: 'Survey.back' })}
+            </button>
             <button onClick={handleSubmit} className={css.submitButton}>
               {intl.formatMessage({ id: 'Survey.submit' })}
             </button>
