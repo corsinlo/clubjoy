@@ -306,13 +306,13 @@ input, select, .DateRangePicker {
     width:40vw;
   }
 
-  .surveyContainer{
-    width:40vw;
+  .surveyContainer {
+    display: flex;
     align-items: center;
     justify-content: center;
-    display: flex;
+    width: 100%; /* Adjust as needed */
+    margin-top: 20px;
   }
-
   .dropdownContent {
     top: 80px; 
     width: 200px;
@@ -629,4 +629,13 @@ input, select, .DateRangePicker {
     left: 45px;
     position: absolute;
   }
+}
+
+.isTeamBuildingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
+  padding: 40px 10px 10px 10px;
 }

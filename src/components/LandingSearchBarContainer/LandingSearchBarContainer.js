@@ -16,6 +16,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
   );
   const location = useLocation();
   const isTeamBuilding = location.pathname === '/p/teambuilding';
+
   useEffect(() => {
     const handleResize = () => {
       if (typeof window !== 'undefined') {
@@ -32,12 +33,23 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
     };
   }, []);
 
+  const containerStyle = {
+    position: 'relative',
+    height: isMobile ? '700px' : '600px',
+    backgroundImage: isTeamBuilding ? `url(${landingCoverL})` : 'none',
+    backgroundColor: isTeamBuilding ? 'lightblue' : 'none',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    margin: isTeamBuilding ? '10px' : '0',
+  };
+
   return (
     <div
-      className={css.landingBarContainer}
-      style={{ position: 'relative', height: isMobile ? '700px' : '600px' }}
+      className={isTeamBuilding ? css.isTeamBuildingContainer : css.landingBarContainer}
+      style={containerStyle}
     >
-      {!isMobile && (
+      {!isMobile && !isTeamBuilding && (
         <>
           <div
             style={{
@@ -46,7 +58,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               top: 40,
               bottom: 0,
               width: '50%',
-              backgroundImage: !isTeamBuilding ? `url(${landingCoverL})` : null,
+              backgroundImage: `url(${landingCoverL})`,
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'left center',
@@ -61,7 +73,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               top: 0,
               bottom: 0,
               width: '50%',
-              backgroundImage: !isTeamBuilding ? `url(${landingCoverR})` : null,
+              backgroundImage: `url(${landingCoverR})`,
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right center',
@@ -73,21 +85,20 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
             style={{
               position: 'absolute',
               left: 100,
-              right: 0 ,
-              top: 10, 
+              right: 0,
+              top: 10,
               bottom: 0,
               width: '100%',
               backgroundImage: null, //!isTeamBuilding ? null : `url(${landingEvents})`,
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right',
-             
               opacity: '70%',
             }}
           ></div>
         </>
       )}
-      {isMobile && (
+      {isMobile && !isTeamBuilding && (
         <div
           style={{
             position: 'absolute',
@@ -113,27 +124,25 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
       )}
       <div style={{ position: 'relative', zIndex: 2 }}>
         {!isTeamBuilding ? (
-          <div className={css.container}>
-            <div className={css.introText}>Di creativo ti rimane solo il parcheggio?</div>
-            <div className={css.introText2}>
-              Dal corso di ceramica alla lezione di pittura, su Club Joy{isMobile && <br />}
-              trovi le migliori esperienze creative di Milano e dintorni {!isMobile && <br />}
-              {!isMobile && <br />}
-              {isMobile && <br />}
-              {isMobile && <br />}Il tuo nuovo hobby preferito è a distanza di un click
+          <>
+            <div className={css.container}>
+              <div className={css.introText}>Di creativo ti rimane solo il parcheggio?</div>
+              <div className={css.introText2}>
+                Dal corso di ceramica alla lezione di pittura, su Club Joy{isMobile && <br />}
+                trovi le migliori esperienze creative di Milano e dintorni {!isMobile && <br />}
+                {!isMobile && <br />}
+                {isMobile && <br />}
+                {isMobile && <br />}Il tuo nuovo hobby preferito è a distanza di un click
+              </div>
             </div>
-          </div>
+            <div className={css.barContainer}>
+              <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding} />
+            </div>
+          </>
         ) : (
           <div className={css.surveyContainer}>
-          <SurveyForm isTeamBuilding={isTeamBuilding}/>
+            <SurveyForm isTeamBuilding={isTeamBuilding} />
           </div>
-        )}
-        {!isTeamBuilding ? (
-        <div className={css.barContainer}>
-          <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding} />
-        </div>
-         ) : (
-         null
         )}
       </div>
     </div>
