@@ -3,29 +3,27 @@
   grid-template-rows: auto 1fr auto;
 }
 
-
 .subContainer {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
   gap: 20px; /* Adjust the gap as needed */
   color: white;
+  flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
 }
 
 .subContainer > div {
   flex: 1;
   text-align: center;
-}
-
-.subContainer > div > div {
-  margin: 10px 0; /* Adjust the margin as needed */
+  margin-bottom: 20px; /* Add margin to create space between headers */
 }
 
 .header {
   font-weight: bold;
+  margin-bottom: 20px; /* Add margin to create space between headers */
 }
 
-.title{
+.title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,15 +31,18 @@
   margin-bottom: 10px;
 }
 
-.container{
+.container {
   margin-top: 10px;
   margin: 20px;
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
 }
 
 .primaryButton {
-  width: 100%;
-  max-width: 300px; /* Adjust this value as needed */
+  width: 200px; /* Fixed width for the button */
   height: 50px; /* Adjust this value as needed */
   display: flex;
   align-items: center;
@@ -60,10 +61,11 @@
     align-items: center;
     justify-content: center;
   }
-  .primaryButton {
-    width: 100%;
-    width: 300px; 
 
+  .primaryButton {
+    width: 200px; /* Fixed width for the button */
   }
-  }
+}
+
+
   

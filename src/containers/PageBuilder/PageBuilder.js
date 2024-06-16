@@ -166,7 +166,7 @@ const PageBuilder = props => {
                           <>
                             <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} />
                             <Counter />
-                            <ToDo />
+                            <ToDo/>
                             <SectionBuilder sections={sections} options={options} />
                             <Newsletter />
                           </>
@@ -192,7 +192,7 @@ const PageBuilder = props => {
                                 <div>comodamente su whatsapp</div>
                               </div>
                             </div>
-                            <ToDo />
+                            <ToDo isTeamBuilding={isTeamBuilding}/>
                             <Newsletter />
                           </>
                         ) : (
