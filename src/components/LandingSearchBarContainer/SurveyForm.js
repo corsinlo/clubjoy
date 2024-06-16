@@ -20,12 +20,10 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const emojiSets = {
-    1: '🎨',
-    2: '🖌️',
-    3: '🧵',
-    5: '🎭',
-    6: '🎸',
-    7: '🖋️',
+    1: '🍽️🍰🥐',
+    2: '🧘🤸🏽‍♂️🏌🏼‍♂️',
+    3: '🎨🖍️🪁',
+    4: '🧠✨🪄',
   };
 
   const moreThanEightEmojiSets = {
@@ -72,9 +70,7 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
     1: intl.formatMessage({ id: 'Survey.1.placeholder' }),
     2: intl.formatMessage({ id: 'Survey.2.placeholder' }),
     3: intl.formatMessage({ id: 'Survey.3.placeholder' }),
-    5: intl.formatMessage({ id: 'Survey.4.placeholder' }),
-    6: intl.formatMessage({ id: 'Survey.5.placeholder' }),
-    7: intl.formatMessage({ id: 'Survey.6.placeholder' }),
+    4: intl.formatMessage({ id: 'Survey.4.placeholder' }),
   };
 
   const renderStep = () => {
@@ -82,6 +78,7 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
       case 1:
         return (
           <div className={css.step}>
+            <p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>
             <h2>{intl.formatMessage({ id: 'Survey.step0.title' })}</h2>
             <div className={css.cardContainer}>
               <div
@@ -99,7 +96,16 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
                 {intl.formatMessage({ id: 'Survey.moreThanEight' })}
               </div>
             </div>
-            <button onClick={() => setCurrentStep(2)} className={css.nextButton}>
+            <button
+              onClick={() => {
+                if (moreThanEight !== null) {
+                  setCurrentStep(2);
+                } else {
+                  alert('Please select an option.');
+                }
+              }}
+              className={css.nextButton}
+            >
               {intl.formatMessage({ id: 'Survey.next' })}
             </button>
           </div>
@@ -108,12 +114,13 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
         return (
           <div className={css.step}>
             <h2>{intl.formatMessage({ id: 'Survey.step1.title' })}</h2>
+            <p>{intl.formatMessage({ id: 'Survey.step1.subtitle' })}</p>
             <div className={css.cardContainer}>
-              {[1, 2, 3, 5, 6, 7].map(option => (
+              {['1', '2', '3', '4'].map(option => (
                 <div
                   key={option}
-                  className={`${css.card} ${joy.includes(option.toString()) ? css.selected : ''}`}
-                  onClick={() => handleJoyChange(option.toString())}
+                  className={`${css.card} ${joy.includes(option) ? css.selected : ''}`}
+                  onClick={() => handleJoyChange(option)}
                 >
                   <span className={css.emoji}>{emojiSets[option]}</span>
                   <div className={css.placeholder}>{placeholders[option]}</div>
@@ -123,7 +130,11 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
             <button onClick={() => setCurrentStep(1)} className={css.backButton}>
               {intl.formatMessage({ id: 'Survey.back' })}
             </button>
-            <button onClick={handleSubmit} className={css.submitButton}>
+            <button
+              onClick={handleSubmit}
+              className={css.submitButton}
+              disabled={joy.length < 2}
+            >
               {intl.formatMessage({ id: 'Survey.submit' })}
             </button>
           </div>
