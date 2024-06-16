@@ -41,7 +41,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    margin: isTeamBuilding ? '10px' : '0',
+
   };
 
   return (
