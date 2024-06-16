@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import css from './SurveyForm.module.css';
 import { useHistory } from 'react-router-dom';
 import { createResourceLocatorString } from '../../util/routes';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 import { useIntl } from 'react-intl';
-import css from './SurveyForm.module.css'
 
 const SurveyForm = ({ className, isTeamBuilding }) => {
   const routeConfiguration = useRouteConfiguration();
@@ -18,6 +18,22 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
   const [joy, setJoy] = useState([]);
   const [moreThanEight, setMoreThanEight] = useState(null); // New state for more than 8 people
   const [currentStep, setCurrentStep] = useState(1);
+
+  // Define the emoji sets
+  const emojiSets = {
+    1: '🎨', // Option 1 emoji
+    2: '🖌️', // Option 2 emoji
+    3: '🧵', // Option 3 emoji
+    5: '🎭', // Option 5 emoji
+    6: '🎸', // Option 6 emoji
+    7: '🖋️', // Option 7 emoji
+  };
+
+  // Define the emoji sets for more than 8 or less than 8
+  const moreThanEightEmojiSets = {
+    true: '👥', // More than 8
+    false: '👤', // Less than 8
+  };
 
   const handleJoyChange = value => {
     if (joy.includes(value)) {
@@ -69,12 +85,14 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
                 className={`${css.card} ${moreThanEight === false ? css.selected : ''}`}
                 onClick={() => setMoreThanEight(false)}
               >
+                <span className={css.emoji}>{moreThanEightEmojiSets[false]}</span>
                 {intl.formatMessage({ id: 'Survey.lessThanEight' })}
               </div>
               <div
                 className={`${css.card} ${moreThanEight === true ? css.selected : ''}`}
                 onClick={() => setMoreThanEight(true)}
               >
+                <span className={css.emoji}>{moreThanEightEmojiSets[true]}</span>
                 {intl.formatMessage({ id: 'Survey.moreThanEight' })}
               </div>
             </div>
@@ -94,6 +112,7 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
                   className={`${css.card} ${joy.includes(option.toString()) ? css.selected : ''}`}
                   onClick={() => handleJoyChange(option.toString())}
                 >
+                  <span className={css.emoji}>{emojiSets[option]}</span>
                   {intl.formatMessage({ id: `SearchBar.selection.${option}` })}
                 </div>
               ))}
