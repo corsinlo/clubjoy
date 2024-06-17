@@ -305,9 +305,11 @@ const TimeRangeSelects = props => {
               </>
             )}
           </div>
-          {intl.formatMessage({
-            id: 'EditListingAvailabilityPlanForm.minSeatMessage',
-          })}
+          {isTeamBuilding === 'teambuilding' ? (
+  intl.formatMessage({
+    id: 'EditListingAvailabilityPlanForm.minSeatMessage',
+  })
+) : null}
         </div>
         <div className={classNames(css.plus1Day, { [css.showPlus1Day]: isNextDay })}>
           <FormattedMessage id="EditListingAvailabilityPlanForm.plus1Day" />
