@@ -51,6 +51,16 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
     backgroundPosition: 'right',
   };
 
+  const containerStyle3 = {
+    position: 'relative',
+    height: isMobile ? '700px' : '600px',
+    backgroundColor: isTeamBuilding ? 'white' : 'none',
+    backgroundImage:  `url(${landingCoverR})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right',
+  };
+
   return (
     <div
       className={isTeamBuilding ? css.isTeamBuildingContainer : css.landingBarContainer}
@@ -84,10 +94,10 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
         {!isTeamBuilding ? (
           <div className={css.surveyContainer}>
           {!isMobile && <div className={css.emptyDiv}>
-            <h1 className={css.emptyText}>Scopri le migliori esperienze creative<br />  per il tuo gruppo,<br /> in pochi click
+            <h1 className={css.emptyText}>Scopri le migliori esperienze creative,<br /> in pochi click
             </h1>
           </div>}
-          <div className={css.surveyForm} style={containerStyle2}>
+          <div className={css.surveyForm} style={containerStyle3}>
             <SurveyForm />
           </div>
           </div>
