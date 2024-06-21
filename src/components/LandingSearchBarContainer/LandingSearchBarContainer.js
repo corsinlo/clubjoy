@@ -56,55 +56,6 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
       className={isTeamBuilding ? css.isTeamBuildingContainer : css.landingBarContainer}
       style={containerStyle}
     >
-      {!isMobile && !isTeamBuilding && (
-        <>
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 40,
-              bottom: 0,
-              width: '50%',
-              backgroundImage: `url(${landingCoverL})`,
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'left center',
-              zIndex: 2,
-              opacity: '70%',
-            }}
-          ></div>
-          <div
-            style={{
-              position: 'absolute',
-              right: 0,
-              top: 0,
-              bottom: 0,
-              width: '50%',
-              backgroundImage: `url(${landingCoverR})`,
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right center',
-              zIndex: 2,
-              opacity: '70%',
-            }}
-          ></div>
-          <div
-            style={{
-              position: 'absolute',
-              left: 100,
-              right: 0,
-              top: 10,
-              bottom: 0,
-              width: '100%',
-              backgroundImage: null,
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right',
-              opacity: '70%',
-            }}
-          ></div>
-        </>
-      )}
       {isMobile && !isTeamBuilding && (
         <div
           style={{
@@ -131,29 +82,23 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
       )}
       <>
         {!isTeamBuilding ? (
-          <>
-            <div className={css.container}>
-              <div className={css.introText}>Di creativo ti rimane solo il parcheggio?</div>
-              <div className={css.introText2}>
-                Dal corso di ceramica alla lezione di pittura, su Club Joy{isMobile && <br />}
-                trovi le migliori esperienze creative di Milano e dintorni {!isMobile && <br />}
-                {!isMobile && <br />}
-                {isMobile && <br />}
-                {isMobile && <br />}Il tuo nuovo hobby preferito è a distanza di un click
-              </div>
-            </div>
-            <div className={css.barContainer}>
-              <LandingSearchBarForm onSearchSubmit={onSearchSubmit} isTeamBuilding={isTeamBuilding} />
-            </div>
-          </>
+          <div className={css.surveyContainer}>
+          {!isMobile && <div className={css.emptyDiv}>
+            <h1 className={css.emptyText}>Scopri le migliori esperienze creative<br />  per il tuo gruppo,<br /> in pochi click
+            </h1>
+          </div>}
+          <div className={css.surveyForm} style={containerStyle2}>
+            <SurveyForm />
+          </div>
+          </div>
         ) : (
           <div className={css.surveyContainer}>
-            {!isMobile && <div className={css.emptyDiv}>ciao
-          <h1 className={css.emptyText}>Scopri le migliori esperienze creative<br/>  per il tuo gruppo,<br/> in pochi click
- </h1>
-            
+            {!isMobile && <div className={css.emptyDiv}>
+              <h1 className={css.emptyText}>Scopri le migliori esperienze creative<br />  per il tuo gruppo,<br /> in pochi click
+              </h1>
+
             </div>}
-            <div className={css.surveyForm}  style={containerStyle2}>
+            <div className={css.surveyForm} style={containerStyle2}>
               <SurveyForm isTeamBuilding={isTeamBuilding} />
             </div>
           </div>
