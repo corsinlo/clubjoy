@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { createResourceLocatorString } from '../../util/routes';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 import { useIntl } from 'react-intl';
+import moment from 'moment';
 
 const SurveyForm = ({ className, isTeamBuilding }) => {
   const routeConfiguration = useRouteConfiguration();
@@ -18,12 +19,20 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
   const [joy, setJoy] = useState([]);
   const [moreThanEight, setMoreThanEight] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const emojiSets = {
     1: '🍽️🍰🥐',
     2: '🧘🤸🏽‍♂️🏌🏼‍♂️',
     3: '🎨🖍️🪁',
     4: '🧠✨🪄',
+  };
+
+  const dateSelectionEmojis = {
+    thisWeek: '📅',
+    thisWeekend: '🎉',
+    thisMonth: '📆',
   };
 
   const moreThanEightEmojiSets = {
@@ -37,6 +46,12 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
     } else {
       setJoy([...joy, value]);
     }
+  };
+
+  const handleDateSelection = (start, end) => {
+    setStartDate(start);
+    setEndDate(end);
+    setCurrentStep(2);
   };
 
   const handleSubmit = e => {
@@ -56,6 +71,12 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
       queryParts.push(`px=${moreThanEight}`);
     }
 
+    if (startDate && endDate) {
+      const startDateFormatted = startDate.format('YYYY-MM-DD');
+      const endDateFormatted = endDate.format('YYYY-MM-DD');
+      queryParts.push(`dates=${startDateFormatted}%2C${endDateFormatted}`);
+    }
+
     let searchParams = queryParts.join('&');
     if (routeConfiguration) {
       const queryString = `?${searchParams}`;
@@ -73,42 +94,88 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
     4: intl.formatMessage({ id: 'Survey.4.placeholder' }),
   };
 
+  const getToday = () => moment();
+  const getThisWeek = () => ({
+    start: getToday(),
+    end: getToday().endOf('week')
+  });
+  const getThisWeekend = () => ({
+    start: getToday().day(5), // Friday
+    end: getToday().endOf('week') // Sunday
+  });
+  const getThisMonth = () => ({
+    start: getToday(),
+    end: getToday().endOf('month')
+  });
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
         return (
-          <div className={css.step}>
-            <p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>
-            <h2>{intl.formatMessage({ id: 'Survey.step0.title' })}</h2>
-            <div className={css.cardContainer}>
-              <div
-                className={`${css.card} ${moreThanEight === false ? css.selected : ''}`}
-                onClick={() => setMoreThanEight(false)}
-              >
-                <span className={css.emoji}>{moreThanEightEmojiSets[false]}</span>
-                {intl.formatMessage({ id: 'Survey.lessThanEight' })}
-              </div>
-              <div
-                className={`${css.card} ${moreThanEight === true ? css.selected : ''}`}
-                onClick={() => setMoreThanEight(true)}
-              >
-                <span className={css.emoji}>{moreThanEightEmojiSets[true]}</span>
-                {intl.formatMessage({ id: 'Survey.moreThanEight' })}
+          !isTeamBuilding ? (
+            <div className={css.step}>
+              <h2>Quando avarai del tempo libero?</h2> {/*intl.formatMessage({ id: 'Survey.step0.title' })*/}
+              <div className={css.cardContainer}>
+                <div 
+                    className={css.card}
+                    onClick={() => handleDateSelection(getThisWeek().start, getThisWeek().end)}
+                  >
+                    <span className={css.emoji}>{dateSelectionEmojis.thisWeek}</span>
+                    {intl.formatMessage({ id: 'ToDo.thisWeek' })}
+                 
+                </div>
+                <div 
+                    className={css.card}
+                    onClick={() => handleDateSelection(getThisWeekend().start, getThisWeekend().end)}
+                  >
+                    <span className={css.emoji}>{dateSelectionEmojis.thisWeekend}</span>
+                    {intl.formatMessage({ id: 'ToDo.thisWeekend' })}
+                 
+                </div>
+                <div 
+                    className={css.card}
+                    onClick={() => handleDateSelection(getThisMonth().start, getThisMonth().end)}
+                  >
+                    <span className={css.emoji}>{dateSelectionEmojis.thisMonth}</span>
+                    {intl.formatMessage({ id: 'ToDo.thisMonth' })}
+           
+                </div>
               </div>
             </div>
-            <button
-              onClick={() => {
-                if (moreThanEight !== null) {
-                  setCurrentStep(2);
-                } else {
-                  alert('Please select an option.');
-                }
-              }}
-              className={css.nextButton}
-            >
-              {intl.formatMessage({ id: 'Survey.next' })}
-            </button>
-          </div>
+          ) : (
+            <div className={css.step}>
+              <p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>
+              <h2>{intl.formatMessage({ id: 'Survey.step0.title' })}</h2>
+              <div className={css.cardContainer}>
+                <div
+                  className={`${css.card} ${moreThanEight === false ? css.selected : ''}`}
+                  onClick={() => setMoreThanEight(false)}
+                >
+                  <span className={css.emoji}>{moreThanEightEmojiSets[false]}</span>
+                  {intl.formatMessage({ id: 'Survey.lessThanEight' })}
+                </div>
+                <div
+                  className={`${css.card} ${moreThanEight === true ? css.selected : ''}`}
+                  onClick={() => setMoreThanEight(true)}
+                >
+                  <span className={css.emoji}>{moreThanEightEmojiSets[true]}</span>
+                  {intl.formatMessage({ id: 'Survey.moreThanEight' })}
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  if (moreThanEight !== null) {
+                    setCurrentStep(2);
+                  } else {
+                    alert('Please select an option.');
+                  }
+                }}
+                className={css.nextButton}
+              >
+                {intl.formatMessage({ id: 'Survey.next' })}
+              </button>
+            </div>
+          )
         );
       case 2:
         return (

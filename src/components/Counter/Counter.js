@@ -22,7 +22,8 @@ const Counter = () => {
       if (error) {
         console.error('Error fetching counter', error);
       } else {
-        setCounter(data.value);
+        // setCounter(data.value);
+        setCounter(101);
       }
     };
 
