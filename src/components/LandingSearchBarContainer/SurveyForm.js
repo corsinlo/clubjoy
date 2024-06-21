@@ -30,9 +30,9 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
   };
 
   const dateSelectionEmojis = {
-    thisWeek: '📅',
-    thisWeekend: '🎉',
-    thisMonth: '📆',
+    thisWeek: '🤸🏽‍♂️',
+    thisMonth: '📅',
+    nextMonth: '⏩️',
   };
 
   const moreThanEightEmojiSets = {
@@ -99,13 +99,13 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
     start: getToday(),
     end: getToday().endOf('week')
   });
-  const getThisWeekend = () => ({
-    start: getToday().day(5), // Friday
-    end: getToday().endOf('week') // Sunday
-  });
   const getThisMonth = () => ({
-    start: getToday(),
+    start: getToday().startOf('month'),
     end: getToday().endOf('month')
+  });
+  const getNextMonth = () => ({
+    start: getToday().add(1, 'months').startOf('month'),
+    end: getToday().add(1, 'months').endOf('month')
   });
 
   const renderStep = () => {
@@ -114,7 +114,7 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
         return (
           !isTeamBuilding ? (
             <div className={css.step}>
-              <h2>Quando avarai del tempo libero?</h2> {/*intl.formatMessage({ id: 'Survey.step0.title' })*/}
+              <h2>Quando avrai del tempo libero?</h2> {/*intl.formatMessage({ id: 'Survey.step00.title' })*/}
               <div className={css.cardContainer}>
                 <div 
                     className={css.card}
@@ -126,18 +126,18 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
                 </div>
                 <div 
                     className={css.card}
-                    onClick={() => handleDateSelection(getThisWeekend().start, getThisWeekend().end)}
-                  >
-                    <span className={css.emoji}>{dateSelectionEmojis.thisWeekend}</span>
-                    {intl.formatMessage({ id: 'ToDo.thisWeekend' })}
-                 
-                </div>
-                <div 
-                    className={css.card}
                     onClick={() => handleDateSelection(getThisMonth().start, getThisMonth().end)}
                   >
                     <span className={css.emoji}>{dateSelectionEmojis.thisMonth}</span>
                     {intl.formatMessage({ id: 'ToDo.thisMonth' })}
+                 
+                </div>
+                <div 
+                    className={css.card}
+                    onClick={() => handleDateSelection(getNextMonth().start, getNextMonth().end)}
+                  >
+                    <span className={css.emoji}>{dateSelectionEmojis.nextMonth}</span>
+                    Prossimo mese{/*intl.formatMessage({ id: 'ToDo.nextMonth' })*/}
            
                 </div>
               </div>
