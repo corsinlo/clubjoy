@@ -86,7 +86,7 @@
 
 
 .subContainer {
-  flex-direction: column; /* Stack items vertically */
+  flex-direction: row; /* Stack items vertically */
   align-items: center;
   justify-content: center;
 }

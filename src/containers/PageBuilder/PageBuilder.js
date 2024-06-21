@@ -178,7 +178,6 @@ const PageBuilder = props => {
                             />
                             <SectionBuilder sections={sections} options={options} />
                             <div className={css.subContainer}>
-
                               <div>
                                 <div className={css.header}>Prenota online</div>
                                 <div>senza dover aspettare preventivi</div>
@@ -192,7 +191,6 @@ const PageBuilder = props => {
                                 <div>comodamente su whatsapp</div>
                               </div>
                             </div>
-                            <ToDo isTeamBuilding={isTeamBuilding}/>
                             <Newsletter />
                           </>
                         ) : (

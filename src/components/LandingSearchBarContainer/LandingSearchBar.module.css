@@ -1,5 +1,50 @@
 @import '../../styles/customMediaQueries.css';
 
+.surveyContainer {
+  display: flex;
+  align-items: stretch; /* Ensures child elements take the full height */
+  justify-content: center;
+  width: 100%;
+  height: 100%; /* Ensures the container takes the full height */
+ 
+}
+
+.emptyDiv {
+  flex:1;
+
+}
+
+.emptyText {
+display: flex;
+  color: #ED514A;
+  padding: 20px;
+  margin-top: 50px;
+  margin-left: 20px;
+}
+
+.surveyForm {
+  flex: 1;
+  display: flex;
+  align-items: center; /* Ensures the form content is centered vertically */
+  justify-content: center;
+}
+
+/* Ensure the surveyContainer is split properly on larger screens */
+@media (min-width: 1025px) {
+  .surveyContainer {
+    flex-direction: row;
+  }
+}
+
+/* Maintain the current layout on mobile */
+@media (max-width: 1024px) {
+  .surveyContainer {
+    flex-direction: column;
+  }
+}
+
+
+
 .option{
   font-size: 12px;
 }
@@ -300,19 +345,14 @@ input, select, .DateRangePicker {
 
   .barContainer{
     margin-left: 130px;
+    z-index:2;
   }
 
   .container{
     width:40vw;
+    z-index: 2;
   }
 
-  .surveyContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%; /* Adjust as needed */
-    margin-top: 20px;
-  }
   .dropdownContent {
     top: 80px; 
     width: 200px;
@@ -636,6 +676,4 @@ input, select, .DateRangePicker {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 500px;
-  padding: 40px 10px 10px 10px;
 }

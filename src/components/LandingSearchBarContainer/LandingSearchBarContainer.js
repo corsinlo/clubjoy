@@ -3,7 +3,6 @@ import css from './LandingSearchBar.module.css';
 import landingCover from '../../media/landingCover.jpg';
 import landingCoverR from '../../media/landingCoverR.jpeg';
 import landingCoverL from '../../media/landingCoverL.jpeg';
-import landingEvents from '../../media/landingEvents.png';
 import landingCoverMobile from '../../media/landingCoverMobile.jpg';
 import landingPE from '../../media/landingPE.JPG';
 import SurveyForm from './SurveyForm';
@@ -20,7 +19,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
   useEffect(() => {
     const handleResize = () => {
       if (typeof window !== 'undefined') {
-        setIsMobile(window.innerWidth < 1024);
+        setIsMobile(window.innerWidth < 1025);
       }
     };
     if (typeof window !== 'undefined') {
@@ -36,12 +35,20 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
   const containerStyle = {
     position: 'relative',
     height: isMobile ? '700px' : '600px',
-    backgroundImage: isTeamBuilding ? `url(${landingPE})` : 'none',
-    backgroundColor: isTeamBuilding ? 'lightblue' : 'none',
+    backgroundColor: isTeamBuilding ? 'white' : 'none',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
+    backgroundPosition: 'right',
+  };
 
+  const containerStyle2 = {
+    position: 'relative',
+    height: isMobile ? '700px' : '600px',
+    backgroundColor: isTeamBuilding ? 'white' : 'none',
+    backgroundImage: isTeamBuilding ? `url(${landingPE})` : 'none',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right',
   };
 
   return (
@@ -62,7 +69,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'left center',
-              zIndex: 1,
+              zIndex: 2,
               opacity: '70%',
             }}
           ></div>
@@ -77,7 +84,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right center',
-              zIndex: 1,
+              zIndex: 2,
               opacity: '70%',
             }}
           ></div>
@@ -89,7 +96,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
               top: 10,
               bottom: 0,
               width: '100%',
-              backgroundImage: null, //!isTeamBuilding ? null : `url(${landingEvents})`,
+              backgroundImage: null,
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right',
@@ -122,7 +129,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
           />
         </div>
       )}
-      <div style={{ position: 'relative', zIndex: 2 }}>
+      <>
         {!isTeamBuilding ? (
           <>
             <div className={css.container}>
@@ -141,10 +148,17 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
           </>
         ) : (
           <div className={css.surveyContainer}>
-            <SurveyForm isTeamBuilding={isTeamBuilding} />
+            {!isMobile && <div className={css.emptyDiv}>ciao
+          <h1 className={css.emptyText}>Scopri le migliori esperienze creative<br/>  per il tuo gruppo,<br/> in pochi click
+ </h1>
+            
+            </div>}
+            <div className={css.surveyForm}  style={containerStyle2}>
+              <SurveyForm isTeamBuilding={isTeamBuilding} />
+            </div>
           </div>
         )}
-      </div>
+      </>
     </div>
   );
 };
