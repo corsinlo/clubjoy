@@ -63,13 +63,12 @@ const SearchResultsPanel = props => {
   };
 
   const filteredListings = filterListings(listings, pubJoy, px);
-  console.log(filteredListings)
-  console.log(listings)
+
   return (
     <div className={classes}>
       <div className={isMapVariant ? css.listingCardsMapVariant : css.listingCards}>
         {isTeamBuilding
-          ? filteredListings
+          ? listings
               .filter(ll => ll.attributes.publicData?.listingType === 'teambuilding')
               .map(l => (
                 <ListingCard
@@ -83,7 +82,7 @@ const SearchResultsPanel = props => {
                   isTeamBuilding={l.attributes.publicData.listingType}
                 />
               ))
-          : filteredListings
+          : listings
               .filter(ll => ll.attributes.publicData?.listingType !== 'teambuilding')
               .map(l => (
                 <ListingCard
