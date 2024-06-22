@@ -133,7 +133,7 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
         return (
           !isTeamBuilding ? (
             <div className={css.step}>
-              <h2>Quando avrai del tempo libero?</h2> {/*intl.formatMessage({ id: 'Survey.step00.title' })*/}
+              <h2>{intl.formatMessage({ id: 'Survey.step00.title' })}</h2> 
               <div className={css.cardContainer}>
                 <div 
                     className={css.card}
@@ -156,15 +156,21 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
                     onClick={() => handleDateSelection(getNextMonth().start, getNextMonth().end)}
                   >
                     <span className={css.emoji}>{dateSelectionEmojis.nextMonth}</span>
-                    Prossimo mese{/*intl.formatMessage({ id: 'ToDo.nextMonth' })*/}
+                    
+                    {intl.formatMessage({ id: 'ToDo.nextMonth' })}
            
                 </div>
               </div>
             </div>
           ) : (
             <div className={css.step}>
+              {isTeamBuilding ? ( <>
               <p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>
-              <h2>{intl.formatMessage({ id: 'Survey.step0.title' })}</h2>
+              <h2>{intl.formatMessage({ id: 'Survey.step0.title' })}</h2></>) :
+              (<>
+                <h2>{intl.formatMessage({ id: 'Survey.step01.title' })}</h2>
+                <p>{intl.formatMessage({ id: 'Survey.step01.subtitle' })}</p>
+                </>)}
               <div className={css.cardContainer}>
                 <div
                   className={`${css.card} ${moreThanEight === false ? css.selected : ''}`}
