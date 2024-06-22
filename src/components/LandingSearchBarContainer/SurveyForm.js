@@ -83,7 +83,7 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
     const pubJoy = mapJoyToPubJoy();
 
     if (pubJoy) {
-      queryParts.push(`pub_joy=${encodeURIComponent(pubJoy)}`);
+      queryParts.push(`pub_joy=has_any:${encodeURIComponent(pubJoy)}`);
     }
 
     if (moreThanEight !== null) {

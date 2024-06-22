@@ -19,6 +19,8 @@ const SearchResultsPanel = props => {
     isMapVariant,
   } = props;
 
+
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const pubJoy = queryParams.get('pub_joy');
@@ -27,19 +29,8 @@ const SearchResultsPanel = props => {
   const classes = classNames(rootClassName || css.root, className);
   const isTeamBuilding = location.pathname.startsWith('/ts');
 
-  const paginationLinks =
-    pagination && pagination.totalPages > 1 ? (
-      <PaginationLinks
-        className={css.pagination}
-        pageName="SearchPage"
-        pageSearchParams={search}
-        pagination={pagination}
-      />
-    ) : null;
-
   const cardRenderSizes = isMapVariant => {
     if (isMapVariant) {
-      // Panel width relative to the viewport
       const panelMediumWidth = 50;
       const panelLargeWidth = 62.5;
       return [
@@ -49,7 +40,6 @@ const SearchResultsPanel = props => {
         `${panelLargeWidth / 3}vw`,
       ].join(', ');
     } else {
-      // Panel width relative to the viewport
       const panelMediumWidth = 50;
       const panelLargeWidth = 62.5;
       return [
@@ -62,13 +52,15 @@ const SearchResultsPanel = props => {
     }
   };
 
-  const filteredListings = filterListings(listings, pubJoy, px);
+  const filteredListings = filterListings(listings, px);
+
+
 
   return (
     <div className={classes}>
       <div className={isMapVariant ? css.listingCardsMapVariant : css.listingCards}>
         {isTeamBuilding
-          ? listings
+          ? filteredListings
               .filter(ll => ll.attributes.publicData?.listingType === 'teambuilding')
               .map(l => (
                 <ListingCard
@@ -82,7 +74,7 @@ const SearchResultsPanel = props => {
                   isTeamBuilding={l.attributes.publicData.listingType}
                 />
               ))
-          : listings
+          : filteredListings
               .filter(ll => ll.attributes.publicData?.listingType !== 'teambuilding')
               .map(l => (
                 <ListingCard
@@ -98,7 +90,14 @@ const SearchResultsPanel = props => {
               ))}
         {props.children}
       </div>
-      {paginationLinks}
+      {pagination && pagination.totalPages > 1 ? (
+        <PaginationLinks
+          className={css.pagination}
+          pageName="SearchPage"
+          pageSearchParams={search}
+          pagination={pagination}
+        />
+      ) : null}
     </div>
   );
 };
