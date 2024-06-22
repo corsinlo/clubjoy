@@ -63,7 +63,8 @@ const SearchResultsPanel = props => {
   };
 
   const filteredListings = filterListings(listings, pubJoy, px);
-
+  console.log(filteredListings)
+  console.log(listings)
   return (
     <div className={classes}>
       <div className={isMapVariant ? css.listingCardsMapVariant : css.listingCards}>
