@@ -164,13 +164,8 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
             </div>
           ) : (
             <div className={css.step}>
-              {isTeamBuilding ? ( <>
               <p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>
-              <h2>{intl.formatMessage({ id: 'Survey.step0.title' })}</h2></>) :
-              (<>
-                <h2>{intl.formatMessage({ id: 'Survey.step01.title' })}</h2>
-                <p>{intl.formatMessage({ id: 'Survey.step01.subtitle' })}</p>
-                </>)}
+              <h2>{intl.formatMessage({ id: 'Survey.step0.title' })}</h2>
               <div className={css.cardContainer}>
                 <div
                   className={`${css.card} ${moreThanEight === false ? css.selected : ''}`}
@@ -205,8 +200,14 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
       case 2:
         return (
           <div className={css.step}>
-            <h2>{intl.formatMessage({ id: 'Survey.step1.title' })}</h2>
-            <p>{intl.formatMessage({ id: 'Survey.step1.subtitle' })}</p>
+              {!isTeamBuilding ? ( <>
+              <p>{intl.formatMessage({ id: 'Survey.step01.subtitle' })}</p>
+              <h2>{intl.formatMessage({ id: 'Survey.step01.title' })}</h2></>) :
+              (<>
+                <h2>{intl.formatMessage({ id: 'Survey.step1.title' })}</h2>
+                <p>{intl.formatMessage({ id: 'Survey.step1.subtitle' })}</p>
+                </>)}
+
             <div className={css.cardContainer}>
               {['1', '2', '3', '4'].map(option => (
                 <div
