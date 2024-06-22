@@ -3,7 +3,6 @@
   grid-template-rows: auto 1fr auto;
 }
 
-
 .subContainer {
   display: flex;
   justify-content: space-between;
@@ -25,7 +24,6 @@
 .header {
   font-weight: bold;
 }
-
 
 .topbar {
   position: fixed;
@@ -70,24 +68,48 @@
 }
 
 @media screen and (max-width: 768px) {
-/*WHATSAPPICON*/
-.customClass {
-  position: fixed; /* Fixed positioning relative to the viewport */
-  bottom: 10px;    /* Distance from the bottom of the viewport */
-  right: 5px;     /* Distance from the right side of the viewport */
-  height: 50px;    /* Height of the icon */
-  width: 80px;     /* Width of the icon */
-  color: #012FA7;  /* Color of the icon or text */
-  cursor: pointer; /* Pointer cursor on hover */
-  z-index: 1000;   /* High z-index to ensure it's on top of other content */
-  flex-direction: row; /* Align children in a row */
-  margin: 2px;
-}
+  .subContainer {
+    flex-direction: row; /* Keep items in a row */
+    align-items: center;
+   
+    height: 180px;
+    padding: 5px;
+  }
 
+  .subContainer > div {
+    text-align: center;
 
-.subContainer {
-  flex-direction: row; /* Stack items vertically */
-  align-items: center;
-  justify-content: center;
-}
+   
+    
+  }
+
+  .subContainer > div > div {
+    margin: 35px 0 ; /* Adjust the margin as needed */
+  }
+
+  .header {
+    font-size: 12px; /* Fixed font size for headers on mobile */
+
+    height: 40px; /* Fixed height for the header */
+  }
+
+  .subheader {
+    font-size: 12px; /* Fixed font size for subheaders on mobile */
+    width: 100%; /* Ensure the subheader takes up the full width */
+    
+  }
+
+  /*WHATSAPPICON*/
+  .customClass {
+    position: fixed; /* Fixed positioning relative to the viewport */
+    bottom: 10px;    /* Distance from the bottom of the viewport */
+    right: 5px;     /* Distance from the right side of the viewport */
+    height: 50px;    /* Height of the icon */
+    width: 80px;     /* Width of the icon */
+    color: #012FA7;  /* Color of the icon or text */
+    cursor: pointer; /* Pointer cursor on hover */
+    z-index: 1000;   /* High z-index to ensure it's on top of other content */
+    flex-direction: row; /* Align children in a row */
+    margin: 2px;
+  }
 }
