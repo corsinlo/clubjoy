@@ -55,14 +55,13 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
   };
 
   const mapJoyToPubJoy = () => {
-    if (joy.includes('4')) {
-      return ''; // option 4: no pub_joy
-    }
+  
 
     const pubJoyMapping = {
       '1': '2,3,5',
       '2': '4',
       '3': '1,3,5,6,7',
+      '4': '1,2,3,4,5,6,7',
     };
 
     const selectedPubJoys = joy
