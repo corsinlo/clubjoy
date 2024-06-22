@@ -54,6 +54,24 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
     setCurrentStep(2);
   };
 
+  const mapJoyToPubJoy = () => {
+    if (joy.includes('4')) {
+      return ''; // option 4: no pub_joy
+    }
+
+    const pubJoyMapping = {
+      '1': '2,3,5',
+      '2': '4',
+      '3': '1,3,5,6,7',
+    };
+
+    const selectedPubJoys = joy
+      .filter(option => pubJoyMapping[option])
+      .map(option => pubJoyMapping[option]);
+
+    return selectedPubJoys.join(',');
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
     if (joy.length === 0) {
@@ -62,9 +80,10 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
     }
 
     let queryParts = [];
-    if (joy.length) {
-      const joyValues = joy.join(',');
-      queryParts.push(`pub_joy=${encodeURIComponent(joyValues)}`);
+    const pubJoy = mapJoyToPubJoy();
+
+    if (pubJoy) {
+      queryParts.push(`pub_joy=${encodeURIComponent(pubJoy)}`);
     }
 
     if (moreThanEight !== null) {

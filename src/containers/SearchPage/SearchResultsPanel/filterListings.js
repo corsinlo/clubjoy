@@ -1,14 +1,28 @@
-const filterListings = (listings, pubJoy) => {
-  if (!pubJoy) return listings;
+const filterListings = (listings, pubJoy, px) => {
+  let filteredListings = listings;
+
+  if (px !== null) {
+    if (px === 'true') {
+      filteredListings = listings.filter(
+        l => parseInt(l.attributes.publicData?.min, 10) > 8
+      );
+    } else if (px === 'false') {
+      filteredListings = listings.filter(
+        l => parseInt(l.attributes.publicData?.min, 10) < 8
+      );
+    }
+  }
+
+  if (!pubJoy) return filteredListings;
 
   const pubJoyValues = pubJoy.replace('has_all:', '').split(',');
 
   if (pubJoyValues.length > 1) {
-    // If searching for multiple values, return all listings
-    return listings;
+    // If searching for multiple values, return filtered listings
+    return filteredListings;
   }
 
-  return listings.filter(l => {
+  return filteredListings.filter(l => {
     const listingJoy = l.attributes.publicData?.joy;
     if (!listingJoy) return false;
 
@@ -18,5 +32,3 @@ const filterListings = (listings, pubJoy) => {
 };
 
 export default filterListings;
-;
-
