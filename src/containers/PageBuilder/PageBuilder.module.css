@@ -1,8 +1,3 @@
-.layout {
-  min-height: 100vh;
-  grid-template-rows: auto 1fr auto;
-}
-
 .subContainer {
   display: flex;
   justify-content: space-between;
@@ -71,32 +66,29 @@
   .subContainer {
     flex-direction: row; /* Keep items in a row */
     align-items: center;
-   
-    height: 180px;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    height: 100px;
     padding: 5px;
+    white-space: nowrap; /* Prevent line breaks for scrolling */
+    animation: scrollLeft 20s linear infinite; /* Add animation */
   }
 
   .subContainer > div {
     text-align: center;
-
-   
-    
+    min-width: auto; /* Ensure each item takes full width on mobile */
   }
 
   .subContainer > div > div {
-    margin: 35px 0 ; /* Adjust the margin as needed */
+    margin: 15px 0; /* Adjust the margin as needed */
   }
 
   .header {
     font-size: 12px; /* Fixed font size for headers on mobile */
-
-    height: 40px; /* Fixed height for the header */
   }
 
   .subheader {
     font-size: 12px; /* Fixed font size for subheaders on mobile */
     width: 100%; /* Ensure the subheader takes up the full width */
-    
   }
 
   /*WHATSAPPICON*/
@@ -111,5 +103,14 @@
     z-index: 1000;   /* High z-index to ensure it's on top of other content */
     flex-direction: row; /* Align children in a row */
     margin: 2px;
+  }
+
+  @keyframes scrollLeft {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
   }
 }

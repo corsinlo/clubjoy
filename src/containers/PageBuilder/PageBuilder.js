@@ -177,19 +177,21 @@ const PageBuilder = props => {
                               isTeamBuilding={isTeamBuilding}
                             />
                             <SectionBuilder sections={sections} options={options} />
+                            <div style={{backgroundColor: '#ED514A'}}>
                             <div className={css.subContainer}>
                               <div>
                                 <div className={css.header}>Prenota online</div>
-                                <div className={css.subheader}>senza dover aspettare preventivi</div>
+                                <div >senza dover aspettare preventivi</div>
                               </div>
                               <div>
                                 <div className={css.header}>Cancella gratuitemente</div>
-                                <div className={css.subheader}>fino a 5 giorni dall'evento</div>
+                                <div >fino a 5 giorni dall'evento</div>
                               </div>
                               <div>
                                 <div className={css.header}>Supporto 24/24h</div>
-                                <div className={css.subheader}>comodamente su whatsapp</div>
+                                <div >comodamente su whatsapp</div>
                               </div>
+                            </div>
                             </div>
                             <Newsletter />
                           </>
