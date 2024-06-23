@@ -158,7 +158,7 @@ const TopbarDesktop = props => {
     <NamedLink
       name="SignupPage"
       className={classNames(css.signupLink, {
-        [css.whiteText]: isLandingPage && !scrolling,
+        [css.whiteText]: isLandingPage,
       })}
     >
       <span className={css.signup}>
