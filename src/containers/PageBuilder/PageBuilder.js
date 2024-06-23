@@ -177,7 +177,7 @@ const PageBuilder = props => {
                               isTeamBuilding={isTeamBuilding}
                             />
                             <SectionBuilder sections={sections} options={options} />
-                            <div style={{backgroundColor: '#ED514A'}}>
+                            <div className={css.subContainerWrapper}>
                             <div className={css.subContainer}>
                               <div>
                                 <div className={css.header}>Prenota online</div>
