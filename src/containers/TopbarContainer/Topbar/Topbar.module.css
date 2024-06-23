@@ -6,7 +6,7 @@ html, body {
 
 .root {
   width: 100%;
-  
+  background-color: white;
   /* Top Bar's drop shadow should always be visible */
   z-index: var(--zIndexTopbar);
   position: relative;

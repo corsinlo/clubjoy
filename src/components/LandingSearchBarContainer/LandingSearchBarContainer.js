@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import css from './LandingSearchBar.module.css';
 import landingCover from '../../media/landingCover.jpg';
-import landingCoverR from '../../media/landingCoverR.jpeg';
+import landingCoverR from '../../media/landingCoverR.JPG';
 import landingCoverL from '../../media/landingCoverL.jpeg';
 import landingCoverMobile from '../../media/landingCoverMobile.jpg';
 import landingPE from '../../media/landingPE.JPG';
@@ -39,7 +39,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'right',
-    flex: '1 1 60%',
+    flex: '1 1 30%',
   };
 
   const containerStyle2 = {
@@ -56,42 +56,20 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
   const containerStyle3 = {
     position: 'relative',
     height: isMobile ? '800px' : '850px',
-    backgroundImage: !isMobile?`url(${landingCoverR})` : 'none',
-    backgroundSize: 'contain',
+    backgroundColor: 'white',
+    backgroundImage: `url(${landingCoverR})` ,
+    backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right',
+    backgroundPosition: 'top 50px',
     flex: '1 1 30%',
   };
 
   return (
     <div
-      className={isTeamBuilding ? css.isTeamBuildingContainer : css.landingBarContainer}
+      className={
+        css.isTeamBuildingContainer}
       style={containerStyle}
     >
-      {isMobile && !isTeamBuilding && (
-        <div
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '18%',
-            transform: 'translate(-50%, -50%)',
-            width: '80%',
-            maxWidth: '300px',
-            height: 'auto',
-          }}
-        >
-          <img
-            src={landingCoverMobile}
-            alt="Mobile Landing Cover"
-            style={{
-              width: '80%',
-              height: '80%',
-              objectFit: 'cover',
-              borderRadius: '10px',
-            }}
-          />
-        </div>
-      )}
       <>
         {!isTeamBuilding ? (
           <div className={css.surveyContainer}>

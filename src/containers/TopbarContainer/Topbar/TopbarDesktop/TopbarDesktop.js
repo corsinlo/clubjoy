@@ -39,11 +39,12 @@ const TopbarDesktop = props => {
     location, // Destructure location prop provided by withRouter
   } = props;
   const [mounted, setMounted] = useState(false);
-  const [scrolling, setScrolling] = useState(false);
+  //const [scrolling, setScrolling] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  /*
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -59,11 +60,8 @@ const TopbarDesktop = props => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  const classes = classNames(rootClassName || css.root, className, {
-    [css.scrolling]: scrolling,
-    [css.whiteBackground]: scrolling,
-  });
+*/
+  const classes = classNames(rootClassName || css.root);
 
   const marketplaceName = appConfig.marketplaceName;
   const authenticatedOnClientSide = mounted && isAuthenticated;

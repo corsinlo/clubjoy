@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect }  from 'react';
 import css from './SurveyForm.module.css';
 import { useHistory } from 'react-router-dom';
 import { createResourceLocatorString } from '../../util/routes';
@@ -7,6 +7,9 @@ import { useIntl } from 'react-intl';
 import moment from 'moment';
 
 const SurveyForm = ({ className, isTeamBuilding }) => {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth < 1024 : null
+  );
   const routeConfiguration = useRouteConfiguration();
   const intl = useIntl();
   const searchPagePath = routeConfiguration
@@ -21,6 +24,23 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth < 1025);
+      }
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
+  }, []);
 
   const emojiSets = {
     1: '🍽️🍰🥐',
@@ -132,6 +152,7 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
         return (
           !isTeamBuilding ? (
             <div className={css.step}>
+               {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>)}
               <h2>{intl.formatMessage({ id: 'Survey.step00.title' })}</h2> 
               <div className={css.cardContainer}>
                 <div 
@@ -163,7 +184,8 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
             </div>
           ) : (
             <div className={css.step}>
-              <p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>
+               {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>)}
+              
               <h2>{intl.formatMessage({ id: 'Survey.step0.title' })}</h2>
               <div className={css.cardContainer}>
                 <div
@@ -200,7 +222,7 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
         return (
           <div className={css.step}>
               {!isTeamBuilding ? ( <>
-              <p>{intl.formatMessage({ id: 'Survey.step01.subtitle' })}</p>
+               {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step01.subtitle' })}</p>)}
               <h2>{intl.formatMessage({ id: 'Survey.step01.title' })}</h2></>) :
               (<>
                 <h2>{intl.formatMessage({ id: 'Survey.step1.title' })}</h2>
