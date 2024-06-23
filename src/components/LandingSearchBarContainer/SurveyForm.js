@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect } from 'react';
 import css from './SurveyForm.module.css';
 import { useHistory } from 'react-router-dom';
 import { createResourceLocatorString } from '../../util/routes';
@@ -24,7 +24,6 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -75,8 +74,6 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
   };
 
   const mapJoyToPubJoy = () => {
-  
-
     const pubJoyMapping = {
       '1': '2,3,5',
       '2': '4',
@@ -115,6 +112,9 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
       queryParts.push(`dates=${startDateFormatted}%2C${endDateFormatted}`);
     }
 
+    // Add bounds string
+    queryParts.push('bounds=45.86603135%2C9.67783972%2C45.10253157%2C8.78794714');
+
     let searchParams = queryParts.join('&');
     if (routeConfiguration) {
       const queryString = `?${searchParams}`;
@@ -152,40 +152,35 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
         return (
           !isTeamBuilding ? (
             <div className={css.step}>
-               {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>)}
+              {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>)}
               <h2>{intl.formatMessage({ id: 'Survey.step00.title' })}</h2> 
               <div className={css.cardContainer}>
                 <div 
-                    className={css.card}
-                    onClick={() => handleDateSelection(getThisWeek().start, getThisWeek().end)}
-                  >
-                    <span className={css.emoji}>{dateSelectionEmojis.thisWeek}</span>
-                    {intl.formatMessage({ id: 'ToDo.thisWeek' })}
-                 
+                  className={css.card}
+                  onClick={() => handleDateSelection(getThisWeek().start, getThisWeek().end)}
+                >
+                  <span className={css.emoji}>{dateSelectionEmojis.thisWeek}</span>
+                  {intl.formatMessage({ id: 'ToDo.thisWeek' })}
                 </div>
                 <div 
-                    className={css.card}
-                    onClick={() => handleDateSelection(getThisMonth().start, getThisMonth().end)}
-                  >
-                    <span className={css.emoji}>{dateSelectionEmojis.thisMonth}</span>
-                    {intl.formatMessage({ id: 'ToDo.thisMonth' })}
-                 
+                  className={css.card}
+                  onClick={() => handleDateSelection(getThisMonth().start, getThisMonth().end)}
+                >
+                  <span className={css.emoji}>{dateSelectionEmojis.thisMonth}</span>
+                  {intl.formatMessage({ id: 'ToDo.thisMonth' })}
                 </div>
                 <div 
-                    className={css.card}
-                    onClick={() => handleDateSelection(getNextMonth().start, getNextMonth().end)}
-                  >
-                    <span className={css.emoji}>{dateSelectionEmojis.nextMonth}</span>
-                    
-                    {intl.formatMessage({ id: 'ToDo.nextMonth' })}
-           
+                  className={css.card}
+                  onClick={() => handleDateSelection(getNextMonth().start, getNextMonth().end)}
+                >
+                  <span className={css.emoji}>{dateSelectionEmojis.nextMonth}</span>
+                  {intl.formatMessage({ id: 'ToDo.nextMonth' })}
                 </div>
               </div>
             </div>
           ) : (
             <div className={css.step}>
-               {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>)}
-              
+              {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>)}
               <h2>{intl.formatMessage({ id: 'Survey.step0.title' })}</h2>
               <div className={css.cardContainer}>
                 <div
@@ -221,14 +216,13 @@ const SurveyForm = ({ className, isTeamBuilding }) => {
       case 2:
         return (
           <div className={css.step}>
-              {!isTeamBuilding ? ( <>
-               {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step01.subtitle' })}</p>)}
+            {!isTeamBuilding ? ( <>
+              {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step01.subtitle' })}</p>)}
               <h2>{intl.formatMessage({ id: 'Survey.step01.title' })}</h2></>) :
               (<>
                 <h2>{intl.formatMessage({ id: 'Survey.step1.title' })}</h2>
                 <p>{intl.formatMessage({ id: 'Survey.step1.subtitle' })}</p>
-                </>)}
-
+              </>)}
             <div className={css.cardContainer}>
               {['1', '2', '3', '4'].map(option => (
                 <div
