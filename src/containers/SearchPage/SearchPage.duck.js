@@ -217,6 +217,12 @@ export const searchListings = (searchParams, config) => (dispatch, getState, sdk
     if (params.pub_joy) {
       params.pub_joy = params.pub_joy.replace('has_all', 'has_any');
     }
+
+    if (params.pub_language) {
+      params.pub_language = params.pub_language.replace('has_all', 'has_any');
+    }
+
+
     return params;
   };
 
