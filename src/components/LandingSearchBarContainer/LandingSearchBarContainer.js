@@ -60,7 +60,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
     backgroundImage: `url(${landingCoverR})` ,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'top 50px',
+    backgroundPosition: 'right',
     flex: '1 1 30%',
   };
 
