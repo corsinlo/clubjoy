@@ -740,7 +740,7 @@ const seatsSelectionMaybe =
             label="Location:"
           >
             <option value="" key="default">
-              {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })}
+            Seleziona Location
             </option>
             {this.props.publicData.loc.map(s => (
               <option value={s} key={s}>
@@ -767,7 +767,7 @@ const seatsSelectionMaybe =
             label="Lingua:"
           >
             <option value="" key="default">
-              {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })}
+              Seleziona Lingua
             </option>
             {this.props.publicData.language.map(s => (
               <option value={s} key={s}>
