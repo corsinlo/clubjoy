@@ -34,7 +34,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
 
   const containerStyle = {
     position: 'relative',
-    height: isMobile ? '800px' : '850px',
+    height: isMobile ? '725px' : '850px',
     backgroundColor: isTeamBuilding ? 'white' : 'none',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
@@ -44,7 +44,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
 
   const containerStyle2 = {
     position: 'relative',
-    height: isMobile ? '800px' : '850px',
+    height: isMobile ? '725px' : '850px',
     backgroundColor: isTeamBuilding ? 'white' : 'none',
     backgroundImage: isTeamBuilding ? `url(${landingPE})` : 'none',
     backgroundSize: 'cover',
@@ -55,7 +55,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
 
   const containerStyle3 = {
     position: 'relative',
-    height: isMobile ? '800px' : '850px',
+    height: isMobile ? '725px' : '850px',
     backgroundColor: 'white',
     backgroundImage: `url(${landingCoverR})` ,
     backgroundSize: 'cover',
