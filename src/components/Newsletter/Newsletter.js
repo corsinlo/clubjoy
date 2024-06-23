@@ -62,7 +62,7 @@ const Newsletter = () => {
   return (
     <div className={css.formContainer}>
       <form onSubmit={handleSubmit} className={css.form}>
-        <p style={{ color: 'white', textAlign: 'center' }}>
+        <p style={{ textAlign: 'center' }}>
           {intl.formatMessage({ id: 'Newsletter.header' })}
           <span role="img" aria-label="heart emoji" style={heartStyle}>
             ❤️
@@ -77,7 +77,7 @@ const Newsletter = () => {
             onChange={e => setName(e.target.value)}
             required
             className={css.nameInput}
-            placeholder={'Mario'}
+            placeholder={'Pablo'}
           />
           <input
             id="lastname"
@@ -86,7 +86,7 @@ const Newsletter = () => {
             onChange={e => setLastname(e.target.value)}
             required
             className={css.nameInput}
-            placeholder={'Rossi'}
+            placeholder={'Picasso'}
           />
         </div>
         <input
@@ -95,8 +95,8 @@ const Newsletter = () => {
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
-          className={css.inputField}
-          placeholder={'ciao@clubjoy.it'}
+          className={css.nameInput}
+          placeholder={'pablo.picasso.art@clubjoy.it'}
         />
         <PrimaryButton type="submit" className={css.button}>
           {intl.formatMessage({ id: 'Newsletter.button' })}

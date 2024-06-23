@@ -51,11 +51,8 @@ const SearchResultsPanel = props => {
       ].join(', ');
     }
   };
-
+ 
   const filteredListings = filterListings(listings, px);
-
-
-
   return (
     <div className={classes}>
       <div className={isMapVariant ? css.listingCardsMapVariant : css.listingCards}>

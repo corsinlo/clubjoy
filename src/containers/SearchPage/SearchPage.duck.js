@@ -275,6 +275,8 @@ export const loadData = (params, search, config) => {
         'publicData.min',
         'publicData.max',
         'publicData.joy',
+        'publicData.language',
+        'publicData.loc',
         // These help rendering of 'purchase' listings,
         // when transitioning from search page to listing page
         'publicData.pickupEnabled',

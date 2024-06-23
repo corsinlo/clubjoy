@@ -636,93 +636,148 @@ const seatsSelectionMaybe =
           </div>
         </div>
         <div className={css.formRow}>
-        {seatsSelectionMaybe}
+          {seatsSelectionMaybe}
         </div>
         {!!seatsSelectionMaybe && (
-  <FieldArray name="guestNames" className={css.fieldSelect}>
-    {({ fields }) => {
-      // If the listing type is 'teambuilding', only render one FieldTextInput
-      if (this.props.publicData?.listingType === 'teambuilding') {
-        return (
-          <FieldTextInput
-            id="teamName"
-            name="guestNames[0]" // Ensure it's part of the guestNames array
-            key={0}
+          <FieldArray name="guestNames" className={css.fieldSelect}>
+            {({ fields }) => {
+              // If the listing type is 'teambuilding', only render one FieldTextInput
+              if (this.props.publicData?.listingType === 'teambuilding') {
+                return (
+                  <FieldTextInput
+                    id="teamName"
+                    name="guestNames[0]" // Ensure it's part of the guestNames array
+                    key={0}
+                    className={css.fieldDateInput}
+                    type="text"
+                    label={intl.formatMessage(
+                      {
+                        id: 'FieldDateAndTimeInput.teamNameLabel',
+                      },
+                      { number: 1 }
+                    )}
+                    placeholder={intl.formatMessage(
+                      {
+                        id: 'FieldDateAndTimeInput.teamNamePlaceholder',
+                      },
+                      { number: 1 }
+                    )}
+                    validate={validators.required(
+                      intl.formatMessage({
+                        id: 'FieldDateAndTimeInput.requiredGuestName',
+                      })
+                    )}
+                  />
+                );
+              }
+
+              // Otherwise, use the existing logic for rendering the fields
+              return fields.map((name, index) => {
+                const isOddNumber = (index + 1) % 2 !== 0;
+
+                if (
+                  (this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+                    isOddNumber &&
+                    index !== 0) ||
+                  (this.props.publicData &&
+                    this.props.publicData.listingType === 'teambuilding' &&
+                    isOddNumber &&
+                    index !== 0)
+                ) {
+                  return null; // Skip rendering for all odd-numbered indexes except the first one
+                }
+
+                return (
+                  <FieldTextInput
+                    id={name}
+                    name={name}
+                    key={index}
+                    className={css.fieldDateInput}
+                    type="text"
+                    label={intl.formatMessage(
+                      {
+                        id:
+                          this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                            ? 'FieldDateAndTimeInput.coupleNameLabel'
+                            : 'FieldDateAndTimeInput.guestNameLabel',
+                      },
+                      { number: index + 1 }
+                    )}
+                    placeholder={intl.formatMessage(
+                      {
+                        id:
+                          this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                            ? 'FieldDateAndTimeInput.coupleNamePlaceholder'
+                            : 'FieldDateAndTimeInput.guestNamePlaceholder',
+                      },
+                      { number: index + 1 }
+                    )}
+                    validate={validators.required(
+                      intl.formatMessage({
+                        id: 'FieldDateAndTimeInput.requiredGuestName',
+                      })
+                    )}
+                  />
+                );
+              });
+            }}
+          </FieldArray>
+        )}
+
+        {!!seatsSelectionMaybe && (
+          <FieldSelect
             className={css.fieldDateInput}
-            type="text"
-            label={intl.formatMessage(
-              {
-                id: 'FieldDateAndTimeInput.teamNameLabel',
-              },
-              { number: 1 }
-            )}
-            placeholder={intl.formatMessage(
-              {
-                id: 'FieldDateAndTimeInput.teamNamePlaceholder',
-              },
-              { number: 1 }
-            )}
-            validate={validators.required(
-              intl.formatMessage({
-                id: 'FieldDateAndTimeInput.requiredGuestName',
-              })
-            )}
-          />
-        );
-      }
-
-      // Otherwise, use the existing logic for rendering the fields
-      return fields.map((name, index) => {
-        const isOddNumber = (index + 1) % 2 !== 0;
-
-        if (
-          (this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-            isOddNumber &&
-            index !== 0) ||
-          (this.props.publicData &&
-            this.props.publicData.listingType === 'teambuilding' &&
-            isOddNumber &&
-            index !== 0)
-        ) {
-          return null; // Skip rendering for all odd-numbered indexes except the first one
+            onChange={value => {
+              form.batch(() => {
+                form.change('location', []);
+                if (value > 0)
+                  for (let index = 0; index < value; index++)
+                    form.mutators.push(`location[${index}]`, '');
+              });
+            }}
+            name="Location"
+            id="location"
+            label="Location:"
+          >
+            <option value="" key="default">
+              {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })}
+            </option>
+            {this.props.publicData.loc.map(s => (
+              <option value={s} key={s}>
+                {s}
+              </option>
+            ))}
+          </FieldSelect>
+        )
         }
 
-        return (
-          <FieldTextInput
-            id={name}
-            name={name}
-            key={index}
+        {!!seatsSelectionMaybe && (
+          <FieldSelect
             className={css.fieldDateInput}
-            type="text"
-            label={intl.formatMessage(
-              {
-                id:
-                  this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
-                    ? 'FieldDateAndTimeInput.coupleNameLabel'
-                    : 'FieldDateAndTimeInput.guestNameLabel',
-              },
-              { number: index + 1 }
-            )}
-            placeholder={intl.formatMessage(
-              {
-                id:
-                  this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
-                    ? 'FieldDateAndTimeInput.coupleNamePlaceholder'
-                    : 'FieldDateAndTimeInput.guestNamePlaceholder',
-              },
-              { number: index + 1 }
-            )}
-            validate={validators.required(
-              intl.formatMessage({
-                id: 'FieldDateAndTimeInput.requiredGuestName',
-              })
-            )}
-          />
-        );
-      });
-    }}
-  </FieldArray>
-)}
+            onChange={value => {
+              form.batch(() => {
+                form.change('language', []);
+                if (value > 0)
+                  for (let index = 0; index < value; index++)
+                    form.mutators.push(`language[${index}]`, '');
+              });
+            }}
+            name="Language"
+            id="language"
+            label="Lingua:"
+          >
+            <option value="" key="default">
+              {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })}
+            </option>
+            {this.props.publicData.language.map(s => (
+              <option value={s} key={s}>
+                {s}
+              </option>
+            ))}
+          </FieldSelect>
+        )
+        }
+
 
       </div>
     );
