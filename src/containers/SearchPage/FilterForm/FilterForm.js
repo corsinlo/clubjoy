@@ -14,7 +14,8 @@ import css from './FilterForm.module.css';
 
 const FilterFormComponent = props => {
   const { liveEdit, onChange, onSubmit, onCancel, onClear, ...rest } = props;
-  const [clearTriggered, setClearTriggered] = useState(false);
+  const [clearTriggered, setClearTriggered] = useState(null);
+  const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
 
   if (liveEdit && !onChange) {
     throw new Error('FilterForm: if liveEdit is true you need to provide onChange function');
@@ -83,9 +84,9 @@ const FilterFormComponent = props => {
           >
             <div className={classNames(paddingClasses || css.contentWrapper)}>
               {children}
-              <SeatFilter clearTriggered={clearTriggered} />
+              {isTeamBuildingOnTop && formRenderProps.children.props.name === 'language' && (<SeatFilter clearTriggered={clearTriggered} />)}
             </div>
-
+           
             {liveEdit ? (
               <FormSpy onChange={handleChange} subscription={{ values: true, dirty: true }} />
             ) : (
