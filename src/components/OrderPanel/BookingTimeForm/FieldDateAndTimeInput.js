@@ -548,6 +548,22 @@ const seatsSelectionMaybe =
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
+
+
+    const locationMapping = {
+      1: 'Dall artista (es. nello suo studio di ceramica, nella sua fioreria)',
+      2: 'Dal cliente (es. in ufficio, a casa, durante una festa)',
+    };
+    
+    const languageMapping = {
+      1: 'Italiano',
+      2: 'English',
+      3: 'Español',
+      4: 'Français',
+      5: 'Deutsch',
+      6: 'Español',
+    };
+
     return (
       <div className={classes}>
         <div className={css.formRow}>
@@ -724,15 +740,17 @@ const seatsSelectionMaybe =
           </FieldArray>
         )}
 
-        {!!seatsSelectionMaybe && (
+{publicData?.listingType === 'teambuilding' && !!seatsSelectionMaybe && (
           <FieldSelect
-            className={css.fieldDateInput}
+            className={css.extras}
             onChange={value => {
               form.batch(() => {
                 form.change('location', []);
-                if (value > 0)
-                  for (let index = 0; index < value; index++)
+                if (value > 0) {
+                  for (let index = 0; index < value; index++) {
                     form.mutators.push(`location[${index}]`, '');
+                  }
+                }
               });
             }}
             name="Location"
@@ -740,26 +758,27 @@ const seatsSelectionMaybe =
             label="Location:"
           >
             <option value="" key="default">
-            Seleziona Location
+              Seleziona Location
             </option>
-            {this.props.publicData.loc.map(s => (
+            {publicData.loc.map(s => (
               <option value={s} key={s}>
-                {s}
+                {locationMapping[s] || s}
               </option>
             ))}
           </FieldSelect>
-        )
-        }
+        )}
 
-        {!!seatsSelectionMaybe && (
+        {publicData?.listingType === 'teambuilding' && !!seatsSelectionMaybe && (
           <FieldSelect
-            className={css.fieldDateInput}
+            className={css.extras}
             onChange={value => {
               form.batch(() => {
                 form.change('language', []);
-                if (value > 0)
-                  for (let index = 0; index < value; index++)
+                if (value > 0) {
+                  for (let index = 0; index < value; index++) {
                     form.mutators.push(`language[${index}]`, '');
+                  }
+                }
               });
             }}
             name="Language"
@@ -769,16 +788,13 @@ const seatsSelectionMaybe =
             <option value="" key="default">
               Seleziona Lingua
             </option>
-            {this.props.publicData.language.map(s => (
+            {publicData.language.map(s => (
               <option value={s} key={s}>
-                {s}
+                {languageMapping[s] || s}
               </option>
             ))}
           </FieldSelect>
-        )
-        }
-
-
+        )}
       </div>
     );
   }
