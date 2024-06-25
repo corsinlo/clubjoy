@@ -29,12 +29,13 @@ const MainPanelHeader = props => {
             {searchInProgress ? (
               <FormattedMessage id="MainPanelHeader.loadingResults" />
             ) : (
-              <FormattedMessage
-                id="MainPanelHeader.foundResults"
-                values={{ count: resultsCount }}
-              />
+          null
             )}
           </span>
+               {/*<FormattedMessage
+                id="MainPanelHeader.foundResults"
+                values={{ count: resultsCount }}
+              />*/}
         </div>
         {isSortByActive ? (
           <div className={css.sortyByWrapper}>

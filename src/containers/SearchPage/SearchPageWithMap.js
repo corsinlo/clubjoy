@@ -6,7 +6,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 import omit from 'lodash/omit';
 import classNames from 'classnames';
-
+import SeatFilter from './SearchResultsPanel/SeatFilter';
 import { useIntl, intlShape, FormattedMessage } from '../../util/reactIntl';
 import { useConfiguration } from '../../context/configurationContext';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
@@ -394,6 +394,13 @@ export class SearchPageComponent extends Component {
         listing.attributes.publicData &&
         listing.attributes.publicData.listingType === 'teambuilding'
     );
+
+    const otherListings = listings.filter(
+      listing =>
+        listing.attributes.publicData &&
+        listing.attributes.publicData.listingType !== 'teambuilding'
+    );
+
     return (
       <Page
         scrollingDisabled={scrollingDisabled}
@@ -548,7 +555,7 @@ export class SearchPageComponent extends Component {
                   center={origin}
                   isSearchMapOpenOnMobile={this.state.isSearchMapOpenOnMobile}
                   location={location}
-                  listings={isTeamBuildingOnTop ? filteredListings : listings || []}
+                  listings={isTeamBuildingOnTop ? filteredListings :  otherListings || []}
                   onMapMoveEnd={this.onMapMoveEnd}
                   onCloseAsModal={() => {
                     onManageDisableScrolling('SearchPage.map', false);
