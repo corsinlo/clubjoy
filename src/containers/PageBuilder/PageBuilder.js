@@ -165,8 +165,8 @@ const PageBuilder = props => {
                         ) : isLandingPage ? (
                           <>
                             <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} />
-                            <Counter />
                             <ToDo/>
+                            <Counter />
                             <SectionBuilder sections={sections} options={options} />
                             <Newsletter />
                           </>

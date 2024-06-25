@@ -533,10 +533,10 @@ const seatsSelectionMaybe =
       }}
       name="seats"
       id="seats"
-      label={intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
+      label='In quanti siete?' //{intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
     >
       <option value="" key="default">
-        {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })}
+       - {/*intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })*/}
       </option>
       {visibleSeats.map(s => (
         <option value={s} key={s}>
@@ -548,11 +548,12 @@ const seatsSelectionMaybe =
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
+   
 
 
     const locationMapping = {
-      1: 'Dall artista (es. nello suo studio di ceramica, nella sua fioreria)',
-      2: 'Dal cliente (es. in ufficio, a casa, durante una festa)',
+      1: "Dall'artista (es. nello suo studio di ceramica, nella sua fioreria)",
+      2: 'Da me (es. in ufficio, a casa, durante una festa)',
     };
     
     const languageMapping = {
@@ -651,7 +652,7 @@ const seatsSelectionMaybe =
             </FieldSelect>
           </div>
         </div>
-        <div className={css.formRow}>
+        <div className={css.extras}>
           {seatsSelectionMaybe}
         </div>
         {!!seatsSelectionMaybe && (
@@ -664,7 +665,7 @@ const seatsSelectionMaybe =
                     id="teamName"
                     name="guestNames[0]" // Ensure it's part of the guestNames array
                     key={0}
-                    className={css.fieldDateInput}
+                    className={css.extras}
                     type="text"
                     label={intl.formatMessage(
                       {
@@ -672,12 +673,7 @@ const seatsSelectionMaybe =
                       },
                       { number: 1 }
                     )}
-                    placeholder={intl.formatMessage(
-                      {
-                        id: 'FieldDateAndTimeInput.teamNamePlaceholder',
-                      },
-                      { number: 1 }
-                    )}
+                    placeholder= '-'//{intl.formatMessage( {id: 'FieldDateAndTimeInput.teamNamePlaceholder',  }, { number: 1 } )}
                     validate={validators.required(
                       intl.formatMessage({
                         id: 'FieldDateAndTimeInput.requiredGuestName',
@@ -708,7 +704,7 @@ const seatsSelectionMaybe =
                     id={name}
                     name={name}
                     key={index}
-                    className={css.fieldDateInput}
+                    className={css.extras}
                     type="text"
                     label={intl.formatMessage(
                       {
@@ -755,7 +751,7 @@ const seatsSelectionMaybe =
             }}
             name="Location"
             id="location"
-            label="Location:"
+            label="Dove?"
           >
             <option value="" key="default">
               Seleziona Location

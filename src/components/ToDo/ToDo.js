@@ -41,7 +41,7 @@ const ToDo = ({ isTeamBuilding }) => {
   });
   const getThisMonth = () => ({
     start: getToday(),
-    end: getToday().endOf('month')
+    end: getToday().clone().add(30, 'days')
   });
 
   return (
