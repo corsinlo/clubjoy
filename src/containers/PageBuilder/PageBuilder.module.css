@@ -1,8 +1,7 @@
-.layout {
-  min-height: 100vh;
-  grid-template-rows: auto 1fr auto;
+.subContainerWrapper {
+  overflow: hidden; /* Hide overflow to prevent screen width expansion */
+  position: relative; /* Position relative to contain the absolute positioned subContainer */
 }
-
 
 .subContainer {
   display: flex;
@@ -10,7 +9,10 @@
   align-items: flex-start;
   gap: 20px; /* Adjust the gap as needed */
   color: white;
-  background-color: rgb(231, 89, 89);
+  background-color: #ED514A;
+  position: absolute; /* Absolute positioning for animation */
+  width: 300%; /* Adjust width based on content */
+  animation: scrollLeft 20s linear infinite; /* Add animation */
 }
 
 .subContainer > div {
@@ -25,7 +27,6 @@
 .header {
   font-weight: bold;
 }
-
 
 .topbar {
   position: fixed;
@@ -70,24 +71,60 @@
 }
 
 @media screen and (max-width: 768px) {
-/*WHATSAPPICON*/
-.customClass {
-  position: fixed; /* Fixed positioning relative to the viewport */
-  bottom: 10px;    /* Distance from the bottom of the viewport */
-  right: 5px;     /* Distance from the right side of the viewport */
-  height: 50px;    /* Height of the icon */
-  width: 80px;     /* Width of the icon */
-  color: #012FA7;  /* Color of the icon or text */
-  cursor: pointer; /* Pointer cursor on hover */
-  z-index: 1000;   /* High z-index to ensure it's on top of other content */
-  flex-direction: row; /* Align children in a row */
-  margin: 2px;
+  .subContainerWrapper {
+    height: 100px; /* Set a fixed height */
+  }
+
+  .subContainer {
+    flex-direction: row; /* Keep items in a row */
+    align-items: center;
+    height: 100%; /* Match the height of the wrapper */
+    padding: 5px;
+    white-space: nowrap; /* Prevent line breaks for scrolling */
+    animation: scrollLeft 20s linear infinite; /* Add animation */
+  }
+
+  .subContainer > div {
+    text-align: center;
+    min-width: auto; /* Ensure each item takes full width on mobile */
+  }
+
+  .subContainer > div > div {
+    margin: 15px 0; /* Adjust the margin as needed */
+  }
+
+  .header {
+    font-size: 12px; /* Fixed font size for headers on mobile */
+  }
+
+  .subheader {
+    font-size: 12px; /* Fixed font size for subheaders on mobile */
+    width: 100%; /* Ensure the subheader takes up the full width */
+  }
+
+  /*WHATSAPPICON*/
+  .customClass {
+    position: fixed; /* Fixed positioning relative to the viewport */
+    bottom: 10px;    /* Distance from the bottom of the viewport */
+    right: 5px;     /* Distance from the right side of the viewport */
+    height: 50px;    /* Height of the icon */
+    width: 80px;     /* Width of the icon */
+    color: #012FA7;  /* Color of the icon or text */
+    cursor: pointer; /* Pointer cursor on hover */
+    z-index: 1000;   /* High z-index to ensure it's on top of other content */
+    flex-direction: row; /* Align children in a row */
+    margin: 2px;
+  }
+
+  @keyframes scrollLeft {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-66.666%); /* Adjust based on content width */
+    }
+  }
 }
 
 
-.subContainer {
-  flex-direction: column; /* Stack items vertically */
-  align-items: center;
-  justify-content: center;
-}
-}
+

@@ -6,7 +6,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 import omit from 'lodash/omit';
 import classNames from 'classnames';
-
+import SeatFilter from './SearchResultsPanel/SeatFilter';
 import { useIntl, intlShape, FormattedMessage } from '../../util/reactIntl';
 import { useConfiguration } from '../../context/configurationContext';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
@@ -55,7 +55,7 @@ const SEARCH_WITH_MAP_DEBOUNCE = 300; // Little bit of debounce before search is
 // Primary filters have their content in dropdown-popup.
 // With this offset we move the dropdown to the left a few pixels on desktop layout.
 const FILTER_DROPDOWN_OFFSET = -14;
-// const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
+const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
 export class SearchPageComponent extends Component {
   constructor(props) {
     super(props);
@@ -178,16 +178,19 @@ export class SearchPageComponent extends Component {
 
   getHandleChangedValueFn(useHistoryPush) {
     const { history, routeConfiguration, config } = this.props;
+    
+
     const { listingFields: listingFieldsConfig } = config?.listing || {};
     const { defaultFilters: defaultFiltersConfig, sortConfig } = config?.search || {};
 
     const urlQueryParams = validUrlQueryParamsFromProps(this.props);
 
     return updatedURLParams => {
+
       const updater = prevState => {
         const { address, bounds, keywords } = urlQueryParams;
         const mergedQueryParams = { ...urlQueryParams, ...prevState.currentQueryParams };
-
+        
         // Address and bounds are handled outside of MainPanel.
         // I.e. TopbarSearchForm && search by moving the map.
         // We should always trust urlQueryParams with those.
@@ -213,7 +216,8 @@ export class SearchPageComponent extends Component {
             defaultFiltersConfig,
             sortConfig
           );
-          history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+          isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
+          : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
         }
       };
 
@@ -221,6 +225,7 @@ export class SearchPageComponent extends Component {
     };
   }
 
+ 
   handleSortBy(urlParam, values) {
     const { history, routeConfiguration } = this.props;
     const urlQueryParams = validUrlQueryParamsFromProps(this.props);
@@ -389,6 +394,13 @@ export class SearchPageComponent extends Component {
         listing.attributes.publicData &&
         listing.attributes.publicData.listingType === 'teambuilding'
     );
+
+    const otherListings = listings.filter(
+      listing =>
+        listing.attributes.publicData &&
+        listing.attributes.publicData.listingType !== 'teambuilding'
+    );
+
     return (
       <Page
         scrollingDisabled={scrollingDisabled}
@@ -543,7 +555,7 @@ export class SearchPageComponent extends Component {
                   center={origin}
                   isSearchMapOpenOnMobile={this.state.isSearchMapOpenOnMobile}
                   location={location}
-                  listings={isTeamBuildingOnTop ? filteredListings : listings || []}
+                  listings={isTeamBuildingOnTop ? filteredListings :  otherListings || []}
                   onMapMoveEnd={this.onMapMoveEnd}
                   onCloseAsModal={() => {
                     onManageDisableScrolling('SearchPage.map', false);

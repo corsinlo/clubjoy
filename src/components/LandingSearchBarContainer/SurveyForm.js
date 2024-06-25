@@ -1,130 +1,109 @@
 import React, { useState, useEffect } from 'react';
-import { DateRangePicker } from 'react-dates';
-import css from './LandingSearchBar.module.css';
+import css from './SurveyForm.module.css';
 import { useHistory } from 'react-router-dom';
 import { createResourceLocatorString } from '../../util/routes';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 import { useIntl } from 'react-intl';
+import moment from 'moment';
 
-//const isTeamBuilding = location.pathname === '/p/teambuilding';
-//console.log('isTeamBuilding', isTeamBuilding);
-function useWindowSize() {
-  const [windowSize, setWindowSize] = useState({ width: undefined });
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowSize({ width: window.innerWidth });
-    }
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  return windowSize;
-}
-
-const LandingSearchBarForm = ({ onSearchSubmit, className, isTeamBuilding}) => {
+const SurveyForm = ({ className, isTeamBuilding }) => {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth < 1024 : null
+  );
   const routeConfiguration = useRouteConfiguration();
   const intl = useIntl();
-  const searchPagePath = routeConfiguration ? isTeamBuilding ? createResourceLocatorString('teamSearchPage', routeConfiguration, {}, {}) : createResourceLocatorString('SearchPage', routeConfiguration, {}, {})
-  : '';
+  const searchPagePath = routeConfiguration
+    ? isTeamBuilding
+      ? createResourceLocatorString('teamSearchPage', routeConfiguration, {}, {})
+      : createResourceLocatorString('SearchPage', routeConfiguration, {}, {})
+    : '';
 
-  const [location, setLocation] = useState('');
-  const [bounds, setBounds] = useState({
-    ne: {
-      _sdkType: 'LatLng',
-      lat: 46.37133393,
-      lng: 11.30806128,
-    },
-    sw: {
-      _sdkType: 'LatLng',
-      lat: 44.63128509,
-      lng: 8.37745825,
-    },
-    _sdkType: 'LatLngBounds',
-  });
-
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [focusedInput, setFocusedInput] = useState(null);
   const history = useHistory();
   const [joy, setJoy] = useState([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
-  const [isPickerVisible, setIsPickerVisible] = useState(false);
-  const { width } = useWindowSize();
-  const isSmallScreen = width < 1024;
-  const closeDropdown = () => setIsDropdownOpen(false);
-  const closeDropdown2 = () => setIsDropdownOpen2(false);
-  // Removed useEffect for Google Maps Autocomplete
+  const [moreThanEight, setMoreThanEight] = useState(null);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
-  const fetchLocationBounds = async inputLocation => {
-    if (!inputLocation) return; // Don't fetch if input is empty
-
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-      inputLocation
-    )}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data.results.length > 0) {
-        const { geometry } = data.results[0];
-        const bounds = {
-          ne: {
-            _sdkType: 'LatLng',
-            lat: geometry.viewport.northeast.lat,
-            lng: geometry.viewport.northeast.lng,
-          },
-          sw: {
-            _sdkType: 'LatLng',
-            lat: geometry.viewport.southwest.lat,
-            lng: geometry.viewport.southwest.lng,
-          },
-          _sdkType: 'LatLngBounds',
-        };
-        setLocation(inputLocation); // Update location with the user input
-        setBounds(bounds); // Update bounds based on the best match
-        console.log('T', bounds);
-      } else {
-        console.log('No results found');
-        setBounds(null); // Clear bounds if no results
+  useEffect(() => {
+    const handleResize = () => {
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth < 1025);
       }
-    } catch (error) {
-      console.error('Failed to fetch location data:', error);
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
+  }, []);
+
+  const emojiSets = {
+    1: '🍽️🍰🥐',
+    2: '🧘🤸🏽‍♂️🏌🏼‍♂️',
+    3: '🎨🖍️🪁',
+    4: '🧠✨🪄',
+  };
+
+  const dateSelectionEmojis = {
+    thisWeek: '🤸🏽‍♂️',
+    thisMonth: '📅',
+    nextMonth: '⏩️',
+  };
+
+  const moreThanEightEmojiSets = {
+    true: '👥👥➕',
+    false: '👤',
+  };
+
+  const handleJoyChange = value => {
+    if (joy.includes(value)) {
+      setJoy(joy.filter(item => item !== value));
+    } else {
+      setJoy([...joy, value]);
     }
   };
 
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-  const toggleDropdown2 = () => setIsDropdownOpen2(!isDropdownOpen2);
-  const handleJoyChange = value => {
-    if (joy.includes(value)) {
-      setJoy(joy.filter(item => item !== value)); // Remove item if already selected
-    } else {
-      setJoy([...joy, value]); // Add item if not selected
-    }
+  const handleDateSelection = (start, end) => {
+    setStartDate(start);
+    setEndDate(end);
+    setCurrentStep(2);
+  };
+
+  const mapJoyToPubJoy = () => {
+    const pubJoyMapping = {
+      '1': '2,3,5',
+      '2': '4',
+      '3': '1,3,5,6,7',
+      '4': '1,2,3,4,5,6,7',
+    };
+
+    const selectedPubJoys = joy
+      .filter(option => pubJoyMapping[option])
+      .map(option => pubJoyMapping[option]);
+
+    return selectedPubJoys.join(',');
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    // Check if at least one of bounds, startDate, endDate, or joy is set
-    if (!location && !bounds && !startDate && !endDate && joy.length === 0) {
-      alert('Please select a location, date range, or joy filter.');
+    if (joy.length === 0) {
+      alert('Please select at least one joy preference.');
       return;
     }
-    let queryParts = [];
 
-    if (joy.length) {
-      const joyValues = joy.join(',');
-      queryParts.push(`pub_joy=${encodeURIComponent(joyValues)}`);
+    let queryParts = [];
+    const pubJoy = mapJoyToPubJoy();
+
+    if (pubJoy) {
+      queryParts.push(`pub_joy=has_any:${encodeURIComponent(pubJoy)}`);
     }
 
-    if (bounds) {
-      const formattedBounds = `${bounds.ne.lat},${bounds.ne.lng},${bounds.sw.lat},${bounds.sw.lng}`;
-      queryParts.push(`bounds=${encodeURIComponent(formattedBounds)}`);
+    if (moreThanEight !== null) {
+      queryParts.push(`px=${moreThanEight}`);
     }
 
     if (startDate && endDate) {
@@ -133,8 +112,10 @@ const LandingSearchBarForm = ({ onSearchSubmit, className, isTeamBuilding}) => {
       queryParts.push(`dates=${startDateFormatted}%2C${endDateFormatted}`);
     }
 
-    let searchParams = queryParts.join('&');
+    // Add bounds string
+    queryParts.push('bounds=45.86603135%2C9.67783972%2C45.10253157%2C8.78794714');
 
+    let searchParams = queryParts.join('&');
     if (routeConfiguration) {
       const queryString = `?${searchParams}`;
       const searchPageUrl = `${searchPagePath}${queryString}`;
@@ -144,133 +125,138 @@ const LandingSearchBarForm = ({ onSearchSubmit, className, isTeamBuilding}) => {
     }
   };
 
-  const selectedJoyText =
-    joy.length > 0
-      ? `${joy.map(value => intl.formatMessage({ id: `SearchBar.selection.${value}` })).join(', ')}`
-      : intl.formatMessage({ id: 'SearchBar.selection' });
+  const placeholders = {
+    1: intl.formatMessage({ id: 'Survey.1.placeholder' }),
+    2: intl.formatMessage({ id: 'Survey.2.placeholder' }),
+    3: intl.formatMessage({ id: 'Survey.3.placeholder' }),
+    4: intl.formatMessage({ id: 'Survey.4.placeholder' }),
+  };
 
-  return (
-    <form onSubmit={handleSubmit} className={`${css.form} ${className || ''}`}>
-      <button type="button" onClick={toggleDropdown} className={css.fieldSearch}>
-        {selectedJoyText}
-      </button>
-      {isDropdownOpen && (
-        <div className={css.dropdownContent}>
-          {[1, 2, 3, 5, 6, 7].map(option => (
-            <label key={option} className={css.dropdownLabel}>
-              <input
-                type="checkbox"
-                value={option}
-                checked={joy.includes(option.toString())}
-                onChange={() => handleJoyChange(option.toString())}
-              />
-              {intl.formatMessage({ id: `SearchBar.selection.${option}` })}
-            </label>
-          ))}
-          <button type="button" onClick={closeDropdown} className={css.closeButton}>
-            {intl.formatMessage({ id: 'SearchBar.close' })}
-          </button>
-        </div>
-      )}
+  const getToday = () => moment();
+  const getThisWeek = () => ({
+    start: getToday(),
+    end: getToday().endOf('week')
+  });
+  const getThisMonth = () => ({
+    start: getToday().startOf('month'),
+    end: getToday().endOf('month')
+  });
+  const getNextMonth = () => ({
+    start: getToday().add(1, 'months').startOf('month'),
+    end: getToday().add(1, 'months').endOf('month')
+  });
 
-      {!isPickerVisible && (
-        <input
-          onClick={() => setIsPickerVisible(true)}
-          placeholder={intl.formatMessage({
-            id: 'SearchBar.time',
-          })}
-          className={css.fieldSearch}
-        />
-      )}
-      {isPickerVisible && (
-        <div className={css.dateWrapper}>
-          <DateRangePicker
-            startDate={startDate}
-            startDateId="your_unique_start_date_id"
-            endDate={endDate}
-            endDateId="your_unique_end_date_id"
-            onDatesChange={({ startDate, endDate }) => {
-              setStartDate(startDate);
-              setEndDate(endDate);
-            }}
-            focusedInput={focusedInput}
-            onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-            isOutsideRange={() => false}
-            startDatePlaceholderText={intl.formatMessage({
-              id: 'SearchBar.time.from',
-            })}
-            endDatePlaceholderText={intl.formatMessage({
-              id: 'SearchBar.time.to',
-            })}
-            orientation="horizontal"
-            navPosition={'navPositionTop'}
-            numberOfMonths={isSmallScreen ? 1 : 2}
-            autoFocus={isSmallScreen}
-            noBorder={isSmallScreen}
-            displayFormat="M/D"
-          />
-        </div>
-      )}
-
-      <button type="button" onClick={toggleDropdown2} className={css.fieldSearch}>
-        {location || intl.formatMessage({ id: 'SearchBar.location' })}
-
-        {isDropdownOpen2 && (
-          <div className={css.dropdownContent2}>
-            <div
-              key="Milan"
-              className={css.dropdownLabel2}
-              onClick={() => {
-                setLocation('Milano e Dintorni');
-                setBounds({
-                  ne: {
-                    _sdkType: 'LatLng',
-                    lat: 46.37133393,
-                    lng: 11.30806128,
-                  },
-                  sw: {
-                    _sdkType: 'LatLng',
-                    lat: 44.63128509,
-                    lng: 8.37745825,
-                  },
-                  _sdkType: 'LatLngBounds',
-                });
-                setIsDropdownOpen2(false);
-              }}
-            >
-              <span className={css.option}>Milano e Dintorni</span>
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          !isTeamBuilding ? (
+            <div className={css.step}>
+              {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>)}
+              <h2>{intl.formatMessage({ id: 'Survey.step00.title' })}</h2> 
+              <div className={css.cardContainer}>
+                <div 
+                  className={css.card}
+                  onClick={() => handleDateSelection(getThisWeek().start, getThisWeek().end)}
+                >
+                  <span className={css.emoji}>{dateSelectionEmojis.thisWeek}</span>
+                  {intl.formatMessage({ id: 'ToDo.thisWeek' })}
+                </div>
+                <div 
+                  className={css.card}
+                  onClick={() => handleDateSelection(getThisMonth().start, getThisMonth().end)}
+                >
+                  <span className={css.emoji}>{dateSelectionEmojis.thisMonth}</span>
+                  {intl.formatMessage({ id: 'ToDo.thisMonth' })}
+                </div>
+                <div 
+                  className={css.card}
+                  onClick={() => handleDateSelection(getNextMonth().start, getNextMonth().end)}
+                >
+                  <span className={css.emoji}>{dateSelectionEmojis.nextMonth}</span>
+                  {intl.formatMessage({ id: 'ToDo.nextMonth' })}
+                </div>
+              </div>
             </div>
+          ) : (
+            <div className={css.step}>
+              {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step0.subtitle' })}</p>)}
+              <h2>{intl.formatMessage({ id: 'Survey.step0.title' })}</h2>
+              <div className={css.cardContainer}>
+                <div
+                  className={`${css.card} ${moreThanEight === false ? css.selected : ''}`}
+                  onClick={() => setMoreThanEight(false)}
+                >
+                  <span className={css.emoji}>{moreThanEightEmojiSets[false]}</span>
+                  {intl.formatMessage({ id: 'Survey.lessThanEight' })}
+                </div>
+                <div
+                  className={`${css.card} ${moreThanEight === true ? css.selected : ''}`}
+                  onClick={() => setMoreThanEight(true)}
+                >
+                  <span className={css.emoji}>{moreThanEightEmojiSets[true]}</span>
+                  {intl.formatMessage({ id: 'Survey.moreThanEight' })}
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  if (moreThanEight !== null) {
+                    setCurrentStep(2);
+                  } else {
+                    alert('Please select an option.');
+                  }
+                }}
+                className={css.nextButton}
+              >
+                {intl.formatMessage({ id: 'Survey.next' })}
+              </button>
+            </div>
+          )
+        );
+      case 2:
+        return (
+          <div className={css.step}>
+            {!isTeamBuilding ? ( <>
+              {isMobile && (<p>{intl.formatMessage({ id: 'Survey.step01.subtitle' })}</p>)}
+              <h2>{intl.formatMessage({ id: 'Survey.step01.title' })}</h2></>) :
+              (<>
+                <h2>{intl.formatMessage({ id: 'Survey.step1.title' })}</h2>
+                <p>{intl.formatMessage({ id: 'Survey.step1.subtitle' })}</p>
+              </>)}
+            <div className={css.cardContainer}>
+              {['1', '2', '3', '4'].map(option => (
+                <div
+                  key={option}
+                  className={`${css.card} ${joy.includes(option) ? css.selected : ''}`}
+                  onClick={() => handleJoyChange(option)}
+                >
+                  <span className={css.emoji}>{emojiSets[option]}</span>
+                  <div className={css.placeholder}>{placeholders[option]}</div>
+                </div>
+              ))}
+            </div>
+            <button onClick={() => setCurrentStep(1)} className={css.backButton}>
+              {intl.formatMessage({ id: 'Survey.back' })}
+            </button>
             <button
-              type="button"
-              onClick={() => setIsDropdownOpen2(false)}
-              className={css.closeButton}
+              onClick={handleSubmit}
+              className={css.submitButton}
+              disabled={joy.length < 2}
             >
-              {intl.formatMessage({ id: 'SearchBar.close' })}
+              {intl.formatMessage({ id: 'Survey.submit' })}
             </button>
           </div>
-        )}
-      </button>
-      {/*<input
-        id="location-input"
-        type="text"
-        placeholder={intl.formatMessage({
-          id: 'SearchBar.location',
-        })}
-        value={location}
-        onChange={e => {
-          const newLocation = e.target.value;
-          setLocation(newLocation); // Update location with user input for immediate feedback
-          fetchLocationBounds(newLocation); // Fetch bounds for new location
-        }}
-        className={css.fieldSearch}
-      />*/}
-      <button type="submit" className={css.button}>
-        {intl.formatMessage({
-          id: 'SearchBar.time.button',
-        })}
-      </button>
-    </form>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className={`${css.surveyForm} ${className || ''}`}>
+      {renderStep()}
+    </div>
   );
 };
 
-export default LandingSearchBarForm;
+export default SurveyForm;

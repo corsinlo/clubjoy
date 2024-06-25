@@ -83,6 +83,7 @@ export class BookingTimeFormComponent extends Component {
       publicData,
       ...rest
     } = this.props;
+
     const classes = classNames(rootClassName || css.root, className);
 
     const emailVerified =

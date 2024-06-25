@@ -1,5 +1,54 @@
 @import '../../styles/customMediaQueries.css';
 
+.surveyContainer {
+  display: flex;
+  align-items: stretch; /* Ensures child elements take the full height */
+  justify-content: center;
+  width: 100%;
+  height: 100%; /* Ensures the container takes the full height */
+ 
+}
+
+.emptyDiv {
+  flex:1;
+
+}
+
+.emptyText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ED514A;
+  padding: 50px;
+  margin-top: 80px;
+  mergin-bottom: 100px;
+  margin-left: 20px;
+  line-height: 1.2;
+}
+
+.surveyForm {
+  flex: 1;
+  display: flex;
+  align-items: center; /* Ensures the form content is centered vertically */
+  justify-content: center;
+}
+
+/* Ensure the surveyContainer is split properly on larger screens */
+@media (min-width: 1025px) {
+  .surveyContainer {
+    flex-direction: row;
+  }
+}
+
+/* Maintain the current layout on mobile */
+@media (max-width: 1024px) {
+  .surveyContainer {
+    flex-direction: column;
+  }
+}
+
+
+
 .option{
   font-size: 12px;
 }
@@ -78,8 +127,8 @@
   background-color: #FFF;
   background-size: cover;
   padding-left: 40px; 
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
  
 }
 .introText {
@@ -300,10 +349,12 @@ input, select, .DateRangePicker {
 
   .barContainer{
     margin-left: 130px;
+    z-index:2;
   }
 
   .container{
-width:40vw;
+    width:40vw;
+    z-index: 2;
   }
 
   .dropdownContent {
@@ -622,4 +673,11 @@ width:40vw;
     left: 45px;
     position: absolute;
   }
+}
+
+.isTeamBuildingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

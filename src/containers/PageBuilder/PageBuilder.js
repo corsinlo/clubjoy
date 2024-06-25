@@ -6,6 +6,7 @@ import FooterContainer from '../FooterContainer/FooterContainer.js';
 import LandingSearchBarContainer from '../../components/LandingSearchBarContainer/LandingSearchBarContainer.js';
 import Newsletter from '../../components/Newsletter/Newsletter.js';
 import Counter from '../../components/Counter/Counter.js';
+import ToDo from '../../components/ToDo/ToDo.js';
 import { validProps } from './Field';
 import classNames from 'classnames';
 
@@ -164,6 +165,7 @@ const PageBuilder = props => {
                         ) : isLandingPage ? (
                           <>
                             <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} />
+                            <ToDo/>
                             <Counter />
                             <SectionBuilder sections={sections} options={options} />
                             <Newsletter />
@@ -175,21 +177,22 @@ const PageBuilder = props => {
                               isTeamBuilding={isTeamBuilding}
                             />
                             <SectionBuilder sections={sections} options={options} />
+                            <div className={css.subContainerWrapper}>
                             <div className={css.subContainer}>
- 
-      <div>
-        <div className={css.header}>Prenota online</div>
-        <div>senza dover aspettare preventivi</div>
-      </div>
-      <div>
-        <div className={css.header}>Cancella gratuitemente</div>
-        <div>fino a 5 giorni dall'evento</div>
-      </div>
-      <div>
-        <div className={css.header}>Supporto 24/24h</div>
-        <div>comodamente su whatsapp</div>
-      </div>
-    </div>
+                              <div>
+                                <div className={css.header}>Prenota online</div>
+                                <div >senza dover aspettare preventivi</div>
+                              </div>
+                              <div>
+                                <div className={css.header}>Cancella gratuitemente</div>
+                                <div >fino a 5 giorni dall'evento</div>
+                              </div>
+                              <div>
+                                <div className={css.header}>Supporto 24/24h</div>
+                                <div >comodamente su whatsapp</div>
+                              </div>
+                            </div>
+                            </div>
                             <Newsletter />
                           </>
                         ) : (

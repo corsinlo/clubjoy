@@ -533,10 +533,10 @@ const seatsSelectionMaybe =
       }}
       name="seats"
       id="seats"
-      label={intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
+      label='In quanti siete?' //{intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
     >
       <option value="" key="default">
-        {intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })}
+       - {/*intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })*/}
       </option>
       {visibleSeats.map(s => (
         <option value={s} key={s}>
@@ -548,6 +548,23 @@ const seatsSelectionMaybe =
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
+   
+
+
+    const locationMapping = {
+      1: "Dall'artista (es. nello suo studio di ceramica, nella sua fioreria)",
+      2: 'Da me (es. in ufficio, a casa, durante una festa)',
+    };
+    
+    const languageMapping = {
+      1: 'Italiano',
+      2: 'English',
+      3: 'Español',
+      4: 'Français',
+      5: 'Deutsch',
+      6: 'Español',
+    };
+
     return (
       <div className={classes}>
         <div className={css.formRow}>
@@ -635,95 +652,145 @@ const seatsSelectionMaybe =
             </FieldSelect>
           </div>
         </div>
-        <div className={css.formRow}>
-        {seatsSelectionMaybe}
+        <div className={css.extras}>
+          {seatsSelectionMaybe}
         </div>
         {!!seatsSelectionMaybe && (
-  <FieldArray name="guestNames" className={css.fieldSelect}>
-    {({ fields }) => {
-      // If the listing type is 'teambuilding', only render one FieldTextInput
-      if (this.props.publicData?.listingType === 'teambuilding') {
-        return (
-          <FieldTextInput
-            id="teamName"
-            name="guestNames[0]" // Ensure it's part of the guestNames array
-            key={0}
-            className={css.fieldDateInput}
-            type="text"
-            label={intl.formatMessage(
-              {
-                id: 'FieldDateAndTimeInput.teamNameLabel',
-              },
-              { number: 1 }
-            )}
-            placeholder={intl.formatMessage(
-              {
-                id: 'FieldDateAndTimeInput.teamNamePlaceholder',
-              },
-              { number: 1 }
-            )}
-            validate={validators.required(
-              intl.formatMessage({
-                id: 'FieldDateAndTimeInput.requiredGuestName',
-              })
-            )}
-          />
-        );
-      }
+          <FieldArray name="guestNames" className={css.fieldSelect}>
+            {({ fields }) => {
+              // If the listing type is 'teambuilding', only render one FieldTextInput
+              if (this.props.publicData?.listingType === 'teambuilding') {
+                return (
+                  <FieldTextInput
+                    id="teamName"
+                    name="guestNames[0]" // Ensure it's part of the guestNames array
+                    key={0}
+                    className={css.extras}
+                    type="text"
+                    label={intl.formatMessage(
+                      {
+                        id: 'FieldDateAndTimeInput.teamNameLabel',
+                      },
+                      { number: 1 }
+                    )}
+                    placeholder= '-'//{intl.formatMessage( {id: 'FieldDateAndTimeInput.teamNamePlaceholder',  }, { number: 1 } )}
+                    validate={validators.required(
+                      intl.formatMessage({
+                        id: 'FieldDateAndTimeInput.requiredGuestName',
+                      })
+                    )}
+                  />
+                );
+              }
 
-      // Otherwise, use the existing logic for rendering the fields
-      return fields.map((name, index) => {
-        const isOddNumber = (index + 1) % 2 !== 0;
+              // Otherwise, use the existing logic for rendering the fields
+              return fields.map((name, index) => {
+                const isOddNumber = (index + 1) % 2 !== 0;
 
-        if (
-          (this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
-            isOddNumber &&
-            index !== 0) ||
-          (this.props.publicData &&
-            this.props.publicData.listingType === 'teambuilding' &&
-            isOddNumber &&
-            index !== 0)
-        ) {
-          return null; // Skip rendering for all odd-numbered indexes except the first one
-        }
+                if (
+                  (this.props.listingId.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683' &&
+                    isOddNumber &&
+                    index !== 0) ||
+                  (this.props.publicData &&
+                    this.props.publicData.listingType === 'teambuilding' &&
+                    isOddNumber &&
+                    index !== 0)
+                ) {
+                  return null; // Skip rendering for all odd-numbered indexes except the first one
+                }
 
-        return (
-          <FieldTextInput
-            id={name}
-            name={name}
-            key={index}
-            className={css.fieldDateInput}
-            type="text"
-            label={intl.formatMessage(
-              {
-                id:
-                  this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
-                    ? 'FieldDateAndTimeInput.coupleNameLabel'
-                    : 'FieldDateAndTimeInput.guestNameLabel',
-              },
-              { number: index + 1 }
-            )}
-            placeholder={intl.formatMessage(
-              {
-                id:
-                  this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
-                    ? 'FieldDateAndTimeInput.coupleNamePlaceholder'
-                    : 'FieldDateAndTimeInput.guestNamePlaceholder',
-              },
-              { number: index + 1 }
-            )}
-            validate={validators.required(
-              intl.formatMessage({
-                id: 'FieldDateAndTimeInput.requiredGuestName',
-              })
-            )}
-          />
-        );
-      });
-    }}
-  </FieldArray>
-)}
+                return (
+                  <FieldTextInput
+                    id={name}
+                    name={name}
+                    key={index}
+                    className={css.extras}
+                    type="text"
+                    label={intl.formatMessage(
+                      {
+                        id:
+                          this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                            ? 'FieldDateAndTimeInput.coupleNameLabel'
+                            : 'FieldDateAndTimeInput.guestNameLabel',
+                      },
+                      { number: index + 1 }
+                    )}
+                    placeholder={intl.formatMessage(
+                      {
+                        id:
+                          this.props.listingId?.uuid === '65fc542d-96ee-422d-b0e6-0075f9a1c683'
+                            ? 'FieldDateAndTimeInput.coupleNamePlaceholder'
+                            : 'FieldDateAndTimeInput.guestNamePlaceholder',
+                      },
+                      { number: index + 1 }
+                    )}
+                    validate={validators.required(
+                      intl.formatMessage({
+                        id: 'FieldDateAndTimeInput.requiredGuestName',
+                      })
+                    )}
+                  />
+                );
+              });
+            }}
+          </FieldArray>
+        )}
 
+{publicData?.listingType === 'teambuilding' && !!seatsSelectionMaybe && (
+          <FieldSelect
+            className={css.extras}
+            onChange={value => {
+              form.batch(() => {
+                form.change('location', []);
+                if (value > 0) {
+                  for (let index = 0; index < value; index++) {
+                    form.mutators.push(`location[${index}]`, '');
+                  }
+                }
+              });
+            }}
+            name="Location"
+            id="location"
+            label="Dove?"
+          >
+            <option value="" key="default">
+              Seleziona Location
+            </option>
+            {publicData.loc.map(s => (
+              <option value={s} key={s}>
+                {locationMapping[s] || s}
+              </option>
+            ))}
+          </FieldSelect>
+        )}
+
+        {publicData?.listingType === 'teambuilding' && !!seatsSelectionMaybe && (
+          <FieldSelect
+            className={css.extras}
+            onChange={value => {
+              form.batch(() => {
+                form.change('language', []);
+                if (value > 0) {
+                  for (let index = 0; index < value; index++) {
+                    form.mutators.push(`language[${index}]`, '');
+                  }
+                }
+              });
+            }}
+            name="Language"
+            id="language"
+            label="Lingua:"
+          >
+            <option value="" key="default">
+              Seleziona Lingua
+            </option>
+            {publicData.language.map(s => (
+              <option value={s} key={s}>
+                {languageMapping[s] || s}
+              </option>
+            ))}
+          </FieldSelect>
+        )}
       </div>
     );
   }

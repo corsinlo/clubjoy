@@ -213,20 +213,34 @@ export const searchListings = (searchParams, config) => (dispatch, getState, sdk
     perPage,
   };
 
-  return sdk.listings
-    .query(params)
-    .then(response => {
-      const listingFields = config?.listing?.listingFields;
-      const sanitizeConfig = { listingFields };
+  const modifyPubJoyToHasAny = (params) => {
+    if (params.pub_joy) {
+      params.pub_joy = params.pub_joy.replace('has_all', 'has_any');
+    }
 
-      dispatch(addMarketplaceEntities(response, sanitizeConfig));
-      dispatch(searchListingsSuccess(response));
-      return response;
-    })
-    .catch(e => {
-      dispatch(searchListingsError(storableError(e)));
-      throw e;
-    });
+    if (params.pub_language) {
+      params.pub_language = params.pub_language.replace('has_all', 'has_any');
+    }
+
+
+    return params;
+  };
+
+  const updatedParams = modifyPubJoyToHasAny(params);
+
+  return sdk.listings
+  .query(updatedParams)
+  .then(response => {
+    const listingFields = config?.listing?.listingFields;
+    const sanitizeConfig = { listingFields };
+    dispatch(addMarketplaceEntities(response, sanitizeConfig));
+    dispatch(searchListingsSuccess(response));
+    return response;
+  })
+  .catch(e => {
+    dispatch(searchListingsError(storableError(e)));
+    throw e;
+  });
 };
 
 export const setActiveListing = listingId => ({
@@ -266,6 +280,9 @@ export const loadData = (params, search, config) => {
         'publicData.unitType',
         'publicData.min',
         'publicData.max',
+        'publicData.joy',
+        'publicData.language',
+        'publicData.loc',
         // These help rendering of 'purchase' listings,
         // when transitioning from search page to listing page
         'publicData.pickupEnabled',

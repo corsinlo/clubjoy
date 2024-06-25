@@ -137,7 +137,8 @@ export class SearchPageComponent extends Component {
             defaultFiltersConfig,
             sortConfig
           );
-          history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+          isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
+          : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
         }
       };
 

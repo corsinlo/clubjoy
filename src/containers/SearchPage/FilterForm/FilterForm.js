@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { bool, func, node, object } from 'prop-types';
 import classNames from 'classnames';
 import { Form as FinalForm, FormSpy } from 'react-final-form';
@@ -8,10 +8,14 @@ import { injectIntl, intlShape } from '../../../util/reactIntl';
 
 import { Form } from '../../../components';
 
+import SeatFilter from '../SearchResultsPanel/SeatFilter';
+
 import css from './FilterForm.module.css';
 
 const FilterFormComponent = props => {
   const { liveEdit, onChange, onSubmit, onCancel, onClear, ...rest } = props;
+  const [clearTriggered, setClearTriggered] = useState(null);
+  const isTeamBuildingOnTop = location.pathname.startsWith('/ts');
 
   if (liveEdit && !onChange) {
     throw new Error('FilterForm: if liveEdit is true you need to provide onChange function');
@@ -48,6 +52,8 @@ const FilterFormComponent = props => {
           children,
         } = formRenderProps;
 
+
+
         const handleCancel = () => {
           // reset the final form to initialValues
           form.reset();
@@ -68,7 +74,10 @@ const FilterFormComponent = props => {
             tabIndex="0"
             style={{ ...style }}
           >
-            <div className={classNames(paddingClasses || css.contentWrapper)}>{children}</div>
+            <div className={classNames(paddingClasses || css.contentWrapper)}>
+              {children}
+              {/*isTeamBuildingOnTop && formRenderProps.children.props.name === 'language' && (<SeatFilter clearTriggered={clearTriggered} test={onClear}/>)*/}
+            </div>
 
             {liveEdit ? (
               <FormSpy onChange={handleChange} subscription={{ values: true, dirty: true }} />
@@ -77,7 +86,7 @@ const FilterFormComponent = props => {
                 <button className={css.clearButton} type="button" onClick={onClear}>
                   {clear}
                 </button>
-                <button className={css.cancelButton} type="button" onClick={handleCancel}>
+                <button className={css.cancelButton} type="button" onClick={onCancel}>
                   {cancel}
                 </button>
                 <button className={css.submitButton} type="submit">
