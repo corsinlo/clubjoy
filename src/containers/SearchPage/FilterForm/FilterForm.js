@@ -34,14 +34,6 @@ const FilterFormComponent = props => {
   };
 
   const formCallbacks = liveEdit ? { onSubmit: () => null } : { onSubmit, onCancel, onClear };
-  
-  const handleClear = () => {
-    setClearTriggered(true);
-    if (onClear) {
-      onClear();
-    }
-  };
-
   return (
     <FinalForm
       {...rest}
@@ -60,12 +52,12 @@ const FilterFormComponent = props => {
           children,
         } = formRenderProps;
 
+
+
         const handleCancel = () => {
           // reset the final form to initialValues
           form.reset();
-          if (onCancel) {
-            onCancel();
-          }
+          onCancel();
         };
 
         const clear = intl.formatMessage({ id: 'FilterForm.clear' });
@@ -84,17 +76,17 @@ const FilterFormComponent = props => {
           >
             <div className={classNames(paddingClasses || css.contentWrapper)}>
               {children}
-              {isTeamBuildingOnTop && formRenderProps.children.props.name === 'language' && (<SeatFilter clearTriggered={clearTriggered} />)}
+              {/*isTeamBuildingOnTop && formRenderProps.children.props.name === 'language' && (<SeatFilter clearTriggered={clearTriggered} test={onClear}/>)*/}
             </div>
-           
+
             {liveEdit ? (
               <FormSpy onChange={handleChange} subscription={{ values: true, dirty: true }} />
             ) : (
               <div className={css.buttonsWrapper}>
-                <button className={css.clearButton} type="button" onClick={handleClear}>
+                <button className={css.clearButton} type="button" onClick={onClear}>
                   {clear}
                 </button>
-                <button className={css.cancelButton} type="button" onClick={handleCancel}>
+                <button className={css.cancelButton} type="button" onClick={onCancel}>
                   {cancel}
                 </button>
                 <button className={css.submitButton} type="submit">

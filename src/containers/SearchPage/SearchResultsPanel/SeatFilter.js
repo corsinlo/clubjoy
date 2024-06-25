@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { injectIntl, intlShape } from '../../../util/reactIntl';
 import css from './SeatFilter.module.css';
 
-const SeatFilterComponent = ({ intl, clearTriggered }) => {
-    console.log('sdscdcfdcfd')
-    console.log('sssss', clearTriggered)
+const SeatFilterComponent = ({ intl, clearTriggered, onClear }) => {
+console.log('SeatFilterComponent', clearTriggered, onClear);
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleSelection = value => {
