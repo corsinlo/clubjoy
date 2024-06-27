@@ -196,7 +196,8 @@ router.post('/send-reminder', async (req, res) => {
 });
 */
 router.post('/add-contact', (req, res) => {
-  const { email, listId, firstName, lastName, isNewsletter } = req.body;
+  const { email, listId, firstName, lastName, isNewsletter, isSignup } = req.body;
+ 
   let defaultClient = SibApiV3.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
   apiKey.apiKey = process.env.BREVO_API_KEY;

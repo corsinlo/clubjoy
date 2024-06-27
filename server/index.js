@@ -309,8 +309,8 @@ app.post('/send-email', async (req, res) => {
 });
 
 app.post('/add-contact', (req, res) => {
-  const { email, listId, firstName, lastName, isNewsletter } = req.body;
-
+  const { email, listId, firstName, lastName, isNewsletter, isSignup } = req.body;
+ 
   let defaultClient = SibApiV3.ApiClient.instance;
   let apiKey = defaultClient.authentications['api-key'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
@@ -318,10 +318,12 @@ app.post('/add-contact', (req, res) => {
   let createContact = new SibApiV3.CreateContact();
   createContact.email = email;
 
-  if (isNewsletter) {
+  if (isNewsletter &&  isSignup) {
+    createContact.listIds = [4, 7];
+  } else if (isNewsletter && !isSignup) {
     createContact.listIds = [4];
-  } else {
-    createContact.listIds = [4, 5];
+  } else if (!isNewsletter && isSignup) {
+    createContact.listIds = [7];
   }
 
   createContact.attributes = { FIRSTNAME: firstName, LASTNAME: lastName };
