@@ -1,3 +1,4 @@
+// FilterPlainComponent.js
 import React, { Component } from 'react';
 import { bool, func, node, object, string } from 'prop-types';
 import classNames from 'classnames';
@@ -6,21 +7,29 @@ import { FormattedMessage, injectIntl, intlShape } from '../../../util/reactIntl
 
 import IconPlus from '../IconPlus/IconPlus';
 import FilterForm from '../FilterForm/FilterForm';
+import SeatFilter from '../SearchResultsPanel/SeatFilter';
 
 import css from './FilterPlain.module.css';
 
 class FilterPlainComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: true };
+    this.state = {
+      isOpen: true,
+      moreThan8Checked: false,
+      lessThan8Checked: false,
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClear = this.handleClear.bind(this);
     this.toggleIsOpen = this.toggleIsOpen.bind(this);
+    this.handleMoreThan8Change = this.handleMoreThan8Change.bind(this);
+    this.handleLessThan8Change = this.handleLessThan8Change.bind(this);
   }
 
   handleChange(values) {
     const { onSubmit } = this.props;
+    console.log('Form values changed:', values);
     onSubmit(values);
   }
 
@@ -28,14 +37,35 @@ class FilterPlainComponent extends Component {
     const { onSubmit, onClear } = this.props;
 
     if (onClear) {
+      console.log('Clear button clicked');
       onClear();
     }
 
+    console.log('Form cleared');
+    this.setState({ moreThan8Checked: false, lessThan8Checked: false });
     onSubmit(null);
   }
 
   toggleIsOpen() {
     this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+  }
+
+  handleMoreThan8Change() {
+    const isChecked = !this.state.moreThan8Checked;
+    console.log('More than 8 checkbox state changed:', isChecked);
+    this.setState({
+      moreThan8Checked: isChecked,
+      lessThan8Checked: isChecked ? false : this.state.lessThan8Checked
+    });
+  }
+
+  handleLessThan8Change() {
+    const isChecked = !this.state.lessThan8Checked;
+    console.log('Less than 8 checkbox state changed:', isChecked);
+    this.setState({
+      moreThan8Checked: isChecked ? false : this.state.moreThan8Checked,
+      lessThan8Checked: isChecked
+    });
   }
 
   render() {
@@ -91,6 +121,13 @@ class FilterPlainComponent extends Component {
             keepDirtyOnReinitialize={keepDirtyOnReinitialize}
           >
             {children}
+            <SeatFilter
+              moreThan8Checked={this.state.moreThan8Checked}
+              lessThan8Checked={this.state.lessThan8Checked}
+              onMoreThan8Change={this.handleMoreThan8Change}
+              onLessThan8Change={this.handleLessThan8Change}
+              intl={this.props.intl}
+            />
           </FilterForm>
           <button className={css.clearButton} onClick={this.handleClear}>
             <FormattedMessage id={'FilterPlain.clear'} />
@@ -132,3 +169,5 @@ FilterPlainComponent.propTypes = {
 const FilterPlain = injectIntl(FilterPlainComponent);
 
 export default FilterPlain;
+
+
