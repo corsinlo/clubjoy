@@ -389,11 +389,28 @@ export class SearchPageComponent extends Component {
 
     // N.B. openMobileMap button is sticky.
     // For some reason, stickyness doesn't work on Safari, if the element is <button>
-    const filteredListings = listings.filter(
+    const urlParams = new URLSearchParams(location.search);
+    const px = urlParams.get('px');
+
+    // Filter listings based on listingType and px parameter
+    let filteredListings = listings.filter(
       listing =>
         listing.attributes.publicData &&
         listing.attributes.publicData.listingType === 'teambuilding'
     );
+
+    if (px !== null) {
+      if (px === 'true') {
+        filteredListings = filteredListings.filter(
+          l => parseInt(l.attributes.publicData?.min, 10) > 8
+        );
+      } else if (px === 'false') {
+        filteredListings = filteredListings.filter(
+          l => parseInt(l.attributes.publicData?.min, 10) < 8
+        );
+      }
+    }
+
 
     const otherListings = listings.filter(
       listing =>
