@@ -200,3 +200,8 @@ CSS for hiding the end date above
     margin-top: 40px;
   }
 }
+.errorMessage{
+  color: var(--colorFail);
+  font-size: 13px;
+  margin-top: 8px;
+}

@@ -52,6 +52,7 @@
     "BookingTimeForm.bookingEndTitle": "Data di fine",
     "BookingTimeForm.bookingStartTitle": "Scegli una data",
     "BookingTimeForm.coupon.title": "Hai un codice sconto?",
+    "BookingTimeForm.coupon.notValid": "Codice sconto non è valido :( ",
     "BookingTimeForm.coupon.placeholder": "Inserisci qui il tuo codice sconto",
     "BookingTimeForm.coupon.button": "Applica codice sconto",
     "BookingTimeForm.fetchLineItemsError": "Ops, qualcosa è andato storto. Si prega di aggiornare la pagina e riprovare.",

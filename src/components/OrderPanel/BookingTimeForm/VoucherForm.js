@@ -2,15 +2,9 @@ import React, { Component } from 'react';
 import { func, number, object, string } from 'prop-types';
 import classNames from 'classnames';
 import { FormattedMessage } from '../../../util/reactIntl';
-import { H6 } from '../../../components';
 import { getStartOf } from '../../../util/dates';
-import { propTypes } from '../../../util/types';
 import { checkCoupon } from '../../../util/api';
-import { Field } from 'react-final-form';
-import {
-  FieldTextInput,
-  SecondaryButton,
-} from '../..';
+import { SecondaryButton } from '../..';
 import css from './FieldDateAndTimeInput.module.css';
 
 class VoucherForm extends Component {
@@ -19,12 +13,12 @@ class VoucherForm extends Component {
     this.state = {
       currentMonth: getStartOf(new Date(), 'month', props.timeZone),
       voucherCode: '',
-      validSeatsInput: false,
+      errorMessage: '', // State to manage error message
     };
   }
 
   handleVoucherChange = event => {
-    this.setState({ voucherCode: event.target.value });
+    this.setState({ voucherCode: event.target.value, errorMessage: '' }); // Clear error message on change
   };
 
   handleVoucherSubmit = () => {
@@ -34,12 +28,15 @@ class VoucherForm extends Component {
     checkCoupon(requestBody)
       .then(response => {
         this.props.form.batch(() => {
-          this.props.form.change('voucherFee', response);
+          this.props.form.change('voucherFee', response.data);
         });
         this.setState({ voucherCode: '' });
       })
       .catch(error => {
         console.error('Error checking voucher:', error);
+        if (error) {
+          this.setState({ errorMessage: this.props.intl.formatMessage({ id: 'BookingTimeForm.coupon.notValid' }) });
+        } 
         this.setState({ voucherCode: '' });
       });
   };
@@ -48,27 +45,24 @@ class VoucherForm extends Component {
     const {
       rootClassName,
       className,
-      formId,
-      form,
-      values,
       intl,
-      voucher,
     } = this.props;
 
     const voucherInsertion = (
       <div className={css.fieldDateInput}>
-
-          <p className={css.voucherTitleBox}>{intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}</p>
-          <input
-              type="text"
-              placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
-            value={this.state.voucherCode}
-            onChange={this.handleVoucherChange}
+        <p className={css.voucherTitleBox}>{intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}</p>
+        <input
+          type="text"
+          placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
+          value={this.state.voucherCode}
+          onChange={this.handleVoucherChange}
         />
         <SecondaryButton type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
           {intl.formatMessage({ id: 'BookingTimeForm.coupon.button' })}
         </SecondaryButton>
-  
+        {this.state.errorMessage && (
+          <div className={css.errorMessage}>{this.state.errorMessage}</div>
+        )}
       </div>
     );
 
@@ -79,7 +73,7 @@ class VoucherForm extends Component {
     );
   }
 }
-/*
+
 VoucherForm.propTypes = {
   rootClassName: string,
   className: string,
@@ -93,7 +87,8 @@ VoucherForm.propTypes = {
   dayCountAvailableForBooking: number.isRequired,
   seatsLabel: string.isRequired,
   form: object.isRequired,
+  intl: object.isRequired, // Added intl prop type
 };
-*/
 
 export default VoucherForm;
+
