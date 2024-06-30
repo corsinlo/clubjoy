@@ -52,8 +52,6 @@ const FilterFormComponent = props => {
           children,
         } = formRenderProps;
 
-
-
         const handleCancel = () => {
           // reset the final form to initialValues
           form.reset();
@@ -74,10 +72,7 @@ const FilterFormComponent = props => {
             tabIndex="0"
             style={{ ...style }}
           >
-            <div className={classNames(paddingClasses || css.contentWrapper)}>
-              {children}
-              {/*isTeamBuildingOnTop && formRenderProps.children.props.name === 'language' && (<SeatFilter clearTriggered={clearTriggered} test={onClear}/>)*/}
-            </div>
+            <div className={classNames(paddingClasses || css.contentWrapper)}>{children}</div>
 
             {liveEdit ? (
               <FormSpy onChange={handleChange} subscription={{ values: true, dirty: true }} />

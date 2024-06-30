@@ -3,9 +3,17 @@ import React from 'react';
 import { bool, func } from 'prop-types';
 import css from './SeatFilter.module.css';
 
-const SeatFilter = ({ moreThan8Checked, lessThan8Checked, onMoreThan8Change, onLessThan8Change, intl }) => (
+const SeatFilter = ({
+  moreThan8Checked,
+  lessThan8Checked,
+  onMoreThan8Change,
+  onLessThan8Change,
+  intl,
+}) => (
   <div className={css.fieldGroupPlain}>
-    <p className={css.title}>{intl.formatMessage({ id: 'SeatFilter.title', defaultMessage: 'Select Seat Preference' })}</p>
+    <p className={css.title}>
+      {intl.formatMessage({ id: 'SeatFilter.title', defaultMessage: 'Select Seat Preference' })}
+    </p>
     <ul className={css.list}>
       <li className={css.item}>
         <span className={css.checkboxWrapper}>

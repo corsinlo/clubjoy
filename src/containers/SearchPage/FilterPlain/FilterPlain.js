@@ -1,4 +1,3 @@
-// FilterPlainComponent.js
 import React, { Component } from 'react';
 import { bool, func, node, object, string } from 'prop-types';
 import classNames from 'classnames';
@@ -18,6 +17,7 @@ class FilterPlainComponent extends Component {
       isOpen: true,
       moreThan8Checked: false,
       lessThan8Checked: false,
+      px: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -29,8 +29,10 @@ class FilterPlainComponent extends Component {
 
   handleChange(values) {
     const { onSubmit } = this.props;
-    console.log('Form values changed:', values);
-    onSubmit(values);
+    const { px } = this.state;
+    const updatedValues = { ...values, px };
+    console.log('Form values changed:', updatedValues);
+    onSubmit(updatedValues);
   }
 
   handleClear() {
@@ -42,7 +44,8 @@ class FilterPlainComponent extends Component {
     }
 
     console.log('Form cleared');
-    this.setState({ moreThan8Checked: false, lessThan8Checked: false });
+    this.setState({ moreThan8Checked: false, lessThan8Checked: false, px: null });
+    this.updateURLParams(null);
     onSubmit(null);
   }
 
@@ -53,19 +56,43 @@ class FilterPlainComponent extends Component {
   handleMoreThan8Change() {
     const isChecked = !this.state.moreThan8Checked;
     console.log('More than 8 checkbox state changed:', isChecked);
-    this.setState({
-      moreThan8Checked: isChecked,
-      lessThan8Checked: isChecked ? false : this.state.lessThan8Checked
-    });
+    this.setState(
+      {
+        moreThan8Checked: isChecked,
+        lessThan8Checked: isChecked ? false : this.state.lessThan8Checked,
+        px: isChecked ? true : null,
+      },
+      () => {
+        this.updateURLParams(this.state.px);
+        this.handleChange(this.props.initialValues);
+      }
+    );
   }
 
   handleLessThan8Change() {
     const isChecked = !this.state.lessThan8Checked;
     console.log('Less than 8 checkbox state changed:', isChecked);
-    this.setState({
-      moreThan8Checked: isChecked ? false : this.state.moreThan8Checked,
-      lessThan8Checked: isChecked
-    });
+    this.setState(
+      {
+        moreThan8Checked: isChecked ? false : this.state.moreThan8Checked,
+        lessThan8Checked: isChecked,
+        px: isChecked ? false : null,
+      },
+      () => {
+        this.updateURLParams(this.state.px);
+        this.handleChange(this.props.initialValues);
+      }
+    );
+  }
+
+  updateURLParams(px) {
+    const url = new URL(window.location);
+    if (px === null) {
+      url.searchParams.delete('px');
+    } else {
+      url.searchParams.set('px', px);
+    }
+    window.history.replaceState({}, '', url);
   }
 
   render() {
@@ -169,5 +196,3 @@ FilterPlainComponent.propTypes = {
 const FilterPlain = injectIntl(FilterPlainComponent);
 
 export default FilterPlain;
-
-
