@@ -120,7 +120,8 @@ export class SearchPageComponent extends Component {
         ...validFilterParams(rest, listingFieldsConfig, defaultFiltersConfig, dropNonFilterParams),
       };
 
-      history.push(createResourceLocatorString('SearchPage', routes, {}, searchParams));
+      isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
+          : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
     }
   }
 
@@ -143,7 +144,9 @@ export class SearchPageComponent extends Component {
     const { defaultFilters: defaultFiltersConfig, sortConfig } = config?.search || {};
 
     const urlQueryParams = validUrlQueryParamsFromProps(this.props);
+    console.log(urlQueryParams)
     const searchParams = { ...urlQueryParams, ...this.state.currentQueryParams };
+    console.log('searchParams', searchParams)
     const search = cleanSearchFromConflictingParams(
       searchParams,
       listingFieldsConfig,
@@ -151,7 +154,8 @@ export class SearchPageComponent extends Component {
       sortConfig
     );
 
-    history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+    isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
+          : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
   }
 
   // Close the filters by clicking cancel, revert to the initial params
@@ -173,13 +177,14 @@ export class SearchPageComponent extends Component {
 
     // Reset routing params
     const queryParams = omit(urlQueryParams, filterQueryParamNames);
-    history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, queryParams));
+    isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
+          : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
   }
 
   getHandleChangedValueFn(useHistoryPush) {
     const { history, routeConfiguration, config } = this.props;
     
-
+    //console.log('cfdjvifjidsvjgfijivg', history.location)
     const { listingFields: listingFieldsConfig } = config?.listing || {};
     const { defaultFilters: defaultFiltersConfig, sortConfig } = config?.search || {};
 
@@ -234,7 +239,8 @@ export class SearchPageComponent extends Component {
       ? { ...urlQueryParams, [urlParam]: values }
       : omit(urlQueryParams, urlParam);
 
-    history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, queryParams));
+      isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
+      : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
   }
 
   render() {
