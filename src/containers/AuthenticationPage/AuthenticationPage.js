@@ -55,6 +55,7 @@ import { TOS_ASSET_NAME, PRIVACY_POLICY_ASSET_NAME } from './AuthenticationPage.
 import { createClient } from '@supabase/supabase-js';
 import css from './AuthenticationPage.module.css';
 import { FacebookLogo, GoogleLogo } from './socialLoginLogos';
+import { newsletter } from '../../util/api';
 
 const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
 const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correctly set in your .env file
@@ -188,21 +189,20 @@ export const AuthenticationForms = props => {
 
   const handleSubmitSignup = async values => {
     const role = tab === 'bsignup' ? 'provider' : 'customer';
-    const { fname: firstName, lname: lastName, iNL:isNewsletter, ...rest } = values;
+    const { fname: firstName, lname: lastName, iNL: isNewsletter, ...rest } = values;
     const params = { firstName, lastName, ...rest, role };
-    console.log(values)
+    console.log(values);
     try {
       const contactData = {
         email: values.email,
         firstName: values.fname,
         lastName: values.lname,
-        isNewsLetter: values.iNL ?? false ,
+        isNewsLetter: values.iNL ?? false,
         isSignup: true,
       };
 
-
       if (isNewsletter) {
-        console.log('here')
+        console.log('here');
         const { data, error } = await supabase
           .from('newsletter')
           .insert([{ email: values.email }])
@@ -215,6 +215,15 @@ export const AuthenticationForms = props => {
         }
       }
 
+      newsletter(contactData)
+        .then(response => {
+          console.log('Email added to newsletter:', response);
+        })
+        .catch(error => {
+          console.error('Error adding email to newsletter:', error);
+        });
+
+      /*
       const response = await fetch('/api/add-contact', {
         method: 'POST',
         headers: {
@@ -231,6 +240,7 @@ export const AuthenticationForms = props => {
           allowSignup = false;
         }
       }
+      */
 
       try {
         const emailResponse = await fetch('/api/send-email', {
