@@ -23,7 +23,7 @@ const BookingDateRangeFilterWrapper = withRouter(props => {
 
   const params = parse(location.search);
   const dates = params[URL_PARAM];
-  const rawValuesFromParams = !!dates ? dates.split(',') : [];
+  const rawValuesFromParams = dates ? dates.split(',') : [];
   const valuesFromParams = rawValuesFromParams.map(v => parseDateFromISO8601(v));
   const initialValues =
     !!dates && valuesFromParams.length === 2

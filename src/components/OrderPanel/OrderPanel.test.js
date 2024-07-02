@@ -379,7 +379,7 @@ describe('OrderPanel', () => {
     });
   });
 
-  it('Purchase: item ', async () => {
+  it('Purchase: item', async () => {
     const listing = createListing(
       'listing-product',
       {
@@ -465,7 +465,7 @@ describe('OrderPanel', () => {
     });
   });
 
-  it('Inquiry: inquiry ', async () => {
+  it('Inquiry: inquiry', async () => {
     const listing = createListing('listing-inquiry', {
       title: 'the listing',
       description: 'Lorem ipsum',

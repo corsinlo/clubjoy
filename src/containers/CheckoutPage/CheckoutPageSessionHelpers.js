@@ -132,7 +132,7 @@ export const storedData = storageKey => {
       : false;
 
     // resolve transaction as valid if it is missing
-    const isTransactionValid = !!transaction ? isValidTransaction(transaction) : true;
+    const isTransactionValid = transaction ? isValidTransaction(transaction) : true;
 
     const isStoredDataValid =
       isFreshlySaved &&

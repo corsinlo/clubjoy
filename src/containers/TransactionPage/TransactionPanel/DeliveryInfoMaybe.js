@@ -37,7 +37,7 @@ const DeliveryInfoMaybe = props => {
   } else if (isShipping) {
     const { name, phoneNumber, address } = protectedData?.shippingDetails || {};
     const { line1, line2, city, postalCode, state, country: countryCode } = address || {};
-    const phoneMaybe = !!phoneNumber ? (
+    const phoneMaybe = phoneNumber ? (
       <>
         {phoneNumber}
         <br />

@@ -49,7 +49,7 @@ describe('generators and iterators', () => {
   });
 
   describe('availableRanges(start, end, exceptions)', () => {
-    it('should ', () => {
+    it('should', () => {
       const exceptions = [
         {
           attributes: {

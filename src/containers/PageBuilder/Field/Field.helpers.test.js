@@ -307,7 +307,7 @@ describe('Field helpers', () => {
   });
 
   describe('exposeYoutubeProps(data)', () => {
-    it('should return "youtubeVideoId" prop ', () => {
+    it('should return "youtubeVideoId" prop', () => {
       const youtubeVideoId = '9RQlikX4vvw';
       expect(exposeYoutubeProps({ youtubeVideoId })).toEqual({ youtubeVideoId });
     });
@@ -320,7 +320,7 @@ describe('Field helpers', () => {
   });
 
   describe('exposeOpenGraphData(data)', () => {
-    it('should return title, description, images1200, and images600 props ', () => {
+    it('should return title, description, images1200, and images600 props', () => {
       const title = 'Title';
       const description = 'Description';
       const imageVariant1200 = {
