@@ -188,21 +188,20 @@ export const AuthenticationForms = props => {
 
   const handleSubmitSignup = async values => {
     const role = tab === 'bsignup' ? 'provider' : 'customer';
-    const { fname: firstName, lname: lastName, iNL:isNewsletter, ...rest } = values;
+    const { fname: firstName, lname: lastName, iNL: isNewsletter, ...rest } = values;
     const params = { firstName, lastName, ...rest, role };
-    console.log(values)
+    console.log(values);
     try {
       const contactData = {
         email: values.email,
         firstName: values.fname,
         lastName: values.lname,
-        isNewsLetter: values.iNL ?? false ,
+        isNewsLetter: values.iNL ?? false,
         isSignup: true,
       };
 
-
       if (isNewsletter) {
-        console.log('here')
+        console.log('here');
         const { data, error } = await supabase
           .from('newsletter')
           .insert([{ email: values.email }])

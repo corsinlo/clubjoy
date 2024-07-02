@@ -1,118 +1,118 @@
 .checkbox {
-    width: 12px;
-    height: 12px;
-    margin-right: 8px;
-    vertical-align: middle;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: bold;
+}
+.fieldGroup {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+.item {
+  padding: 2px 0;
+
+  /* Fix broken multi-column layout in Chrome */
+  page-break-inside: avoid;
+
+  @media (--viewportMedium) {
+    padding: 4px 0;
   }
-  
-  .label {
-    display: flex;
-    align-items: center;
+}
+
+.fieldGroupPlain {
+  margin: 0;
+  padding-left: 12px;
+  padding-bottom: 6px;
+  border: none;
+
+  @media (--viewportMedium) {
+    padding: 3px 0 29px 12px;
+    padding: 4px 0 4px 12px;
   }
-  
-  .title {
-    font-size: 12px;
-    font-weight: bold;
+}
+
+.list {
+  margin: 0;
+}
+
+.checkboxWrapper {
+  height: 32px;
+  margin-top: -1px;
+  margin-right: 8px;
+  align-self: baseline;
+
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  @media (--viewportMedium) {
+    height: 24px;
   }
-  .fieldGroup {
-    margin: 0;
-    padding: 0;
-    border: none;
-  }
-  .item {
-    padding: 2px 0;
-  
-    /* Fix broken multi-column layout in Chrome */
-    page-break-inside: avoid;
-  
-    @media (--viewportMedium) {
-      padding: 4px 0;
-    }
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+
+  /* Highlight the borders if the checkbox is hovered, focused or checked */
+  &:hover + label .box,
+  &:focus + label .box,
+  &:checked + label .box {
+    stroke: var(--marketplaceColor);
   }
 
-  .fieldGroupPlain {
-    margin: 0;
-    padding-left: 12px;
-    padding-bottom: 6px;
-    border: none;
-  
-    @media (--viewportMedium) {
-      padding: 3px 0 29px 12px;
-      padding: 4px 0 4px 12px;
-    }
-  }
-  
-  .list {
-    margin: 0;
+  /* successColor version */
+  &:hover + label .boxSuccess,
+  &:focus + label .boxSuccess,
+  &:checked + label .boxSuccess {
+    stroke: var(--colorSuccess);
   }
 
-  .checkboxWrapper {
-    height: 32px;
-    margin-top: -1px;
-    margin-right: 8px;
-    align-self: baseline;
-  
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-  
-    @media (--viewportMedium) {
-      height: 24px;
-    }
+  /* disabled version */
+  &:hover + label .boxDisabled,
+  &:focus + label .boxDisabled,
+  &:checked + label .boxDisabled {
+    stroke: var(--colorGrey300);
   }
 
-  .input {
-    position: absolute;
-    opacity: 0;
-    height: 0;
-    width: 0;
-  
-    /* Highlight the borders if the checkbox is hovered, focused or checked */
-    &:hover + label .box,
-    &:focus + label .box,
-    &:checked + label .box {
-      stroke: var(--marketplaceColor);
-    }
-  
-    /* successColor version */
-    &:hover + label .boxSuccess,
-    &:focus + label .boxSuccess,
-    &:checked + label .boxSuccess {
-      stroke: var(--colorSuccess);
-    }
-  
-    /* disabled version */
-    &:hover + label .boxDisabled,
-    &:focus + label .boxDisabled,
-    &:checked + label .boxDisabled {
-      stroke: var(--colorGrey300);
-    }
-  
-    /* Display the "check" when checked */
-    &:checked + label .checked {
-      display: inline;
-      stroke: var(--marketplaceColor);
-      stroke-width: 1px;
-    }
-  
-    /* Display the "check" when checked */
-    &:checked + label .checkedSuccess {
-      display: inline;
-      stroke: var(--colorSuccess);
-      stroke-width: 1px;
-    }
-  
-    /* Display the disabled when checked */
-    &:checked + label .checkedDisabled {
-      display: inline;
-      stroke: var(--colorGrey300);
-      stroke-width: 1px;
-    }
-  
-    /* Hightlight the text on checked, hover and focus */
-    &:focus + label .text,
-    &:hover + label .text,
-    &:checked + label .text {
-      color: var(--colorBlack);
-    }
+  /* Display the "check" when checked */
+  &:checked + label .checked {
+    display: inline;
+    stroke: var(--marketplaceColor);
+    stroke-width: 1px;
   }
+
+  /* Display the "check" when checked */
+  &:checked + label .checkedSuccess {
+    display: inline;
+    stroke: var(--colorSuccess);
+    stroke-width: 1px;
+  }
+
+  /* Display the disabled when checked */
+  &:checked + label .checkedDisabled {
+    display: inline;
+    stroke: var(--colorGrey300);
+    stroke-width: 1px;
+  }
+
+  /* Hightlight the text on checked, hover and focus */
+  &:focus + label .text,
+  &:hover + label .text,
+  &:checked + label .text {
+    color: var(--colorBlack);
+  }
+}

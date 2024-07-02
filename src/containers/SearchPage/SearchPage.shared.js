@@ -146,7 +146,6 @@ export const validFilterParams = (
  * @returns picked search params against extended data config and default filter config
  */
 export const validUrlQueryParamsFromProps = props => {
-
   const { location, config } = props;
   const { listingFields: listingFieldsConfig } = config?.listing || {};
   const { defaultFilters: defaultFiltersConfig } = config?.search || {};

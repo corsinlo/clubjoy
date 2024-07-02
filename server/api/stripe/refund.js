@@ -50,18 +50,19 @@ module.exports = async (req, res) => {
   try {
     const paymentIntentsResponse = await axios.get('https://api.stripe.com/v1/payment_intents', {
       headers: {
-        'Authorization': `Bearer ${STRIPE_SECRET_KEY}`
+        Authorization: `Bearer ${STRIPE_SECRET_KEY}`,
       },
       params: {
-        limit: 100
-      }
+        limit: 100,
+      },
     });
 
     const paymentIntents = paymentIntentsResponse.data.data;
-    const foundPaymentIntent = paymentIntents.find(paymentIntent =>
-      paymentIntent.metadata &&
-      paymentIntent.metadata['sharetribe-transaction-id'] === transactionId &&
-      paymentIntent.metadata['sharetribe-customer-id'] === customerId
+    const foundPaymentIntent = paymentIntents.find(
+      paymentIntent =>
+        paymentIntent.metadata &&
+        paymentIntent.metadata['sharetribe-transaction-id'] === transactionId &&
+        paymentIntent.metadata['sharetribe-customer-id'] === customerId
     );
     console.log('Found payment intent:', foundPaymentIntent);
 
@@ -69,11 +70,11 @@ module.exports = async (req, res) => {
       try {
         const refundResponse = await axios.post('https://api.stripe.com/v1/refunds', null, {
           headers: {
-            'Authorization': `Bearer ${STRIPE_SECRET_KEY}`
+            Authorization: `Bearer ${STRIPE_SECRET_KEY}`,
           },
           params: {
-            payment_intent: foundPaymentIntent.id
-          }
+            payment_intent: foundPaymentIntent.id,
+          },
         });
         const refund = refundResponse.data;
         console.log('Created refund:', refund);
@@ -87,7 +88,7 @@ module.exports = async (req, res) => {
         // Send emails after sending the initial response
         try {
           sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
-          sendSmtpEmail.to = [{ email: `${bookingRecord.email}`,  name: `${bookingRecord.name}` }]; //bookingRecord.providerEmail
+          sendSmtpEmail.to = [{ email: `${bookingRecord.email}`, name: `${bookingRecord.name}` }]; //bookingRecord.providerEmail
           sendSmtpEmail.templateId = 25;
           sendSmtpEmail.params = {
             providername: bookingRecord.providername,
@@ -101,11 +102,13 @@ module.exports = async (req, res) => {
 
           try {
             sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
-            sendSmtpEmail.to = [{ email: `${bookingRecord.providerEmail}`,  name: `${bookingRecord.providername}` }]; //bookingRecord.providerEmail
+            sendSmtpEmail.to = [
+              { email: `${bookingRecord.providerEmail}`, name: `${bookingRecord.providername}` },
+            ]; //bookingRecord.providerEmail
             sendSmtpEmail.templateId = 26;
             sendSmtpEmail.params = {
               providername: bookingRecord.providername,
-username: bookingRecord.username,
+              username: bookingRecord.username,
               startDate: formattedDate,
               reason: req.body.selectedOptionText,
               amount: refund.amount,
@@ -118,9 +121,11 @@ username: bookingRecord.username,
         } catch (emailError) {
           console.error('Error sending email:', emailError);
         }
-
       } catch (refundError) {
-        if (refundError.response && refundError.response.data.error.code === 'charge_already_refunded') {
+        if (
+          refundError.response &&
+          refundError.response.data.error.code === 'charge_already_refunded'
+        ) {
           console.log('Refund already exists for this payment intent.');
           res.status(400).json({
             message: 'Refund already exists for this payment intent',
@@ -142,7 +147,4 @@ username: bookingRecord.username,
       error: error.message,
     });
   }
-
 };
-
-

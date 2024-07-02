@@ -33,15 +33,17 @@ const ToDo = ({ isTeamBuilding }) => {
   const getToday = () => moment();
   const getThisWeek = () => ({
     start: getToday(),
-    end: getToday().endOf('week')
+    end: getToday().endOf('week'),
   });
   const getThisWeekend = () => ({
     start: getToday().day(5), // Friday
-    end: getToday().endOf('week') // Sunday
+    end: getToday().endOf('week'), // Sunday
   });
   const getThisMonth = () => ({
     start: getToday(),
-    end: getToday().clone().add(30, 'days')
+    end: getToday()
+      .clone()
+      .add(30, 'days'),
   });
 
   return (

@@ -64,7 +64,7 @@ const routeConfiguration = (layoutConfig) => {
   const SearchPage = layoutConfig.searchPage?.variantType === 'map' 
     ? SearchPageWithMap 
     : SearchPageWithGrid;
-    const teamSearchPage = layoutConfig.searchPage?.variantType === 'map' 
+  const teamSearchPage = layoutConfig.searchPage?.variantType === 'map' 
     ? SearchPageWithMap 
     : SearchPageWithGrid;
   const ListingPage = layoutConfig.listingPage?.variantType === 'carousel' 

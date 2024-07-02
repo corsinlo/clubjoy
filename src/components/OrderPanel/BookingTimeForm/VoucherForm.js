@@ -35,22 +35,22 @@ class VoucherForm extends Component {
       .catch(error => {
         console.error('Error checking voucher:', error);
         if (error) {
-          this.setState({ errorMessage: this.props.intl.formatMessage({ id: 'BookingTimeForm.coupon.notValid' }) });
-        } 
+          this.setState({
+            errorMessage: this.props.intl.formatMessage({ id: 'BookingTimeForm.coupon.notValid' }),
+          });
+        }
         this.setState({ voucherCode: '' });
       });
   };
 
   render() {
-    const {
-      rootClassName,
-      className,
-      intl,
-    } = this.props;
+    const { rootClassName, className, intl } = this.props;
 
     const voucherInsertion = (
       <div className={css.fieldDateInput}>
-        <p className={css.voucherTitleBox}>{intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}</p>
+        <p className={css.voucherTitleBox}>
+          {intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}
+        </p>
         <input
           type="text"
           placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
@@ -67,9 +67,7 @@ class VoucherForm extends Component {
     );
 
     return (
-      <div className={classNames(rootClassName || css.root, className)}>
-        {voucherInsertion}
-      </div>
+      <div className={classNames(rootClassName || css.root, className)}>{voucherInsertion}</div>
     );
   }
 }
@@ -91,4 +89,3 @@ VoucherForm.propTypes = {
 };
 
 export default VoucherForm;
-

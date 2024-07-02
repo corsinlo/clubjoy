@@ -43,5 +43,3 @@ SeatFilter.propTypes = {
 };
 
 export default SeatFilter;
-
-

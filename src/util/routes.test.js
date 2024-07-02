@@ -23,9 +23,9 @@ describe('util/routes.js', () => {
       expect(() => createResourceLocatorString('ListingPage', routes, {}, {})).toThrow(
         TypeError('Expected "slug" to be a string')
       );
-      expect(() =>
-        createResourceLocatorString('ListingPage', routes, { id: '1234' }, {})
-      ).toThrow(TypeError('Expected "slug" to be a string'));
+      expect(() => createResourceLocatorString('ListingPage', routes, { id: '1234' }, {})).toThrow(
+        TypeError('Expected "slug" to be a string')
+      );
       expect(() =>
         createResourceLocatorString('ListingPage', routes, { slug: 'nice-listing' }, {})
       ).toThrow(TypeError('Expected "id" to be a string'));

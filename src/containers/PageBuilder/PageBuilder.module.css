@@ -9,7 +9,7 @@
   align-items: flex-start;
   gap: 20px; /* Adjust the gap as needed */
   color: white;
-  background-color: #ED514A;
+  background-color: #ed514a;
   position: absolute; /* Absolute positioning for animation */
   width: 300%; /* Adjust width based on content */
   animation: scrollLeft 20s linear infinite; /* Add animation */
@@ -59,13 +59,13 @@
 /*WHATSAPPICON*/
 .customClass {
   position: fixed; /* Fixed positioning relative to the viewport */
-  bottom: 80px;    /* Distance from the bottom of the viewport */
-  right: 5px;     /* Distance from the right side of the viewport */
-  height: 50px;    /* Height of the icon */
-  width: 80px;     /* Width of the icon */
-  color: #012FA7;  /* Color of the icon or text */
+  bottom: 80px; /* Distance from the bottom of the viewport */
+  right: 5px; /* Distance from the right side of the viewport */
+  height: 50px; /* Height of the icon */
+  width: 80px; /* Width of the icon */
+  color: #012fa7; /* Color of the icon or text */
   cursor: pointer; /* Pointer cursor on hover */
-  z-index: 1000;   /* High z-index to ensure it's on top of other content */
+  z-index: 1000; /* High z-index to ensure it's on top of other content */
   flex-direction: row; /* Align children in a row */
   margin: 2px;
 }
@@ -105,13 +105,13 @@
   /*WHATSAPPICON*/
   .customClass {
     position: fixed; /* Fixed positioning relative to the viewport */
-    bottom: 10px;    /* Distance from the bottom of the viewport */
-    right: 5px;     /* Distance from the right side of the viewport */
-    height: 50px;    /* Height of the icon */
-    width: 80px;     /* Width of the icon */
-    color: #012FA7;  /* Color of the icon or text */
+    bottom: 10px; /* Distance from the bottom of the viewport */
+    right: 5px; /* Distance from the right side of the viewport */
+    height: 50px; /* Height of the icon */
+    width: 80px; /* Width of the icon */
+    color: #012fa7; /* Color of the icon or text */
     cursor: pointer; /* Pointer cursor on hover */
-    z-index: 1000;   /* High z-index to ensure it's on top of other content */
+    z-index: 1000; /* High z-index to ensure it's on top of other content */
     flex-direction: row; /* Align children in a row */
     margin: 2px;
   }
@@ -125,6 +125,3 @@
     }
   }
 }
-
-
-

@@ -55,14 +55,14 @@ class FieldDateRangeInputComponent extends Component {
   componentDidMount() {
     this.handleSeatsArrayUpdate();
   }
-  
+
   componentDidUpdate(prevProps) {
     // Check if seatsArray has changed
     if (this.props.seatsArray !== prevProps.seatsArray) {
       this.handleSeatsArrayUpdate();
     }
   }
-  
+
   handleSeatsArrayUpdate() {
     // Check if seatsArray exists and its length is greater than 1
     if (this.props.seatsArray?.length > 1) {
@@ -90,8 +90,8 @@ class FieldDateRangeInputComponent extends Component {
       focusedInput,
       onFocusedInputChange,
       seatsArray,
-  seatsLabel,
-  setShowSeatNames,
+      seatsLabel,
+      setShowSeatNames,
       ...rest
     } = this.props;
     /* eslint-disable no-unused-vars */
@@ -141,16 +141,15 @@ class FieldDateRangeInputComponent extends Component {
     const errorClasses = classNames({ [css.mobileMargins]: useMobileMargins });
 
     const seatsSelectionMaybe =
-  seatsArray?.length > 1 ? (
-    <FieldSelect name="seats" id="seats" label={seatsLabel}>
-      {seatsArray.map(s => (
-        <option value={s} key={s}>
-          {s}
-        </option>
-      ))}
-    </FieldSelect>
-  ) : null;
-
+      seatsArray?.length > 1 ? (
+        <FieldSelect name="seats" id="seats" label={seatsLabel}>
+          {seatsArray.map(s => (
+            <option value={s} key={s}>
+              {s}
+            </option>
+          ))}
+        </FieldSelect>
+      ) : null;
 
     return (
       <div className={classes}>

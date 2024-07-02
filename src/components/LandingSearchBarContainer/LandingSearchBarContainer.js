@@ -57,7 +57,7 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
     position: 'relative',
     height: isMobile ? '725px' : '850px',
     backgroundColor: 'white',
-    backgroundImage: `url(${landingCoverR})` ,
+    backgroundImage: `url(${landingCoverR})`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'right',
@@ -65,24 +65,21 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
   };
 
   return (
-    <div
-      className={
-        css.isTeamBuildingContainer}
-      style={containerStyle}
-    >
+    <div className={css.isTeamBuildingContainer} style={containerStyle}>
       <>
         {!isTeamBuilding ? (
           <div className={css.surveyContainer}>
             {!isMobile && (
               <div className={css.emptyDiv}>
                 <h1 className={css.emptyText}>
-                  Scopri le migliori esperienze creative,<br /> in pochi click
+                  Scopri le migliori esperienze creative,
+                  <br /> in pochi click
                 </h1>
               </div>
             )}
             <div className={css.surveyForm} style={containerStyle3}>
-            <div style={{paddingTop: '50px'}}>
-              <SurveyForm />
+              <div style={{ paddingTop: '50px' }}>
+                <SurveyForm />
               </div>
             </div>
           </div>
@@ -91,13 +88,15 @@ const LandingSearchBarContainer = ({ onSearchSubmit }) => {
             {!isMobile && (
               <div className={css.emptyDiv}>
                 <h1 className={css.emptyText}>
-                  Scopri le migliori esperienze creative<br /> per il tuo gruppo,<br /> in pochi click
+                  Scopri le migliori esperienze creative
+                  <br /> per il tuo gruppo,
+                  <br /> in pochi click
                 </h1>
               </div>
             )}
             <div className={css.surveyForm} style={containerStyle2}>
-              <div style={{paddingTop: '50px'}}>
-              <SurveyForm isTeamBuilding={isTeamBuilding} />
+              <div style={{ paddingTop: '50px' }}>
+                <SurveyForm isTeamBuilding={isTeamBuilding} />
               </div>
             </div>
           </div>

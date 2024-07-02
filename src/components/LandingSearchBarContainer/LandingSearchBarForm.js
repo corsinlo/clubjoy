@@ -25,11 +25,14 @@ function useWindowSize() {
   return windowSize;
 }
 
-const LandingSearchBarForm = ({ onSearchSubmit, className, isTeamBuilding}) => {
+const LandingSearchBarForm = ({ onSearchSubmit, className, isTeamBuilding }) => {
   const routeConfiguration = useRouteConfiguration();
   const intl = useIntl();
-  const searchPagePath = routeConfiguration ? isTeamBuilding ? createResourceLocatorString('teamSearchPage', routeConfiguration, {}, {}) : createResourceLocatorString('SearchPage', routeConfiguration, {}, {})
-  : '';
+  const searchPagePath = routeConfiguration
+    ? isTeamBuilding
+      ? createResourceLocatorString('teamSearchPage', routeConfiguration, {}, {})
+      : createResourceLocatorString('SearchPage', routeConfiguration, {}, {})
+    : '';
 
   const [location, setLocation] = useState('');
   const [bounds, setBounds] = useState({

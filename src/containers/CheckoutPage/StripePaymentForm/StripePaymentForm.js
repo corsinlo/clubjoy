@@ -621,7 +621,7 @@ class StripePaymentForm extends Component {
                   placeholder={billingDetailsNamePlaceholder}
                 />
 
-                { popUpShop==='store'? null: (billingAddress)}
+                {popUpShop === 'store' ? null : billingAddress}
               </div>
             ) : null}
           </React.Fragment>
@@ -651,40 +651,39 @@ class StripePaymentForm extends Component {
           </div>
         ) : null}
 
-<div className={css.submitContainer}>
-  {hasPaymentErrors ? (
-    <span className={css.errorMessage}>{paymentErrorMessage}</span>
-  ) : null}
-  <PrimaryButton
-    className={css.submitButton}
-    type="submit"
-    inProgress={submitInProgress}
-    disabled={submitDisabled}
-  >
-    {billingDetailsNeeded ? (
-      <FormattedMessage
-        id="StripePaymentForm.submitPaymentInfo"
-        values={{ totalPrice: totalPriceMaybe, isBooking: isBookingYesNo }}
-      />
-    ) : (
-      <FormattedMessage
-        id="StripePaymentForm.submitConfirmPaymentInfo"
-        values={{ totalPrice: totalPriceMaybe, isBooking: isBookingYesNo }}
-      />
-    )}
-  </PrimaryButton>
-  <p className={css.paymentInfo}>
-    <FormattedMessage
-      id={
-        isTeamBuilding
-          ? "StripePaymentForm.submitConfirmPaymentTeamFinePrint"
-          : "StripePaymentForm.submitConfirmPaymentFinePrint"
-      }
-      values={{ isBooking: isBookingYesNo, name: authorDisplayName }}
-    />
-  </p>
-</div>
-
+        <div className={css.submitContainer}>
+          {hasPaymentErrors ? (
+            <span className={css.errorMessage}>{paymentErrorMessage}</span>
+          ) : null}
+          <PrimaryButton
+            className={css.submitButton}
+            type="submit"
+            inProgress={submitInProgress}
+            disabled={submitDisabled}
+          >
+            {billingDetailsNeeded ? (
+              <FormattedMessage
+                id="StripePaymentForm.submitPaymentInfo"
+                values={{ totalPrice: totalPriceMaybe, isBooking: isBookingYesNo }}
+              />
+            ) : (
+              <FormattedMessage
+                id="StripePaymentForm.submitConfirmPaymentInfo"
+                values={{ totalPrice: totalPriceMaybe, isBooking: isBookingYesNo }}
+              />
+            )}
+          </PrimaryButton>
+          <p className={css.paymentInfo}>
+            <FormattedMessage
+              id={
+                isTeamBuilding
+                  ? 'StripePaymentForm.submitConfirmPaymentTeamFinePrint'
+                  : 'StripePaymentForm.submitConfirmPaymentFinePrint'
+              }
+              values={{ isBooking: isBookingYesNo, name: authorDisplayName }}
+            />
+          </p>
+        </div>
       </Form>
     ) : (
       <div className={css.missingStripeKey}>
