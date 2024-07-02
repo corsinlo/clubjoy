@@ -1,15 +1,8 @@
-// SeatFilter.js
 import React from 'react';
 import { bool, func } from 'prop-types';
 import css from './SeatFilter.module.css';
 
-const SeatFilter = ({
-  moreThan8Checked,
-  lessThan8Checked,
-  onMoreThan8Change,
-  onLessThan8Change,
-  intl,
-}) => (
+const SeatFilter = ({ px, onPxChange, intl }) => (
   <div className={css.fieldGroupPlain}>
     <p className={css.title}>
       {intl.formatMessage({ id: 'SeatFilter.title', defaultMessage: 'Select Seat Preference' })}
@@ -21,8 +14,8 @@ const SeatFilter = ({
             type="checkbox"
             id="more-than-8"
             className={css.checkbox}
-            checked={moreThan8Checked}
-            onChange={onMoreThan8Change}
+            checked={px === true}
+            onChange={() => onPxChange(true)}
           />
           More than 8
         </span>
@@ -33,8 +26,8 @@ const SeatFilter = ({
             type="checkbox"
             id="less-than-8"
             className={css.checkbox}
-            checked={lessThan8Checked}
-            onChange={onLessThan8Change}
+            checked={px === false}
+            onChange={() => onPxChange(false)}
           />
           Less than 8
         </span>
@@ -44,10 +37,11 @@ const SeatFilter = ({
 );
 
 SeatFilter.propTypes = {
-  moreThan8Checked: bool.isRequired,
-  lessThan8Checked: bool.isRequired,
-  onMoreThan8Change: func.isRequired,
-  onLessThan8Change: func.isRequired,
+  px: bool,
+  onPxChange: func.isRequired,
+  intl: func.isRequired,
 };
 
 export default SeatFilter;
+
+

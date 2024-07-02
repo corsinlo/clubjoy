@@ -214,6 +214,7 @@ export const searchListings = (searchParams, config) => (dispatch, getState, sdk
   };
 
   const modifyPubJoyToHasAny = (params) => {
+
     if (params.pub_joy) {
       params.pub_joy = params.pub_joy.replace('has_all', 'has_any');
     }

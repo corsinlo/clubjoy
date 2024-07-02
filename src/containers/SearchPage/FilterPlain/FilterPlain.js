@@ -15,23 +15,19 @@ class FilterPlainComponent extends Component {
     super(props);
     this.state = {
       isOpen: true,
-      moreThan8Checked: false,
-      lessThan8Checked: false,
-      px: null,
+      px: props.initialValues && props.initialValues.px !== undefined ? props.initialValues.px : null,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClear = this.handleClear.bind(this);
     this.toggleIsOpen = this.toggleIsOpen.bind(this);
-    this.handleMoreThan8Change = this.handleMoreThan8Change.bind(this);
-    this.handleLessThan8Change = this.handleLessThan8Change.bind(this);
+    this.handlePxChange = this.handlePxChange.bind(this);
   }
 
   handleChange(values) {
     const { onSubmit } = this.props;
     const { px } = this.state;
     const updatedValues = { ...values, px };
-    console.log('Form values changed:', updatedValues);
     onSubmit(updatedValues);
   }
 
@@ -39,12 +35,11 @@ class FilterPlainComponent extends Component {
     const { onSubmit, onClear } = this.props;
 
     if (onClear) {
-      console.log('Clear button clicked');
       onClear();
     }
 
     console.log('Form cleared');
-    this.setState({ moreThan8Checked: false, lessThan8Checked: false, px: null });
+    this.setState({ px: null });
     this.updateURLParams(null);
     onSubmit(null);
   }
@@ -53,36 +48,11 @@ class FilterPlainComponent extends Component {
     this.setState(prevState => ({ isOpen: !prevState.isOpen }));
   }
 
-  handleMoreThan8Change() {
-    const isChecked = !this.state.moreThan8Checked;
-    console.log('More than 8 checkbox state changed:', isChecked);
-    this.setState(
-      {
-        moreThan8Checked: isChecked,
-        lessThan8Checked: isChecked ? false : this.state.lessThan8Checked,
-        px: isChecked ? true : null,
-      },
-      () => {
-        this.updateURLParams(this.state.px);
-        this.handleChange(this.props.initialValues);
-      }
-    );
-  }
-
-  handleLessThan8Change() {
-    const isChecked = !this.state.lessThan8Checked;
-    console.log('Less than 8 checkbox state changed:', isChecked);
-    this.setState(
-      {
-        moreThan8Checked: isChecked ? false : this.state.moreThan8Checked,
-        lessThan8Checked: isChecked,
-        px: isChecked ? false : null,
-      },
-      () => {
-        this.updateURLParams(this.state.px);
-        this.handleChange(this.props.initialValues);
-      }
-    );
+  handlePxChange(newPx) {
+    this.setState({ px: newPx }, () => {
+      this.updateURLParams(this.state.px);
+      this.handleChange(this.props.initialValues);
+    });
   }
 
   updateURLParams(px) {
@@ -111,7 +81,7 @@ class FilterPlainComponent extends Component {
       contentPlacementOffset,
     } = this.props;
     const classes = classNames(rootClassName || css.root, className);
-
+    const currentPath = window.location.pathname === '/ts'
     return (
       <div className={classes}>
         <div className={css.filterHeader}>
@@ -144,17 +114,16 @@ class FilterPlainComponent extends Component {
             liveEdit
             contentPlacementOffset={contentPlacementOffset}
             onChange={this.handleChange}
-            initialValues={initialValues}
+            initialValues={{ ...initialValues, px: this.state.px }}
             keepDirtyOnReinitialize={keepDirtyOnReinitialize}
           >
             {children}
-            <SeatFilter
-              moreThan8Checked={this.state.moreThan8Checked}
-              lessThan8Checked={this.state.lessThan8Checked}
-              onMoreThan8Change={this.handleMoreThan8Change}
-              onLessThan8Change={this.handleLessThan8Change}
+
+           {currentPath &&( <SeatFilter
+              px={this.state.px}
+              onPxChange={this.handlePxChange}
               intl={this.props.intl}
-            />
+            />)}
           </FilterForm>
           <button className={css.clearButton} onClick={this.handleClear}>
             <FormattedMessage id={'FilterPlain.clear'} />
@@ -196,3 +165,4 @@ FilterPlainComponent.propTypes = {
 const FilterPlain = injectIntl(FilterPlainComponent);
 
 export default FilterPlain;
+

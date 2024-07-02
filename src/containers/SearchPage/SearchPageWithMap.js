@@ -142,21 +142,28 @@ export class SearchPageComponent extends Component {
     const { history, routeConfiguration, config } = this.props;
     const { listingFields: listingFieldsConfig } = config?.listing || {};
     const { defaultFilters: defaultFiltersConfig, sortConfig } = config?.search || {};
-
+  
     const urlQueryParams = validUrlQueryParamsFromProps(this.props);
-    console.log(urlQueryParams)
+  
     const searchParams = { ...urlQueryParams, ...this.state.currentQueryParams };
-    console.log('searchParams', searchParams)
+  
     const search = cleanSearchFromConflictingParams(
       searchParams,
       listingFieldsConfig,
       defaultFiltersConfig,
       sortConfig
     );
-
-    isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
-          : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+  
+    const currentPath = '/ts' + window.location.search;
+    
+    if (isTeamBuildingOnTop) {
+      history.push(currentPath);
+    } else {
+      history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+    }
   }
+  
+  
 
   // Close the filters by clicking cancel, revert to the initial params
   cancelFilters() {
@@ -177,14 +184,18 @@ export class SearchPageComponent extends Component {
 
     // Reset routing params
     const queryParams = omit(urlQueryParams, filterQueryParamNames);
-    isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
-          : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+    const currentPath = '/ts' + window.location.search;
+    
+    if (isTeamBuildingOnTop) {
+      history.push(currentPath);
+    } else {
+      history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+    }
   }
 
   getHandleChangedValueFn(useHistoryPush) {
     const { history, routeConfiguration, config } = this.props;
     
-    //console.log('cfdjvifjidsvjgfijivg', history.location)
     const { listingFields: listingFieldsConfig } = config?.listing || {};
     const { defaultFilters: defaultFiltersConfig, sortConfig } = config?.search || {};
 
@@ -221,8 +232,13 @@ export class SearchPageComponent extends Component {
             defaultFiltersConfig,
             sortConfig
           );
-          isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
-          : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+          const currentPath = '/ts' + window.location.search;
+    
+          if (isTeamBuildingOnTop) {
+            history.push(currentPath);
+          } else {
+            history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+          }
         }
       };
 
@@ -239,8 +255,13 @@ export class SearchPageComponent extends Component {
       ? { ...urlQueryParams, [urlParam]: values }
       : omit(urlQueryParams, urlParam);
 
-      isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
-      : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+      const currentPath = '/ts' + window.location.search;
+    
+      if (isTeamBuildingOnTop) {
+        history.push(currentPath);
+      } else {
+        history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+      }
   }
 
   render() {

@@ -97,9 +97,7 @@ class SelectMultipleFilter extends Component {
       showAsPopup,
       ...rest
     } = this.props;
-
     const classes = classNames(rootClassName || css.root, className);
-
     const queryParamName = getQueryParamName(queryParamNames);
     const hasInitialValues = !!initialValues && !!initialValues[queryParamName];
     // Parse options from param strings like "has_all:a,b,c" or "a,b,c"
