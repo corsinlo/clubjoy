@@ -205,21 +205,21 @@ export class BookingTimeFormComponent extends Component {
               ) : null}
 
               {showEstimatedBreakdown ? (
-<div className={css.priceBreakdownContainer}>
-              <VoucherForm  
-                 className={css.bookingDates}
-                 listingId={listingId}
-                 onFetchTimeSlots={onFetchTimeSlots}
-                 monthlyTimeSlots={monthlyTimeSlots}
-                 values={values}
-                 intl={intl}
-                 form={form}
-                 pristine={pristine}
-                 timeZone={timeZone}
-                 voucherFee={voucherFee}
-                 publicData={publicData}
-              />
-            </div>
+                <div className={css.priceBreakdownContainer}>
+                  <VoucherForm
+                    className={css.bookingDates}
+                    listingId={listingId}
+                    onFetchTimeSlots={onFetchTimeSlots}
+                    monthlyTimeSlots={monthlyTimeSlots}
+                    values={values}
+                    intl={intl}
+                    form={form}
+                    pristine={pristine}
+                    timeZone={timeZone}
+                    voucherFee={voucherFee}
+                    publicData={publicData}
+                  />
+                </div>
               ) : null}
               <div className={css.submitButton}>
                 <PrimaryButton type="submit" inProgress={fetchLineItemsInProgress}>

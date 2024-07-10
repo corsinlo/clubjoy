@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { intlShape, injectIntl, FormattedMessage } from '../../../../../util/reactIntl';
 import { propTypes } from '../../../../../util/types';
 
-import { FieldTextInput,Form, H3, PrimaryButton } from '../../../../../components';
+import { FieldTextInput, Form, H3, PrimaryButton } from '../../../../../components';
 
 import AvailabilityModeSelector from './AvailabilityModeSelector';
 import ExceptionDateTimeRange from './ExceptionDateTimeRange';
@@ -137,9 +137,9 @@ const EditListingAvailabilityExceptionForm = props => {
                   values={values}
                 />
               )}
-                        {seatsSelectionMaybe}
+              {seatsSelectionMaybe}
             </div>
-  
+
             <div className={css.submitButton}>
               {updateListingError ? (
                 <p className={css.error}>

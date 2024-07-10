@@ -519,43 +519,41 @@ class FieldDateAndTimeInput extends Component {
     //65fc542d-96ee-422d-b0e6-0075f9a1c683
     const visibleSeats = seatsArray.filter(seat => !isSeatDisabled(seat));
 
-const seatsSelectionMaybe =
-  visibleSeats.length > 1 ? (
-    <FieldSelect
-      className={css.fieldDateInput}
-      onChange={value => {
-        form.batch(() => {
-          form.change('guestNames', []);
-          if (value > 0)
-            for (let index = 0; index < value; index++)
-              form.mutators.push(`guestNames[${index}]`, '');
-        });
-      }}
-      name="seats"
-      id="seats"
-      label='In quanti siete?' //{intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
-    >
-      <option value="" key="default">
-       - {/*intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })*/}
-      </option>
-      {visibleSeats.map(s => (
-        <option value={s} key={s}>
-          {s}
-        </option>
-      ))}
-    </FieldSelect>
-  ) : null;
+    const seatsSelectionMaybe =
+      visibleSeats.length > 1 ? (
+        <FieldSelect
+          className={css.fieldDateInput}
+          onChange={value => {
+            form.batch(() => {
+              form.change('guestNames', []);
+              if (value > 0)
+                for (let index = 0; index < value; index++)
+                  form.mutators.push(`guestNames[${index}]`, '');
+            });
+          }}
+          name="seats"
+          id="seats"
+          label="In quanti siete?" //{intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.seats' })}
+        >
+          <option value="" key="default">
+            - {/*intl.formatMessage({ id: 'EditListingAvailabilityPlanForm.selectSeats' })*/}
+          </option>
+          {visibleSeats.map(s => (
+            <option value={s} key={s}>
+              {s}
+            </option>
+          ))}
+        </FieldSelect>
+      ) : null;
 
     const startOfToday = getStartOf(TODAY, 'day', timeZone);
     const bookingEndTimeAvailable = bookingStartDate && (bookingStartTime || startTime);
-   
-
 
     const locationMapping = {
       1: "Dall'artista (es. nello suo studio di ceramica, nella sua fioreria)",
       2: 'Da me (es. in ufficio, a casa, durante una festa)',
     };
-    
+
     const languageMapping = {
       1: 'Italiano',
       2: 'English',
@@ -652,9 +650,7 @@ const seatsSelectionMaybe =
             </FieldSelect>
           </div>
         </div>
-        <div className={css.extras}>
-          {seatsSelectionMaybe}
-        </div>
+        <div className={css.extras}>{seatsSelectionMaybe}</div>
         {!!seatsSelectionMaybe && (
           <FieldArray name="guestNames" className={css.fieldSelect}>
             {({ fields }) => {
@@ -673,7 +669,7 @@ const seatsSelectionMaybe =
                       },
                       { number: 1 }
                     )}
-                    placeholder= '-'//{intl.formatMessage( {id: 'FieldDateAndTimeInput.teamNamePlaceholder',  }, { number: 1 } )}
+                    placeholder="-" //{intl.formatMessage( {id: 'FieldDateAndTimeInput.teamNamePlaceholder',  }, { number: 1 } )}
                     validate={validators.required(
                       intl.formatMessage({
                         id: 'FieldDateAndTimeInput.requiredGuestName',
@@ -736,7 +732,7 @@ const seatsSelectionMaybe =
           </FieldArray>
         )}
 
-{publicData?.listingType === 'teambuilding' && !!seatsSelectionMaybe && (
+        {publicData?.listingType === 'teambuilding' && !!seatsSelectionMaybe && (
           <FieldSelect
             className={css.extras}
             onChange={value => {

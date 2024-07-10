@@ -52,8 +52,6 @@ const FilterFormComponent = props => {
           children,
         } = formRenderProps;
 
-
-
         const handleCancel = () => {
           // reset the final form to initialValues
           form.reset();

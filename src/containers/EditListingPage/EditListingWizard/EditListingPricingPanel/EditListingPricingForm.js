@@ -102,8 +102,10 @@ export const EditListingPricingFormComponent = props => (
           {isTeamBuilding !== 'class' ? (
             <>
               <p>
-                Indicare prezzo per singola persona.<br/>Nella prossima schermata sceglierete il min e
-                max numero di partecipanti al vostro evento.
+                Indicare prezzo per singola persona.
+                <br />
+                Nella prossima schermata sceglierete il min e max numero di partecipanti al vostro
+                evento.
               </p>
             </>
           ) : null}

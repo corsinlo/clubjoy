@@ -7,10 +7,7 @@ import { getStartOf } from '../../../util/dates';
 import { propTypes } from '../../../util/types';
 import { checkCoupon } from '../../../util/api';
 import { Field } from 'react-final-form';
-import {
-  FieldTextInput,
-  SecondaryButton,
-} from '../..';
+import { FieldTextInput, SecondaryButton } from '../..';
 import css from './FieldDateAndTimeInput.module.css';
 
 class VoucherForm extends Component {
@@ -45,37 +42,27 @@ class VoucherForm extends Component {
   };
 
   render() {
-    const {
-      rootClassName,
-      className,
-      formId,
-      form,
-      values,
-      intl,
-      voucher,
-    } = this.props;
+    const { rootClassName, className, formId, form, values, intl, voucher } = this.props;
 
     const voucherInsertion = (
       <div className={css.fieldDateInput}>
-
-          <p className={css.voucherTitleBox}>{intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}</p>
-          <input
-              type="text"
-              placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
-            value={this.state.voucherCode}
-            onChange={this.handleVoucherChange}
+        <p className={css.voucherTitleBox}>
+          {intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}
+        </p>
+        <input
+          type="text"
+          placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
+          value={this.state.voucherCode}
+          onChange={this.handleVoucherChange}
         />
         <SecondaryButton type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
           {intl.formatMessage({ id: 'BookingTimeForm.coupon.button' })}
         </SecondaryButton>
-  
       </div>
     );
 
     return (
-      <div className={classNames(rootClassName || css.root, className)}>
-        {voucherInsertion}
-      </div>
+      <div className={classNames(rootClassName || css.root, className)}>{voucherInsertion}</div>
     );
   }
 }

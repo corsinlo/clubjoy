@@ -223,25 +223,6 @@ export const AuthenticationForms = props => {
           console.error('Error adding email to newsletter:', error);
         });
 
-      /*
-      const response = await fetch('/api/add-contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(contactData),
-      });
-
-      if (!response.ok) {
-        const errorInfo = await response.json();
-        if (errorInfo.message !== 'Contact already exists') {
-          console.error('Error adding email to Brevo:', errorInfo.message);
-          alert('Email already present on Clubjoy');
-          allowSignup = false;
-        }
-      }
-      */
-
       try {
         const emailResponse = await fetch('/api/send-email', {
           method: 'POST',

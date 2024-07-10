@@ -148,7 +148,6 @@ export class TransactionPanelComponent extends Component {
       onSendMessage, // Add onSendMessage prop
     } = this.props;
 
-
     const isCustomer = transactionRole === 'customer';
     const isProvider = transactionRole === 'provider';
     const listingDeleted = !!listing?.attributes?.deleted;
@@ -171,25 +170,29 @@ export class TransactionPanelComponent extends Component {
     const listingTitle = listingDeleted ? deletedListingTitle : listing?.attributes?.title;
     const firstImage = listing?.images?.length > 0 ? listing?.images[0] : null;
     const listingType = listing?.attributes?.publicData?.listingType;
-    const tId= transactionId?.uuid
-    const start= orderBreakdown?.props?.booking?.attributes?.start
+    const tId = transactionId?.uuid;
+    const start = orderBreakdown?.props?.booking?.attributes?.start;
 
-    const bookingState= stateData.processState
-    const bookingRequestDate =this.props?.activityFeed?.props?.transaction?.attributes?.transitions?.find(t => t.transition === "transition/accept")?.createdAt || null;
+    const bookingState = stateData.processState;
+    const bookingRequestDate =
+      this.props?.activityFeed?.props?.transaction?.attributes?.transitions?.find(
+        t => t.transition === 'transition/accept'
+      )?.createdAt || null;
 
     const updatedCustomerObj = { ...customerObj, providerEmail };
 
-  const teamButtons =(<TeamButtonsMaybe
-    start={start}
-         customerObj={customerObj}
-         transactionId={tId}
-         onSendMessage={onSendMessage} // Pass onSendMessage prop
-         />);
-  
-  const providerButtons =(<ProviderButtonsMaybe
-          start={start}
-               customerObj={updatedCustomerObj}
-               transactionId={tId}/>);
+    const teamButtons = (
+      <TeamButtonsMaybe
+        start={start}
+        customerObj={customerObj}
+        transactionId={tId}
+        onSendMessage={onSendMessage} // Pass onSendMessage prop
+      />
+    );
+
+    const providerButtons = (
+      <ProviderButtonsMaybe start={start} customerObj={updatedCustomerObj} transactionId={tId} />
+    );
 
     const actionButtons = (
       <ActionButtonsMaybe
@@ -306,7 +309,7 @@ export class TransactionPanelComponent extends Component {
               activityFeed={activityFeed}
               isConversation={isInquiryProcess}
             />
-   
+
             {showSendMessageForm ? (
               <SendMessageForm
                 formId={this.sendMessageFormName}
@@ -332,13 +335,17 @@ export class TransactionPanelComponent extends Component {
                 <div className={css.mobileActionButtons}>{actionButtons}</div>
               </>
             ) : null}
-            {stateData?.processState == 'accepted' & !isProvider & listingType == 'teambuilding'?(
+            {(stateData?.processState == 'accepted') &
+            !isProvider &
+            (listingType == 'teambuilding') ? (
               <>
                 <div className={css.mobileActionButtonSpacer}></div>
                 <div className={css.mobileActionButtons}>{teamButtons}</div>
               </>
             ) : null}
-             {stateData?.processState == 'accepted' & isProvider & listingType == 'teambuilding'?(
+            {(stateData?.processState == 'accepted') &
+            isProvider &
+            (listingType == 'teambuilding') ? (
               <>
                 <div className={css.mobileActionButtonSpacer}></div>
                 <div className={css.mobileActionButtons}>{providerButtons}</div>
@@ -382,14 +389,16 @@ export class TransactionPanelComponent extends Component {
                   orderBreakdown={orderBreakdown}
                   processName={stateData.processName}
                 />
-                {stateData?.processState == 'accepted' & !isProvider & listingType == 'teambuilding'?(
-                  <div className={css.desktopActionButtons}>
-                    {teamButtons}
-                     </div>):null}
-                {stateData?.processState == 'accepted' & isProvider & listingType == 'teambuilding'?(
-                  <div className={css.desktopActionButtons}>
-                    {providerButtons}
-                     </div>):null}
+                {(stateData?.processState == 'accepted') &
+                !isProvider &
+                (listingType == 'teambuilding') ? (
+                  <div className={css.desktopActionButtons}>{teamButtons}</div>
+                ) : null}
+                {(stateData?.processState == 'accepted') &
+                isProvider &
+                (listingType == 'teambuilding') ? (
+                  <div className={css.desktopActionButtons}>{providerButtons}</div>
+                ) : null}
                 {stateData.showActionButtons ? (
                   <div className={css.desktopActionButtons}>{actionButtons}</div>
                 ) : null}

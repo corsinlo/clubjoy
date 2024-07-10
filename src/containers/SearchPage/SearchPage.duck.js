@@ -213,7 +213,7 @@ export const searchListings = (searchParams, config) => (dispatch, getState, sdk
     perPage,
   };
 
-  const modifyPubJoyToHasAny = (params) => {
+  const modifyPubJoyToHasAny = params => {
     if (params.pub_joy) {
       params.pub_joy = params.pub_joy.replace('has_all', 'has_any');
     }
@@ -222,25 +222,24 @@ export const searchListings = (searchParams, config) => (dispatch, getState, sdk
       params.pub_language = params.pub_language.replace('has_all', 'has_any');
     }
 
-
     return params;
   };
 
   const updatedParams = modifyPubJoyToHasAny(params);
 
   return sdk.listings
-  .query(updatedParams)
-  .then(response => {
-    const listingFields = config?.listing?.listingFields;
-    const sanitizeConfig = { listingFields };
-    dispatch(addMarketplaceEntities(response, sanitizeConfig));
-    dispatch(searchListingsSuccess(response));
-    return response;
-  })
-  .catch(e => {
-    dispatch(searchListingsError(storableError(e)));
-    throw e;
-  });
+    .query(updatedParams)
+    .then(response => {
+      const listingFields = config?.listing?.listingFields;
+      const sanitizeConfig = { listingFields };
+      dispatch(addMarketplaceEntities(response, sanitizeConfig));
+      dispatch(searchListingsSuccess(response));
+      return response;
+    })
+    .catch(e => {
+      dispatch(searchListingsError(storableError(e)));
+      throw e;
+    });
 };
 
 export const setActiveListing = listingId => ({

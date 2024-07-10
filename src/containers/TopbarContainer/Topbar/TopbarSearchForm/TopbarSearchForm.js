@@ -94,7 +94,11 @@ class TopbarSearchFormComponent extends Component {
 
   applySearchParams() {
     const { searchParams, appConfig } = this.props;
-    if (isMainSearchTypeKeywords(appConfig) && searchParams.keyword && searchParams.keyword.trim() !== '') {
+    if (
+      isMainSearchTypeKeywords(appConfig) &&
+      searchParams.keyword &&
+      searchParams.keyword.trim() !== ''
+    ) {
       this.onSubmit({ keywords: searchParams.keyword });
     } else if (searchParams.location && searchParams.location.trim() !== '') {
       this.onChange({ selectedPlace: searchParams.location });
@@ -114,42 +118,43 @@ class TopbarSearchFormComponent extends Component {
     this.searchInput?.blur();
   }
 
+  render() {
+    const { intl, isMobile, className, rootClassName, desktopInputRoot, appConfig } = this.props;
+    const isKeywordsSearch = isMainSearchTypeKeywords(appConfig);
+    const classes = classNames(rootClassName, className);
+    const desktopInputRootClass = desktopInputRoot || css.desktopInputRoot;
 
-
-    render() {
-      const { intl, isMobile, className, rootClassName, desktopInputRoot, appConfig } = this.props;
-      const isKeywordsSearch = isMainSearchTypeKeywords(appConfig);
-      const classes = classNames(rootClassName, className);
-      const desktopInputRootClass = desktopInputRoot || css.desktopInputRoot;
-  
-      return (
-          <FinalForm
-              onSubmit={this.onSubmit}
-              render={({ handleSubmit }) => {
-                  return (
-                      <Form className={classes} onSubmit={handleSubmit} enforcePagePreloadFor="SearchPage">
-                          {isKeywordsSearch ? (
-                              <KeywordSearchField
-                                  keywordSearchWrapperClasses={classNames(css.keywordSearchWrapper, isMobile ? css.mobileInputRoot : desktopInputRootClass)}
-                                  iconClass={classNames(isMobile ? css.mobileIcon : css.desktopIcon || css.icon)}
-                                  intl={intl}
-                                  isMobile={isMobile}
-                                  inputRef={this.setSearchInputRef}
-                              />
-                          ) : (
-                              <LocationSearchField
-                                  desktopInputRootClass={desktopInputRootClass}
-                                  intl={intl}
-                                  isMobile={isMobile}
-                                  inputRef={this.setSearchInputRef}
-                                  onLocationChange={this.onChange}
-                              />
-                          )}
-                      </Form>
-                  );
-              }}
-          />
-      );
+    return (
+      <FinalForm
+        onSubmit={this.onSubmit}
+        render={({ handleSubmit }) => {
+          return (
+            <Form className={classes} onSubmit={handleSubmit} enforcePagePreloadFor="SearchPage">
+              {isKeywordsSearch ? (
+                <KeywordSearchField
+                  keywordSearchWrapperClasses={classNames(
+                    css.keywordSearchWrapper,
+                    isMobile ? css.mobileInputRoot : desktopInputRootClass
+                  )}
+                  iconClass={classNames(isMobile ? css.mobileIcon : css.desktopIcon || css.icon)}
+                  intl={intl}
+                  isMobile={isMobile}
+                  inputRef={this.setSearchInputRef}
+                />
+              ) : (
+                <LocationSearchField
+                  desktopInputRootClass={desktopInputRootClass}
+                  intl={intl}
+                  isMobile={isMobile}
+                  inputRef={this.setSearchInputRef}
+                  onLocationChange={this.onChange}
+                />
+              )}
+            </Form>
+          );
+        }}
+      />
+    );
   }
 }
 

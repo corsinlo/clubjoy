@@ -242,7 +242,7 @@ class TopbarComponent extends Component {
           </Button>
         </div>
         <div className={css.desktop}>
-          <TopbarDesktop 
+          <TopbarDesktop
             className={desktopClassName}
             currentUserHasListings={currentUserHasListings}
             currentUser={currentUser}

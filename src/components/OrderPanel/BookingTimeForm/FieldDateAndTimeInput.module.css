@@ -80,7 +80,7 @@
     position: absolute;
     bottom: 13px;
     left: 11px;
-    
+
     background-size: 12px 12px;
     width: 12px;
     height: 12px;
@@ -177,7 +177,6 @@ Remember to do required code changes also in FieldDateAndTimeInput.js!
 CSS for hiding the end date above
 **/
 
-
 .orderBreakdownTitle {
   color: var(--colorGrey700);
 }
@@ -186,7 +185,7 @@ CSS for hiding the end date above
   color: var(--colorGrey100);
 }
 
-.voucherTitleBox{
+.voucherTitleBox {
   font-size: 13px;
   font-weight: 600;
 }

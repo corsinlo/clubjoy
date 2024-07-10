@@ -3,7 +3,7 @@ import { injectIntl, intlShape } from '../../../util/reactIntl';
 import css from './SeatFilter.module.css';
 
 const SeatFilterComponent = ({ intl, clearTriggered, onClear }) => {
-console.log('SeatFilterComponent', clearTriggered, onClear);
+  console.log('SeatFilterComponent', clearTriggered, onClear);
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleSelection = value => {
@@ -18,7 +18,9 @@ console.log('SeatFilterComponent', clearTriggered, onClear);
 
   return (
     <>
-      <p className={css.title}>{intl.formatMessage({ id: 'SeatFilter.title', defaultMessage: 'Select Seat Preference' })}</p>
+      <p className={css.title}>
+        {intl.formatMessage({ id: 'SeatFilter.title', defaultMessage: 'Select Seat Preference' })}
+      </p>
       <div>
         <label className={css.label}>
           <input

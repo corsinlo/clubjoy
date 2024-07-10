@@ -75,16 +75,15 @@
   margin-bottom: 0;
 }
 
-
-.errorMessage{
+.errorMessage {
   justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: column;
-  color:red
+  color: red;
 }
 
-.successMessage{
+.successMessage {
   justify-content: center;
   align-items: center;
   display: flex;

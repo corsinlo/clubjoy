@@ -1,6 +1,7 @@
 @import '../../../styles/customMediaQueries.css';
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -162,8 +163,8 @@ html, body {
 
 .socialTitle {
   text-align: center;
-  margin: 20px 0; 
-  color: #012FA7;
+  margin: 20px 0;
+  color: #012fa7;
   font-size: large;
 }
 
@@ -312,7 +313,7 @@ html, body {
   margin-top: 40px;
 }
 
-@media (max-width: 767px) { 
+@media (max-width: 767px) {
   .landingCoverMobil {
     width: 70%;
     height: 70%;

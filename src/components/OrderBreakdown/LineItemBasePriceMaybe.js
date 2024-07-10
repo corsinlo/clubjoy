@@ -22,21 +22,25 @@ const LineItemBasePriceMaybe = props => {
   const unitPurchase = lineItems.find(item => item.code === code && !item.reversal);
 
   const quantity = unitPurchase?.units
-  ? unitPurchase.units.toString()
-  : unitPurchase?.quantity
-  ? unitPurchase.quantity.toString()
-  : null;
+    ? unitPurchase.units.toString()
+    : unitPurchase?.quantity
+    ? unitPurchase.quantity.toString()
+    : null;
   const unitPrice = unitPurchase ? formatMoney(intl, unitPurchase.unitPrice) : null;
   const total = unitPurchase ? formatMoney(intl, unitPurchase.lineTotal) : null;
-  const message = unitPurchase?.seats > 1
-? (<FormattedMessage id={`${translationKey}Seats`} values={{ unitPrice, quantity, seats: unitPurchase.seats }} />)
-   : (<FormattedMessage id={translationKey} values={{ unitPrice, quantity }} />)
+  const message =
+    unitPurchase?.seats > 1 ? (
+      <FormattedMessage
+        id={`${translationKey}Seats`}
+        values={{ unitPrice, quantity, seats: unitPurchase.seats }}
+      />
+    ) : (
+      <FormattedMessage id={translationKey} values={{ unitPrice, quantity }} />
+    );
 
   return quantity && total ? (
     <div className={css.lineItem}>
-      <span className={css.itemLabel}>
-      {message}
-      </span>
+      <span className={css.itemLabel}>{message}</span>
       <span className={css.itemValue}>{total}</span>
     </div>
   ) : null;
