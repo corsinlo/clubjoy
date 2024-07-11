@@ -4,7 +4,11 @@ import classNames from 'classnames';
 import { FormattedMessage } from '../../../util/reactIntl';
 import { getStartOf } from '../../../util/dates';
 import { checkCoupon } from '../../../util/api';
-import { SecondaryButton } from '../..';
+import { Field } from 'react-final-form';
+import {
+  FieldTextInput,
+  SecondaryButton,
+} from '../..';
 import css from './FieldDateAndTimeInput.module.css';
 
 class VoucherForm extends Component {
@@ -44,7 +48,15 @@ class VoucherForm extends Component {
   };
 
   render() {
-    const { rootClassName, className, intl } = this.props;
+    const {
+      rootClassName,
+      className,
+      formId,
+      form,
+      values,
+      intl,
+      voucher,
+    } = this.props;
 
     const voucherInsertion = (
       <div className={css.fieldDateInput}>
@@ -60,9 +72,7 @@ class VoucherForm extends Component {
         <SecondaryButton type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
           {intl.formatMessage({ id: 'BookingTimeForm.coupon.button' })}
         </SecondaryButton>
-        {this.state.errorMessage && (
-          <div className={css.errorMessage}>{this.state.errorMessage}</div>
-        )}
+  
       </div>
     );
 

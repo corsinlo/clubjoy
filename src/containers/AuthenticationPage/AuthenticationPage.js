@@ -55,6 +55,7 @@ import { TOS_ASSET_NAME, PRIVACY_POLICY_ASSET_NAME } from './AuthenticationPage.
 import { createClient } from '@supabase/supabase-js';
 import css from './AuthenticationPage.module.css';
 import { FacebookLogo, GoogleLogo } from './socialLoginLogos';
+import { newsletter } from '../../util/api';
 
 const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
 const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correctly set in your .env file
@@ -190,7 +191,7 @@ export const AuthenticationForms = props => {
     const role = tab === 'bsignup' ? 'provider' : 'customer';
     const { fname: firstName, lname: lastName, iNL: isNewsletter, ...rest } = values;
     const params = { firstName, lastName, ...rest, role };
-    console.log(values);
+
     try {
       const contactData = {
         email: values.email,
@@ -214,22 +215,13 @@ export const AuthenticationForms = props => {
         }
       }
 
-      const response = await fetch('/api/add-contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(contactData),
-      });
-
-      if (!response.ok) {
-        const errorInfo = await response.json();
-        if (errorInfo.message !== 'Contact already exists') {
-          console.error('Error adding email to Brevo:', errorInfo.message);
-          alert('Email already present on Clubjoy');
-          allowSignup = false;
-        }
-      }
+      newsletter(contactData)
+        .then(response => {
+          //TODO
+        })
+        .catch(error => {
+          console.error('Error adding email to newsletter:', error);
+        });
 
       try {
         const emailResponse = await fetch('/api/send-email', {
