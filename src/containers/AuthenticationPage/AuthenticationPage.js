@@ -191,7 +191,7 @@ export const AuthenticationForms = props => {
     const role = tab === 'bsignup' ? 'provider' : 'customer';
     const { fname: firstName, lname: lastName, iNL: isNewsletter, ...rest } = values;
     const params = { firstName, lastName, ...rest, role };
-    console.log(values);
+
     try {
       const contactData = {
         email: values.email,
@@ -217,7 +217,7 @@ export const AuthenticationForms = props => {
 
       newsletter(contactData)
         .then(response => {
-          console.log('Email added to newsletter:', response);
+          //TODO
         })
         .catch(error => {
           console.error('Error adding email to newsletter:', error);
