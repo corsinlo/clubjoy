@@ -282,10 +282,10 @@ class TopbarComponent extends Component {
               alt="Mobile Landing Cover"
               className={css.landingCoverMobil}
             />
-            <LandingSearchBarForm
+            {/*<LandingSearchBarForm
               onSearchSubmit={this.handleSubmit}
               isTeamBuilding={isTeamBuildingOnTop}
-            />
+            />*/}
 
             <div className={css.socialContainer}>
               <div className={css.socialTitle}>

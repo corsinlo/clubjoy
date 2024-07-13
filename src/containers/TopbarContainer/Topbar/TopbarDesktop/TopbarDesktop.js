@@ -229,7 +229,7 @@ const TopbarDesktop = props => {
               layout="desktop"
               alt={intl.formatMessage({ id: 'TopbarDesktop.logo' }, { marketplaceName })}
             />
-            {search}
+            {/*search*/}
           </div>
           <div className={css.rightContent}>
             <NamedLink name="TeambuildingPage" className={css.loginLink}>
