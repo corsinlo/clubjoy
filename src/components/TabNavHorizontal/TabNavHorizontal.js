@@ -69,7 +69,7 @@ Tab.propTypes = {
 };
 
 const TabNavHorizontal = props => {
-  const { className, rootClassName, tabRootClassName, tabs, skin  } = props;
+  const { className, rootClassName, tabRootClassName, tabs, skin } = props;
 
   const isDark = skin === DARK_SKIN;
   const classes = classNames(rootClassName || css.root, { [css.darkSkin]: isDark }, className);

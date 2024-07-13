@@ -48,7 +48,9 @@ export const TimeRangeComponent = props => {
   } else if (isSingleDay && dateType === DATE_TYPE_TIME) {
     return (
       <div className={classes}>
-        <span className={css.dateSection}>{`${start.time} - ${end.time}`} - {seats}</span>
+        <span className={css.dateSection}>
+          {`${start.time} - ${end.time}`} - {seats}
+        </span>
       </div>
     );
   } else if (dateType === DATE_TYPE_TIME) {
@@ -74,14 +76,18 @@ export const TimeRangeComponent = props => {
   } else if (isSingleDay && dateType === DATE_TYPE_DATETIME) {
     return (
       <div className={classes}>
-        <span className={css.dateSection}>{`${start.date}, ${start.time} - ${end.time}`} ({seats})</span>
+        <span className={css.dateSection}>
+          {`${start.date}, ${start.time} - ${end.time}`} ({seats})
+        </span>
       </div>
     );
   } else {
     return (
       <div className={classes}>
         <span className={css.dateSection}>{`${start.dateAndTime} - `}</span>
-        <span className={css.dateSection}>{`${end.dateAndTime}`} ({seats})</span>
+        <span className={css.dateSection}>
+          {`${end.dateAndTime}`} ({seats})
+        </span>
       </div>
     );
   }

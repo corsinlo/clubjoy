@@ -3,23 +3,16 @@ const filterListings = (listings, px) => {
 
   if (px !== null) {
     if (px === 'true') {
-      filteredListings = listings.filter(
-        l => parseInt(l.attributes.publicData?.min, 10) > 8
-      );
+      filteredListings = listings.filter(l => parseInt(l.attributes.publicData?.min, 10) > 8);
     } else if (px === 'false') {
-      filteredListings = listings.filter(
-        l => parseInt(l.attributes.publicData?.min, 10) < 8
-      );
+      filteredListings = listings.filter(l => parseInt(l.attributes.publicData?.min, 10) < 8);
     }
   }
 
   return filteredListings;
-}
+};
 
 export default filterListings;
-
-
-
 
 /*
 const filterListings = (listings, pubJoy, px) => {

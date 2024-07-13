@@ -21,17 +21,17 @@ const EventForm = () => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-  
+
     const contactData = {
       email: email,
       name: name,
       company: company,
       privateEvent: privateEvent,
     };
-  
+
     try {
       const response = await inquiryEvent(contactData);
-  
+
       setEmail('');
       setName('');
       setCompany('');
@@ -40,57 +40,57 @@ const EventForm = () => {
       console.error('Error creating event:', error.message);
     }
   };
-  
+
   return (
     <div className={css.formContainer}>
-    <form onSubmit={handleSubmit} className={css.form}>
-      <p style={{ color: 'white', textAlign: 'center' }}>
-        {intl.formatMessage({ id: 'EventForm.header' })}
-      </p>
-      <div className={css.nameRow}>
+      <form onSubmit={handleSubmit} className={css.form}>
+        <p style={{ color: 'white', textAlign: 'center' }}>
+          {intl.formatMessage({ id: 'EventForm.header' })}
+        </p>
+        <div className={css.nameRow}>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            required
+            className={css.nameInput}
+            placeholder={'Nome'}
+          />
+          <input
+            id="company"
+            type="text"
+            value={company}
+            onChange={e => setCompany(e.target.value)}
+            required
+            className={css.nameInput}
+            placeholder={'Azienda'}
+          />
+        </div>
         <input
-          id="name"
-          type="text"
-          value={name}
-          onChange={e => setName(e.target.value)}
+          id="email"
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
           required
-          className={css.nameInput}
-          placeholder={'Nome'}
+          className={css.inputField}
+          placeholder={'Email'}
         />
         <input
-          id="company"
-          type="text"
-          value={company}
-          onChange={e => setCompany(e.target.value)}
+          id="event"
+          type="event"
+          value={privateEvent}
+          onChange={e => setPrivateEvent(e.target.value)}
           required
-          className={css.nameInput}
-          placeholder={'Azienda'}
+          className={css.inputField}
+          placeholder={'Descrizione Evento che Vorresti :)'}
         />
-      </div>
-      <input
-        id="email"
-        type="email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        required
-        className={css.inputField}
-        placeholder={'Email'}
-      />
-       <input
-        id="event"
-        type="event"
-        value={privateEvent}
-        onChange={e => setPrivateEvent(e.target.value)}
-        required
-        className={css.inputField}
-        placeholder={'Descrizione Evento che Vorresti :)'}
-      />
-      <PrimaryButton type="submit" className={css.button}>
-        {intl.formatMessage({ id: 'Newsletter.button' })}
-      </PrimaryButton>
-    </form>
-  </div>
-  )
-}
+        <PrimaryButton type="submit" className={css.button}>
+          {intl.formatMessage({ id: 'Newsletter.button' })}
+        </PrimaryButton>
+      </form>
+    </div>
+  );
+};
 
 export default EventForm;

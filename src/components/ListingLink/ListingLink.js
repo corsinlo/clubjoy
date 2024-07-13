@@ -46,7 +46,7 @@ const ListingLink = props => {
     : isDraft
     ? LISTING_PAGE_DRAFT_VARIANT
     : null;
-  const linkProps = !!variant
+  const linkProps = variant
     ? {
         name: 'ListingPageVariant',
         params: {

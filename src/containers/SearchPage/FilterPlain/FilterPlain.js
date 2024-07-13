@@ -6,22 +6,30 @@ import { FormattedMessage, injectIntl, intlShape } from '../../../util/reactIntl
 
 import IconPlus from '../IconPlus/IconPlus';
 import FilterForm from '../FilterForm/FilterForm';
+import SeatFilter from '../SearchResultsPanel/SeatFilter';
 
 import css from './FilterPlain.module.css';
 
 class FilterPlainComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: true };
+    this.state = {
+      isOpen: true,
+      px:
+        props.initialValues && props.initialValues.px !== undefined ? props.initialValues.px : null,
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClear = this.handleClear.bind(this);
     this.toggleIsOpen = this.toggleIsOpen.bind(this);
+    this.handlePxChange = this.handlePxChange.bind(this);
   }
 
   handleChange(values) {
     const { onSubmit } = this.props;
-    onSubmit(values);
+    const { px } = this.state;
+    const updatedValues = { ...values, px };
+    onSubmit(updatedValues);
   }
 
   handleClear() {
@@ -31,11 +39,31 @@ class FilterPlainComponent extends Component {
       onClear();
     }
 
+    console.log('Form cleared');
+    this.setState({ px: null });
+    this.updateURLParams(null);
     onSubmit(null);
   }
 
   toggleIsOpen() {
     this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+  }
+
+  handlePxChange(newPx) {
+    this.setState({ px: newPx }, () => {
+      this.updateURLParams(this.state.px);
+      this.handleChange(this.props.initialValues);
+    });
+  }
+
+  updateURLParams(px) {
+    const url = new URL(window.location);
+    if (px === null) {
+      url.searchParams.delete('px');
+    } else {
+      url.searchParams.set('px', px);
+    }
+    window.history.replaceState({}, '', url);
   }
 
   render() {
@@ -54,7 +82,7 @@ class FilterPlainComponent extends Component {
       contentPlacementOffset,
     } = this.props;
     const classes = classNames(rootClassName || css.root, className);
-
+    const currentPath = window.location.pathname === '/ts';
     return (
       <div className={classes}>
         <div className={css.filterHeader}>
@@ -87,10 +115,18 @@ class FilterPlainComponent extends Component {
             liveEdit
             contentPlacementOffset={contentPlacementOffset}
             onChange={this.handleChange}
-            initialValues={initialValues}
+            initialValues={{ ...initialValues, px: this.state.px }}
             keepDirtyOnReinitialize={keepDirtyOnReinitialize}
           >
             {children}
+
+            {currentPath && (
+              <SeatFilter
+                px={this.state.px}
+                onPxChange={this.handlePxChange}
+                intl={this.props.intl}
+              />
+            )}
           </FilterForm>
           <button className={css.clearButton} onClick={this.handleClear}>
             <FormattedMessage id={'FilterPlain.clear'} />

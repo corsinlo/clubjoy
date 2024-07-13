@@ -18,7 +18,7 @@ const PriceFilterWrapper = withRouter(props => {
 
   const params = parse(location.search);
   const price = params[URL_PARAM];
-  const initialValues = { [URL_PARAM]: !!price ? price : null };
+  const initialValues = { [URL_PARAM]: price ? price : null };
 
   return (
     <PriceFilter

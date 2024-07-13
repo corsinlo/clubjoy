@@ -137,8 +137,13 @@ export class SearchPageComponent extends Component {
             defaultFiltersConfig,
             sortConfig
           );
-          isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
-          : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+          isTeamBuildingOnTop
+            ? history.push(
+                createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search)
+              )
+            : history.push(
+                createResourceLocatorString('SearchPage', routeConfiguration, {}, search)
+              );
         }
       };
 
@@ -397,7 +402,7 @@ export class SearchPageComponent extends Component {
                   isMapVariant={false}
                   isTeamBuilding={isTeamBuildingOnTop}
                 />
-                 {isTeamBuildingOnTop? <EventForm/>:null}
+                {isTeamBuildingOnTop ? <EventForm /> : null}
               </div>
             </div>
           </div>

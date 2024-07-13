@@ -26,13 +26,9 @@ const MainPanelHeader = props => {
       <div className={css.searchOptions}>
         <div className={css.searchResultSummary}>
           <span className={css.resultsFound}>
-            {searchInProgress ? (
-              <FormattedMessage id="MainPanelHeader.loadingResults" />
-            ) : (
-          null
-            )}
+            {searchInProgress ? <FormattedMessage id="MainPanelHeader.loadingResults" /> : null}
           </span>
-               {/*<FormattedMessage
+          {/*<FormattedMessage
                 id="MainPanelHeader.foundResults"
                 values={{ count: resultsCount }}
               />*/}

@@ -77,8 +77,12 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
   const guestsNameMaybe = seatNames ? { seatNames } : {};
   const { listingType, unitType } = pageData?.listing?.attributes?.publicData || {};
   const voucherFee = pageData.orderData?.voucherFee || 0;
-  const languageMaybe = pageData.orderData.Language ? { Language: pageData.orderData.Language } : {};
-  const locationMaybe = pageData.orderData.Location ? { Location: pageData.orderData.Location } : {};
+  const languageMaybe = pageData.orderData.Language
+    ? { Language: pageData.orderData.Language }
+    : {};
+  const locationMaybe = pageData.orderData.Location
+    ? { Location: pageData.orderData.Location }
+    : {};
 
   const protectedDataMaybe = {
     protectedData: {
@@ -344,7 +348,7 @@ export const CheckoutPageWithPayment = props => {
     isTransactionInitiateListingNotFoundError(speculateTransactionError) ||
     isTransactionInitiateListingNotFoundError(initiateOrderError);
   const isTeamBuilding = pageData?.listing?.attributes?.publicData?.listingType === 'teambuilding';
-  const popUpShop = pageData?.listing?.attributes?.publicData?.listingType
+  const popUpShop = pageData?.listing?.attributes?.publicData?.listingType;
   const { listing, transaction, orderData } = pageData;
   const existingTransaction = ensureTransaction(transaction);
   const speculatedTransaction = ensureTransaction(speculatedTransactionMaybe, {}, null);

@@ -1,52 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { injectIntl, intlShape } from '../../../util/reactIntl';
+import React from 'react';
+import { bool, func } from 'prop-types';
 import css from './SeatFilter.module.css';
 
-const SeatFilterComponent = ({ intl, clearTriggered, onClear }) => {
-console.log('SeatFilterComponent', clearTriggered, onClear);
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const handleSelection = value => {
-    setSelectedOption(prev => (prev === value ? null : value));
-  };
-
-  useEffect(() => {
-    if (clearTriggered) {
-      setSelectedOption(null);
-    }
-  }, [clearTriggered]);
-
-  return (
-    <>
-      <p className={css.title}>{intl.formatMessage({ id: 'SeatFilter.title', defaultMessage: 'Select Seat Preference' })}</p>
-      <div>
-        <label className={css.label}>
+const SeatFilter = ({ px, onPxChange, intl }) => (
+  <div className={css.fieldGroupPlain}>
+    <p className={css.title}>
+      {intl.formatMessage({ id: 'SeatFilter.title', defaultMessage: 'Select Seat Preference' })}
+    </p>
+    <ul className={css.list}>
+      <li className={css.item}>
+        <span className={css.checkboxWrapper}>
           <input
             type="checkbox"
+            id="more-than-8"
             className={css.checkbox}
-            checked={selectedOption === false}
-            onChange={() => handleSelection(false)}
+            checked={px === true}
+            onChange={() => onPxChange(true)}
           />
-          {intl.formatMessage({ id: 'SeatFilter.lessThanEight', defaultMessage: 'Less than 8' })}
-        </label>
-        <label className={css.label}>
+          More than 8
+        </span>
+      </li>
+      <li className={css.item}>
+        <span className={css.checkboxWrapper}>
           <input
             type="checkbox"
+            id="less-than-8"
             className={css.checkbox}
-            checked={selectedOption === true}
-            onChange={() => handleSelection(true)}
+            checked={px === false}
+            onChange={() => onPxChange(false)}
           />
-          {intl.formatMessage({ id: 'SeatFilter.moreThanEight', defaultMessage: 'More than 8' })}
-        </label>
-      </div>
-    </>
-  );
-};
+          Less than 8
+        </span>
+      </li>
+    </ul>
+  </div>
+);
 
-SeatFilterComponent.propTypes = {
-  intl: intlShape.isRequired,
+SeatFilter.propTypes = {
+  px: bool,
+  onPxChange: func.isRequired,
+  intl: func.isRequired,
 };
-
-const SeatFilter = injectIntl(SeatFilterComponent);
 
 export default SeatFilter;

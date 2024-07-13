@@ -51,7 +51,7 @@ const AmenitiesFilterPopup = withRouter(props => {
 
   const params = parse(location.search);
   const amenities = params[URL_PARAM];
-  const initialValues = { [URL_PARAM]: !!amenities ? amenities : null };
+  const initialValues = { [URL_PARAM]: amenities ? amenities : null };
 
   return (
     <SelectMultipleFilter
@@ -81,7 +81,7 @@ const AmenitiesFilterPlain = withRouter(props => {
 
   const params = parse(location.search);
   const amenities = params[URL_PARAM];
-  const initialValues = { [URL_PARAM]: !!amenities ? amenities : null };
+  const initialValues = { [URL_PARAM]: amenities ? amenities : null };
 
   return (
     <SelectMultipleFilter

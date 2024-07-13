@@ -53,6 +53,7 @@
   "BookingTimeForm.bookingEndTitle": "End date",
   "BookingTimeForm.bookingStartTitle": "Pick a date",
   "BookingTimeForm.coupon.title": "Do you have a coupon code?",
+  "BookingTimeForm.coupon.notValid": "Coupon code is not valid :( ",
   "BookingTimeForm.coupon.placeholder": "Insert your coupon code here",
   "BookingTimeForm.coupon.button": "Apply coupon",
   "BookingTimeForm.fetchLineItemsError": "Oops, something went wrong. Please refresh the page and try again.",

@@ -16,14 +16,14 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
   const [receiver, setReceiver] = useState('');
   const [fiscalCode, setFiscalCode] = useState('');
 
-  const handleOptionChange = (event) => {
+  const handleOptionChange = event => {
     const selectedOption = event.target.value;
     const selectedOptionText = event.target.options[event.target.selectedIndex].text;
     setSelectedOption(selectedOption);
     setSelectedOptionText(selectedOptionText);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     setConfirmed(true);
     const flow = showForm ? 1 : 2;
@@ -55,7 +55,7 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                     <input
                       type="text"
                       value={receiver}
-                      onChange={(e) => setReceiver(e.target.value)}
+                      onChange={e => setReceiver(e.target.value)}
                       required
                     />
                   </label>
@@ -66,7 +66,7 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                     <input
                       type="text"
                       value={address}
-                      onChange={(e) => setAddress(e.target.value)}
+                      onChange={e => setAddress(e.target.value)}
                       required
                     />
                   </label>
@@ -77,7 +77,7 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                     <input
                       type="text"
                       value={fiscalCode}
-                      onChange={(e) => setFiscalCode(e.target.value)}
+                      onChange={e => setFiscalCode(e.target.value)}
                       required
                     />
                   </label>
@@ -88,7 +88,7 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                     <input
                       type="text"
                       value={vat}
-                      onChange={(e) => setVat(e.target.value)}
+                      onChange={e => setVat(e.target.value)}
                       required
                     />
                   </label>
@@ -96,21 +96,13 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                 <div>
                   <label>
                     {intl.formatMessage({ id: 'Event.PopUp.form.code' })}
-                    <input
-                      type="text"
-                      value={code}
-                      onChange={(e) => setCode(e.target.value)}
-                    />
+                    <input type="text" value={code} onChange={e => setCode(e.target.value)} />
                   </label>
                 </div>
                 <div>
                   <label>
                     {intl.formatMessage({ id: 'Event.PopUp.form.email' })}
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
+                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
                   </label>
                 </div>
               </>
@@ -122,11 +114,21 @@ const PopUp = ({ message, onConfirm, onCancel, showForm }) => {
                     <option value="" disabled>
                       {intl.formatMessage({ id: 'Event.PopUp.selectPlaceholder' })}
                     </option>
-                    <option value="option1">{intl.formatMessage({ id: 'Event.PopUp.option1' })}</option>
-                    <option value="option2">{intl.formatMessage({ id: 'Event.PopUp.option2' })}</option>
-                    <option value="option3">{intl.formatMessage({ id: 'Event.PopUp.option3' })}</option>
-                    <option value="option4">{intl.formatMessage({ id: 'Event.PopUp.option4' })}</option>
-                    <option value="option5">{intl.formatMessage({ id: 'Event.PopUp.option5' })}</option>
+                    <option value="option1">
+                      {intl.formatMessage({ id: 'Event.PopUp.option1' })}
+                    </option>
+                    <option value="option2">
+                      {intl.formatMessage({ id: 'Event.PopUp.option2' })}
+                    </option>
+                    <option value="option3">
+                      {intl.formatMessage({ id: 'Event.PopUp.option3' })}
+                    </option>
+                    <option value="option4">
+                      {intl.formatMessage({ id: 'Event.PopUp.option4' })}
+                    </option>
+                    <option value="option5">
+                      {intl.formatMessage({ id: 'Event.PopUp.option5' })}
+                    </option>
                   </select>
                 </label>
               </div>

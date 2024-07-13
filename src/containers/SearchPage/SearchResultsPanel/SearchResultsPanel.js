@@ -19,8 +19,6 @@ const SearchResultsPanel = props => {
     isMapVariant,
   } = props;
 
-
-
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const pubJoy = queryParams.get('pub_joy');
@@ -51,7 +49,7 @@ const SearchResultsPanel = props => {
       ].join(', ');
     }
   };
- 
+
   const filteredListings = filterListings(listings, px);
   return (
     <div className={classes}>

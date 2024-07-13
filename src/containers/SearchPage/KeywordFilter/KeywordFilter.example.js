@@ -18,7 +18,7 @@ const KeywordFilterPopup = withRouter(props => {
 
   const params = parse(location.search);
   const keyword = params[URL_PARAM];
-  const initialValues = !!keyword ? { [URL_PARAM]: keyword } : { [URL_PARAM]: null };
+  const initialValues = keyword ? { [URL_PARAM]: keyword } : { [URL_PARAM]: null };
 
   return (
     <KeywordFilter
@@ -46,7 +46,7 @@ const KeywordFilterPlain = withRouter(props => {
 
   const params = parse(location.search);
   const keyword = params[URL_PARAM];
-  const initialValues = !!keyword ? { [URL_PARAM]: keyword } : { [URL_PARAM]: null };
+  const initialValues = keyword ? { [URL_PARAM]: keyword } : { [URL_PARAM]: null };
 
   return (
     <KeywordFilter

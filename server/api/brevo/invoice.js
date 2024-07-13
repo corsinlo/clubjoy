@@ -5,7 +5,7 @@ const supabaseUrl = 'https://tivsrbykzsmbrkmqqwwd.supabase.co';
 const supabaseKey = process.env.REACT_APP_SUPABASE_KEY; // Ensure this is correctly set in your .env file
 const supabase = createClient(supabaseUrl, supabaseKey);
 const SibApiV3Sdk = require('@getbrevo/brevo');
-const sdkUtils = require('../../api-util/sdk')
+const sdkUtils = require('../../api-util/sdk');
 const SibApiV3 = require('sib-api-v3-sdk');
 
 const brevoClient = new SibApiV3.TransactionalEmailsApi();
@@ -28,17 +28,22 @@ module.exports = async (req, res) => {
       console.error('Error fetching booking:', error);
       return res.status(500).json({ error: 'Error fetching booking' });
     }
- 
+
     if (data.length === 0) {
       return res.status(404).json({ error: 'Booking not found' });
     }
 
     const bookingRecord = data[0];
     console.log('Booking record:', bookingRecord);
-    const formattedDate = (dateString => new Date(dateString).toLocaleDateString('it-IT', { timeZone: 'UTC' }).replace(/\//g, '-'))(bookingRecord.startdate);  
+    const formattedDate = (dateString =>
+      new Date(dateString).toLocaleDateString('it-IT', { timeZone: 'UTC' }).replace(/\//g, '-'))(
+      bookingRecord.startdate
+    );
     if (bookingRecord) {
       sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
-      sendSmtpEmail.to = [{ email: `${bookingRecord.providerEmail}`,  name: `${bookingRecord.providername}` }]; 
+      sendSmtpEmail.to = [
+        { email: `${bookingRecord.providerEmail}`, name: `${bookingRecord.providername}` },
+      ];
       sendSmtpEmail.templateId = 28;
       sendSmtpEmail.params = {
         providername: bookingRecord.providername,
@@ -50,7 +55,7 @@ module.exports = async (req, res) => {
         const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
         try {
           sendSmtpEmail.sender = { name: 'Club Joy Team', email: 'hello@clubjoy.it' };
-          sendSmtpEmail.to = [{ email: `${bookingRecord.email}`,  name: `${bookingRecord.name}` }]; 
+          sendSmtpEmail.to = [{ email: `${bookingRecord.email}`, name: `${bookingRecord.name}` }];
           sendSmtpEmail.templateId = 29;
           sendSmtpEmail.params = {
             providerName: bookingRecord.providername,
@@ -66,13 +71,12 @@ module.exports = async (req, res) => {
         console.error('Error sending email:', emailError);
         res.status(500).json({ error: 'Failed to send provider email', emailError });
       }
-    } 
+    }
   } catch (err) {
     console.error('Error:', err);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
 
 /*
 let defaultClient = SibApiV3.ApiClient.instance;

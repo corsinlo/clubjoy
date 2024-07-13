@@ -238,7 +238,7 @@ describe('transaction utils for ConditionalResolver', () => {
     expect(resolvedOutputData).toEqual({ showInfoX: true, isSomethingOn: true });
   });
 
-  it('exact parameter match succeeds when cond order is changed ', () => {
+  it('exact parameter match succeeds when cond order is changed', () => {
     const inputData = ['inquiry', 'customer'];
     const resolvedOutputData = new ConditionalResolver(inputData)
       .cond(['purchase', _], () => ({ showInfoX: false, isSomethingOn: true }))
