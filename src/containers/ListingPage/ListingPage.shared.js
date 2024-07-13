@@ -175,7 +175,7 @@ export const handleSubmit = parameters => values => {
   const quantity = Number.parseInt(quantityRaw, 10);
   const quantityMaybe = Number.isInteger(quantity) ? { quantity } : {};
   const seats = Number.parseInt(seatsRaw, 10);
- const seatsMaybe = Number.isInteger(seats) ? { seats } : {};
+  const seatsMaybe = Number.isInteger(seats) ? { seats } : {};
   const deliveryMethodMaybe = deliveryMethod ? { deliveryMethod } : {};
 
   const initialValues = {

@@ -22,7 +22,7 @@ const getPriceQueryParamName = queryParamNames => {
 
 // Parse value, which should look like "0,1000"
 const parse = priceRange => {
-  const [minPrice, maxPrice] = !!priceRange
+  const [minPrice, maxPrice] = priceRange
     ? priceRange.split(',').map(v => Number.parseInt(v, RADIX))
     : [];
   // Note: we compare to null, because 0 as minPrice is falsy in comparisons.

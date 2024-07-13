@@ -12,13 +12,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 const ProviderButtonsMaybe = props => {
   const intl = useIntl();
-  const {
-    className,
-    rootClassName,
-    customerObj,
-    transactionId,
-    start,
-  } = props;
+  const { className, rootClassName, customerObj, transactionId, start } = props;
 
   const [showPopUp, setShowPopUp] = useState(false);
   const [file, setFile] = useState(null);
@@ -46,7 +40,7 @@ const ProviderButtonsMaybe = props => {
     notifyInvoice({ customerObj });
   };
 
-  const handleFileChange = async (event) => {
+  const handleFileChange = async event => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
 
@@ -54,29 +48,27 @@ const ProviderButtonsMaybe = props => {
       setLoading(true);
       const newFileName = `${props.customerObj.bookingid}`;
 
-      const { error: deleteError } = await supabase
-        .storage
+      const { error: deleteError } = await supabase.storage
         .from('invoices')
         .remove([`public/${newFileName}`]);
 
       if (deleteError && deleteError.statusCode !== '404') {
-        
         setErrorMessage('Error deleting existing file.');
         setSuccessMessage('');
         setLoading(false);
         return;
       }
 
-      const { data, error } = await supabase.storage.from('invoices').upload(`public/${newFileName}`, selectedFile, {
-        upsert: true
-      });
+      const { data, error } = await supabase.storage
+        .from('invoices')
+        .upload(`public/${newFileName}`, selectedFile, {
+          upsert: true,
+        });
 
       if (error) {
-       
         setErrorMessage('Error uploading file.');
         setSuccessMessage('');
       } else {
-        
         setSuccessMessage(''); //File uploaded successfully
         setErrorMessage('');
         setShowPopUp(true);
@@ -92,7 +84,7 @@ const ProviderButtonsMaybe = props => {
     setShowPopUp(true);
   };
 
-  const handleConfirmRefund = (selectedOption) => {
+  const handleConfirmRefund = selectedOption => {
     createRefund({ customerObj, transactionId, selectedOption });
   };
 
@@ -115,21 +107,15 @@ const ProviderButtonsMaybe = props => {
           )}
         </PrimaryButton>
 
-        {successMessage && (
-        <div className={css.successMessage}>
-          {successMessage}
-        </div>
-         )}
+        {successMessage && <div className={css.successMessage}>{successMessage}</div>}
 
-       {errorMessage && (
-        <div className={css.errorMessage}>
-          {errorMessage}
-        </div>
-       )}
-
+        {errorMessage && <div className={css.errorMessage}>{errorMessage}</div>}
       </div>
       {showPopUp && (
-        <PopUpMessage message={intl.formatMessage({ id: 'ProviderButtons.button.upload.success' })} onCancel={handleClosePopUp} />
+        <PopUpMessage
+          message={intl.formatMessage({ id: 'ProviderButtons.button.upload.success' })}
+          onCancel={handleClosePopUp}
+        />
       )}
     </div>
   );

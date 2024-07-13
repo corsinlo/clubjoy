@@ -82,7 +82,7 @@ const DetailsSideCard = props => {
         {speculateTransactionErrorMessage}
       </div>
 
-      {!!breakdown ? (
+      {breakdown ? (
         <div className={css.orderBreakdownHeader}>
           <H6 as="h3" className={css.orderBreakdownTitle}>
             <FormattedMessage id={`CheckoutPage.${processName}.orderBreakdown`} />

@@ -167,3 +167,7 @@ export const notifyInvoice = body => {
 export const inquiryEvent = body => {
   return post('/api/brevo/event', body);
 };
+
+export const newsletter = body => {
+  return post('/api/brevo/newsletter', body);
+};

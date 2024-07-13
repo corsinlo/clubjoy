@@ -4,7 +4,11 @@ import classNames from 'classnames';
 import { FormattedMessage } from '../../../util/reactIntl';
 import { getStartOf } from '../../../util/dates';
 import { checkCoupon } from '../../../util/api';
-import { SecondaryButton } from '../..';
+import { Field } from 'react-final-form';
+import {
+  FieldTextInput,
+  SecondaryButton,
+} from '../..';
 import css from './FieldDateAndTimeInput.module.css';
 
 class VoucherForm extends Component {
@@ -35,8 +39,10 @@ class VoucherForm extends Component {
       .catch(error => {
         console.error('Error checking voucher:', error);
         if (error) {
-          this.setState({ errorMessage: this.props.intl.formatMessage({ id: 'BookingTimeForm.coupon.notValid' }) });
-        } 
+          this.setState({
+            errorMessage: this.props.intl.formatMessage({ id: 'BookingTimeForm.coupon.notValid' }),
+          });
+        }
         this.setState({ voucherCode: '' });
       });
   };
@@ -45,12 +51,18 @@ class VoucherForm extends Component {
     const {
       rootClassName,
       className,
+      formId,
+      form,
+      values,
       intl,
+      voucher,
     } = this.props;
 
     const voucherInsertion = (
       <div className={css.fieldDateInput}>
-        <p className={css.voucherTitleBox}>{intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}</p>
+        <p className={css.voucherTitleBox}>
+          {intl.formatMessage({ id: 'BookingTimeForm.coupon.title' })}
+        </p>
         <input
           type="text"
           placeholder={intl.formatMessage({ id: 'BookingTimeForm.coupon.placeholder' })}
@@ -60,16 +72,12 @@ class VoucherForm extends Component {
         <SecondaryButton type="button" onClick={this.handleVoucherSubmit} style={{ width: '100%' }}>
           {intl.formatMessage({ id: 'BookingTimeForm.coupon.button' })}
         </SecondaryButton>
-        {this.state.errorMessage && (
-          <div className={css.errorMessage}>{this.state.errorMessage}</div>
-        )}
+  
       </div>
     );
 
     return (
-      <div className={classNames(rootClassName || css.root, className)}>
-        {voucherInsertion}
-      </div>
+      <div className={classNames(rootClassName || css.root, className)}>{voucherInsertion}</div>
     );
   }
 }
@@ -91,4 +99,3 @@ VoucherForm.propTypes = {
 };
 
 export default VoucherForm;
-

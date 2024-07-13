@@ -79,7 +79,7 @@ export const ContactDetailsPageComponent = props => {
               desktopClassName={css.desktopTopbar}
               mobileClassName={css.mobileTopbar}
             />
-            <UserNav currentPage="ContactDetailsPage" userRole={userRole}/>
+            <UserNav currentPage="ContactDetailsPage" userRole={userRole} />
           </>
         }
         sideNav={null}

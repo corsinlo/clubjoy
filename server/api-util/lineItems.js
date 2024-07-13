@@ -258,9 +258,9 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
       percentageAdjusted = 10;
     } else if (percentageAdjusted < 0) {
       percentageAdjusted = 0;
-    } 
-    
-    if ( listingType === 'store'){
+    }
+
+    if (listingType === 'store') {
       percentageAdjusted = 50;
     }
     return -1 * percentageAdjusted;
@@ -281,7 +281,7 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
             providerCommission.percentage,
             voucherFeePrice?.amount,
             estimatedTotal,
-            listingType 
+            listingType
           ),
           includeFor: ['provider'],
         },
@@ -300,7 +300,7 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
           includeFor: ['customer'],
         },
       ]
-    : []; 
+    : [];
 
   // Let's keep the base price (order) as first line item and provider and customer commissions as last.
   // Note: the order matters only if OrderBreakdown component doesn't recognize line-item.

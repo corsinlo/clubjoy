@@ -47,7 +47,7 @@
   margin-bottom: 4px;
 }
 
-.priceContainer{
+.priceContainer {
   display: flex;
 }
 
@@ -134,6 +134,6 @@
   margin-top: -12px; /* Adjust the vertical alignment */
 }
 
-.da{
+.da {
   display: flex;
 }

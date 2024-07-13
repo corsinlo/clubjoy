@@ -39,5 +39,5 @@
 .finePrint {
   composes: marketplaceModalHelperLink from global;
   padding: 3px 0 5px 0;
-  text-align: left;;
+  text-align: left;
 }

@@ -117,7 +117,7 @@ const FieldSelectListingType = props => {
 // Add collect data for listing fields (both publicData and privateData) based on configuration
 const AddListingFields = props => {
   const { listingType, listingFieldsConfig, intl } = props;
-  
+
   let fields = listingFieldsConfig.reduce((pickedFields, fieldConfig) => {
     const { key, includeForListingTypes, schemaType, scope } = fieldConfig || {};
     const namespacedKey = scope === 'public' ? `pub_${key}` : `priv_${key}`;
@@ -127,24 +127,20 @@ const AddListingFields = props => {
       includeForListingTypes == null || includeForListingTypes.includes(listingType);
     const isProviderScope = ['public', 'private'].includes(scope);
 
-    const fieldComponent = isKnownSchemaType && isTargetListingType && isProviderScope
-      ? (
-          <CustomExtendedDataField
-            key={namespacedKey}
-            name={namespacedKey}
-            fieldConfig={fieldConfig}
-            defaultRequiredMessage={intl.formatMessage({
-              id: 'EditListingDetailsForm.defaultRequiredMessage',
-            })}
-          />
-        )
-      : null;
+    const fieldComponent =
+      isKnownSchemaType && isTargetListingType && isProviderScope ? (
+        <CustomExtendedDataField
+          key={namespacedKey}
+          name={namespacedKey}
+          fieldConfig={fieldConfig}
+          defaultRequiredMessage={intl.formatMessage({
+            id: 'EditListingDetailsForm.defaultRequiredMessage',
+          })}
+        />
+      ) : null;
 
     if (listingType === 'teambuilding' && key === 'loc') {
-      return [
-        ...pickedFields,
-        fieldComponent,
-      ];
+      return [...pickedFields, fieldComponent];
     }
 
     return fieldComponent ? [...pickedFields, fieldComponent] : pickedFields;
@@ -152,7 +148,6 @@ const AddListingFields = props => {
 
   return <>{fields}</>;
 };
-
 
 // Form that asks title, description, transaction process and unit type for pricing
 // In addition, it asks about custom fields according to marketplace-custom-config.js
@@ -233,24 +228,23 @@ const EditListingDetailsFormComponent = props => (
           ) : null}
 
           {showDescription ? (
-              <>
-            <FieldTextInput
-              id={`${formId}description`}
-              name="description"
-              className={css.description}
-              type="textarea"
-              label={intl.formatMessage({ id: 'EditListingDetailsForm.description' })}
-              placeholder={intl.formatMessage({
-                id: 'EditListingDetailsForm.descriptionPlaceholder',
-              })}
-              validate={required(
-                intl.formatMessage({
-                  id: 'EditListingDetailsForm.descriptionRequired',
-                })
-              )}
-            />
-        
-          </>
+            <>
+              <FieldTextInput
+                id={`${formId}description`}
+                name="description"
+                className={css.description}
+                type="textarea"
+                label={intl.formatMessage({ id: 'EditListingDetailsForm.description' })}
+                placeholder={intl.formatMessage({
+                  id: 'EditListingDetailsForm.descriptionPlaceholder',
+                })}
+                validate={required(
+                  intl.formatMessage({
+                    id: 'EditListingDetailsForm.descriptionRequired',
+                  })
+                )}
+              />
+            </>
           ) : null}
 
           <AddListingFields

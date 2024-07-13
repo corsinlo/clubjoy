@@ -15,7 +15,8 @@ class FilterPlainComponent extends Component {
     super(props);
     this.state = {
       isOpen: true,
-      px: props.initialValues && props.initialValues.px !== undefined ? props.initialValues.px : null,
+      px:
+        props.initialValues && props.initialValues.px !== undefined ? props.initialValues.px : null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -81,7 +82,7 @@ class FilterPlainComponent extends Component {
       contentPlacementOffset,
     } = this.props;
     const classes = classNames(rootClassName || css.root, className);
-    const currentPath = window.location.pathname === '/ts'
+    const currentPath = window.location.pathname === '/ts';
     return (
       <div className={classes}>
         <div className={css.filterHeader}>
@@ -119,11 +120,13 @@ class FilterPlainComponent extends Component {
           >
             {children}
 
-           {currentPath &&( <SeatFilter
-              px={this.state.px}
-              onPxChange={this.handlePxChange}
-              intl={this.props.intl}
-            />)}
+            {currentPath && (
+              <SeatFilter
+                px={this.state.px}
+                onPxChange={this.handlePxChange}
+                intl={this.props.intl}
+              />
+            )}
           </FilterForm>
           <button className={css.clearButton} onClick={this.handleClear}>
             <FormattedMessage id={'FilterPlain.clear'} />
@@ -165,4 +168,3 @@ FilterPlainComponent.propTypes = {
 const FilterPlain = injectIntl(FilterPlainComponent);
 
 export default FilterPlain;
-

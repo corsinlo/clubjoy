@@ -14,14 +14,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const TeamButtonsMaybe = props => {
   const intl = useIntl();
   const [fileExists, setFileExists] = useState(false);
-  const {
-    className,
-    rootClassName,
-    customerObj,
-    transactionId,
-    start,
-    onSendMessage, 
-  } = props;
+  const { className, rootClassName, customerObj, transactionId, start, onSendMessage } = props;
 
   const [showPopUp, setShowPopUp] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -38,12 +31,9 @@ const TeamButtonsMaybe = props => {
 
   useEffect(() => {
     const checkFileExists = async () => {
-      const { data, error } = await supabase
-        .storage
-        .from('invoices')
-        .list('public', {
-          search: `${customerObj.bookingid}`
-        });
+      const { data, error } = await supabase.storage.from('invoices').list('public', {
+        search: `${customerObj.bookingid}`,
+      });
 
       if (error) {
         console.error('Error checking file:', error);
@@ -58,11 +48,10 @@ const TeamButtonsMaybe = props => {
 
   const handlePrimaryButtonClick = async () => {
     if (fileExists) {
-      const { data, error } = await supabase
-        .storage
+      const { data, error } = await supabase.storage
         .from('invoices')
         .download(`public/${customerObj.bookingid}`);
-        
+
       if (error) {
         console.error('Error downloading file:', error);
       } else {
@@ -88,20 +77,29 @@ const TeamButtonsMaybe = props => {
     setShowForm(false);
   };
 
-  const handlePopUpFlow = (data) => {
+  const handlePopUpFlow = data => {
     const { selectedOptionText, receiver, email, address, code, vat, sr, fiscalCode, flow } = data;
     if (flow === 1) {
-      createInvoice({ customerObj, transactionId, name: receiver, email, address, code, vat, sr, fiscalCode })
-        .then(() => {
-          const message = `${intl.formatMessage({ id: 'Event.Invoice.popUp' })}:
+      createInvoice({
+        customerObj,
+        transactionId,
+        name: receiver,
+        email,
+        address,
+        code,
+        vat,
+        sr,
+        fiscalCode,
+      }).then(() => {
+        const message = `${intl.formatMessage({ id: 'Event.Invoice.popUp' })}:
           ${intl.formatMessage({ id: 'Event.PopUp.form.receiver' })}: ${receiver}
           ${intl.formatMessage({ id: 'Event.PopUp.form.email' })}: ${email}
           ${intl.formatMessage({ id: 'Event.PopUp.form.address' })}: ${address}
           ${intl.formatMessage({ id: 'Event.PopUp.form.code' })}: ${code}
           ${intl.formatMessage({ id: 'Event.PopUp.form.vat' })}: ${vat}
           ${intl.formatMessage({ id: 'Event.PopUp.form.fiscalCode' })}: ${fiscalCode}`;
-          onSendMessage(transactionId, message);
-        });
+        onSendMessage(transactionId, message);
+      });
     } else if (flow === 2) {
       createRefund({ customerObj, transactionId, selectedOptionText });
     }
@@ -114,20 +112,27 @@ const TeamButtonsMaybe = props => {
     <div className={css.actionButtonWrapper}>
       <div className={classes}>
         <PrimaryButton disabled={!isAfterFiveDays} onClick={handlePrimaryButtonClick}>
-          {fileExists 
+          {fileExists
             ? intl.formatMessage({ id: 'TeamButtons.button.receipt.download' })
-            : intl.formatMessage({ id: 'TeamButtons.button.receipt' })
-          }
+            : intl.formatMessage({ id: 'TeamButtons.button.receipt' })}
         </PrimaryButton>
-        <SecondaryButton disabled={isWithinFiveDays} onClick={handleSecondaryButtonClick} style={{marginTop: '5px'}}> 
+        <SecondaryButton
+          disabled={isWithinFiveDays}
+          onClick={handleSecondaryButtonClick}
+          style={{ marginTop: '5px' }}
+        >
           {intl.formatMessage({ id: 'TeamButtons.button.cancel' })}
         </SecondaryButton>
-        <div className={css.cancellationPolicy}>{intl.formatMessage({ id: 'TeamButton.cancelPolicy' })}</div>
+        <div className={css.cancellationPolicy}>
+          {intl.formatMessage({ id: 'TeamButton.cancelPolicy' })}
+        </div>
       </div>
 
       {showPopUp && (
         <PopUp
-          message={intl.formatMessage({ id: showForm ? 'Event.Invoice.popUp' : 'Event.Cancel.popUp' })}
+          message={intl.formatMessage({
+            id: showForm ? 'Event.Invoice.popUp' : 'Event.Cancel.popUp',
+          })}
           onConfirm={handlePopUpFlow}
           onCancel={handleClosePopUp}
           showForm={showForm}
@@ -138,4 +143,3 @@ const TeamButtonsMaybe = props => {
 };
 
 export default TeamButtonsMaybe;
-

@@ -76,6 +76,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.6.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -83,6 +84,14 @@
     "chalk": "^v4.1.2",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jest": "^28.6.0",
+    "eslint-plugin-jsx-a11y": "^6.9.0",
+    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "globals": "^15.8.0",
     "inquirer": "^8.2.4",
     "nodemon": "^3.0.3",
     "prettier": "^1.18.2"
@@ -124,7 +133,9 @@
     "test-server": "jest ./server/**/*.test.js",
     "heroku-postbuild": "yarn run build",
     "postinstall": "patch-package",
-    "translate": "node scripts/translations.js"
+    "translate": "node scripts/translations.js",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix"
   },
   "browserslist": {
     "production": [

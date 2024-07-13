@@ -120,8 +120,11 @@ export class SearchPageComponent extends Component {
         ...validFilterParams(rest, listingFieldsConfig, defaultFiltersConfig, dropNonFilterParams),
       };
 
-      isTeamBuildingOnTop? history.push(createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search))
-          : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+      isTeamBuildingOnTop
+        ? history.push(
+            createResourceLocatorString('teamSearchPage', routeConfiguration, {}, search)
+          )
+        : history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
     }
   }
 
@@ -142,28 +145,26 @@ export class SearchPageComponent extends Component {
     const { history, routeConfiguration, config } = this.props;
     const { listingFields: listingFieldsConfig } = config?.listing || {};
     const { defaultFilters: defaultFiltersConfig, sortConfig } = config?.search || {};
-  
+
     const urlQueryParams = validUrlQueryParamsFromProps(this.props);
-  
+
     const searchParams = { ...urlQueryParams, ...this.state.currentQueryParams };
-  
+
     const search = cleanSearchFromConflictingParams(
       searchParams,
       listingFieldsConfig,
       defaultFiltersConfig,
       sortConfig
     );
-  
+
     const currentPath = '/ts' + window.location.search;
-    
+
     if (isTeamBuildingOnTop) {
       history.push(currentPath);
     } else {
       history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
     }
   }
-  
-  
 
   // Close the filters by clicking cancel, revert to the initial params
   cancelFilters() {
@@ -185,7 +186,7 @@ export class SearchPageComponent extends Component {
     // Reset routing params
     const queryParams = omit(urlQueryParams, filterQueryParamNames);
     const currentPath = '/ts' + window.location.search;
-    
+
     if (isTeamBuildingOnTop) {
       history.push(currentPath);
     } else {
@@ -195,18 +196,17 @@ export class SearchPageComponent extends Component {
 
   getHandleChangedValueFn(useHistoryPush) {
     const { history, routeConfiguration, config } = this.props;
-    
+
     const { listingFields: listingFieldsConfig } = config?.listing || {};
     const { defaultFilters: defaultFiltersConfig, sortConfig } = config?.search || {};
 
     const urlQueryParams = validUrlQueryParamsFromProps(this.props);
 
     return updatedURLParams => {
-
       const updater = prevState => {
         const { address, bounds, keywords } = urlQueryParams;
         const mergedQueryParams = { ...urlQueryParams, ...prevState.currentQueryParams };
-        
+
         // Address and bounds are handled outside of MainPanel.
         // I.e. TopbarSearchForm && search by moving the map.
         // We should always trust urlQueryParams with those.
@@ -233,7 +233,7 @@ export class SearchPageComponent extends Component {
             sortConfig
           );
           const currentPath = '/ts' + window.location.search;
-    
+
           if (isTeamBuildingOnTop) {
             history.push(currentPath);
           } else {
@@ -246,7 +246,6 @@ export class SearchPageComponent extends Component {
     };
   }
 
- 
   handleSortBy(urlParam, values) {
     const { history, routeConfiguration } = this.props;
     const urlQueryParams = validUrlQueryParamsFromProps(this.props);
@@ -255,13 +254,13 @@ export class SearchPageComponent extends Component {
       ? { ...urlQueryParams, [urlParam]: values }
       : omit(urlQueryParams, urlParam);
 
-      const currentPath = '/ts' + window.location.search;
-    
-      if (isTeamBuildingOnTop) {
-        history.push(currentPath);
-      } else {
-        history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
-      }
+    const currentPath = '/ts' + window.location.search;
+
+    if (isTeamBuildingOnTop) {
+      history.push(currentPath);
+    } else {
+      history.push(createResourceLocatorString('SearchPage', routeConfiguration, {}, search));
+    }
   }
 
   render() {
@@ -438,7 +437,6 @@ export class SearchPageComponent extends Component {
       }
     }
 
-
     const otherListings = listings.filter(
       listing =>
         listing.attributes.publicData &&
@@ -578,7 +576,7 @@ export class SearchPageComponent extends Component {
                   isMapVariant
                   isTeamBuilding={isTeamBuildingOnTop}
                 />
-                {isTeamBuildingOnTop? <EventForm/>:null}
+                {isTeamBuildingOnTop ? <EventForm /> : null}
               </div>
             )}
           </div>
@@ -599,7 +597,7 @@ export class SearchPageComponent extends Component {
                   center={origin}
                   isSearchMapOpenOnMobile={this.state.isSearchMapOpenOnMobile}
                   location={location}
-                  listings={isTeamBuildingOnTop ? filteredListings :  otherListings || []}
+                  listings={isTeamBuildingOnTop ? filteredListings : otherListings || []}
                   onMapMoveEnd={this.onMapMoveEnd}
                   onCloseAsModal={() => {
                     onManageDisableScrolling('SearchPage.map', false);

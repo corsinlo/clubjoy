@@ -165,7 +165,7 @@ const PageBuilder = props => {
                         ) : isLandingPage ? (
                           <>
                             <LandingSearchBarContainer onSearchSubmit={handleSearchSubmit} />
-                            <ToDo/>
+                            <ToDo />
                             <Counter />
                             <SectionBuilder sections={sections} options={options} />
                             <Newsletter />
@@ -178,20 +178,20 @@ const PageBuilder = props => {
                             />
                             <SectionBuilder sections={sections} options={options} />
                             <div className={css.subContainerWrapper}>
-                            <div className={css.subContainer}>
-                              <div>
-                                <div className={css.header}>Prenota online</div>
-                                <div >senza dover aspettare preventivi</div>
+                              <div className={css.subContainer}>
+                                <div>
+                                  <div className={css.header}>Prenota online</div>
+                                  <div>senza dover aspettare preventivi</div>
+                                </div>
+                                <div>
+                                  <div className={css.header}>Cancella gratuitemente</div>
+                                  <div>fino a 5 giorni dall'evento</div>
+                                </div>
+                                <div>
+                                  <div className={css.header}>Supporto 24/24h</div>
+                                  <div>comodamente su whatsapp</div>
+                                </div>
                               </div>
-                              <div>
-                                <div className={css.header}>Cancella gratuitemente</div>
-                                <div >fino a 5 giorni dall'evento</div>
-                              </div>
-                              <div>
-                                <div className={css.header}>Supporto 24/24h</div>
-                                <div >comodamente su whatsapp</div>
-                              </div>
-                            </div>
                             </div>
                             <Newsletter />
                           </>

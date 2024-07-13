@@ -181,7 +181,6 @@ const TopbarDesktop = props => {
     </NamedLink>
   );
 
-  
   const teamBuildingLink = isAuthenticatedOrJustHydrated ? null : (
     <NamedLink name="TeambuildingPage" className={css.loginLink}>
       <span className={css.login}>{intl.formatMessage({ id: 'TopbarDesktop.team' })}</span>
@@ -201,14 +200,9 @@ const TopbarDesktop = props => {
             />
           </div>
           <div className={css.rightContent}>
-
-              <NamedLink name="TeambuildingPage" className={css.loginLink}>
-                <span className={css.login}>
-                  {intl.formatMessage({ id: 'TopbarDesktop.team' })}
-                </span>
+            <NamedLink name="TeambuildingPage" className={css.loginLink}>
+              <span className={css.login}>{intl.formatMessage({ id: 'TopbarDesktop.team' })}</span>
             </NamedLink>
-
-            
 
             {userRole === 'provider' && (
               <NamedLink className={css.createListingLink} name="NewListingPage">
@@ -238,12 +232,8 @@ const TopbarDesktop = props => {
             {search}
           </div>
           <div className={css.rightContent}>
-
-              <NamedLink name="TeambuildingPage" className={css.loginLink}>
-
-                <span className={css.login}>
-                  {intl.formatMessage({ id: 'TopbarDesktop.team' })}
-                </span>
+            <NamedLink name="TeambuildingPage" className={css.loginLink}>
+              <span className={css.login}>{intl.formatMessage({ id: 'TopbarDesktop.team' })}</span>
             </NamedLink>
 
             {userRole === 'provider' && (
