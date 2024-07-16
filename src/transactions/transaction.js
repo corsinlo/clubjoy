@@ -227,6 +227,7 @@ export const resolveLatestProcessName = processName => {
  * @param {String} processName
  */
 export const getProcess = processName => {
+
   const latestProcessName = resolveLatestProcessName(processName);
   const processInfo = PROCESSES.find(process => process.name === latestProcessName);
   if (processInfo) {

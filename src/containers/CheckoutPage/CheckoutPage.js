@@ -90,13 +90,20 @@ const EnhancedCheckoutPage = props => {
 
     // This is for processes using payments with Stripe integration
     if (getProcessName(data) !== INQUIRY_PROCESS_NAME) {
-      // Fetch StripeCustomer and speculateTransition for transactions that include Stripe payments
-      loadInitialDataForStripePayments({
-        pageData: data || {},
-        fetchSpeculatedTransaction,
-        fetchStripeCustomer,
-        config,
-      });
+      if(data.listing.attributes.publicData.listingType === 'freeclass'){
+        loadInitialData({
+          pageData: data || {},
+          fetchSpeculatedTransaction,
+          config,
+        });
+      } else {
+        loadInitialDataForStripePayments({
+          pageData: data || {},
+          fetchSpeculatedTransaction,
+          fetchStripeCustomer,
+          config,
+        });
+      }
     }
   }, []);
 
@@ -135,111 +142,110 @@ const EnhancedCheckoutPage = props => {
       )
     : 'Checkout page is loading data';
 
-  return processName && isInquiryProcess ? (
-    <CheckoutPageWithoutPayment
-      config={config}
-      routeConfiguration={routeConfiguration}
-      intl={intl}
-      history={history}
-      processName={processName}
-      pageData={pageData}
-      listingTitle={listingTitle}
-      title={title}
-      onInquiryWithoutPayment={onInquiryWithoutPayment}
-      onSubmitCallback={onSubmitCallback}
-      {...props}
-    />
-  ) : processName && !isInquiryProcess && !speculateTransactionInProgress ? (
-    <CheckoutPageWithPayment
-      config={config}
-      routeConfiguration={routeConfiguration}
-      intl={intl}
-      history={history}
-      processName={processName}
-      sessionStorageKey={STORAGE_KEY}
-      pageData={pageData}
-      setPageData={setPageData}
-      listingTitle={listingTitle}
-      title={title}
-      onSubmitCallback={onSubmitCallback}
-      {...props}
-    />
-  ) : (
-    <Page title={title} scrollingDisabled={scrollingDisabled}>
-      <CustomTopbar intl={intl} />
-    </Page>
-  );
-};
-
-const mapStateToProps = state => {
-  const {
-    listing,
-    orderData,
-    stripeCustomerFetched,
-    speculateTransactionInProgress,
-    speculateTransactionError,
-    speculatedTransaction,
-    transaction,
-    initiateInquiryError,
-    initiateOrderError,
-    confirmPaymentError,
-  } = state.CheckoutPage;
-  const { currentUser } = state.user;
-  const { confirmCardPaymentError, paymentIntent, retrievePaymentIntentError } = state.stripe;
-  return {
-    scrollingDisabled: isScrollingDisabled(state),
-    currentUser,
-    stripeCustomerFetched,
-    orderData,
-    speculateTransactionInProgress,
-    speculateTransactionError,
-    speculatedTransaction,
-    transaction,
-    listing,
-    initiateInquiryError,
-    initiateOrderError,
-    confirmCardPaymentError,
-    confirmPaymentError,
-    paymentIntent,
-    retrievePaymentIntentError,
+    return processName && isInquiryProcess ? (
+      <CheckoutPageWithInquiryProcess
+        config={config}
+        routeConfiguration={routeConfiguration}
+        intl={intl}
+        history={history}
+        processName={processName}
+        pageData={pageData}
+        listingTitle={listingTitle}
+        title={title}
+        onInquiryWithoutPayment={onInquiryWithoutPayment}
+        onSubmitCallback={onSubmitCallback}
+        {...props}
+      />
+    ) : processName && !isInquiryProcess && !speculateTransactionInProgress ? (
+      <CheckoutPageWithPayment
+        config={config}
+        routeConfiguration={routeConfiguration}
+        intl={intl}
+        history={history}
+        processName={processName}
+        sessionStorageKey={STORAGE_KEY}
+        pageData={pageData}
+        setPageData={setPageData}
+        listingTitle={listingTitle}
+        title={title}
+        onSubmitCallback={onSubmitCallback}
+        {...props}
+      />
+    ) : (
+      <Page title={title} scrollingDisabled={scrollingDisabled}>
+        <CustomTopbar intl={intl} />
+      </Page>
+    );
   };
-};
-
-const mapDispatchToProps = dispatch => ({
-  dispatch,
-  fetchSpeculatedTransaction: (params, processAlias, txId, transitionName, isPrivileged) =>
-    dispatch(speculateTransaction(params, processAlias, txId, transitionName, isPrivileged)),
-  fetchStripeCustomer: () => dispatch(stripeCustomer()),
-  onInquiryWithoutPayment: (params, processAlias, transitionName) =>
-    dispatch(initiateInquiryWithoutPayment(params, processAlias, transitionName)),
-  onInitiateOrder: (params, processAlias, transactionId, transitionName, isPrivileged) =>
-    dispatch(initiateOrder(params, processAlias, transactionId, transitionName, isPrivileged)),
-  onRetrievePaymentIntent: params => dispatch(retrievePaymentIntent(params)),
-  onConfirmCardPayment: params => dispatch(confirmCardPayment(params)),
-  onConfirmPayment: (transactionId, transitionName, transitionParams) =>
-    dispatch(confirmPayment(transactionId, transitionName, transitionParams)),
-  onSendMessage: params => dispatch(sendMessage(params)),
-  onSavePaymentMethod: (stripeCustomer, stripePaymentMethodId) =>
-    dispatch(savePaymentMethod(stripeCustomer, stripePaymentMethodId)),
-});
-
-const CheckoutPage = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(EnhancedCheckoutPage);
-
-CheckoutPage.setInitialValues = (initialValues, saveToSessionStorage = false) => {
-  if (saveToSessionStorage) {
-    const { listing, orderData } = initialValues;
-    storeData(orderData, listing, null, STORAGE_KEY);
-  }
-
-  return setInitialValues(initialValues);
-};
-
-CheckoutPage.displayName = 'CheckoutPage';
-
-export default CheckoutPage;
-
+  
+  const mapStateToProps = state => {
+    const {
+      listing,
+      orderData,
+      stripeCustomerFetched,
+      speculateTransactionInProgress,
+      speculateTransactionError,
+      speculatedTransaction,
+      transaction,
+      initiateInquiryError,
+      initiateOrderError,
+      confirmPaymentError,
+    } = state.CheckoutPage;
+    const { currentUser } = state.user;
+    const { confirmCardPaymentError, paymentIntent, retrievePaymentIntentError } = state.stripe;
+    return {
+      scrollingDisabled: isScrollingDisabled(state),
+      currentUser,
+      stripeCustomerFetched,
+      orderData,
+      speculateTransactionInProgress,
+      speculateTransactionError,
+      speculatedTransaction,
+      transaction,
+      listing,
+      initiateInquiryError,
+      initiateOrderError,
+      confirmCardPaymentError,
+      confirmPaymentError,
+      paymentIntent,
+      retrievePaymentIntentError,
+    };
+  };
+  
+  const mapDispatchToProps = dispatch => ({
+    dispatch,
+    fetchSpeculatedTransaction: (params, processAlias, txId, transitionName, isPrivileged) =>
+      dispatch(speculateTransaction(params, processAlias, txId, transitionName, isPrivileged)),
+    fetchStripeCustomer: () => dispatch(stripeCustomer()),
+    onInquiryWithoutPayment: (params, processAlias, transitionName) =>
+      dispatch(initiateInquiryWithoutPayment(params, processAlias, transitionName)),
+    onInitiateOrder: (params, processAlias, transactionId, transitionName, isPrivileged) =>
+      dispatch(initiateOrder(params, processAlias, transactionId, transitionName, isPrivileged)),
+    onRetrievePaymentIntent: params => dispatch(retrievePaymentIntent(params)),
+    onConfirmCardPayment: params => dispatch(confirmCardPayment(params)),
+    onConfirmPayment: (transactionId, transitionName, transitionParams) =>
+      dispatch(confirmPayment(transactionId, transitionName, transitionParams)),
+    onSendMessage: params => dispatch(sendMessage(params)),
+    onSavePaymentMethod: (stripeCustomer, stripePaymentMethodId) =>
+      dispatch(savePaymentMethod(stripeCustomer, stripePaymentMethodId)),
+  });
+  
+  const CheckoutPage = compose(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )
+  )(EnhancedCheckoutPage);
+  
+  CheckoutPage.setInitialValues = (initialValues, saveToSessionStorage = false) => {
+    if (saveToSessionStorage) {
+      const { listing, orderData } = initialValues;
+      storeData(orderData, listing, null, STORAGE_KEY);
+    }
+  
+    return setInitialValues(initialValues);
+  };
+  
+  CheckoutPage.displayName = 'CheckoutPage';
+  
+  export default CheckoutPage;
