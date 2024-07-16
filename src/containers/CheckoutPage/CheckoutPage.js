@@ -37,6 +37,7 @@ import CheckoutPageWithPayment, {
   loadInitialDataForStripePayments,
 } from './CheckoutPageWithPayment';
 import CheckoutPageWithInquiryProcess from './CheckoutPageWithInquiryProcess';
+import {CheckoutPageWithoutPayment, loadInitialData} from './CheckoutPageWithoutPayment';
 
 const STORAGE_KEY = 'CheckoutPage';
 
@@ -75,6 +76,17 @@ const EnhancedCheckoutPage = props => {
     const data = handlePageData(initialData, STORAGE_KEY, history);
     setPageData(data || {});
     setIsDataLoaded(true);
+
+   
+    if (getProcessName(data) === INQUIRY_PROCESS_NAME) {
+      
+      loadInitialData({
+        pageData: data || {},
+        fetchSpeculatedTransaction,
+        config,
+      });
+    }  
+
 
     // This is for processes using payments with Stripe integration
     if (getProcessName(data) !== INQUIRY_PROCESS_NAME) {
@@ -124,7 +136,7 @@ const EnhancedCheckoutPage = props => {
     : 'Checkout page is loading data';
 
   return processName && isInquiryProcess ? (
-    <CheckoutPageWithInquiryProcess
+    <CheckoutPageWithoutPayment
       config={config}
       routeConfiguration={routeConfiguration}
       intl={intl}
@@ -230,3 +242,4 @@ CheckoutPage.setInitialValues = (initialValues, saveToSessionStorage = false) =>
 CheckoutPage.displayName = 'CheckoutPage';
 
 export default CheckoutPage;
+
