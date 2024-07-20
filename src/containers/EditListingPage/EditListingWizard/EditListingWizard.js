@@ -367,9 +367,12 @@ class EditListingWizard extends Component {
 
   handlePublishListing(id) {
     const { onPublishListingDraft, currentUser, stripeAccount, listing, config } = this.props;
+    
     const processName = listing?.attributes?.publicData?.transactionProcessAlias.split('/')[0];
     const isInquiryProcess = processName === INQUIRY_PROCESS_NAME;
-
+   if(processName){
+    onPublishListingDraft(id);
+   }else{
     const listingTypeConfig = getListingTypeConfig(listing, this.state.selectedListingType, config);
     // Through hosted configs (listingTypeConfig.defaultListingFields?.payoutDetails),
     // it's possible to publish listing without payout details set by provider.
@@ -394,6 +397,7 @@ class EditListingWizard extends Component {
         draftId: id,
         showPayoutDetails: true,
       });
+    }
     }
   }
 
