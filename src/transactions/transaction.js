@@ -3,6 +3,7 @@ import { ensureTransaction } from '../util/data';
 import * as purchaseProcess from './transactionProcessPurchase';
 import * as bookingProcess from './transactionProcessBooking';
 import * as inquiryProcess from './transactionProcessInquiry';
+import * as freeBookingProcess from './transactionProcessFreeBooking';
 
 // Supported unit types
 // Note: These are passed to translations/microcopy in certain cases.
@@ -17,6 +18,7 @@ export const INQUIRY = 'inquiry';
 export const PURCHASE_PROCESS_NAME = 'default-purchase';
 export const BOOKING_PROCESS_NAME = 'default-booking';
 export const INQUIRY_PROCESS_NAME = 'default-inquiry';
+export const FREE_BOOKING_PROCESS_NAME = 'free-booking';
 
 /**
  * A process should export:
@@ -49,6 +51,12 @@ const PROCESSES = [
     alias: `${INQUIRY_PROCESS_NAME}/release-1`,
     process: inquiryProcess,
     unitTypes: [INQUIRY],
+  },
+  {
+    name: FREE_BOOKING_PROCESS_NAME,
+    alias: `${FREE_BOOKING_PROCESS_NAME}/release-1`,
+    process: freeBookingProcess,
+    unitTypes: [DAY, NIGHT, HOUR],
   },
 ];
 

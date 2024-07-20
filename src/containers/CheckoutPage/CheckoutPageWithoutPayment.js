@@ -59,12 +59,15 @@ import css from './CheckoutPage.module.css';
  * @param {Object} config app-wide configs. This contains hosted configs too.
  * @returns orderParams.
  */
-const getOrderParams = (pageData, shippingDetails, config) => {
+const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config, currentUser) => {
   const quantity = pageData.orderData?.quantity;
   const quantityMaybe = quantity ? { quantity } : {};
+  const seats = pageData.orderData?.seats;
+  const seatNames = pageData.orderData?.guestNames;
+  const seatsMaybe = seats ? { seats } : {};
   const deliveryMethod = pageData.orderData?.deliveryMethod;
   const deliveryMethodMaybe = deliveryMethod ? { deliveryMethod } : {};
-
+  const guestsNameMaybe = seatNames ? { seatNames } : {};
   const { listingType, unitType } =
     pageData?.listing?.attributes?.publicData || {};
   const protectedDataMaybe = {
@@ -72,6 +75,8 @@ const getOrderParams = (pageData, shippingDetails, config) => {
       ...getTransactionTypeData(listingType, unitType, config),
       ...deliveryMethodMaybe,
       ...shippingDetails,
+      ...guestsNameMaybe,
+      email: currentUser?.attributes?.email,
     },
   };
 
@@ -81,8 +86,10 @@ const getOrderParams = (pageData, shippingDetails, config) => {
     listingId: pageData?.listing?.id,
     ...deliveryMethodMaybe,
     ...quantityMaybe,
+    ...seatsMaybe,
     ...bookingDatesMaybe(pageData.orderData?.bookingDates),
     ...protectedDataMaybe,
+    ...optionalPaymentParams,
   };
   return orderParams;
 };

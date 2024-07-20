@@ -8,7 +8,7 @@ import { useIntl } from 'react-intl';
 import { useConfiguration } from '../../context/configurationContext';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 import { userDisplayNameAsString } from '../../util/data';
-import { INQUIRY_PROCESS_NAME, resolveLatestProcessName } from '../../transactions/transaction';
+import { INQUIRY_PROCESS_NAME, FREE_BOOKING_PROCESS_NAME, BOOKING_PROCESS_NAME, PURCHASE_PROCESS_NAME, resolveLatestProcessName } from '../../transactions/transaction';
 
 // Import global thunk functions
 import { isScrollingDisabled } from '../../ducks/ui.duck';
@@ -78,7 +78,7 @@ const EnhancedCheckoutPage = props => {
     setIsDataLoaded(true);
 
    
-    if (getProcessName(data) === INQUIRY_PROCESS_NAME) {
+    if (getProcessName(data) === FREE_BOOKING_PROCESS_NAME) {
       
       loadInitialData({
         pageData: data || {},
@@ -89,21 +89,15 @@ const EnhancedCheckoutPage = props => {
 
 
     // This is for processes using payments with Stripe integration
-    if (getProcessName(data) !== INQUIRY_PROCESS_NAME) {
-      if(data.listing.attributes.publicData.listingType === 'freeclass'){
-        loadInitialData({
-          pageData: data || {},
-          fetchSpeculatedTransaction,
-          config,
-        });
-      } else {
+    if (getProcessName(data) === BOOKING_PROCESS_NAME || getProcessName(data) === PURCHASE_PROCESS_NAME){
+
         loadInitialDataForStripePayments({
           pageData: data || {},
           fetchSpeculatedTransaction,
           fetchStripeCustomer,
           config,
         });
-      }
+      
     }
   }, []);
 
@@ -116,6 +110,7 @@ const EnhancedCheckoutPage = props => {
   } = props;
   const processName = getProcessName(pageData);
   const isInquiryProcess = processName === INQUIRY_PROCESS_NAME;
+  const isFreeBooking = processName === FREE_BOOKING_PROCESS_NAME;
 
   // Handle redirection to ListingPage, if this is own listing or if required data is not available
   const listing = pageData?.listing;
@@ -156,8 +151,23 @@ const EnhancedCheckoutPage = props => {
         onSubmitCallback={onSubmitCallback}
         {...props}
       />
-    ) : processName && !isInquiryProcess && !speculateTransactionInProgress ? (
+    ) : processName && !isFreeBooking && !isInquiryProcess && !speculateTransactionInProgress ? (
       <CheckoutPageWithPayment
+        config={config}
+        routeConfiguration={routeConfiguration}
+        intl={intl}
+        history={history}
+        processName={processName}
+        sessionStorageKey={STORAGE_KEY}
+        pageData={pageData}
+        setPageData={setPageData}
+        listingTitle={listingTitle}
+        title={title}
+        onSubmitCallback={onSubmitCallback}
+        {...props}
+      />
+    ) : processName && isFreeBooking && !isInquiryProcess && !speculateTransactionInProgress ? (
+      <CheckoutPageWithoutPayment
         config={config}
         routeConfiguration={routeConfiguration}
         intl={intl}
