@@ -13,9 +13,10 @@ const BreakdownMaybe = props => {
 
   return orderBreakdown ? (
     <div className={classes}>
-      <H6 as="h3" className={css.orderBreakdownTitle}>
+      {processName !== 'free-booking' &&
+     ( <H6 as="h3" className={css.orderBreakdownTitle}>
         <FormattedMessage id={`TransactionPanel.${processName}.orderBreakdownTitle`} />
-      </H6>
+      </H6>)}
       <hr className={css.totalDivider} />
       {orderBreakdown}
     </div>

@@ -42,7 +42,7 @@ export const OrderBreakdownComponent = props => {
     currency,
     marketplaceName,
   } = props;
-
+  const processType = props.transaction.attributes.processName;
   const isCustomer = userRole === 'customer';
   const isProvider = userRole === 'provider';
   const lineItems = transaction.attributes.lineItems;
@@ -98,55 +98,58 @@ export const OrderBreakdownComponent = props => {
 
   return (
     <div className={classes}>
-      <LineItemBookingPeriod
-        booking={booking}
-        code={lineItemUnitType}
-        dateType={dateType}
-        timeZone={timeZone}
-      />
-
-      <LineItemBasePriceMaybe lineItems={lineItems} code={lineItemUnitType} intl={intl} />
-      <LineItemShippingFeeMaybe lineItems={lineItems} intl={intl} />
-      <LineItemPickupFeeMaybe lineItems={lineItems} intl={intl} />
-      <LineItemUnknownItemsMaybe lineItems={lineItems} isProvider={isProvider} intl={intl} />
-
-      <LineItemSubTotalMaybe
-        lineItems={lineItems}
-        code={lineItemUnitType}
-        userRole={userRole}
-        intl={intl}
-        marketplaceCurrency={currency}
-      />
-      <LineItemRefundMaybe lineItems={lineItems} intl={intl} marketplaceCurrency={currency} />
-
-      <LineItemCustomerCommissionMaybe
-        lineItems={lineItems}
-        isCustomer={isCustomer}
-        marketplaceName={marketplaceName}
-        intl={intl}
-      />
-      <LineItemCustomerCommissionRefundMaybe
-        lineItems={lineItems}
-        isCustomer={isCustomer}
-        marketplaceName={marketplaceName}
-        intl={intl}
-      />
-
-      <LineItemProviderCommissionMaybe
-        lineItems={lineItems}
-        isProvider={isProvider}
-        marketplaceName={marketplaceName}
-        intl={intl}
-      />
-      <LineItemProviderCommissionRefundMaybe
-        lineItems={lineItems}
-        isProvider={isProvider}
-        marketplaceName={marketplaceName}
-        intl={intl}
-      />
-
-      <LineItemTotalPrice transaction={transaction} isProvider={isProvider} intl={intl} />
-
+      {processType !== 'free-booking' && (
+        <>
+          <LineItemBookingPeriod
+            booking={booking}
+            code={lineItemUnitType}
+            dateType={dateType}
+            timeZone={timeZone}
+          />
+  
+          <LineItemBasePriceMaybe lineItems={lineItems} code={lineItemUnitType} intl={intl} />
+          <LineItemShippingFeeMaybe lineItems={lineItems} intl={intl} />
+          <LineItemPickupFeeMaybe lineItems={lineItems} intl={intl} />
+          <LineItemUnknownItemsMaybe lineItems={lineItems} isProvider={isProvider} intl={intl} />
+  
+          <LineItemSubTotalMaybe
+            lineItems={lineItems}
+            code={lineItemUnitType}
+            userRole={userRole}
+            intl={intl}
+            marketplaceCurrency={currency}
+          />
+          <LineItemRefundMaybe lineItems={lineItems} intl={intl} marketplaceCurrency={currency} />
+  
+          <LineItemCustomerCommissionMaybe
+            lineItems={lineItems}
+            isCustomer={isCustomer}
+            marketplaceName={marketplaceName}
+            intl={intl}
+          />
+          <LineItemCustomerCommissionRefundMaybe
+            lineItems={lineItems}
+            isCustomer={isCustomer}
+            marketplaceName={marketplaceName}
+            intl={intl}
+          />
+  
+          <LineItemProviderCommissionMaybe
+            lineItems={lineItems}
+            isProvider={isProvider}
+            marketplaceName={marketplaceName}
+            intl={intl}
+          />
+          <LineItemProviderCommissionRefundMaybe
+            lineItems={lineItems}
+            isProvider={isProvider}
+            marketplaceName={marketplaceName}
+            intl={intl}
+          />
+  
+          <LineItemTotalPrice transaction={transaction} isProvider={isProvider} intl={intl} />
+        </>
+      )}
       {hasCommissionLineItem ? (
         <span className={css.feeInfo}>
           <FormattedMessage id="OrderBreakdown.commissionFeeNote" />
@@ -154,6 +157,7 @@ export const OrderBreakdownComponent = props => {
       ) : null}
     </div>
   );
+  
 };
 
 OrderBreakdownComponent.defaultProps = {

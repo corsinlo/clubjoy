@@ -16,17 +16,13 @@ import { storeData } from './CheckoutPageSessionHelpers';
  * @returns object containing unitType etc. - or an empty object.
  */
 export const getTransactionTypeData = (listingType, unitTypeInPublicData, config) => {
-  console.log('Listing Type:', listingType);
-  console.log('Unit Type In Public Data:', unitTypeInPublicData);
-  console.log('Config:', config);
-
   if (!config || !config.listing || !config.listing.listingTypes) {
     console.error('Invalid config object structure');
     return {};
   }
 
   const listingTypeConfig = config.listing.listingTypes.find(lt => lt.listingType === listingType);
-  console.log('Listing Type Config:', listingTypeConfig);
+
 
   if (!listingTypeConfig) {
     console.error('Listing type configuration not found for listing type:', listingType);
@@ -34,12 +30,12 @@ export const getTransactionTypeData = (listingType, unitTypeInPublicData, config
   }
 
   const { process, alias, unitType, ...rest } = listingTypeConfig.transactionType || {};
-  console.log('Transaction Type Config:', listingTypeConfig.transactionType);
+
 
   // Note: we want to rely on unitType written in public data of the listing entity.
   //       The listingType configuration might have changed on the fly.
   const result = unitTypeInPublicData ? { unitType: unitTypeInPublicData, ...rest } : {};
-  console.log('Result:', result);
+
 
   return result;
 };
