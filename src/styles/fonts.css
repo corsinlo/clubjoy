@@ -1,0 +1,10 @@
+/* src/styles/fonts.css */
+@font-face {
+    font-family: 'CustomFont';
+    src: url('../../src/assets/fonts/Calistoga-Regular.ttf') format('truetype');
+  }
+  
+  .customFont {
+    font-family: 'CustomFont', sans-serif;
+  }
+  
