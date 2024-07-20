@@ -705,9 +705,7 @@ const mergeListingConfig = (hostedConfig, defaultConfigs) => {
   // When debugging, include default configs.
   // Otherwise, use listing types and fields from hosted assets.
   const shouldMerge = mergeDefaultTypesAndFieldsForDebugging(false);
-  const listingTypes = shouldMerge
-    ? union(hostedListingTypes, defaultListingTypes, 'listingType')
-    : hostedListingTypes;
+  const listingTypes = union(hostedListingTypes, defaultListingTypes, 'listingType');
   const listingFields = shouldMerge
     ? union(hostedListingFields, defaultListingFields, 'key')
     : hostedListingFields;
@@ -890,6 +888,7 @@ const hasMandatoryConfigs = hostedConfig => {
 
 export const mergeConfig = (configAsset = {}, defaultConfigs = {}) => {
   // Remove trailing slash from marketplaceRootURL if any
+  console.log('configAsset', configAsset);
   const marketplaceRootURL = defaultConfigs.marketplaceRootURL;
   const cleanedRootURL =
     typeof marketplaceRootURL === 'string' ? marketplaceRootURL.replace(/\/$/, '') : '';

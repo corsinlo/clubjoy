@@ -31,13 +31,14 @@ const Newsletter = () => {
         .from('newsletter')
         .insert([{ email: email, firstName: name, lastName: lastname }])
         .select();
-      newsletter(contactData).then(response => {
-        console.log('response:', response);
-      })
-      .catch(error => {
-        console.error('Error adding contact:', error.message);
-        setErrorMessage(error.message);
-      });
+      newsletter(contactData)
+        .then(response => {
+          console.log('response:', response);
+        })
+        .catch(error => {
+          console.error('Error adding contact:', error.message);
+          setErrorMessage(error.message);
+        });
       /*
       const response = await fetch('/api/add-contact', {
         method: 'POST',
@@ -51,7 +52,7 @@ const Newsletter = () => {
         const errorInfo = await response.json();
         throw new Error(errorInfo.message || 'Failed to add contact to the list');
       }
-      */ 
+      */
 
       setEmail('');
       setName('');

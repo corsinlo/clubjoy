@@ -16,11 +16,25 @@ import { storeData } from './CheckoutPageSessionHelpers';
  * @returns object containing unitType etc. - or an empty object.
  */
 export const getTransactionTypeData = (listingType, unitTypeInPublicData, config) => {
+  if (!config || !config.listing || !config.listing.listingTypes) {
+    console.error('Invalid config object structure');
+    return {};
+  }
+
   const listingTypeConfig = config.listing.listingTypes.find(lt => lt.listingType === listingType);
-  const { process, alias, unitType, ...rest } = listingTypeConfig?.transactionType || {};
+
+  if (!listingTypeConfig) {
+    console.error('Listing type configuration not found for listing type:', listingType);
+    return {};
+  }
+
+  const { process, alias, unitType, ...rest } = listingTypeConfig.transactionType || {};
+
   // Note: we want to rely on unitType written in public data of the listing entity.
   //       The listingType configuration might have changed on the fly.
-  return unitTypeInPublicData ? { unitType: unitTypeInPublicData, ...rest } : {};
+  const result = unitTypeInPublicData ? { unitType: unitTypeInPublicData, ...rest } : {};
+
+  return result;
 };
 
 /**
@@ -358,4 +372,63 @@ export const setOrderPageInitialValues = (initialValues, routes, dispatch) => {
   // Transaction is already created, but if the initial message
   // sending failed, we tell it to the OrderDetailsPage.
   dispatch(OrderPage.setInitialValues(initialValues));
+};
+
+export const processCheckoutWithoutPayment = (orderParams, extraParams) => {
+  const {
+    message,
+    onInitiateOrder,
+    onSendMessage,
+    pageData,
+    process,
+    setPageData,
+    sessionStorageKey,
+  } = extraParams;
+
+  const storedTx = ensureTransaction(pageData.transaction);
+
+  const processAlias = pageData?.listing?.attributes?.publicData?.transactionProcessAlias;
+
+  ////////////////////////////////////////////////
+  // Step 1: initiate order                     //
+  // by requesting booking from Marketplace API //
+  ////////////////////////////////////////////////
+  const fnRequest = fnParams => {
+    // fnParams should be { listingId, deliveryMethod, quantity?, bookingDates?, protectedData }
+
+    const requestTransition =
+      storedTx?.attributes?.lastTransition === process.transitions.INQUIRE
+        ? process.transitions.REQUEST_PAYMENT_AFTER_INQUIRY
+        : process.transitions.REQUEST_PAYMENT;
+    const isPrivileged = process.isPrivileged(requestTransition);
+
+    const orderPromise = onInitiateOrder(
+      fnParams,
+      processAlias,
+      storedTx.id,
+      requestTransition,
+      isPrivileged
+    );
+
+    orderPromise.then(order => {
+      // Store the returned transaction (order)
+      persistTransaction(order, pageData, storeData, setPageData, sessionStorageKey);
+    });
+
+    return orderPromise;
+  };
+
+  //////////////////////////////////
+  // Step 2: send initial message //
+  //////////////////////////////////
+  const fnSendMessage = fnParams => {
+    const orderId = fnParams?.id;
+    return onSendMessage({ id: orderId, message });
+  };
+
+  /////////////////////////////////
+  // Call each step in sequence //
+  ////////////////////////////////
+
+  return fnRequest(orderParams).then(res => fnSendMessage({ ...res }));
 };

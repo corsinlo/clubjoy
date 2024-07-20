@@ -367,33 +367,41 @@ class EditListingWizard extends Component {
 
   handlePublishListing(id) {
     const { onPublishListingDraft, currentUser, stripeAccount, listing, config } = this.props;
+
     const processName = listing?.attributes?.publicData?.transactionProcessAlias.split('/')[0];
     const isInquiryProcess = processName === INQUIRY_PROCESS_NAME;
-
-    const listingTypeConfig = getListingTypeConfig(listing, this.state.selectedListingType, config);
-    // Through hosted configs (listingTypeConfig.defaultListingFields?.payoutDetails),
-    // it's possible to publish listing without payout details set by provider.
-    // Customers can't purchase these listings - but it gives operator opportunity to discuss with providers who fail to do so.
-    const isPayoutDetailsRequired = requirePayoutDetails(listingTypeConfig);
-
-    const stripeConnected = !!currentUser?.stripeAccount?.id;
-    const stripeAccountData = stripeConnected ? getStripeAccountData(stripeAccount) : null;
-    const stripeRequirementsMissing =
-      stripeAccount &&
-      (hasRequirements(stripeAccountData, 'past_due') ||
-        hasRequirements(stripeAccountData, 'currently_due'));
-
-    if (
-      isInquiryProcess ||
-      !isPayoutDetailsRequired ||
-      (stripeConnected && !stripeRequirementsMissing)
-    ) {
+    if (processName) {
       onPublishListingDraft(id);
     } else {
-      this.setState({
-        draftId: id,
-        showPayoutDetails: true,
-      });
+      const listingTypeConfig = getListingTypeConfig(
+        listing,
+        this.state.selectedListingType,
+        config
+      );
+      // Through hosted configs (listingTypeConfig.defaultListingFields?.payoutDetails),
+      // it's possible to publish listing without payout details set by provider.
+      // Customers can't purchase these listings - but it gives operator opportunity to discuss with providers who fail to do so.
+      const isPayoutDetailsRequired = requirePayoutDetails(listingTypeConfig);
+
+      const stripeConnected = !!currentUser?.stripeAccount?.id;
+      const stripeAccountData = stripeConnected ? getStripeAccountData(stripeAccount) : null;
+      const stripeRequirementsMissing =
+        stripeAccount &&
+        (hasRequirements(stripeAccountData, 'past_due') ||
+          hasRequirements(stripeAccountData, 'currently_due'));
+
+      if (
+        isInquiryProcess ||
+        !isPayoutDetailsRequired ||
+        (stripeConnected && !stripeRequirementsMissing)
+      ) {
+        onPublishListingDraft(id);
+      } else {
+        this.setState({
+          draftId: id,
+          showPayoutDetails: true,
+        });
+      }
     }
   }
 

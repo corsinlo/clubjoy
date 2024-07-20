@@ -38,6 +38,7 @@ import { parse, stringify } from '../../util/urlHelpers';
 import { userDisplayNameAsString } from '../../util/data';
 import {
   INQUIRY_PROCESS_NAME,
+  FREE_BOOKING_PROCESS_NAME,
   getSupportedProcessesInfo,
   isBookingProcess,
   isPurchaseProcess,
@@ -194,6 +195,7 @@ const OrderPanel = props => {
 
   const price = listing?.attributes?.price;
   const isPaymentProcess = processName !== INQUIRY_PROCESS_NAME;
+  const isFreeBooking = processName === FREE_BOOKING_PROCESS_NAME;
 
   const showPriceMissing = isPaymentProcess && !price;
   const PriceMissing = () => {
@@ -290,17 +292,17 @@ const OrderPanel = props => {
         <div className={css.author}>
           <AvatarSmall user={author} className={css.providerAvatar} />
           <span className={css.providerNameLinked}>
-            {providerName}
-            {/*<FormattedMessage id="OrderPanel.author" values={{ name: authorLink }} />*/}
+           
+            <FormattedMessage id="OrderPanel.author" values={{ name: authorLink }}  />
           </span>
           <span className={css.providerNamePlain}>
             <FormattedMessage id="OrderPanel.author" values={{ name: authorDisplayName }} />
           </span>
         </div>
 
-        {showPriceMissing ? (
+        {showPriceMissing && !isFreeBooking ? (
           <PriceMissing />
-        ) : showInvalidCurrency ? (
+        ) : showInvalidCurrency && !isFreeBooking ? (
           <InvalidCurrency />
         ) : showBookingTimeForm ? (
           <BookingTimeForm
@@ -482,7 +484,4 @@ OrderPanel.propTypes = {
   intl: intlShape.isRequired,
 };
 
-export default compose(
-  withRouter,
-  injectIntl
-)(OrderPanel);
+export default compose(withRouter, injectIntl)(OrderPanel);

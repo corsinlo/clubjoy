@@ -99,7 +99,7 @@ export const EditListingPricingFormComponent = props => (
             currencyConfig={appSettings.getCurrencyFormatting(marketplaceCurrency)}
             validate={priceValidators}
           />
-          {isTeamBuilding !== 'class' ? (
+          {isTeamBuilding === 'teambuilding' ? (
             <>
               <p>
                 Indicare prezzo per singola persona.
@@ -108,7 +108,10 @@ export const EditListingPricingFormComponent = props => (
                 evento.
               </p>
             </>
+          ) : isTeamBuilding === 'free-booking' ? (
+            <p>Indicare il prezzo a 0,00 €.</p>
           ) : null}
+
           <Button
             className={css.submitButton}
             type="submit"

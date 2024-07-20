@@ -131,10 +131,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const PasswordChangePage = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   injectIntl
 )(PasswordChangePageComponent);
 

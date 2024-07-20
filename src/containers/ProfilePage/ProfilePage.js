@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { bool, arrayOf, number, shape } from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -35,9 +35,17 @@ const MAX_MOBILE_SCREEN_WIDTH = 768;
 export const AsideContent = props => {
   const { user, displayName, isCurrentUser } = props;
 
+  const asideContentClasses = classNames(css.asideContent, {
+    [css.asideContent2]: displayName === 'Padma F',
+  });
+
+  const avatarClasses = classNames(css.avatar, {
+    [css.avatar2]: displayName === 'Padma F',
+  });
+
   return (
-    <div className={css.asideContent}>
-      <AvatarLarge className={css.avatar} user={user} disableProfileLink />
+    <div className={asideContentClasses}>
+      <AvatarLarge className={avatarClasses} user={user} disableProfileLink />
       <H2 as="h1" className={css.mobileHeading}>
         {displayName ? (
           <FormattedMessage id="ProfilePage.mobileHeading" values={{ name: displayName }} />
@@ -97,7 +105,7 @@ export const MobileReviews = props => {
 
 export const DesktopReviews = props => {
   const [showReviewsType, setShowReviewsType] = useState(REVIEW_TYPE_OF_PROVIDER);
-  const { reviews, queryReviewsError, userRole } = props;
+  const { reviews, queryReviewsError, userRole, displayName } = props;
   const reviewsOfProvider = reviews.filter(r => r.attributes.type === REVIEW_TYPE_OF_PROVIDER);
   const reviewsOfCustomer = reviews.filter(r => r.attributes.type === REVIEW_TYPE_OF_CUSTOMER);
   const isReviewTypeProviderSelected = showReviewsType === REVIEW_TYPE_OF_PROVIDER;
@@ -134,8 +142,12 @@ export const DesktopReviews = props => {
     );
   }
 
+  const desktopReviewsClasses = classNames(css.desktopReviews, {
+    [css.desktopReviews2]: displayName === 'Padma F',
+  });
+
   return (
-    <div className={css.desktopReviews}>
+    <div className={desktopReviewsClasses}>
       <div className={css.desktopReviewsWrapper}>
         <ButtonTabNavHorizontal className={css.desktopReviewsTabNav} tabs={desktopReviewTabs} />
 
@@ -173,6 +185,11 @@ export const MainContent = props => {
 
   const listingsContainerClasses = classNames(css.listingsContainer, {
     [css.withBioMissingAbove]: !hasBio,
+    [css.withBioMissingAbove2]: displayName === 'Padma F' && !hasBio,
+  });
+
+  const desktopHeadingClasses = classNames(css.desktopHeading, {
+    [css.desktopHeading2]: displayName === 'Padma F',
   });
 
   if (userShowError || queryListingsError) {
@@ -185,23 +202,24 @@ export const MainContent = props => {
   return (
     <div>
       {isAuthorDefined ? (
-        <H2 as="h1" className={css.desktopHeading}>
+        <H2 as="h1" className={desktopHeadingClasses}>
           {providerName}
         </H2>
       ) : (
-        <H2 as="h1" className={css.desktopHeading}>
+        <H2 as="h1" className={desktopHeadingClasses}>
           {displayName}
         </H2>
       )}
-      <H2 as="h1" className={css.desktopHeading}>
+      <H2 as="h1" className={desktopHeadingClasses}>
         <FormattedMessage id="ProfilePage.desktopHeading" values={{ name: displayName }} />
       </H2>
       {hasBio ? <p className={css.bio}>{bio}</p> : null}
       {hasListings ? (
         <div className={listingsContainerClasses}>
-          <H4 as="h2" className={css.listingsTitle}>
+         { displayName !== 'Padma F' &&
+          (<H4 as="h2" className={css.listingsTitle}>
             <FormattedMessage id="ProfilePage.listingsTitle" values={{ count: listings.length }} />
-          </H4>
+          </H4>)}
           <ul className={css.listings}>
             {listings.map(l => (
               <li className={css.listing} key={l.id.uuid}>
@@ -222,6 +240,7 @@ export const MainContent = props => {
           reviews={reviews}
           queryReviewsError={queryReviewsError}
           userRole={userRole}
+          displayName={displayName}
         />
       )}
     </div>
@@ -267,6 +286,13 @@ const ProfilePageComponent = props => {
         }
         footer={<FooterContainer />}
       >
+        { displayName === 'Padma F' &&
+        ( <AsideContent
+            user={user}
+            isCurrentUser={isCurrentUser}
+            displayName={displayName}
+            userRole={userRole}
+          />)}
         <MainContent
           bio={bio}
           displayName={displayName}
