@@ -106,12 +106,12 @@ export const OrderBreakdownComponent = props => {
             dateType={dateType}
             timeZone={timeZone}
           />
-  
+
           <LineItemBasePriceMaybe lineItems={lineItems} code={lineItemUnitType} intl={intl} />
           <LineItemShippingFeeMaybe lineItems={lineItems} intl={intl} />
           <LineItemPickupFeeMaybe lineItems={lineItems} intl={intl} />
           <LineItemUnknownItemsMaybe lineItems={lineItems} isProvider={isProvider} intl={intl} />
-  
+
           <LineItemSubTotalMaybe
             lineItems={lineItems}
             code={lineItemUnitType}
@@ -120,7 +120,7 @@ export const OrderBreakdownComponent = props => {
             marketplaceCurrency={currency}
           />
           <LineItemRefundMaybe lineItems={lineItems} intl={intl} marketplaceCurrency={currency} />
-  
+
           <LineItemCustomerCommissionMaybe
             lineItems={lineItems}
             isCustomer={isCustomer}
@@ -133,7 +133,7 @@ export const OrderBreakdownComponent = props => {
             marketplaceName={marketplaceName}
             intl={intl}
           />
-  
+
           <LineItemProviderCommissionMaybe
             lineItems={lineItems}
             isProvider={isProvider}
@@ -146,20 +146,19 @@ export const OrderBreakdownComponent = props => {
             marketplaceName={marketplaceName}
             intl={intl}
           />
-  
+
           <LineItemTotalPrice transaction={transaction} isProvider={isProvider} intl={intl} />
         </>
       )}
       {hasCommissionLineItem ? (
         <span className={css.feeInfo}>
           {processType !== 'free-booking' && (
-          <FormattedMessage id="OrderBreakdown.commissionFeeNote" />
+            <FormattedMessage id="OrderBreakdown.commissionFeeNote" />
           )}
         </span>
       ) : null}
     </div>
   );
-  
 };
 
 OrderBreakdownComponent.defaultProps = {

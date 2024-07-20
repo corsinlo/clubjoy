@@ -236,6 +236,9 @@ export const resolveLatestProcessName = processName => {
  */
 export const getProcess = processName => {
 
+  if (processName === 'class') {
+    processName = 'default-booking';
+  }
   const latestProcessName = resolveLatestProcessName(processName);
   const processInfo = PROCESSES.find(process => process.name === latestProcessName);
   if (processInfo) {

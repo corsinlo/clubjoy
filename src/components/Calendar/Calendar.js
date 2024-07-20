@@ -286,7 +286,4 @@ const mapDispatchToProps = dispatch => ({
   fetchOrdersOrSales: (params, search) => dispatch(loadData2(params, search)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MyCalendar);
+export default connect(mapStateToProps, mapDispatchToProps)(MyCalendar);

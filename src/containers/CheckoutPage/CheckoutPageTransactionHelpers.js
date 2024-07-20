@@ -23,7 +23,6 @@ export const getTransactionTypeData = (listingType, unitTypeInPublicData, config
 
   const listingTypeConfig = config.listing.listingTypes.find(lt => lt.listingType === listingType);
 
-
   if (!listingTypeConfig) {
     console.error('Listing type configuration not found for listing type:', listingType);
     return {};
@@ -31,11 +30,9 @@ export const getTransactionTypeData = (listingType, unitTypeInPublicData, config
 
   const { process, alias, unitType, ...rest } = listingTypeConfig.transactionType || {};
 
-
   // Note: we want to rely on unitType written in public data of the listing entity.
   //       The listingType configuration might have changed on the fly.
   const result = unitTypeInPublicData ? { unitType: unitTypeInPublicData, ...rest } : {};
-
 
   return result;
 };
@@ -377,7 +374,6 @@ export const setOrderPageInitialValues = (initialValues, routes, dispatch) => {
   dispatch(OrderPage.setInitialValues(initialValues));
 };
 
-
 export const processCheckoutWithoutPayment = (orderParams, extraParams) => {
   const {
     message,
@@ -434,5 +430,5 @@ export const processCheckoutWithoutPayment = (orderParams, extraParams) => {
   // Call each step in sequence //
   ////////////////////////////////
 
-  return fnRequest(orderParams).then(res => fnSendMessage({...res}))
+  return fnRequest(orderParams).then(res => fnSendMessage({ ...res }));
 };

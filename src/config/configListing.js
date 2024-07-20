@@ -238,7 +238,7 @@ export const listingTypes = [
     transactionType: {
       process: 'free-booking',
       alias: 'free-booking/release-1',
-      unitType: 'day',
+      unitType: 'hour',
     },
     defaultListingFields: {
       location: true,

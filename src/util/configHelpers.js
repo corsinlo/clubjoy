@@ -888,6 +888,7 @@ const hasMandatoryConfigs = hostedConfig => {
 
 export const mergeConfig = (configAsset = {}, defaultConfigs = {}) => {
   // Remove trailing slash from marketplaceRootURL if any
+  console.log('configAsset', configAsset);
   const marketplaceRootURL = defaultConfigs.marketplaceRootURL;
   const cleanedRootURL =
     typeof marketplaceRootURL === 'string' ? marketplaceRootURL.replace(/\/$/, '') : '';

@@ -83,14 +83,13 @@ export class BookingTimeFormComponent extends Component {
       publicData,
       ...rest
     } = this.props;
-   
+
     const classes = classNames(rootClassName || css.root, className);
 
     const emailVerified =
       currentUser && currentUser.attributes && currentUser.attributes.emailVerified;
 
-
-    const processName = this.props.publicData?.listingType ?? 'default-booking'
+    const processName = this.props.publicData?.listingType ?? 'default-booking';
     return (
       <FinalForm
         {...rest}
@@ -185,9 +184,11 @@ export class BookingTimeFormComponent extends Component {
 
               {showEstimatedBreakdown ? (
                 <div className={css.priceBreakdownContainer}>
-                {processName === 'default-booking' &&  ( <H6 as="h3" className={css.bookingBreakdownTitle}>
-                    <FormattedMessage id="BookingTimeForm.priceBreakdownTitle" />
-                  </H6>)}
+                  {processName === 'default-booking' && (
+                    <H6 as="h3" className={css.bookingBreakdownTitle}>
+                      <FormattedMessage id="BookingTimeForm.priceBreakdownTitle" />
+                    </H6>
+                  )}
                   <hr className={css.totalDivider} />
                   <EstimatedCustomerBreakdownMaybe
                     breakdownData={breakdownData}
@@ -206,25 +207,25 @@ export class BookingTimeFormComponent extends Component {
                 </span>
               ) : null}
 
-{showEstimatedBreakdown ? (
-  <div className={css.priceBreakdownContainer}>
-    {processName === 'default-booking' && (
-      <VoucherForm
-        className={css.bookingDates}
-        listingId={listingId}
-        onFetchTimeSlots={onFetchTimeSlots}
-        monthlyTimeSlots={monthlyTimeSlots}
-        values={values}
-        intl={intl}
-        form={form}
-        pristine={pristine}
-        timeZone={timeZone}
-        voucherFee={voucherFee}
-        publicData={publicData}
-      />
-    )}
-  </div>
-) : null}
+              {showEstimatedBreakdown ? (
+                <div className={css.priceBreakdownContainer}>
+                  {processName === 'default-booking' && (
+                    <VoucherForm
+                      className={css.bookingDates}
+                      listingId={listingId}
+                      onFetchTimeSlots={onFetchTimeSlots}
+                      monthlyTimeSlots={monthlyTimeSlots}
+                      values={values}
+                      intl={intl}
+                      form={form}
+                      pristine={pristine}
+                      timeZone={timeZone}
+                      voucherFee={voucherFee}
+                      publicData={publicData}
+                    />
+                  )}
+                </div>
+              ) : null}
               <div className={css.submitButton}>
                 <PrimaryButton type="submit" inProgress={fetchLineItemsInProgress}>
                   <FormattedMessage id="BookingTimeForm.requestToBook" />

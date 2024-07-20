@@ -167,7 +167,7 @@ const fetchSpeculatedTransactionIfNeeded = (orderParams, pageData, fetchSpeculat
 export const loadInitialDataForStripePayments = ({
   pageData,
   fetchSpeculatedTransaction,
-  fetchStripeCustomer, 
+  fetchStripeCustomer,
   config,
 }) => {
   // Fetch currentUser with stripeCustomer entity
