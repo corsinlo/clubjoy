@@ -25,7 +25,16 @@ const LayoutSideNavigation = props => {
   } = props;
 
   const classes = classNames(rootClassName || css.root, className);
-  const containerClasses = containerClassName || css.container;
+  const containerClasses = classNames(
+    containerClassName || css.container,
+    props.sideNav?.props?.displayName === 'Padma F' && css.container2
+  );
+
+  const mainClasses = classNames(
+    css.main,
+    mainColumnClassName,
+    props.sideNav?.props?.displayName === 'Padma F' && css.main2
+  );
 
   // TODO: since responsiveAreas are still experimental,
   //       we don't separate "aside" through layoutComposer
@@ -49,9 +58,9 @@ const LayoutSideNavigation = props => {
                 {useAccountSettingsNav ? (
                   <LayoutWrapperAccountSettingsSideNav currentPage={currentPage} />
                 ) : null}
-                {sideNavContent}
+                {props.sideNav?.props?.displayName !== 'Padma F' && sideNavContent}
               </aside>
-              <main className={classNames(css.main, mainColumnClassName)}>{children}</main>
+              <main className={mainClasses}>{children}</main>
             </Main>
             <Footer>{footerContent}</Footer>
           </>

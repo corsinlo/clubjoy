@@ -292,8 +292,8 @@ const OrderPanel = props => {
         <div className={css.author}>
           <AvatarSmall user={author} className={css.providerAvatar} />
           <span className={css.providerNameLinked}>
-            {providerName}
-            {/*<FormattedMessage id="OrderPanel.author" values={{ name: authorLink }} />*/}
+           
+            <FormattedMessage id="OrderPanel.author" values={{ name: authorLink }}  />
           </span>
           <span className={css.providerNamePlain}>
             <FormattedMessage id="OrderPanel.author" values={{ name: authorDisplayName }} />
