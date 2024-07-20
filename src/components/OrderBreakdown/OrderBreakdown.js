@@ -152,7 +152,9 @@ export const OrderBreakdownComponent = props => {
       )}
       {hasCommissionLineItem ? (
         <span className={css.feeInfo}>
+          {processType !== 'free-booking' && (
           <FormattedMessage id="OrderBreakdown.commissionFeeNote" />
+          )}
         </span>
       ) : null}
     </div>
