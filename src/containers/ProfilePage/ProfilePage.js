@@ -226,7 +226,7 @@ export const MainContent = props => {
         </H2>
       ) : (
         <H2 as="h1" className={desktopHeadingClasses}>
-          {duser.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
+          {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
             <div style ={{display: 'flex', flexDirection: 'column'}}>
             <span className={css.padmaTitle}>{displayName}</span>
             <span className={css.subtitles}>7-8 settembre</span>
