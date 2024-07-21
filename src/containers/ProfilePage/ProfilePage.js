@@ -48,17 +48,17 @@ export const AsideContent = props => {
     <div className={asideContentClasses}>
       <AvatarLarge className={avatarClasses} user={user} disableProfileLink />
       <H2 as="h1" className={css.mobileHeading}>
-      {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-        <span className={css.padmaTitle}>{displayName}</span>
-        <span className={css.subtitles}>7-8 settembre</span>
-        <span className={css.subtitles}>viaggio sensoriale nella natura</span>
-        </div>
-      ) : (
-        displayName ? (
-          <FormattedMessage id="ProfilePage.mobileHeading" values={{ name: displayName }} />
-        ) : null
-      )}
+        {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span className={css.padmaTitle}>{displayName}</span>
+            <span className={css.subtitles}>7-8 settembre</span>
+            <span className={css.subtitles}>viaggio sensoriale nella natura</span>
+          </div>
+        ) : (
+          displayName ? (
+            <FormattedMessage id="ProfilePage.mobileHeading" values={{ name: displayName }} />
+          ) : null
+        )}
       </H2>
       {isCurrentUser ? (
         <>
@@ -215,21 +215,21 @@ export const MainContent = props => {
         <H2 as="h1" className={desktopHeadingClasses}>
           {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
 
-            providerName
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <span className={css.padmaTitle}>{providerName}</span>
+              <span className={css.subtitles}>7-8 settembre</span>
+            </div>
 
           ) : (
-            <div style ={{display: 'flex', flexDirection: 'column'}}>
-             <span className={css.padmaTitle}>{providerName}</span>
-             <span className={css.subtitles}>7-8 settembre</span>
-             </div>
+            providerName
           )}
         </H2>
       ) : (
         <H2 as="h1" className={desktopHeadingClasses}>
           {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
-            <div style ={{display: 'flex', flexDirection: 'column'}}>
-            <span className={css.padmaTitle}>{displayName}</span>
-            <span className={css.subtitles}>7-8 settembre</span>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <span className={css.padmaTitle}>{displayName}</span>
+              <span className={css.subtitles}>7-8 settembre</span>
             </div>
           ) : (
             displayName
@@ -247,7 +247,7 @@ export const MainContent = props => {
       )}
 
       {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
-        <p className={css.padmaBio}>{bio}</p>  
+        <p className={css.padmaBio}>{bio}</p>
       ) : (
         hasBio ? <p className={css.bio}>{bio}</p> : null
       )}

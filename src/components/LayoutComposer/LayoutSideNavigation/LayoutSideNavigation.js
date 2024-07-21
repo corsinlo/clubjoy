@@ -25,7 +25,7 @@ const LayoutSideNavigation = props => {
     currentPage,
     ...rest
   } = props;
-  console.log('props', user.id.uuid);
+
   const classes = classNames(rootClassName || css.root, className);
   const containerClasses = classNames(
     containerClassName || css.container,
