@@ -265,3 +265,24 @@ text-align: center;
     margin: 0;
   }
 }
+
+.subtitles {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: black;
+}
+
+@font-face {
+  font-family: 'CustomFont';
+  src: url('../../assets/fonts/Calistoga-Regular.ttf') format('truetype');
+}
+
+.padmaBio{
+  color: black;
+}
+
+.padmaBio.customFont {
+  font-family: 'CustomFont', sans-serif;
+}

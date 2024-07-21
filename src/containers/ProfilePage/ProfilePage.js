@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { bool, arrayOf, number, shape } from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -29,6 +29,7 @@ import FooterContainer from '../../containers/FooterContainer/FooterContainer';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
 
 import css from './ProfilePage.module.css';
+import '../../styles/fonts.css'
 
 const MAX_MOBILE_SCREEN_WIDTH = 768;
 
@@ -47,9 +48,16 @@ export const AsideContent = props => {
     <div className={asideContentClasses}>
       <AvatarLarge className={avatarClasses} user={user} disableProfileLink />
       <H2 as="h1" className={css.mobileHeading}>
-        {displayName ? (
+      {displayName === 'Padma F' ? (
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+        <span className={css.subtitles}>7-8 settembre</span>
+        <span className={css.subtitles}>viaggio sensoriale nella natura</span>
+        </div>
+      ) : (
+        displayName ? (
           <FormattedMessage id="ProfilePage.mobileHeading" values={{ name: displayName }} />
-        ) : null}
+        ) : null
+      )}
       </H2>
       {isCurrentUser ? (
         <>
@@ -192,6 +200,10 @@ export const MainContent = props => {
     [css.desktopHeading2]: displayName === 'Padma F',
   });
 
+  const padmaBioClasses = classNames(css.padmaBio, {
+    customFont: displayName === 'Padma F',  // Conditionally apply customFont class
+  });
+
   if (userShowError || queryListingsError) {
     return (
       <p className={css.error}>
@@ -203,23 +215,42 @@ export const MainContent = props => {
     <div>
       {isAuthorDefined ? (
         <H2 as="h1" className={desktopHeadingClasses}>
-          {providerName}
+          {providerName === 'Padma F' ? (
+            <span className={css.subtitles}>7-8 settembre</span>
+          ) : (
+            providerName
+          )}
         </H2>
       ) : (
         <H2 as="h1" className={desktopHeadingClasses}>
-          {displayName}
+          {displayName === 'Padma F' ? (
+            <span className={css.subtitles}>7-8 settembre</span>
+          ) : (
+            displayName
+          )}
         </H2>
       )}
-      <H2 as="h1" className={desktopHeadingClasses}>
-        <FormattedMessage id="ProfilePage.desktopHeading" values={{ name: displayName }} />
-      </H2>
-      {hasBio ? <p className={css.bio}>{bio}</p> : null}
+      {displayName === 'Padma F' ? (
+        <H2 as="h1" className={desktopHeadingClasses}>
+          <span className={css.subtitles}>viaggio sensoriale nella natura</span>
+        </H2>
+      ) : (
+        <H2 as="h1" className={desktopHeadingClasses}>
+          <FormattedMessage id="ProfilePage.desktopHeading" values={{ name: displayName }} />
+        </H2>
+      )}
+
+      {displayName === 'Padma F' ? (
+        <p className={padmaBioClasses}>{bio}</p>  // Apply conditional class here
+      ) : (
+        hasBio ? <p className={css.bio}>{bio}</p> : null
+      )}
       {hasListings ? (
         <div className={listingsContainerClasses}>
-         { displayName !== 'Padma F' &&
-          (<H4 as="h2" className={css.listingsTitle}>
-            <FormattedMessage id="ProfilePage.listingsTitle" values={{ count: listings.length }} />
-          </H4>)}
+          {displayName !== 'Padma F' &&
+            (<H4 as="h2" className={css.listingsTitle}>
+              <FormattedMessage id="ProfilePage.listingsTitle" values={{ count: listings.length }} />
+            </H4>)}
           <ul className={css.listings}>
             {listings.map(l => (
               <li className={css.listing} key={l.id.uuid}>
@@ -275,19 +306,22 @@ const ProfilePageComponent = props => {
     >
       <LayoutSideNavigation
         sideNavClassName={css.aside}
+        displayname={displayName}
         topbar={<TopbarContainer currentPage="ProfilePage" />}
         sideNav={
-          <AsideContent
-            user={user}
-            isCurrentUser={isCurrentUser}
-            displayName={displayName}
-            userRole={userRole}
-          />
+          displayName !== 'Padma F' ? (
+            <AsideContent
+              user={user}
+              isCurrentUser={isCurrentUser}
+              displayName={displayName}
+              userRole={userRole}
+            />
+          ) : null
         }
         footer={<FooterContainer />}
       >
-        { displayName === 'Padma F' &&
-        ( <AsideContent
+        {displayName === 'Padma F' &&
+          (<AsideContent
             user={user}
             isCurrentUser={isCurrentUser}
             displayName={displayName}
