@@ -233,7 +233,7 @@
 text-align: center;
   @media (--viewportLarge) {
     display: block;
-    margin: 0 0 24px 0;
+    margin: 0 ;
   }
 }
 
