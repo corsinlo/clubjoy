@@ -238,10 +238,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const ManageListingsPage = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   injectIntl
 )(ManageListingsPageComponent);
 

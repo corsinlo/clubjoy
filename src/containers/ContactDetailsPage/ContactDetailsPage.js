@@ -161,10 +161,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const ContactDetailsPage = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   injectIntl
 )(ContactDetailsPageComponent);
 

@@ -528,7 +528,7 @@ export const BookingDatesFormComponent = props => {
         } = fieldRenderProps;
         const { startDate, endDate } = values && values.bookingDates ? values.bookingDates : {};
         const { seats } = values;
-        consolelog('FORM', form);
+
         const startDateErrorMessage = intl.formatMessage({
           id: 'FieldDateRangeInput.invalidStartDate',
         });

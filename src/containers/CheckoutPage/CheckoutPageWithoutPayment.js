@@ -1,30 +1,14 @@
 import React, { useState } from 'react';
-import {
-  arrayOf,
-  bool,
-  func,
-  object,
-  oneOfType,
-  shape,
-  string,
-} from 'prop-types';
+import { arrayOf, bool, func, object, oneOfType, shape, string } from 'prop-types';
 
 // Import contexts and util modules
 import { FormattedMessage, intlShape } from '../../util/reactIntl';
 import { pathByRouteName } from '../../util/routes';
-import {
-  propTypes,
-  LINE_ITEM_HOUR,
-  DATE_TYPE_DATE,
-  DATE_TYPE_DATETIME,
-} from '../../util/types';
+import { propTypes, LINE_ITEM_HOUR, DATE_TYPE_DATE, DATE_TYPE_DATETIME } from '../../util/types';
 import { ensureTransaction } from '../../util/data';
 import { createSlug } from '../../util/urlHelpers';
 import { isTransactionInitiateListingNotFoundError } from '../../util/errors';
-import {
-  getProcess,
-  isBookingProcessAlias,
-} from '../../transactions/transaction';
+import { getProcess, isBookingProcessAlias } from '../../transactions/transaction';
 
 // Import shared components
 import { H3, H4, NamedLink, OrderBreakdown, Page } from '../../components';
@@ -59,19 +43,23 @@ import css from './CheckoutPage.module.css';
  * @param {Object} config app-wide configs. This contains hosted configs too.
  * @returns orderParams.
  */
-const getOrderParams = (pageData, shippingDetails, config) => {
+const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config, currentUser) => {
   const quantity = pageData.orderData?.quantity;
   const quantityMaybe = quantity ? { quantity } : {};
+  const seats = pageData.orderData?.seats;
+  const seatNames = pageData.orderData?.guestNames;
+  const seatsMaybe = seats ? { seats } : {};
   const deliveryMethod = pageData.orderData?.deliveryMethod;
   const deliveryMethodMaybe = deliveryMethod ? { deliveryMethod } : {};
-
-  const { listingType, unitType } =
-    pageData?.listing?.attributes?.publicData || {};
+  const guestsNameMaybe = seatNames ? { seatNames } : {};
+  const { listingType, unitType } = pageData?.listing?.attributes?.publicData || {};
   const protectedDataMaybe = {
     protectedData: {
       ...getTransactionTypeData(listingType, unitType, config),
       ...deliveryMethodMaybe,
       ...shippingDetails,
+      ...guestsNameMaybe,
+      email: currentUser?.attributes?.email,
     },
   };
 
@@ -81,24 +69,20 @@ const getOrderParams = (pageData, shippingDetails, config) => {
     listingId: pageData?.listing?.id,
     ...deliveryMethodMaybe,
     ...quantityMaybe,
+    ...seatsMaybe,
     ...bookingDatesMaybe(pageData.orderData?.bookingDates),
     ...protectedDataMaybe,
+    ...optionalPaymentParams,
   };
   return orderParams;
 };
 
-const fetchSpeculatedTransactionIfNeeded = (
-  orderParams,
-  pageData,
-  fetchSpeculatedTransaction
-) => {
+const fetchSpeculatedTransactionIfNeeded = (orderParams, pageData, fetchSpeculatedTransaction) => {
   const tx = pageData ? pageData.transaction : null;
   const pageDataListing = pageData.listing;
   const processName =
     tx?.attributes?.processName ||
-    pageDataListing?.attributes?.publicData?.transactionProcessAlias?.split(
-      '/'
-    )[0];
+    pageDataListing?.attributes?.publicData?.transactionProcessAlias?.split('/')[0];
   const process = processName ? getProcess(processName) : null;
 
   // If transaction has passed payment-pending state, speculated tx is not needed.
@@ -106,8 +90,7 @@ const fetchSpeculatedTransactionIfNeeded = (
     !!pageData?.listing?.id && !!pageData.orderData && !!process;
 
   if (shouldFetchSpeculatedTransaction) {
-    const processAlias =
-      pageData.listing.attributes.publicData?.transactionProcessAlias;
+    const processAlias = pageData.listing.attributes.publicData?.transactionProcessAlias;
     const transactionId = tx ? tx.id : null;
     const isInquiryInPaymentProcess =
       tx?.attributes?.lastTransition === process.transitions.INQUIRE;
@@ -143,22 +126,14 @@ const fetchSpeculatedTransactionIfNeeded = (
  * This function also sets of fetching the speculative transaction
  * based on this initial data.
  */
-export const loadInitialData = ({
-  pageData,
-  fetchSpeculatedTransaction,
-  config,
-}) => {
+export const loadInitialData = ({ pageData, fetchSpeculatedTransaction, config }) => {
   // Fetch speculated transaction for showing price in order breakdown
   // NOTE: if unit type is line-item/item, quantity needs to be added.
   // The way to pass it to checkout page is through pageData.orderData
   const shippingDetails = {};
   const orderParams = getOrderParams(pageData, shippingDetails, config);
 
-  fetchSpeculatedTransactionIfNeeded(
-    orderParams,
-    pageData,
-    fetchSpeculatedTransaction
-  );
+  fetchSpeculatedTransactionIfNeeded(orderParams, pageData, fetchSpeculatedTransaction);
 };
 
 const handleSubmit = (values, process, props, submitting, setSubmitting) => {
@@ -209,13 +184,9 @@ const handleSubmit = (values, process, props, submitting, setSubmitting) => {
       setSubmitting(false);
 
       const initialMessageFailedToTransaction = messageSuccess ? null : orderId;
-      const orderDetailsPath = pathByRouteName(
-        'OrderDetailsPage',
-        routeConfiguration,
-        {
-          id: orderId.uuid,
-        }
-      );
+      const orderDetailsPath = pathByRouteName('OrderDetailsPage', routeConfiguration, {
+        id: orderId.uuid,
+      });
       const initialValues = {
         initialMessageFailedToTransaction,
       };
@@ -260,11 +231,7 @@ export const CheckoutPageWithoutPayment = props => {
 
   const { listing, transaction, orderData } = pageData;
   const existingTransaction = ensureTransaction(transaction);
-  const speculatedTransaction = ensureTransaction(
-    speculatedTransactionMaybe,
-    {},
-    null
-  );
+  const speculatedTransaction = ensureTransaction(speculatedTransactionMaybe, {}, null);
 
   // If existing transaction has line-items, it has gone through one of the request-payment transitions.
   // Otherwise, we try to rely on speculatedTransaction for order breakdown data.
@@ -273,15 +240,11 @@ export const CheckoutPageWithoutPayment = props => {
       ? existingTransaction
       : speculatedTransaction;
   const timeZone = listing?.attributes?.availabilityPlan?.timezone;
-  const transactionProcessAlias =
-    listing?.attributes?.publicData?.transactionProcessAlias;
+  const transactionProcessAlias = listing?.attributes?.publicData?.transactionProcessAlias;
   const unitType = listing?.attributes?.publicData?.unitType;
   const lineItemUnitType = `line-item/${unitType}`;
-  const dateType =
-    lineItemUnitType === LINE_ITEM_HOUR ? DATE_TYPE_DATETIME : DATE_TYPE_DATE;
-  const txBookingMaybe = tx?.booking?.id
-    ? { booking: tx.booking, dateType, timeZone }
-    : {};
+  const dateType = lineItemUnitType === LINE_ITEM_HOUR ? DATE_TYPE_DATETIME : DATE_TYPE_DATE;
+  const txBookingMaybe = tx?.booking?.id ? { booking: tx.booking, dateType, timeZone } : {};
 
   // Show breakdown only when (speculated?) transaction is loaded
   // (i.e. it has an id and lineItems)
@@ -298,9 +261,7 @@ export const CheckoutPageWithoutPayment = props => {
     ) : null;
 
   const totalPrice =
-    tx?.attributes?.lineItems?.length > 0
-      ? getFormattedTotalPrice(tx, intl)
-      : null;
+    tx?.attributes?.lineItems?.length > 0 ? getFormattedTotalPrice(tx, intl) : null;
 
   const process = processName ? getProcess(processName) : null;
   const transitions = process.transitions;
@@ -335,9 +296,7 @@ export const CheckoutPageWithoutPayment = props => {
   );
 
   const txTransitions = existingTransaction?.attributes?.transitions || [];
-  const hasInquireTransition = txTransitions.find(
-    tr => tr.transition === transitions.INQUIRE
-  );
+  const hasInquireTransition = txTransitions.find(tr => tr.transition === transitions.INQUIRE);
   const showInitialMessageInput = !hasInquireTransition;
 
   // Get first and last name of the current user and use it in the StripePaymentForm to autofill the name field
@@ -370,17 +329,12 @@ export const CheckoutPageWithoutPayment = props => {
               {title}
             </H3>
             <H4 as="h2" className={css.detailsHeadingMobile}>
-              <FormattedMessage
-                id="CheckoutPage.listingTitle"
-                values={{ listingTitle }}
-              />
+              <FormattedMessage id="CheckoutPage.listingTitle" values={{ listingTitle }} />
             </H4>
           </div>
 
           <MobileOrderBreakdown
-            speculateTransactionErrorMessage={
-              errorMessages.speculateTransactionErrorMessage
-            }
+            speculateTransactionErrorMessage={errorMessages.speculateTransactionErrorMessage}
             breakdown={breakdown}
           />
 
@@ -393,20 +347,10 @@ export const CheckoutPageWithoutPayment = props => {
             {showPaymentForm ? (
               <SimpleOrderForm
                 className={css.paymentForm}
-                onSubmit={values =>
-                  handleSubmit(
-                    values,
-                    process,
-                    props,
-                    submitting,
-                    setSubmitting
-                  )
-                }
+                onSubmit={values => handleSubmit(values, process, props, submitting, setSubmitting)}
                 inProgress={submitting}
                 formId="CheckoutPagePaymentForm"
-                authorDisplayName={
-                  listing?.author?.attributes?.profile?.displayName
-                }
+                authorDisplayName={listing?.author?.attributes?.profile?.displayName}
                 showInitialMessageInput={showInitialMessageInput}
                 initialValues={initalValuesForStripePayment}
                 initiateOrderError={initiateOrderError}
@@ -429,9 +373,7 @@ export const CheckoutPageWithoutPayment = props => {
           author={listing?.author}
           firstImage={firstImage}
           layoutListingImageConfig={config.layout.listingImage}
-          speculateTransactionErrorMessage={
-            errorMessages.speculateTransactionErrorMessage
-          }
+          speculateTransactionErrorMessage={errorMessages.speculateTransactionErrorMessage}
           isInquiryProcess={false}
           processName={processName}
           breakdown={breakdown}

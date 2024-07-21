@@ -49,6 +49,10 @@ const EditListingPricingPanel = props => {
       : !!marketplaceCurrency;
   const unitType = listing?.attributes?.publicData?.unitType;
 
+  // Set listingMinimumPriceSubUnits to 0 if isTeamBuilding is 'free-booking'
+  const adjustedListingMinimumPriceSubUnits =
+    isTeamBuilding === 'free-booking' ? 0 : listingMinimumPriceSubUnits;
+
   return (
     <div className={classes}>
       <H3 as="h1">
@@ -79,7 +83,7 @@ const EditListingPricingPanel = props => {
           }}
           marketplaceCurrency={marketplaceCurrency}
           unitType={unitType}
-          listingMinimumPriceSubUnits={listingMinimumPriceSubUnits}
+          listingMinimumPriceSubUnits={adjustedListingMinimumPriceSubUnits}
           saveActionMsg={submitButtonText}
           disabled={disabled}
           ready={ready}

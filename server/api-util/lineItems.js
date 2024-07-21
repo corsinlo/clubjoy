@@ -224,10 +224,10 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
     includeFor: ['customer', 'provider'],
   };
   const estimatedTotal = order?.unitPrice.amount * order?.seats;
-  const voucherFeePrice = orderData?.voucherFee.amount_off
-    ? resolveVoucherFeePrice(orderData?.voucherFee.amount_off)
-    : orderData?.voucherFee.percent_off
-    ? resolveVoucherFeeDiscount(orderData?.voucherFee.percent_off, estimatedTotal)
+  const voucherFeePrice = orderData?.voucherFee?.amount_off
+    ? resolveVoucherFeePrice(orderData?.voucherFee?.amount_off)
+    : orderData?.voucherFee?.percent_off
+    ? resolveVoucherFeeDiscount(orderData?.voucherFee?.percent_off, estimatedTotal)
     : null;
 
   const voucherFee = voucherFeePrice

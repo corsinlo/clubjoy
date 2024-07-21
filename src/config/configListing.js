@@ -233,16 +233,16 @@ export const listingFields = [
 
 export const listingTypes = [
   {
-    listingType: 'daily-booking',
-    label: 'Daily booking',
+    listingType: 'free-booking',
+    label: 'Free booking',
     transactionType: {
-      process: 'default-booking',
-      alias: 'default-booking/release-1',
-      unitType: 'day',
+      process: 'free-booking',
+      alias: 'free-booking/release-1',
+      unitType: 'hour',
     },
     defaultListingFields: {
       location: true,
-      payoutDetails: true,
+      payoutDetails: false,
     },
   },
   // // Here are some examples for other listingTypes

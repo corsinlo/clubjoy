@@ -5,6 +5,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  
 }
 
 .topbar {
@@ -30,6 +31,7 @@
   @media (--viewportLarge) {
     flex-direction: row;
     justify-content: center;
+
   }
 }
 
@@ -71,6 +73,7 @@
   border-top-style: solid;
   background-color: var(--colorWhite);
   box-shadow: var(--boxShadow);
+  
 
   @media (--viewportLarge) {
     padding: 48px 0 82px 36px;
@@ -118,5 +121,51 @@
 
   @media (--viewportLarge) {
     margin-left: 0;
+  }
+}
+
+/* Padma */
+
+.main2 {
+  /* Expand to the full remaining width of the viewport */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+
+  padding: 24px;
+
+  @media (--viewportLarge) {
+    /**
+     * Calculate right padding to match Footer right border
+     * and left padding together with border should be 60px.
+     */
+    padding: 48px 36px 82px 59px;
+    background-color: #f05418;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color:#f05418;
+  }
+
+  @media (--viewportLargeWithPaddings) {
+    padding: 48px calc((100% - 1056px) / 2) 82px 59px;
+  }
+}
+
+.container2 {
+  /* parent aka root is flexbox, this container takes all available space */
+  flex-grow: 1;
+  flex-shrink: 0;
+
+  /* This container uses flexbox layout */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  /* When side nav is shown as a column, Topbar's box-shadow should be visible */
+  z-index: calc(var(--zIndexTopbar) - 1);
+  background-color: #f05418;
+  @media (--viewportLarge) {
+    flex-direction: row;
+    justify-content: center;
   }
 }

@@ -3,18 +3,9 @@ import { bool, func, object, shape, string } from 'prop-types';
 import { Form as FinalForm } from 'react-final-form';
 import classNames from 'classnames';
 
-import {
-  FormattedMessage,
-  injectIntl,
-  intlShape,
-} from '../../../util/reactIntl';
+import { FormattedMessage, injectIntl, intlShape } from '../../../util/reactIntl';
 
-import {
-  Heading,
-  Form,
-  PrimaryButton,
-  FieldTextInput,
-} from '../../../components';
+import { Heading, Form, PrimaryButton, FieldTextInput } from '../../../components';
 
 import ShippingDetails from '../ShippingDetails/ShippingDetails';
 
@@ -145,11 +136,7 @@ class SimpleOrderForm extends Component {
     const isBookingYesNo = isBooking ? 'yes' : 'no';
 
     return (
-      <Form
-        className={classes}
-        onSubmit={handleSubmit}
-        enforcePagePreloadFor="OrderDetailsPage"
-      >
+      <Form className={classes} onSubmit={handleSubmit} enforcePagePreloadFor="OrderDetailsPage">
         <LocationOrShippingDetails
           askShippingDetails={askShippingDetails}
           showPickUplocation={showPickUplocation}
@@ -208,13 +195,7 @@ class SimpleOrderForm extends Component {
 
   render() {
     const { onSubmit, ...rest } = this.props;
-    return (
-      <FinalForm
-        onSubmit={this.handleSubmit}
-        {...rest}
-        render={this.orderForm}
-      />
-    );
+    return <FinalForm onSubmit={this.handleSubmit} {...rest} render={this.orderForm} />;
   }
 }
 

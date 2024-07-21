@@ -203,3 +203,65 @@
 .desktopReviewsTabNav {
   margin-bottom: 32px;
 }
+
+/* PADMA */
+
+.withBioMissingAbove2 {
+  /* Avoid extra borders in mobile when bio is missing */
+  border-top: none;
+
+  @media (--viewportLarge) {
+  
+  }
+}
+
+.desktopReviews2 {
+
+  border-top: 1px solid #f05418;
+
+  @media (--viewportMedium) {
+    margin-bottom: 48px;
+  }
+
+  @media (--viewportLarge) {
+    margin-bottom: 0;
+  }
+}
+
+.desktopHeading2 {
+  display: none;
+text-align: center;
+  @media (--viewportLarge) {
+    display: block;
+    margin: 0 0 24px 0;
+  }
+}
+
+.asideContent2 {
+  width: 100%;
+  display: flex;
+
+  flex-wrap: wrap;
+  border-bottom: 1px solid #f05418;
+  justify-content: center; 
+  align-items: center;
+
+  @media (--viewportLarge) {
+    flex-direction: column;
+    border-bottom: none;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+
+.avatar2 {
+  margin: 60px 26px 29px 0;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    margin: 0;
+  }
+}
