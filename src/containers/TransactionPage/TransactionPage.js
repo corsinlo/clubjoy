@@ -145,7 +145,7 @@ export const TransactionPageComponent = props => {
     enddate: transaction?.booking?.attributes?.end,
     eventlocation: transaction?.listing.attributes.publicData?.location?.address,
     eventgeoLocation: transaction?.listing.attributes?.geolocation,
-    providername: transaction?.listing.author.attributes.profile.publicData?.providerName ?? '',
+    providername: transaction?.listing?.author?.attributes?.profile?.publicData?.providerName ?? ' ',
     cid: transaction?.customer.id?.uuid,
   };
 

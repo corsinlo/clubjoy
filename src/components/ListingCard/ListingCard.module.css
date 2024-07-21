@@ -95,7 +95,8 @@
   /* Font */
   composes: textSmall from global;
   font-weight: var(--fontWeightBold);
-  color: var(--colorGrey700);
+  /*color: var(--colorGrey700);*/
+  color:black;
   margin: 0;
 }
 
