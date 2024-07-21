@@ -66,6 +66,7 @@ export const PasswordChangePageComponent = props => {
         sideNav={null}
         useAccountSettingsNav
         currentPage="PasswordChangePage"
+        user={currentUser}
         footer={<FooterContainer />}
       >
         <div className={css.content}>

@@ -83,6 +83,7 @@ export const ContactDetailsPageComponent = props => {
           </>
         }
         sideNav={null}
+        user={user}
         useAccountSettingsNav
         currentPage="ContactDetailsPage"
         footer={<FooterContainer />}
