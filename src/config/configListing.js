@@ -234,7 +234,7 @@ export const listingFields = [
 export const listingTypes = [
   {
     listingType: 'free-booking',
-    label: 'Free booking',
+    label: 'Workshop pubblico gratuito',
     transactionType: {
       process: 'free-booking',
       alias: 'free-booking/release-1',
