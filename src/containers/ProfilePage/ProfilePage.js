@@ -50,6 +50,7 @@ export const AsideContent = props => {
       <H2 as="h1" className={css.mobileHeading}>
       {displayName === 'Padma F' ? (
         <div style={{display: 'flex', flexDirection: 'column'}}>
+        <span className={css.padmaTitle}>{displayName}</span>
         <span className={css.subtitles}>7-8 settembre</span>
         <span className={css.subtitles}>viaggio sensoriale nella natura</span>
         </div>
@@ -200,10 +201,6 @@ export const MainContent = props => {
     [css.desktopHeading2]: displayName === 'Padma F',
   });
 
-  const padmaBioClasses = classNames(css.padmaBio, {
-    customFont: displayName === 'Padma F',  // Conditionally apply customFont class
-  });
-
   if (userShowError || queryListingsError) {
     return (
       <p className={css.error}>
@@ -216,15 +213,23 @@ export const MainContent = props => {
       {isAuthorDefined ? (
         <H2 as="h1" className={desktopHeadingClasses}>
           {providerName === 'Padma F' ? (
-            <span className={css.subtitles}>7-8 settembre</span>
-          ) : (
+
             providerName
+
+          ) : (
+            <div style ={{display: 'flex', flexDirection: 'column'}}>
+             <span className={css.padmaTitle}>{providerName}</span>
+             <span className={css.subtitles}>7-8 settembre</span>
+             </div>
           )}
         </H2>
       ) : (
         <H2 as="h1" className={desktopHeadingClasses}>
           {displayName === 'Padma F' ? (
+            <div style ={{display: 'flex', flexDirection: 'column'}}>
+            <span className={css.padmaTitle}>{displayName}</span>
             <span className={css.subtitles}>7-8 settembre</span>
+            </div>
           ) : (
             displayName
           )}
@@ -241,7 +246,7 @@ export const MainContent = props => {
       )}
 
       {displayName === 'Padma F' ? (
-        <p className={padmaBioClasses}>{bio}</p>  // Apply conditional class here
+        <p className={css.padmaBio}>{bio}</p>  // Apply conditional class here
       ) : (
         hasBio ? <p className={css.bio}>{bio}</p> : null
       )}
