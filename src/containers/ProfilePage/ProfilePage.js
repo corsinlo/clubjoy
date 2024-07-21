@@ -274,18 +274,21 @@ const ProfilePageComponent = props => {
       }}
     >
       <LayoutSideNavigation
-        sideNavClassName={css.aside}
-        topbar={<TopbarContainer currentPage="ProfilePage" />}
-        sideNav={
-          <AsideContent
-            user={user}
-            isCurrentUser={isCurrentUser}
-            displayName={displayName}
-            userRole={userRole}
-          />
-        }
-        footer={<FooterContainer />}
-      >
+       sideNavClassName={css.aside}
+       displayname={displayName}
+       topbar={<TopbarContainer currentPage="ProfilePage" />}
+       sideNav={
+         displayName !== 'Padma F' ? (
+           <AsideContent
+             user={user}
+             isCurrentUser={isCurrentUser}
+             displayName={displayName}
+             userRole={userRole}
+           />
+         ) : null
+       }
+       footer={<FooterContainer />}
+     >
         { displayName === 'Padma F' &&
         ( <AsideContent
             user={user}
