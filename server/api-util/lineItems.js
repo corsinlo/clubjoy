@@ -25,8 +25,7 @@ const getItemQuantityAndLineItems = (orderData, publicData, currency) => {
   const deliveryMethod = orderData && orderData.deliveryMethod;
   const isShipping = deliveryMethod === 'shipping';
   const isPickup = deliveryMethod === 'pickup';
-  const { shippingPriceInSubunitsOneItem, shippingPriceInSubunitsAdditionalItems } =
-    publicData || {};
+  const { shippingPriceInSubunitsOneItem, shippingPriceInSubunitsAdditionalItems } = publicData || {};
 
   // Calculate shipping fee if applicable
   const shippingFee = isShipping
@@ -70,8 +69,7 @@ const getItemQuantityAndLineItems = (orderData, publicData, currency) => {
  */
 const getHourQuantityAndLineItems = orderData => {
   const { bookingStart, bookingEnd } = orderData || {};
-  const quantity =
-    bookingStart && bookingEnd ? calculateQuantityFromHours(bookingStart, bookingEnd) : null;
+  const quantity = bookingStart && bookingEnd ? calculateQuantityFromHours(bookingStart, bookingEnd) : null;
 
   return { quantity, extraLineItems: [] };
 };
@@ -85,8 +83,7 @@ const getHourQuantityAndLineItems = orderData => {
 const getDateRangeQuantityAndLineItems = (orderData, code) => {
   // bookingStart & bookingend are used with day-based bookings (how many days / nights)
   const { bookingStart, bookingEnd } = orderData || {};
-  const quantity =
-    bookingStart && bookingEnd ? calculateQuantityFromDates(bookingStart, bookingEnd, code) : null;
+  const quantity = bookingStart && bookingEnd ? calculateQuantityFromDates(bookingStart, bookingEnd, code) : null;
 
   return { quantity, extraLineItems: [] };
 };
@@ -100,8 +97,7 @@ const getDateRangeQuantityAndLineItems = (orderData, code) => {
 const getDateRangeUnitsSeatsLineItems = (orderData, code) => {
   const { bookingStart, bookingEnd, seats } = orderData;
 
-  const units =
-    bookingStart && bookingEnd ? calculateQuantityFromDates(bookingStart, bookingEnd, code) : null;
+  const units = bookingStart && bookingEnd ? calculateQuantityFromDates(bookingStart, bookingEnd, code) : null;
 
   return { units, seats, extraLineItems: [] };
 };
@@ -150,6 +146,7 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
   const unitPrice = listing.attributes.price;
   const currency = unitPrice.currency;
   const listingType = publicData.listingType;
+  const listingId = listing.id.uuid;
 
   /**
    * Pricing starts with order's base price:
@@ -251,9 +248,26 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
 
   // Provider commission reduces the amount of money that is paid out to provider.
   // Therefore, the provider commission line-item should have negative effect to the payout total.
-  const getNegation = (percentage, voucherFeePrice, total, listingType) => {
+  const getNegation = (percentage, voucherFeePrice, total, listingType, listingId, seats) => {
+
     const result = adjustedCommission(voucherFeePrice, total);
     let percentageAdjusted = result > 0 ? percentage - result : percentage;
+
+    // Cap the discount to always result in $5 off per seat for specific listing IDs
+    const cappedListingIds = [
+      '669cfea6-21fd-472e-85a4-75e1b2a72314',
+      '669a2306-d854-4d48-93f1-24664a352f9e',
+      '669a1e0e-b03d-4a1d-bee6-652b1a6f7385'
+    ];
+
+    if (cappedListingIds.includes(listingId)) {
+      const maxDiscountInCentsPerSeat = 500; // $5 in cents per seat
+      const maxDiscountInCents = maxDiscountInCentsPerSeat * (seats || 1); // Calculate the maximum discount in cents based on seats
+      const maxDiscountPercentage = (maxDiscountInCents / total) * 100; // Calculate the maximum discount percentage
+
+      percentageAdjusted = Math.min(percentageAdjusted, maxDiscountPercentage);
+    }
+
     if (percentageAdjusted > 10) {
       percentageAdjusted = 10;
     } else if (percentageAdjusted < 0) {
@@ -263,6 +277,7 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
     if (listingType === 'store') {
       percentageAdjusted = 50;
     }
+
     return -1 * percentageAdjusted;
   };
 
@@ -281,7 +296,9 @@ exports.transactionLineItems = (listing, orderData, providerCommission, customer
             providerCommission.percentage,
             voucherFeePrice?.amount,
             estimatedTotal,
-            listingType
+            listingType,
+            listingId,
+            seats
           ),
           includeFor: ['provider'],
         },
