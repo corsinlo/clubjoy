@@ -141,7 +141,7 @@ const handleSubmit = (values, process, props, submitting, setSubmitting) => {
     return;
   }
   setSubmitting(true);
-  console.log({ values });
+
 
   const {
     history,
