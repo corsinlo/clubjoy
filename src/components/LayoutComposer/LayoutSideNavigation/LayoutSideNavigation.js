@@ -1,4 +1,3 @@
-// LayoutSideNavigation.js
 import React from 'react';
 import { bool, node, string } from 'prop-types';
 import classNames from 'classnames';
@@ -25,8 +24,8 @@ const LayoutSideNavigation = props => {
     currentPage,
     ...rest
   } = props;
-  
-  const classes = classNames(rootClassName || css.root, className, 'customFont');  // Apply customFont class
+
+  const classes = classNames(rootClassName || css.root, className);
   const containerClasses = classNames(
     containerClassName || css.container,
     props?.displayname === 'Padma F' && css.container2
@@ -35,6 +34,7 @@ const LayoutSideNavigation = props => {
   const mainClasses = classNames(
     css.main,
     mainColumnClassName,
+    'customFont',  // Apply customFont class to Main component
     props?.displayname === 'Padma F' && css.main2
   );
 
@@ -60,7 +60,7 @@ const LayoutSideNavigation = props => {
                 {useAccountSettingsNav ? (
                   <LayoutWrapperAccountSettingsSideNav currentPage={currentPage} />
                 ) : null}
-                {props?.displayname !== 'Padma F' && sideNavContent}
+                {props.sideNav?.props?.displayName !== 'Padma F' && sideNavContent}
               </aside>
               <main className={mainClasses}>{children}</main>
             </Main>
