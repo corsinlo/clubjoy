@@ -34,7 +34,7 @@ const LayoutSideNavigation = props => {
   const mainClasses = classNames(
     css.main,
     mainColumnClassName,
-    'customFont',  // Apply customFont class to Main component
+    props?.displayname === 'Padma F' && 'customFont',  // Conditionally apply customFont class
     props?.displayname === 'Padma F' && css.main2
   );
 
