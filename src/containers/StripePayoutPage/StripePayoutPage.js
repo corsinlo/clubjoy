@@ -160,6 +160,7 @@ export const StripePayoutPageComponent = props => {
         sideNav={null}
         useAccountSettingsNav
         currentPage="StripePayoutPage"
+        user={currentUser}
         footer={<FooterContainer />}
       >
         <div className={css.content}>

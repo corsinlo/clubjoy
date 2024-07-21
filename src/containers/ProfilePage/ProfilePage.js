@@ -318,7 +318,7 @@ const ProfilePageComponent = props => {
         user={user}
         topbar={<TopbarContainer currentPage="ProfilePage" />}
         sideNav={
-          user.id.uuid !== '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
+          user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
             <AsideContent
               user={user}
               isCurrentUser={isCurrentUser}
