@@ -17,6 +17,7 @@ const LayoutSideNavigation = props => {
     mainColumnClassName,
     sideNavClassName,
     children,
+    user,
     topbar: topbarContent,
     footer: footerContent,
     sideNav: sideNavContent,
@@ -24,18 +25,18 @@ const LayoutSideNavigation = props => {
     currentPage,
     ...rest
   } = props;
-
+  console.log('props', user.id.uuid);
   const classes = classNames(rootClassName || css.root, className);
   const containerClasses = classNames(
     containerClassName || css.container,
-    props?.displayname === 'Padma F' && css.container2
+    user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && css.container2
   );
 
   const mainClasses = classNames(
     css.main,
     mainColumnClassName,
-    props?.displayname === 'Padma F' && 'customFont',  // Conditionally apply customFont class
-    props?.displayname === 'Padma F' && css.main2
+    user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && 'customFont',  // Conditionally apply customFont class
+    user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && css.main2
   );
 
   // TODO: since responsiveAreas are still experimental,
@@ -60,7 +61,7 @@ const LayoutSideNavigation = props => {
                 {useAccountSettingsNav ? (
                   <LayoutWrapperAccountSettingsSideNav currentPage={currentPage} />
                 ) : null}
-                {props.sideNav?.props?.displayName !== 'Padma F' && sideNavContent}
+                {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && sideNavContent}
               </aside>
               <main className={mainClasses}>{children}</main>
             </Main>

@@ -37,18 +37,18 @@ export const AsideContent = props => {
   const { user, displayName, isCurrentUser } = props;
 
   const asideContentClasses = classNames(css.asideContent, {
-    [css.asideContent2]: displayName === 'Padma F',
+    [css.asideContent2]: user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5',
   });
 
   const avatarClasses = classNames(css.avatar, {
-    [css.avatar2]: displayName === 'Padma F',
+    [css.avatar2]: user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5',
   });
 
   return (
     <div className={asideContentClasses}>
       <AvatarLarge className={avatarClasses} user={user} disableProfileLink />
       <H2 as="h1" className={css.mobileHeading}>
-      {displayName === 'Padma F' ? (
+      {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
         <div style={{display: 'flex', flexDirection: 'column'}}>
         <span className={css.padmaTitle}>{displayName}</span>
         <span className={css.subtitles}>7-8 settembre</span>
@@ -84,7 +84,7 @@ export const ReviewsErrorMaybe = props => {
 };
 
 export const MobileReviews = props => {
-  const { reviews, queryReviewsError, userRole } = props;
+  const { reviews, queryReviewsError, userRole, user } = props;
   const reviewsOfProvider = reviews.filter(r => r.attributes.type === REVIEW_TYPE_OF_PROVIDER);
   const reviewsOfCustomer = reviews.filter(r => r.attributes.type === REVIEW_TYPE_OF_CUSTOMER);
   return (
@@ -114,7 +114,8 @@ export const MobileReviews = props => {
 
 export const DesktopReviews = props => {
   const [showReviewsType, setShowReviewsType] = useState(REVIEW_TYPE_OF_PROVIDER);
-  const { reviews, queryReviewsError, userRole, displayName } = props;
+  const { reviews, queryReviewsError, userRole, displayName, user } = props;
+
   const reviewsOfProvider = reviews.filter(r => r.attributes.type === REVIEW_TYPE_OF_PROVIDER);
   const reviewsOfCustomer = reviews.filter(r => r.attributes.type === REVIEW_TYPE_OF_CUSTOMER);
   const isReviewTypeProviderSelected = showReviewsType === REVIEW_TYPE_OF_PROVIDER;
@@ -152,7 +153,7 @@ export const DesktopReviews = props => {
   }
 
   const desktopReviewsClasses = classNames(css.desktopReviews, {
-    [css.desktopReviews2]: displayName === 'Padma F',
+    [css.desktopReviews2]: user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5',
   });
 
   return (
@@ -194,11 +195,11 @@ export const MainContent = props => {
 
   const listingsContainerClasses = classNames(css.listingsContainer, {
     [css.withBioMissingAbove]: !hasBio,
-    [css.withBioMissingAbove2]: displayName === 'Padma F' && !hasBio,
+    [css.withBioMissingAbove2]: user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && !hasBio,
   });
 
   const desktopHeadingClasses = classNames(css.desktopHeading, {
-    [css.desktopHeading2]: displayName === 'Padma F',
+    [css.desktopHeading2]: user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5',
   });
 
   if (userShowError || queryListingsError) {
@@ -212,7 +213,7 @@ export const MainContent = props => {
     <div>
       {isAuthorDefined ? (
         <H2 as="h1" className={desktopHeadingClasses}>
-          {providerName === 'Padma F' ? (
+          {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
 
             providerName
 
@@ -225,7 +226,7 @@ export const MainContent = props => {
         </H2>
       ) : (
         <H2 as="h1" className={desktopHeadingClasses}>
-          {displayName === 'Padma F' ? (
+          {duser.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
             <div style ={{display: 'flex', flexDirection: 'column'}}>
             <span className={css.padmaTitle}>{displayName}</span>
             <span className={css.subtitles}>7-8 settembre</span>
@@ -235,7 +236,7 @@ export const MainContent = props => {
           )}
         </H2>
       )}
-      {displayName === 'Padma F' ? (
+      {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
         <H2 as="h1" className={desktopHeadingClasses}>
           <span className={css.subtitles}>viaggio sensoriale nella natura</span>
         </H2>
@@ -245,14 +246,14 @@ export const MainContent = props => {
         </H2>
       )}
 
-      {displayName === 'Padma F' ? (
-        <p className={css.padmaBio}>{bio}</p>  // Apply conditional class here
+      {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
+        <p className={css.padmaBio}>{bio}</p>  
       ) : (
         hasBio ? <p className={css.bio}>{bio}</p> : null
       )}
       {hasListings ? (
         <div className={listingsContainerClasses}>
-          {displayName !== 'Padma F' &&
+          {user.id.uuid !== '668fb70a-dd46-44f6-94f0-eea88dd089a5' &&
             (<H4 as="h2" className={css.listingsTitle}>
               <FormattedMessage id="ProfilePage.listingsTitle" values={{ count: listings.length }} />
             </H4>)}
@@ -270,6 +271,7 @@ export const MainContent = props => {
           reviews={reviews}
           queryReviewsError={queryReviewsError}
           userRole={userRole}
+          user={user}
         />
       ) : (
         <DesktopReviews
@@ -277,6 +279,7 @@ export const MainContent = props => {
           queryReviewsError={queryReviewsError}
           userRole={userRole}
           displayName={displayName}
+          user={user}
         />
       )}
     </div>
@@ -312,9 +315,10 @@ const ProfilePageComponent = props => {
       <LayoutSideNavigation
         sideNavClassName={css.aside}
         displayname={displayName}
+        user={user}
         topbar={<TopbarContainer currentPage="ProfilePage" />}
         sideNav={
-          displayName !== 'Padma F' ? (
+          user.id.uuid !== '668fb70a-dd46-44f6-94f0-eea88dd089a5' ? (
             <AsideContent
               user={user}
               isCurrentUser={isCurrentUser}
@@ -325,7 +329,7 @@ const ProfilePageComponent = props => {
         }
         footer={<FooterContainer />}
       >
-        {displayName === 'Padma F' &&
+        {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' &&
           (<AsideContent
             user={user}
             isCurrentUser={isCurrentUser}
