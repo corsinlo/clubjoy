@@ -209,7 +209,7 @@ export class BookingTimeFormComponent extends Component {
 
               {showEstimatedBreakdown ? (
                 <div className={css.priceBreakdownContainer}>
-                  {processName === 'default-booking' && (
+                  {processName !== 'free-booking' && (
                     <VoucherForm
                       className={css.bookingDates}
                       listingId={listingId}
