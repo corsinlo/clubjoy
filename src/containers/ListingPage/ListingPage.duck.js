@@ -330,23 +330,45 @@ export const sendInquiry = (listing, message) => (dispatch, getState, sdk) => {
     });
 };
 
-// Helper function for loadData call.
 const fetchMonthlyTimeSlots = (dispatch, listing) => {
   const hasWindow = typeof window !== 'undefined';
   const attributes = listing.attributes;
-  // Listing could be ownListing entity too, so we just check if attributes key exists
   const hasTimeZone =
     attributes && attributes.availabilityPlan && attributes.availabilityPlan.timezone;
 
-  // Fetch time-zones on client side only.
   if (hasWindow && listing.id && hasTimeZone) {
     const tz = listing.attributes.availabilityPlan.timezone;
     const unitType = attributes?.publicData?.unitType;
     const timeUnit = unitType === 'hour' ? 'hour' : 'day';
-    const nextBoundary = findNextBoundary(new Date(), timeUnit, tz);
 
-    const nextMonth = getStartOf(nextBoundary, 'month', tz, 1, 'months');
-    const nextAfterNextMonth = getStartOf(nextMonth, 'month', tz, 1, 'months');
+    let nextBoundary = findNextBoundary(new Date(), timeUnit, tz);
+    let nextMonth = getStartOf(nextBoundary, 'month', tz, 1, 'months');
+    let nextAfterNextMonth = getStartOf(nextMonth, 'month', tz, 1, 'months');
+
+    const padmaUUIDs = [
+      '669cfea6-21fd-472e-85a4-75e1b2a72314',
+      '669cfea6-21fd-472e-85a4-75e1b2a723e4',
+      '669a1e0e-b03d-4a1d-bee6-652b1a6f7385',
+      '669a1ecb-0a13-43f7-9835-7c1d7a9bb6b5',
+      '669a1fe5-38e0-4e83-adb0-35cf85fa93c1',
+      '669a20d9-b816-4f39-a8ec-7750074682d0',
+      '669a217e-09d7-4491-94f4-efd0f6fce479',
+      '669a2231-387f-4137-a0cb-90f40588ec74',
+      '669a2306-d854-4d48-93f1-24664a352f9e',
+      '669d17a6-b77e-422b-bf54-acacf4ff4a83',
+      '669d3156-4683-44d8-9bdc-9d5258867854',
+      '669d3468-a875-4870-b348-18948546572f',
+      '669d3706-aff4-4fcf-9315-06fb108f683f',
+      '669d3976-04fe-4670-887a-49b04cab0946',
+      '669d3b0a-7b58-41c9-92e1-e94de637e2cc',
+      '669d3c31-cff3-4dbd-9bb4-15c9e4061764'
+    ];
+
+    if (padmaUUIDs.includes(listing.id.uuid)) {
+      nextBoundary = getStartOf(new Date('2024-09-01T00:00:00Z'), 'day', tz);
+      nextMonth = getStartOf(new Date('2024-10-01T00:00:00Z'), 'day', tz);
+      nextAfterNextMonth = getStartOf(new Date('2024-11-01T00:00:00Z'), 'day', tz);
+    }
 
     return Promise.all([
       dispatch(fetchTimeSlots(listing.id, nextBoundary, nextMonth, tz)),
@@ -354,9 +376,9 @@ const fetchMonthlyTimeSlots = (dispatch, listing) => {
     ]);
   }
 
-  // By default return an empty array
   return Promise.all([]);
 };
+
 
 export const fetchTransactionLineItems = ({ orderData, listingId, isOwnListing }) => dispatch => {
   dispatch(fetchLineItemsRequest());

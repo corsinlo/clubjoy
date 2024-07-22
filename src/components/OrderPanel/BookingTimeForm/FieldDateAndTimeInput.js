@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { func, number, object, string } from 'prop-types';
 import classNames from 'classnames';
 import * as validators from '../../../util/validators';
@@ -34,6 +34,7 @@ import moment from 'moment';
 import { checkCoupon } from '../../../util/api';
 import css from './FieldDateAndTimeInput.module.css';
 import { FieldArray } from 'react-final-form-arrays';
+import { useLocation } from 'react-router-dom';
 
 // dayCountAvailableForBooking is the maximum number of days forwards during which a booking can be made.
 // This is limited due to Stripe holding funds up to 90 days from the
@@ -136,6 +137,7 @@ const getAvailableEndTimes = (
 };
 
 const getTimeSlots = (timeSlots, date, timeZone) => {
+
   return timeSlots && timeSlots[0]
     ? timeSlots.filter(t => {
         return isInRange(date, t.attributes.start, t.attributes.end, 'day', timeZone);
@@ -245,8 +247,34 @@ const Prev = props => {
 class FieldDateAndTimeInput extends Component {
   constructor(props) {
     super(props);
+
+    const padmaUUIDs = [
+      '669cfea6-21fd-472e-85a4-75e1b2a72314',
+      '669cfea6-21fd-472e-85a4-75e1b2a723e4',
+      '669a1e0e-b03d-4a1d-bee6-652b1a6f7385',
+      '669a1ecb-0a13-43f7-9835-7c1d7a9bb6b5',
+      '669a1fe5-38e0-4e83-adb0-35cf85fa93c1',
+      '669a20d9-b816-4f39-a8ec-7750074682d0',
+      '669a217e-09d7-4491-94f4-efd0f6fce479',
+      '669a2231-387f-4137-a0cb-90f40588ec74',
+      '669a2306-d854-4d48-93f1-24664a352f9e',
+      '669d17a6-b77e-422b-bf54-acacf4ff4a83',
+      '669d3156-4683-44d8-9bdc-9d5258867854',
+      '669d3468-a875-4870-b348-18948546572f',
+      '669d3706-aff4-4fcf-9315-06fb108f683f',
+      '669d3976-04fe-4670-887a-49b04cab0946',
+      '669d3b0a-7b58-41c9-92e1-e94de637e2cc',
+      '669d3c31-cff3-4dbd-9bb4-15c9e4061764'
+    ];
+
+    const newDate = new Date('2024-09-01');
+
+    const startOfMonth = padmaUUIDs.includes(props.listingId.uuid)
+      ? getStartOf(newDate, 'month', props.timeZone)
+      : getStartOf(TODAY, 'month', props.timeZone);
+
     this.state = {
-      currentMonth: getStartOf(TODAY, 'month', props.timeZone),
+      currentMonth: startOfMonth,
       validSeatsInput: false,
     };
 
@@ -256,13 +284,10 @@ class FieldDateAndTimeInput extends Component {
     this.onBookingStartTimeChange = this.onBookingStartTimeChange.bind(this);
     this.onBookingEndDateChange = this.onBookingEndDateChange.bind(this);
     this.isOutsideRange = this.isOutsideRange.bind(this);
+
+    
   }
 
-  validateSeatsInput = value => {
-    const isValid = /[a-zA-Z]+/.test(value); // Checks if there are any letters
-    this.setState({ validSeatsInput: isValid });
-    this.props.onSeatsInputValidChange(isValid); // Propagate to parent
-  };
 
   fetchMonthData(date) {
     const { listingId, timeZone, onFetchTimeSlots, dayCountAvailableForBooking } = this.props;
@@ -438,6 +463,7 @@ class FieldDateAndTimeInput extends Component {
 
     const bookingStartDate =
       values.bookingStartDate && values.bookingStartDate.date ? values.bookingStartDate.date : null;
+ 
     const bookingStartTime = values.bookingStartTime ? values.bookingStartTime : null;
     const bookingEndDate =
       values.bookingEndDate && values.bookingEndDate.date ? values.bookingEndDate.date : null;
@@ -563,6 +589,26 @@ class FieldDateAndTimeInput extends Component {
       6: 'Español',
     };
 
+    const padmaUUIDs = [
+      '669cfea6-21fd-472e-85a4-75e1b2a72314',
+      '669cfea6-21fd-472e-85a4-75e1b2a723e4',
+      '669a1e0e-b03d-4a1d-bee6-652b1a6f7385',
+      '669a1ecb-0a13-43f7-9835-7c1d7a9bb6b5',
+      '669a1fe5-38e0-4e83-adb0-35cf85fa93c1',
+      '669a20d9-b816-4f39-a8ec-7750074682d0',
+      '669a217e-09d7-4491-94f4-efd0f6fce479',
+      '669a2231-387f-4137-a0cb-90f40588ec74',
+      '669a2306-d854-4d48-93f1-24664a352f9e',
+      '669d17a6-b77e-422b-bf54-acacf4ff4a83',
+      '669d3156-4683-44d8-9bdc-9d5258867854',
+      '669d3468-a875-4870-b348-18948546572f',
+      '669d3706-aff4-4fcf-9315-06fb108f683f',
+      '669d3976-04fe-4670-887a-49b04cab0946',
+      '669d3b0a-7b58-41c9-92e1-e94de637e2cc',
+      '669d3c31-cff3-4dbd-9bb4-15c9e4061764'
+    ];
+
+
     return (
       <div className={classes}>
         <div className={css.formRow}>
@@ -579,7 +625,11 @@ class FieldDateAndTimeInput extends Component {
               parse={v =>
                 v && v.date ? { date: timeOfDayFromLocalToTimeZone(v.date, timeZone) } : v
               }
-              initialVisibleMonth={initialVisibleMonth(bookingStartDate || startOfToday, timeZone)}
+              initialVisibleMonth={
+                padmaUUIDs.includes(this.props.listingId.uuid)
+                  ? initialVisibleMonth(new Date('Mon Sep 01 2024 00:00:00 GMT+0200 (Central European Summer Time)'), timeZone)
+                  : initialVisibleMonth(bookingStartDate || startOfToday, timeZone)
+              }
               isDayBlocked={isDayBlocked}
               onChange={this.onBookingStartDateChange}
               onPrevMonthClick={() => this.onMonthClick(prevMonthFn)}
