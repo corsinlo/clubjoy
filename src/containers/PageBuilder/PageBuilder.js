@@ -62,28 +62,6 @@ const LoadingSpinner = () => {
   );
 };
 
-//////////////////
-// Page Builder //
-//////////////////
-
-/**
- * PageBuilder can be used to build content pages using page-asset.json.
- *
- * Note: props can include a lot of things that depend on
- * - pageAssetsData: json asset that contains instructions how to build the page content
- *   - asset should contain an array of _sections_, which might contain _fields_ and an array of _blocks_
- *     - _blocks_ can also contain _fields_
- * - fallbackPage: component. If asset loading fails, this is used instead.
- * - options: extra mapping of 3 level of sub components
- *   - sectionComponents: { ['my-section-type']: { component: MySection } }
- *   - blockComponents: { ['my-component-type']: { component: MyBlock } }
- *   - fieldComponents: { ['my-field-type']: { component: MyField, pickValidProps: data => Number.isInteger(data.content) ? { content: data.content } : {} }
- *     - fields have this pickValidProps as an extra requirement for data validation.
- * - pageProps: props that are passed to src/components/Page/Page.js component
- *
- * @param {Object} props
- * @returns page component
- */
 const PageBuilder = props => {
   const {
     pageAssetsData,
@@ -103,9 +81,18 @@ const PageBuilder = props => {
   }
   const isAbout = pageId === 'about';
   const isTeamBuilding = pageId === 'teambuilding';
-  // Page asset contains UI info and metadata related to it.
-  // - "sections" (data that goes inside <body>)
-  // - "meta" (which is data that goes inside <head>)
+  const isPadma = pageId === 'padma';
+
+  useEffect(() => {
+    if (isPadma) {
+      window.location.href = 'https://www.clubjoy.it/u/668fb70a-dd46-44f6-94f0-eea88dd089a5';
+    }
+  }, [isPadma]);
+
+  if (isPadma) {
+    return null;
+  }
+
   const { sections = [], meta = {} } = pageAssetsData || {};
   const pageMetaProps = getMetadata(meta, schemaType, options?.fieldComponents);
 
@@ -126,7 +113,6 @@ const PageBuilder = props => {
 
   const handleSearchSubmit = params => {
     setSearchParams(params);
-    // You might want to navigate to the search page or trigger the search directly here
   };
 
   useEffect(() => {
