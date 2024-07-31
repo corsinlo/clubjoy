@@ -312,6 +312,7 @@ export const InboxPageComponent = props => {
             <TabNav rootClassName={css.tabs} tabRootClassName={css.tab} tabs={tabs} />{' '}
           </>
         }
+        type="inbox"
         footer={<FooterContainer />}
       >
         {fetchOrdersOrSalesError ? (
