@@ -23,24 +23,24 @@ const LayoutSideNavigation = props => {
     sideNav: sideNavContent,
     useAccountSettingsNav,
     currentPage,
+    type, // Ensure you destructure type from props
     ...rest
   } = props;
 
+  // Class handling depending on the type
   const classes = classNames(rootClassName || css.root, className);
   const containerClasses = classNames(
     containerClassName || css.container,
-    user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && css.container2
+    type === 'inbox' ? css.containerInbox : user?.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && css.container2
   );
-
   const mainClasses = classNames(
     css.main,
     mainColumnClassName,
-    user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && 'customFont',  // Conditionally apply customFont class
-    user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && css.main2
+    type === 'inbox' ? 'inboxMain' : user?.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && 'customFont',  // Conditionally apply customFont class
+    type === 'inbox' ? css.mainInbox : user?.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && css.main2
   );
 
-  // TODO: since responsiveAreas are still experimental,
-  //       we don't separate "aside" through layoutComposer
+  // Adjust the layout areas template string if needed
   const layoutAreas = `
     topbar
     main
@@ -57,11 +57,12 @@ const LayoutSideNavigation = props => {
               {topbarContent}
             </Topbar>
             <Main as="div" className={containerClasses}>
-              <aside className={classNames(css.sideNav, sideNavClassName)}>
-                {useAccountSettingsNav ? (
+              <aside className={classNames(css.sideNav, sideNavClassName, type === 'inbox' && css.sideNavInbox)}>
+                {useAccountSettingsNav && !type === 'inbox' ? (
                   <LayoutWrapperAccountSettingsSideNav currentPage={currentPage} />
                 ) : null}
-                {user.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && sideNavContent}
+                {type !== 'inbox' && user?.id.uuid === '668fb70a-dd46-44f6-94f0-eea88dd089a5' && sideNavContent}
+                {type === 'inbox' && sideNavContent}
               </aside>
               <main className={mainClasses}>{children}</main>
             </Main>
@@ -93,6 +94,7 @@ LayoutSideNavigation.propTypes = {
   footer: node,
   useAccountSettingsNav: bool,
   currentPage: string,
+  type: string, // Added type prop
 };
 
 export default LayoutSideNavigation;
