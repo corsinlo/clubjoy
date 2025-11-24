@@ -169,44 +169,91 @@
   </div>
 </div>
 
+<style>
+  /* CSS-based bold effect synchronized with scroll animation */
+  /* Slower, more gradual transitions between bold states */
+  @keyframes boldCycle {
+    0%, 15% {
+      --word-1-bold: 0.1;
+      --word-2-bold: 0.1;
+      --word-3-bold: 0.1;
+      --word-4-bold: 0.1;
+      --word-5-bold: 1;
+    }
+    15%, 35% {
+      --word-1-bold: 1;
+      --word-2-bold: 0.1;
+      --word-3-bold: 0.1;
+      --word-4-bold: 0.1;
+      --word-5-bold: 0.1;
+    }
+    35%, 55% {
+      --word-1-bold: 0.1;
+      --word-2-bold: 1;
+      --word-3-bold: 0.1;
+      --word-4-bold: 0.1;
+      --word-5-bold: 0.1;
+    }
+    55%, 75% {
+      --word-1-bold: 0.1;
+      --word-2-bold: 0.1;
+      --word-3-bold: 1;
+      --word-4-bold: 0.1;
+      --word-5-bold: 0.1;
+    }
+    75%, 95% {
+      --word-1-bold: 0.1;
+      --word-2-bold: 0.1;
+      --word-3-bold: 0.1;
+      --word-4-bold: 1;
+      --word-5-bold: 0.1;
+    }
+    95%, 100% {
+      --word-1-bold: 0.1;
+      --word-2-bold: 0.1;
+      --word-3-bold: 0.1;
+      --word-4-bold: 0.1;
+      --word-5-bold: 1;
+    }
+  }
+
+  .word-list {
+    animation: scroll-loop 10s linear infinite, boldCycle 10s linear infinite;
+    animation-delay: 0s, -5s; /* Offset bold animation by 5 seconds */
+  }
+
+  .word:nth-child(1), .word:nth-child(6), .word:nth-child(11) {
+    opacity: var(--word-1-bold, 0.1);
+    transform: scale(calc(0.95 + 0.1 * var(--word-1-bold, 0)));
+  }
+  .word:nth-child(2), .word:nth-child(7), .word:nth-child(12) {
+    opacity: var(--word-2-bold, 0.1);
+    transform: scale(calc(0.95 + 0.1 * var(--word-2-bold, 0)));
+  }
+  .word:nth-child(3), .word:nth-child(8), .word:nth-child(13) {
+    opacity: var(--word-3-bold, 0.1);
+    transform: scale(calc(0.95 + 0.1 * var(--word-3-bold, 0)));
+  }
+  .word:nth-child(4), .word:nth-child(9), .word:nth-child(14) {
+    opacity: var(--word-4-bold, 0.1);
+    transform: scale(calc(0.95 + 0.1 * var(--word-4-bold, 0)));
+  }
+  .word:nth-child(5), .word:nth-child(10), .word:nth-child(15) {
+    opacity: var(--word-5-bold, 0.1);
+    transform: scale(calc(0.95 + 0.1 * var(--word-5-bold, 0)));
+  }
+</style>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const scroller = document.querySelector('.word-scroller');
-    const words = document.querySelectorAll('.word');
-
-    let lastActive = null;
-
-    function getCenteredWord() {
-      const scrollerRect = scroller.getBoundingClientRect();
-      const scrollerCenter = scrollerRect.top + scrollerRect.height / 2;
-
-      let closestWord = null;
-      let smallestDistance = Infinity;
-
-      words.forEach((word) => {
-        const wordRect = word.getBoundingClientRect();
-        const wordCenter = wordRect.top + wordRect.height / 2;
-        const distance = Math.abs(scrollerCenter - wordCenter);
-
-        if (distance < smallestDistance) {
-          smallestDistance = distance;
-          closestWord = word;
-        }
-      });
-
-      if (closestWord && closestWord !== lastActive) {
-        words.forEach((word) => word.classList.remove('active'));
-        closestWord.classList.add('active');
-        lastActive = closestWord;
-      }
+    // Simple script to ensure CSS animations are running
+    const wordList = document.querySelector('.word-list');
+    if (wordList) {
+      // Force animation restart if needed
+      wordList.style.animationName = 'none';
+      wordList.offsetHeight; // Trigger reflow
+      wordList.style.animationName = '';
     }
-
-    function loop() {
-      getCenteredWord();
-      requestAnimationFrame(loop);
-    }
-
-    loop();
   });
 </script>
 

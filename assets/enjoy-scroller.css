@@ -89,17 +89,7 @@
   margin-left: 5px;
   color: black;
   font-weight: 600;
-  opacity: 0.1;
-}
-
-.word {
-  transition:  transform 3s ease-in-out;
-  color: black;
-}
-
-.word.active {
-  opacity: 1;
-  transform: scale(1.05);
+  transition: opacity 1.5s ease, transform 1.5s ease;
 }
 
 @keyframes scroll-loop {
