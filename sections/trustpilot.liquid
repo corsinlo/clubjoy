@@ -1,0 +1,70 @@
+{{ 'trustpilot.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width">
+  <div class="trust-section">
+    <div class="image image-1"><img src="{{ 'trustpilot4.webp' | asset_url }}" alt="Image 1"></div>
+    <div class="image image-2"><img src="{{ 'trustpilot1.webp' | asset_url }}" alt="Image 2"></div>
+    <div class="image image-3"><img src="{{ 'trustpilot3.webp' | asset_url }}" alt="Image 3"></div>
+    <div class="image image-4"><img src="{{ 'trustpilot2.webp' | asset_url }}" alt="Image 4"></div>
+
+<div class="trustpilot-static"
+     role="button"
+     tabindex="0"
+     onclick="window.open('https://www.trustpilot.com/review/clubjoy.it', '_blank', 'noopener,noreferrer')"
+     onkeydown="if(event.key==='Enter' || event.key===' ') window.open('https://www.trustpilot.com/review/clubjoy.it', '_blank', 'noopener,noreferrer')">
+      <h2>
+        {{ 'sections.trustpilot.title' | t -}}
+        <span class="highlight"> {{ 'sections.trustpilot.span' | t -}}</span>
+      </h2>
+      <div class="rating">
+        <span class="rating-score">4.5</span>
+        <span class="rating-stars">★★★★½</span>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Trustpilot_Logo_%282022%29.svg/640px-Trustpilot_Logo_%282022%29.svg.png"
+          alt="Trustpilot Logo"
+          class="trustpilot-logo"
+        >
+      </div>
+      <p class="review-cta">{{ 'sections.trustpilot.body' | t -}}</p>
+    </div>
+
+    {% comment %}
+      <div class="text-block">
+        <h2>
+          {{ 'sections.trustpilot.title' | t }}
+        </h2>
+        <div class="rating">
+          <span>4.91</span>
+        </div>
+        <div
+          class="trustpilot-widget"
+          data-locale="{{ request.locale.iso_code }}"
+          data-template-id="56278e9abfbbba0bdcd568bc"
+          data-businessunit-id="672a1fd4cba3bde7db684f31"
+          data-style-height="52px"
+          data-style-width="100%"
+        >
+          <a href="https://www.trustpilot.com/review/clubjoy.it" target="_blank" rel="noopener">Trustpilot</a>
+        </div>
+      </div>
+    {% endcomment %}
+  </div>
+</div>
+
+<script
+  type="text/javascript"
+  src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
+  async
+></script>
+
+{% schema %}
+{
+  "name": "Trustpilot",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Trustpilot"
+    }
+  ]
+}
+{% endschema %}

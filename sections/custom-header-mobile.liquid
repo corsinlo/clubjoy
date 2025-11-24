@@ -1,0 +1,262 @@
+{% schema %}
+{
+  "name": "Custom Header Mobile",
+  "settings": [],
+  "presets": [{ "name": "Custom Header Mobile" }]
+}
+{% endschema %}
+
+<style>
+  .scroll-nav {
+    position: relative;
+  }
+
+  .scroll-list-container {
+    padding: 0 36px;
+    overflow: hidden;
+  }
+
+  .scroll-list-wrapper {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+  }
+
+  .scroll-list-item {
+    flex: 0 0 25%;
+    scroll-snap-align: start;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .scroll-list-item a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    padding: 8px;
+  }
+
+  .scroll-list-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroll-list-wrapper {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1;
+    transition: background 0.2s ease;
+  }
+
+  .scroll-btn:hover {
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .scroll-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+  }
+
+  .scroll-btn--left {
+    left: 20px;
+  }
+
+  .scroll-btn--right {
+    right: 20px;
+  }
+
+  .item-gift-card{
+    font-weight: bold;
+    color: #012fa7;
+  }
+
+  @media (min-width: 768px) {
+    .scroll-nav,
+    .scroll-list-container,
+    .scroll-btn {
+      display: none;
+    }
+  }
+</style>
+
+<div class="page-width scroll-nav">
+  <!-- Chevron Buttons -->
+  <button class="scroll-btn scroll-btn--left" aria-label="scroll left">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  </button>
+
+  <button class="scroll-btn scroll-btn--right" aria-label="scroll right">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="9 18 15 12 9 6" />
+    </svg>
+  </button>
+
+  <!-- Scrollable List -->
+<div class="scroll-list-container" data-ga-name="custom header mobile">
+   <ul class="scroll-list-wrapper">
+   <li class="scroll-list-item">
+    <a href="{{ routes.collections_url }}/milano-1">{{ 'sections.custom-header-mobile.milan' | t }}</a>
+  </li>
+  <li class="scroll-list-item">
+    <a href="{{ routes.collections_url }}/roma">{{ 'sections.custom-header-mobile.rome' | t }}</a>
+  </li>
+  <li class="scroll-list-item">
+    <a href="{{ routes.collections_url }}/firenze">{{ 'sections.custom-header-mobile.florence' | t }}</a>
+  </li>
+ <li class="scroll-list-item">
+    <a href="{{ routes.collections_url }}/venezia">{{ 'sections.custom-header-mobile.venice' | t }}</a>
+  </li>
+  <li class="scroll-list-item">
+    <a href="{{ routes.collections_url }}/torino-1">{{ 'sections.custom-header-mobile.turin' | t }}</a>
+  </li>
+  <li class="scroll-list-item">
+    <a href="{{ routes.collections_url }}/sardegna">{{ 'sections.custom-header-mobile.sardinia' | t }}</a>
+  </li>
+  <li class="scroll-list-item">
+    <a href="{{ routes.collections_url }}/cinque-terre">{{ 'sections.custom-header-mobile.fivet' | t }}</a>
+  </li>
+  <li class="scroll-list-item">
+    <a href="{{ routes.collections_url }}/costiera-amalfitana-1">{{ 'sections.custom-header-mobile.amalfi' | t }}</a>
+  </li>
+  <li class="scroll-list-item item-gift-card">
+    <a href="{{ pages['gift-cards'].url }}">{{ 'sections.custom-header-mobile.gift' | t }}</a>
+  </li>
+</ul>
+  </div>
+</div>
+
+<style>
+  /* small tweak so the chevrons stay clickable above the scroll area */
+  .scroll-btn {
+    z-index: 5;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+  .scroll-btn[disabled] { opacity: 0.35; pointer-events: none; }
+</style>
+
+<script>
+(function () {
+  const container = document.querySelector('.scroll-list-container');
+  const wrapper = container && container.querySelector('.scroll-list-wrapper');
+  const btnLeft = document.querySelector('.scroll-btn--left');
+  const btnRight = document.querySelector('.scroll-btn--right');
+
+  if (!container || !wrapper || !btnLeft || !btnRight) {
+    // one of the expected elements is missing — nothing to do
+    return;
+  }
+
+  // amount to scroll per click: 80% of visible container width
+  function scrollAmount() {
+    return Math.max( Math.floor(wrapper.clientWidth * 0.8), 100 );
+  }
+
+  // Scroll helpers
+  function scrollLeft() {
+    wrapper.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+  }
+  function scrollRight() {
+    wrapper.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+  }
+
+  // Update chevron disabled state depending on scroll position
+  function updateButtons() {
+    // allow small epsilon for floating rounding issues
+    const maxScrollLeft = wrapper.scrollWidth - wrapper.clientWidth - 1;
+    btnLeft.disabled = wrapper.scrollLeft <= 1;
+    btnRight.disabled = wrapper.scrollLeft >= maxScrollLeft;
+  }
+
+  // Wire click handlers
+  btnLeft.addEventListener('click', function (e) {
+    e.preventDefault();
+    scrollLeft();
+  }, { passive: true });
+
+  btnRight.addEventListener('click', function (e) {
+    e.preventDefault();
+    scrollRight();
+  }, { passive: true });
+
+  // Update buttons during/after scrolling
+  let scrollTimeout;
+  wrapper.addEventListener('scroll', function () {
+    // update while scrolling but throttle to avoid layout thrash
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(updateButtons, 80);
+  }, { passive: true });
+
+  // Also update on resize (layout changes)
+  window.addEventListener('resize', updateButtons, { passive: true });
+
+  // Initial state
+  updateButtons();
+
+  // Optional: make left/right keyboard accessible when wrapper is focused
+  wrapper.setAttribute('tabindex', '0');
+  wrapper.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      scrollRight();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      scrollLeft();
+    }
+  });
+
+  // Accessibility: hide chevrons when scrolling is not possible (single item / small content)
+  function checkScrollable() {
+    if (wrapper.scrollWidth <= wrapper.clientWidth + 1) {
+      btnLeft.style.display = 'none';
+      btnRight.style.display = 'none';
+    } else {
+      btnLeft.style.display = '';
+      btnRight.style.display = '';
+    }
+    updateButtons();
+  }
+  // run after images/fonts load (in case sizes change)
+  window.addEventListener('load', checkScrollable, { passive: true });
+  // and also run now (in case)
+  setTimeout(checkScrollable, 50);
+})();
+</script>
+

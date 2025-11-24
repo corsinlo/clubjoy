@@ -1,0 +1,34 @@
+{{ 'hosts.css' | asset_url | stylesheet_tag }}
+
+<div class="hosts-info">
+  <div class="hosts-info__column">
+    <h3 class="hosts-info__heading">About the Host</h3>
+    <p class="hosts-info__bio">{{ hosts.bio.value }}</p>
+  </div>
+
+  <div class="hosts-info__column">
+    <h3 class="hosts-info__heading">Business Info</h3>
+    <div class="hosts-info__business">
+      <p class="hosts-info__address">
+        📍 123 Placeholder St, City, Country
+      </p>
+      <p class="hosts-info__hours">
+        🕒 Mon–Fri: 9am–5pm<br>
+        🕒 Sat: 10am–4pm<br>
+        🕒 Sun: Closed
+      </p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hosts info",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Hosts-info"
+    }
+  ]
+}
+{% endschema %}

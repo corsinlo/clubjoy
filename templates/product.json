@@ -1,0 +1,138 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "doran_product_reviews_rating_widget_Mt3LzC": {
+          "type": "shopify://apps/doran-product-reviews/blocks/rating-widget/ca90c3ee-bc39-4c25-90cd-fdf0519c6d11",
+          "settings": {
+            "is_hide_detail": false,
+            "is_display_questions": false,
+            "class_name": "",
+            "is_hide_if_no_reviews": false,
+            "is_use_shopify_font": false,
+            "shopify_font": "sans_serif_n4"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "custom_liquid_KfdPe3": {
+          "type": "custom_liquid",
+          "disabled": true,
+          "settings": {
+            "custom_liquid": "{% if product.metafields.custom.offer %}\n  <a \n    href=\"/pages/bundles\" \n    style=\"\n      display: inline-block;\n      padding: 8px 14px;\n      background-color: #ff4d4d;\n      color: #ffffff;\n      font-weight: bold;\n      border-radius: 6px;\n      text-decoration: none;\n      transition: background-color 0.2s ease;\n    \"\n    onmouseover=\"this.style.backgroundColor='#e63e3e'\"\n    onmouseout=\"this.style.backgroundColor='#ff4d4d'\"\n  >\n    {{ product.metafields.custom.offer }}\n  </a>\n{% endif %}"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "doran_product_reviews_rating_widget_Mt3LzC",
+        "price",
+        "variant_picker",
+        "custom_liquid_KfdPe3",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "share"
+      ],
+      "custom_css": [
+        "fieldset:has(input[value=\"Bundle\"]):has(input[value=\"solo\"]) {display: none !important;}"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "product_location_map_F8UbMq": {
+      "type": "product-location-map",
+      "settings": {}
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You might also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "google_reviews_jymm3d": {
+      "type": "google-reviews",
+      "disabled": true,
+      "name": "Google Reviews",
+      "settings": {
+        "background_color": "#f8f9fa",
+        "heading_color": "#333333"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product_location_map_F8UbMq",
+    "related-products",
+    "google_reviews_jymm3d"
+  ]
+}

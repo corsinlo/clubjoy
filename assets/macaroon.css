@@ -1,0 +1,50 @@
+  .macaron-slider-section {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .macaron-slider-image {
+    position: absolute;
+    width: 150px;
+    transition: opacity 1s ease-in-out;
+    opacity: 0;
+  }
+
+  .macaron-slider-image.active {
+    opacity: 1;
+  }
+
+  /* Fixed left and right positions */
+  .macaron-left-1 {
+    left: 0;
+    top: 100px;
+  }
+
+  .macaron-left-2 {
+    left: 0;
+        top: 100px;
+  }
+
+  .macaron-right-1 {
+    right: 0;
+    top: 100px;
+  }
+
+  .macaron-right-2 {
+    right: 0;
+    top: 100px;
+  }
+
+  @media (max-width: 768px) {
+    .macaron-slider-image {
+      width: 100px;
+    }
+  }

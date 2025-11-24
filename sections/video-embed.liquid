@@ -1,0 +1,60 @@
+{% schema %}
+{
+  "name": "YouTube Video Embed",
+  "tag": "section",
+  "class": "section-video-embed",
+  "settings": [],
+  "presets": [
+    {
+      "name": "YouTube Video Embed",
+      "category": "Media"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .responsive-iframe-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; 
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  .responsive-iframe-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  @media screen and (min-width: 769px) {
+    .responsive-iframe-wrapper {
+      padding-top: 40%; 
+    }
+  }
+</style>
+
+<div class="page-width">
+  <h2 style="text-align: left;">{{ 'sections.video-embed.title' | t }}</h2>
+
+  <div class="responsive-iframe-wrapper" onclick="
+    if (typeof gtag==='function') {
+      gtag('event', 'click_youtube_video', {
+        component_name: 'video embed liquid',
+        debug_mode: true
+      });
+    }
+  ">
+    <iframe
+      src="https://www.youtube.com/embed/cMx6WJnZKbM?si=phcaXPBNIR0cpwo-&controls=0"
+      title="YouTube video player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+  </div>
+</div>

@@ -1,0 +1,202 @@
+/* HOST BANNER */
+
+.hosts-banner {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  padding: 2rem;
+  color: #000;
+}
+
+.hosts-banner__overlay {
+  background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.hosts-banner__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hosts-banner__profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hosts-banner__avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+}
+
+.hosts-banner__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.hosts-banner__name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.hosts-banner__bio {
+  margin: 0;
+  color: #555;
+}
+
+.hosts-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hosts-banner__heart {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.hosts-banner__badge {
+  margin-top: 3rem;
+}
+
+.hosts-banner__badge span {
+  background: white;
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* HOST INFO */
+
+.hosts-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 1rem;
+}
+
+.hosts-info__column {
+  flex: 1;
+  min-width: 280px;
+}
+
+.hosts-info__heading {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.hosts-info__bio {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.hosts-info__address,
+.hosts-info__hours {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+/* HOST REVIEWS */
+
+.hosts-reviews {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.hosts-reviews__summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.hosts-reviews__score h1 {
+  font-size: 4rem;
+  margin: 0;
+}
+
+.hosts-reviews__stars span {
+  font-size: 1.75rem;
+  color: black;
+  letter-spacing: 2px;
+}
+
+.hosts-reviews__text h3 {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.hosts-reviews__text p {
+  color: #777;
+  font-size: 1rem;
+  margin: 0.5rem 0 0;
+}
+
+.hosts-reviews__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.hosts-reviews__item {
+  background: #f8f8f8;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  max-width: 350px;
+  text-align: left;
+}
+
+.hosts-reviews__avatar {
+  width: 40px;
+  height: 40px;
+  background: #ccc;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+}
+
+.hosts-reviews__details p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.hosts-reviews__details a {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: underline;
+  color: black;
+  cursor: pointer;
+}
+
+.hosts-reviews__button {
+  margin-top: 3rem;
+}
+
+.hosts-reviews__button button {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid black;
+  background: white;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}

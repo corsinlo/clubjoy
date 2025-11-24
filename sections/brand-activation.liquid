@@ -1,0 +1,252 @@
+{% comment %}
+  Section: Brand Activation
+  All slider images are now forced to a fixed height (250px) with object-fit: cover
+  to ensure uniform sizing across slides.
+{% endcomment %}
+
+<section id="brand-events-activations-portfolio">
+  <!-- TITLE AREA -->
+  <div class="bea-title-wrapper">
+    <h1 class="bea-title-main">{{ 'sections.brand-activation.title' | t -}}</h1> 
+    <h3 class="bea-title-sub">{{ 'sections.brand-activation.subtitle' | t -}}</h3>
+  </div>
+  <hr class="bea-divider">
+
+  <!-- FIRST SLIDER -->
+  <div class="bea-slider-container" data-slider-id="slider-1">
+    <button class="bea-slider-arrow bea-prev" data-slider-action="prev">‹</button>
+    <div class="bea-slider-wrapper">
+      <div class="bea-slider">
+        <div class="bea-slide">
+          <img src="https://cdn.shopify.com/s/files/1/0905/7629/0116/files/Brand0.jpg?v=1749215570" alt="Zena Image 2">
+        </div>
+        <div class="bea-slide">
+          <img src="https://cdn.shopify.com/s/files/1/0905/7629/0116/files/Brand2.jpg?v=1749215569" alt="Zena Image 3">
+        </div>
+        <div class="bea-slide">
+          <img src="https://cdn.shopify.com/s/files/1/0905/7629/0116/files/Brand1.jpg?v=1749215570" alt="Zena Image 4">
+        </div>
+        <div class="bea-slide">
+          <img src="https://cdn.shopify.com/s/files/1/0905/7629/0116/files/Brand3.jpg?v=1749215570" alt="Zena Image 5">
+        </div>
+      </div>
+    </div>
+    <button class="bea-slider-arrow bea-next" data-slider-action="next">›</button>
+  </div>
+  {% comment %}
+     <div class="bea-caption"><strong>Boutique Zena</strong> &nbsp;|&nbsp; Milano &nbsp;|&nbsp; <strong>Martina Zena</strong></div>
+  {% endcomment %}
+  <hr class="bea-divider">
+
+  <!-- SECOND SLIDER -->
+  <div class="bea-slider-container" data-slider-id="slider-2">
+    <button class="bea-slider-arrow bea-prev" data-slider-action="prev">‹</button>
+    <div class="bea-slider-wrapper">
+      <div class="bea-slider">
+        <div class="bea-slide">
+          <img src="https://cdn.shopify.com/s/files/1/0905/7629/0116/files/Brand70.jpg?v=1749220345" alt="Cioccolato Image 1">
+        </div>
+        <div class="bea-slide">
+          <img src="https://cdn.shopify.com/s/files/1/0905/7629/0116/files/brand6.jpg?v=1749220337" alt="Cioccolato Image 2">
+        </div>
+        <div class="bea-slide">
+          <img src="https://cdn.shopify.com/s/files/1/0905/7629/0116/files/Brnad7.png?v=1749220329" alt="Cioccolato Image 3">
+        </div>
+         <div class="bea-slide">
+          <img src="https://cdn.shopify.com/s/files/1/0905/7629/0116/files/Brnad8.png?v=1749220328" alt="Cioccolato Image 3">
+        </div>
+      </div>
+    </div>
+    <button class="bea-slider-arrow bea-next" data-slider-action="next">›</button>
+  </div>
+    {% comment %}
+     {{ 'sections.brand-activation.title' | t -}}
+  {{ 'sections.brand-activation.subtitle' | t -}}
+  {{ 'sections.brand-activation.body' | t -}}
+  {{ 'sections.brand-activation.form' | t -}}
+  {{ 'snippets.team.button' | t -}}
+   <div class="bea-caption"><strong>La Fabbrica del cioccolato</strong> &nbsp;|&nbsp; Milano &nbsp;|&nbsp; <strong>Enrico Rizzi</strong></div>
+       <div class="bea-caption"><strong>Boutique Zena</strong> &nbsp;|&nbsp; Milano &nbsp;|&nbsp; <strong>Martina Zena</strong></div>
+  {% endcomment %}
+    <div class="bea-title-wrapper">
+      <br/>
+     <h3 class="bea-title-sub">  {{ 'sections.brand-activation.body' | t -}}</h3>
+    </div>
+</section>
+
+<style>
+  /* ------------------------------------------------------------
+     RESET & BASE
+  ------------------------------------------------------------ */
+  #brand-events-activations-portfolio {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  #brand-events-activations-portfolio img {
+    display: block;
+    max-width: 100%;
+  }
+  .bea-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 30px 0;
+  }
+
+  /* ------------------------------------------------------------
+     TITLE AREA
+  ------------------------------------------------------------ */
+  .bea-title-wrapper {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .bea-title-main {
+    margin: 0;
+  }
+  .bea-title-sub {
+    margin: 5px 0 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ------------------------------------------------------------
+     CAPTION TEXT
+  ------------------------------------------------------------ */
+  .bea-caption {
+    text-align: center;
+    font-weight: 500;
+    margin: 15px 0;
+  }
+
+  /* ------------------------------------------------------------
+     SLIDER STYLES
+  ------------------------------------------------------------ */
+  .bea-slider-container {
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .bea-slider-wrapper {
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+  }
+  .bea-slider-wrapper {
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+
+  /* Hide scrollbar on WebKit browsers */
+  -ms-overflow-style: none;  /* IE 10+ */
+  scrollbar-width: none;     /* Firefox */
+}
+.bea-slider-wrapper::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+  .bea-slider {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 10px;
+  }
+  .bea-slide {
+    flex: 0 0 60%;
+    max-width: 60%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .bea-slide img {
+  width: auto;
+  height: 250px;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+  .bea-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    font-size: 2rem;
+    line-height: 1;
+    padding: 5px 10px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 4px;
+  }
+  .bea-prev {
+    left: 10px;
+  }
+  .bea-next {
+    right: 10px;
+  }
+
+  /* ------------------------------------------------------------
+     RESPONSIVE ADJUSTMENTS
+  ------------------------------------------------------------ */
+  @media screen and (min-width: 768px) {
+    .bea-slide {
+      flex: 0 0 40%;
+      max-width: 40%;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    .bea-slide {
+      flex: 0 0 30%;
+      max-width: 30%;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    function initializeSlider(sliderContainer) {
+      var wrapper = sliderContainer.querySelector('.bea-slider-wrapper');
+      var slider = sliderContainer.querySelector('.bea-slider');
+      var prevBtn = sliderContainer.querySelector('.bea-prev');
+      var nextBtn = sliderContainer.querySelector('.bea-next');
+
+      function getSlideWidth() {
+        var slide = slider.querySelector('.bea-slide');
+        if (!slide) return 0;
+        var style = window.getComputedStyle(slide);
+        var marginRight = parseFloat(style.marginRight) || 0;
+        return slide.getBoundingClientRect().width + marginRight;
+      }
+
+      prevBtn.addEventListener('click', function () {
+        wrapper.scrollBy({
+          left: -getSlideWidth(),
+          behavior: 'smooth'
+        });
+      });
+
+      nextBtn.addEventListener('click', function () {
+        wrapper.scrollBy({
+          left: getSlideWidth(),
+          behavior: 'smooth'
+        });
+      });
+    }
+
+    var allSliders = document.querySelectorAll('.bea-slider-container');
+    allSliders.forEach(function (container) {
+      initializeSlider(container);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Brand Activation",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Brand Activation"
+    }
+  ]
+}
+{% endschema %}
+
+

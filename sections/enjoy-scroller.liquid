@@ -1,0 +1,223 @@
+{{ 'enjoy-scroller.css' | asset_url | stylesheet_tag }}
+
+<style>
+             .enjoy-scroller-wrapper {
+               position: relative;
+               overflow: hidden;
+               background-size: contain;
+               background-position: 400px;
+               background-repeat: no-repeat;
+               background-attachment: fixed;
+             }
+
+             /* Animated background container */
+             .macaron-background {
+               position: absolute;
+
+               width: 100%;
+               height: 100%;
+               pointer-events: none;
+               z-index: 0;
+             }
+
+             .macaron-left {
+               left: -150px;
+             }
+
+             .macaron-right {
+               right: -150px;
+
+             }
+
+     .macaron-slider-image {
+      position: absolute;
+      opacity: 0;
+      animation: fadeInOut 16s infinite;
+      animation-fill-mode: both;
+      height:350px;
+
+                     object-fit: cover;
+                width:auto;
+
+    }
+
+           #macaron-1 { animation-delay: 0s; }
+           #macaron-3 { animation-delay: 4s; }
+           #macaron-2 { animation-delay: 8s; }
+           #macaron-4 { animation-delay: 12s; }
+
+           @keyframes fadeInOut {
+             0%, 100%   { opacity: 0; }
+             12.5%, 25% { opacity: 1; }
+             30%, 100%  { opacity: 0; }
+           }
+
+  .enjoy-button {
+               margin-button: 100px;
+  }
+             .enjoy-line,
+             .enjoy-button {
+
+               position: relative;
+               z-index: 1;
+             }
+
+
+        @media (max-width: 768px) {
+
+          .macaron-background {
+        opacity: 0.3; /* or any value you prefer */
+      }
+
+          .macaron-slider-image {
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            right: auto !important;
+            bottom: auto !important;
+                object-fit: contain;
+                width:100%;
+            padding: 1px;
+      height: 100%;
+          }
+
+          .macaron-left,
+          .macaron-right {
+            top: 50%
+          }
+        }
+             }
+</style>
+
+<div class="page-width">
+  <div class="enjoy-scroller-wrapper">
+    <!-- Animated Background Images -->
+    <div class="macaron-background">
+      <img
+        id="macaron-1"
+        src="{{ 'es1.webp' | asset_url }}"
+        alt="Macaron Left 1"
+        class="macaron-slider-image macaron-left"
+      >
+      <img
+        id="macaron-2"
+        src="{{ 'es3.webp' | asset_url }}"
+        alt="Macaron Left 2"
+        class="macaron-slider-image macaron-left"
+      >
+      <img
+        id="macaron-3"
+        src="{{ 'es2.webp' | asset_url }}"
+        alt="Macaron Right 1"
+        class="macaron-slider-image macaron-right"
+      >
+      <img
+        id="macaron-4"
+        src="{{ 'es5.webp' | asset_url }}"
+        alt="Macaron Right 2"
+        class="macaron-slider-image macaron-right"
+      >
+    </div>
+
+    <!-- Main Content -->
+    <div class="enjoy-line">
+      <div class="enjoy-logo">
+        <img src="{{ 'enjoy.webp' | asset_url }}" alt="Enjoy Logo" style="height: 3rem;">
+      </div>
+
+      <div class="word-scroller">
+        <div class="highlight-zone"></div>
+        <div class="word-list">
+          {% assign word_keys = 'sections.enjoy.joy.word_1,sections.enjoy.joy.word_2,sections.enjoy.joy.word_3,sections.enjoy.joy.word_4,sections.enjoy.joy.word_5'
+            | split: ','
+          %}
+          {% for key in word_keys %}
+            <div class="word">{{ key | t }}</div>
+          {% endfor %}
+          {% for key in word_keys %}
+            <div class="word">{{ key | t }}</div>
+          {% endfor %}
+          {% for key in word_keys %}
+            <div class="word">{{ key | t }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <a
+      class="enjoy-button"
+      href="{{ routes.all_products_collection_url }}"
+      onclick="
+        event.preventDefault();
+        const url='{{ routes.all_products_collection_url }}';
+        if (typeof gtag==='function') {
+          gtag('event', 'click_explore_page', {
+            button_name: 'Enjoy Explore',
+            destination_url: url,
+            debug_mode: true,
+            transport_type: 'beacon',
+            event_callback: function(){ window.location.href = url; }
+          });
+          setTimeout(function(){ window.location.href = url; }, 500);
+        } else {
+          window.location.href = url;
+        }
+      "
+    >
+      {{ 'sections.enjoy.explore' | t }}
+    </a>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const scroller = document.querySelector('.word-scroller');
+    const words = document.querySelectorAll('.word');
+
+    let lastActive = null;
+
+    function getCenteredWord() {
+      const scrollerRect = scroller.getBoundingClientRect();
+      const scrollerCenter = scrollerRect.top + scrollerRect.height / 2;
+
+      let closestWord = null;
+      let smallestDistance = Infinity;
+
+      words.forEach((word) => {
+        const wordRect = word.getBoundingClientRect();
+        const wordCenter = wordRect.top + wordRect.height / 2;
+        const distance = Math.abs(scrollerCenter - wordCenter);
+
+        if (distance < smallestDistance) {
+          smallestDistance = distance;
+          closestWord = word;
+        }
+      });
+
+      if (closestWord && closestWord !== lastActive) {
+        words.forEach((word) => word.classList.remove('active'));
+        closestWord.classList.add('active');
+        lastActive = closestWord;
+      }
+    }
+
+    function loop() {
+      getCenteredWord();
+      requestAnimationFrame(loop);
+    }
+
+    loop();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Enjoy Scroller",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Enjoy Scroller"
+    }
+  ]
+}
+{% endschema %}

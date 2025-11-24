@@ -1,0 +1,306 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "rich_text_bdNPC6": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_zY6mM9": {
+          "type": "heading",
+          "settings": {
+            "heading": "Esperienze <strong>3x1</strong> a Venezia",
+            "heading_size": "h0"
+          }
+        }
+      },
+      "block_order": [
+        "heading_zY6mM9"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "custom_liquid_47UerN": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<h1 style=\"text-align:center; font-weight:bold;\">\n  <span style=\"text-decoration: line-through; font-weight:normal;\">\n    {{ 20000 | money }}\n  </span>\n  &nbsp;→&nbsp;\n  {{ 16900 | money }}\n</h1>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "rich_text_MERPmk": {
+      "type": "rich-text",
+      "blocks": {
+        "text_P4fqhh": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Scopri Venezia con 3 artigiani: 3 esperienze dal valore di €200, nelle tue mani a solo €169!</p><p>Tu devi solo preoccuparti dell’orario, al resto pensiamo noi</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_P4fqhh"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "rich_text_Ktp968": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_pNLRRB": {
+          "type": "heading",
+          "settings": {
+            "heading": "Step 1: Prenota la prima esperienza",
+            "heading_size": "h2"
+          }
+        }
+      },
+      "block_order": [
+        "heading_pNLRRB"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "1762535278d0f80dfb": {
+      "type": "apps",
+      "blocks": {
+        "cowlendar_booking_appointment_app_section_NzyGQM": {
+          "type": "shopify://apps/cowlendar-booking/blocks/app-section/6d8b8f6a-9b3c-42b8-b2e6-a758c38d45bf",
+          "settings": {
+            "section_title": "",
+            "section_number": "services-list-2"
+          }
+        }
+      },
+      "block_order": [
+        "cowlendar_booking_appointment_app_section_NzyGQM"
+      ],
+      "custom_css": [
+        ".cowlendar-section.services-list-2 > div > div:not(:first-child) {display: none !important;}",
+        ".custom--dropdown-container {display: none !important;}"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "rich_text_fRCHNN": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_WjHpHj": {
+          "type": "heading",
+          "settings": {
+            "heading": " ↓",
+            "heading_size": "hxl"
+          }
+        }
+      },
+      "block_order": [
+        "heading_WjHpHj"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "rich_text_txnxGr": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_8n4HYW": {
+          "type": "heading",
+          "settings": {
+            "heading": "Step 2: Adesso, prenota la seconda esperienza",
+            "heading_size": "h2"
+          }
+        },
+        "text_wWMg4Q": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<p>Condividi informazioni sul tuo brand con i clienti. Descrivi un prodotto, condividi gli annunci o dai il benvenuto ai clienti nel tuo negozio.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_8n4HYW",
+        "text_wWMg4Q"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "1763129269fe0dc8e5": {
+      "type": "apps",
+      "blocks": {
+        "cowlendar_booking_appointment_app_section_U7iQUd": {
+          "type": "shopify://apps/cowlendar-booking/blocks/app-section/6d8b8f6a-9b3c-42b8-b2e6-a758c38d45bf",
+          "settings": {
+            "section_title": "",
+            "section_number": "services-list-2"
+          }
+        }
+      },
+      "block_order": [
+        "cowlendar_booking_appointment_app_section_U7iQUd"
+      ],
+      "custom_css": [
+        ".cowlendar-section.services-list-2 > div > div:not(:nth-child(2)) {display: none !important;}",
+        ".custom--dropdown-container {display: none !important;}"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "rich_text_DLkYap": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_Pb4BKV": {
+          "type": "heading",
+          "settings": {
+            "heading": "Step 3: Ultimo step! Prenota la terza e vai al checkout",
+            "heading_size": "h2"
+          }
+        }
+      },
+      "block_order": [
+        "heading_Pb4BKV"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "apps_7djry3": {
+      "type": "apps",
+      "blocks": {
+        "cowlendar_booking_app_section_nfHxh4": {
+          "type": "shopify://apps/cowlendar-booking/blocks/app-section/6d8b8f6a-9b3c-42b8-b2e6-a758c38d45bf",
+          "settings": {
+            "section_title": "",
+            "section_number": "services-list-2"
+          }
+        }
+      },
+      "block_order": [
+        "cowlendar_booking_app_section_nfHxh4"
+      ],
+      "custom_css": [
+        ".cowlendar-section.services-list-2 > div > div:not(:last-child) {display: none !important;}",
+        ".custom--dropdown-container {display: none !important;}"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "rich_text_Gnp9Vz": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_Gjh9eL": {
+          "type": "heading",
+          "settings": {
+            "heading": " ↓",
+            "heading_size": "hxl"
+          }
+        },
+        "text_KLQ7pz": {
+          "type": "text",
+          "settings": {
+            "text": ""
+          }
+        },
+        "button_RYamMT": {
+          "type": "button",
+          "settings": {
+            "button_label": "Vai al checkout!",
+            "button_link": "https://www.clubjoy.it/cart",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_Gjh9eL",
+        "text_KLQ7pz",
+        "button_RYamMT"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_bdNPC6",
+    "custom_liquid_47UerN",
+    "rich_text_MERPmk",
+    "rich_text_Ktp968",
+    "1762535278d0f80dfb",
+    "rich_text_fRCHNN",
+    "rich_text_txnxGr",
+    "1763129269fe0dc8e5",
+    "rich_text_DLkYap",
+    "apps_7djry3",
+    "rich_text_Gnp9Vz"
+  ]
+}

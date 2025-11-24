@@ -1,0 +1,178 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "enjoy_scroller_bd8E87": {
+      "type": "enjoy-scroller",
+      "settings": {}
+    },
+    "banner_Vtfkjb": {
+      "type": "banner",
+      "name": "banner",
+      "settings": {}
+    },
+    "scrolling_logos_kKEpEp": {
+      "type": "scrolling-logos",
+      "settings": {}
+    },
+    "featured_collection_MHrMaR": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "workshop-piu-popolari",
+        "products_to_show": 3,
+        "title": "{{ section.settings.collection.title }}",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 3,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": true,
+        "quick_add": "none",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "interactive_columns_MCWta3": {
+      "type": "interactive-columns",
+      "settings": {}
+    },
+    "video_embed_n9Kd7x": {
+      "type": "video-embed",
+      "name": "YouTube Video Embed",
+      "settings": {}
+    },
+    "featured_collection_bkajUw": {
+      "type": "featured-collection",
+      "disabled": true,
+      "settings": {
+        "collection": "in-evidenza-questa-mese",
+        "products_to_show": 3,
+        "title": "{{ section.settings.collection.title }}",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 3,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": true,
+        "quick_add": "none",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collection_list_7QEjJK": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_nfMpwG": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "milan"
+          }
+        },
+        "featured_collection_yKxHpr": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "florence-collection-certified-club-joy-experiences"
+          }
+        },
+        "featured_collection_dcbaAX": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "venice-collection-certified-club-joy-experiences"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_nfMpwG",
+        "featured_collection_yKxHpr",
+        "featured_collection_dcbaAX"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "title": "Collezioni",
+        "heading_size": "h2",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "gift_cards_section_neDbjh": {
+      "type": "gift-cards-section",
+      "name": "Gift Card Section",
+      "settings": {}
+    },
+    "trustpilot_DfJhtV": {
+      "type": "trustpilot",
+      "settings": {}
+    },
+    "new_slideshow_pAaVMN": {
+      "type": "new-slideshow",
+      "name": "new slideshow",
+      "settings": {}
+    },
+    "custom_newsletter_gpKXw8": {
+      "type": "custom-newsletter",
+      "settings": {}
+    },
+    "1737406910fa2103c8": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "subfooter_yNr3V7": {
+      "type": "subfooter",
+      "name": "Esperienze",
+      "settings": {}
+    }
+  },
+  "order": [
+    "enjoy_scroller_bd8E87",
+    "banner_Vtfkjb",
+    "scrolling_logos_kKEpEp",
+    "featured_collection_MHrMaR",
+    "interactive_columns_MCWta3",
+    "video_embed_n9Kd7x",
+    "featured_collection_bkajUw",
+    "collection_list_7QEjJK",
+    "gift_cards_section_neDbjh",
+    "trustpilot_DfJhtV",
+    "new_slideshow_pAaVMN",
+    "custom_newsletter_gpKXw8",
+    "subfooter_yNr3V7",
+    "1737406910fa2103c8"
+  ]
+}

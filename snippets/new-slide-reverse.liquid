@@ -1,0 +1,145 @@
+<div class="custom-component-wrapper">
+  <div class="custom-component-container">
+    <div class="custom-component-content">
+      <h2 class="custom-component-title">{{ 'snippets.hosts.title' | t -}}</h2>
+      <p class="custom-component-body">{{ 'snippets.hosts.subTitle' | t -}}</p>
+
+      <a href="{{ pages['diventa-host'].url }}" class="slide-one-button">{{ 'snippets.hosts.button' | t -}}</a>
+    </div>
+
+    <div class="custom-component-image">
+      <img
+        src="{{ 'host.webp' | asset_url }}"
+        alt="Host Image"
+        loading="lazy"
+      >
+    </div>
+  </div>
+</div>
+
+<style>
+  .custom-component-wrapper {
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .custom-component-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+    height: 400px; /* Fixed height for image and content container */
+    width: 100%;
+    overflow: hidden; /* Ensure nothing overflows outside */
+  }
+
+  .custom-component-content {
+    width: 45%; /* Content now takes 45% */
+    padding: 2rem;
+    background-color: transparent;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 4rem; /* Add top margin to space out the content */
+    margin-bottom: 2rem;
+  }
+
+  .custom-component-title {
+    margin-bottom: 1rem;
+    color: black;
+  }
+
+  .custom-component-body {
+    margin-bottom: 1.5rem;
+    color: black;
+  }
+
+  .custom-component-button {
+    padding: 0.75rem 1.5rem;
+    background-color: #012FA7;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 4px;
+    width: fit-content;
+  }
+
+  .custom-component-image {
+    width: 55%; /* Image now takes 55% */
+    height: 100%;
+  }
+
+  .custom-component-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 6px;
+  }
+
+  
+
+  .slide-one-button {
+    padding: 12px 24px;
+     font-weight: bold;;
+    background-color: transparent;
+    color: #012FA7;
+    border: 2px solid #012FA7;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    width: 50%;
+  }
+
+  @media screen and (max-width: 1025px) {
+    .custom-component-wrapper {
+      padding: 1.5rem 1rem;
+    }
+
+    .custom-component-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      height: auto;
+    }
+
+    .custom-component-image {
+      order: -1;
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+    }
+
+    .custom-component-content {
+      width: 100%;
+      max-width: 500px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin: 0px;
+    }
+
+    .slide-one-button {
+      background-color: #012FA7;
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 0.4rem;
+      margin-top: 2rem;
+      text-decoration: none;
+      display: inline-block;
+      font-weight: 600;
+      border: none;
+      width:100%;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+  }
+</style>

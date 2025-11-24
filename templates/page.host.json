@@ -1,0 +1,112 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "rich_text_k8xmH8": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_RxQ3k7": {
+          "type": "heading",
+          "settings": {
+            "heading": "Sei pronto per una nuova avventura?",
+            "heading_size": "h0"
+          }
+        }
+      },
+      "block_order": [
+        "heading_RxQ3k7"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "multicolumn_GYV7FD": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_zALNkJ": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/66dacb00-a34d-4601-978a-75920b284a3d.jpg",
+            "title": "<strong>🎯 Zero Stress, Solo Creatività</strong>",
+            "text": "<p>Pensiamo a tutto noi! Ti supportiamo nella gestione logistica e promozionale del tuo workshop, così tu puoi concentrarti su ciò che ami fare.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_yDTzig": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/675af9f6-65c5-4cf0-a8b7-41c9c9cd980e_Large_471b1959-22df-4225-91ce-19e35984cfc1.jpg",
+            "title": "<strong>🤝 Supporto Costante</strong>",
+            "text": "<p>Siamo al tuo fianco 24/7. Dalla pubblicazione del workshop alla gestione delle prenotazioni: ti aiutiamo a ogni passo.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_KJ3yaB": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot2025-04-11alle16.05.13.png",
+            "title": "<strong>🌟 Una Rete di Talenti</strong>",
+            "text": "<p>Unisciti a un network in crescita con <strong>oltre 70 artigiani</strong>. Condividi competenze, ispira altri e fai crescere la tua visibilità.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_zALNkJ",
+        "column_yDTzig",
+        "column_KJ3yaB"
+      ],
+      "custom_css": [
+        ".multicolumn .button {border-radius: 12px !important; overflow: hidden; border: none;}",
+        ".multicolumn-card__image {border-radius: 12px; overflow: hidden;}"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "title": "Con <strong>Club Joy</strong>, trasformi la tua passione in un'esperienza condivisa. Scopri perché ospitare i tuoi workshop con noi è la scelta giusta:",
+        "heading_size": "h2",
+        "image_width": "full",
+        "image_ratio": "portrait",
+        "button_label": "Inizia",
+        "button_link": "shopify://pages/host-form",
+        "columns_desktop": 3,
+        "column_alignment": "center",
+        "background_style": "none",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_k8xmH8",
+    "multicolumn_GYV7FD"
+  ]
+}

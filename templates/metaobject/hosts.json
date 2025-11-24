@@ -1,0 +1,107 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hosts_banner_HbkRTL": {
+      "type": "hosts-banner",
+      "disabled": true,
+      "settings": {}
+    },
+    "hosts_info_CPk6Dn": {
+      "type": "hosts-info",
+      "disabled": true,
+      "settings": {}
+    },
+    "featured_collection_mHWfrj": {
+      "type": "featured-collection",
+      "disabled": true,
+      "settings": {
+        "collection": "",
+        "products_to_show": 4,
+        "title": "Collezione in evidenza",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "hosts_reviews_DHyhHc": {
+      "type": "hosts-reviews",
+      "disabled": true,
+      "settings": {}
+    },
+    "rich_text_hQ6T74": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_AqjRGx": {
+          "type": "heading",
+          "settings": {
+            "heading": "Quasi Pronti :)",
+            "heading_size": "h1"
+          }
+        },
+        "text_jyjMBW": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Il nostro Artisan Store è quasi pronto. I suoi workshop e corsi creativi stanno per essere presentati al meglio. Nel frattempo, puoi già trovarli in versione <em>to-go</em>, insieme ad altre esperienze indimenticabili qui sotto. 👇</p>"
+          }
+        },
+        "button_MmNVMG": {
+          "type": "button",
+          "settings": {
+            "button_label": "Esplora esperienze",
+            "button_link": "https://www.clubjoy.it/",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_AqjRGx",
+        "text_jyjMBW",
+        "button_MmNVMG"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "hosts_banner_HbkRTL",
+    "hosts_info_CPk6Dn",
+    "featured_collection_mHWfrj",
+    "hosts_reviews_DHyhHc",
+    "rich_text_hQ6T74"
+  ]
+}

@@ -1,0 +1,45 @@
+{{ 'hosts.css' | asset_url | stylesheet_tag }}
+
+{% assign banner_img = hosts.banner.value | image_url %}
+{% if banner_img == blank %}
+  {% assign banner_img = 'banner-default.png' | asset_url %}
+{% endif %}
+
+{% assign profile_img = hosts.profile.value | image_url %}
+{% if profile_img == blank %}
+  {% assign profile_img = 'profile-default.png' | asset_url %}
+{% endif %}
+
+<div class="hosts-banner" style="background-image: url({{ banner_img }});">
+  <div class="hosts-banner__overlay">
+    <div class="hosts-banner__top">
+      <div class="hosts-banner__profile">
+        <img src="{{ profile_img }}" alt="{{ hosts.name.value }}" class="hosts-banner__avatar">
+        <div class="hosts-banner__info">
+          <h2 class="hosts-banner__name">{{ hosts.name.value }}</h2>
+          <p class="hosts-banner__bio">{{ hosts.bio.value }}</p>
+        </div>
+      </div>
+      <div class="hosts-banner__actions">
+        <button class="hosts-banner__heart">♡</button>
+      </div>
+    </div>
+
+    <div class="hosts-banner__badge">
+      <span>{{ hosts.name.badge }}</span>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hosts banner",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Hosts-banner"
+    }
+  ]
+}
+{% endschema %}
+

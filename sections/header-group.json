@@ -1,0 +1,68 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement_bar_rppy6p": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_ePqkVG": {
+          "type": "announcement",
+          "settings": {
+            "text": "✨ Prova un hobby nuovo questo weekend! -10% con NEWJOYNER ✨",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_ePqkVG"
+      ],
+      "settings": {
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "color_scheme": "scheme-2",
+        "show_line_separator": true,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_position": "top-left",
+        "mobile_logo_position": "center",
+        "menu": "menu-principale-copy-1",
+        "menu_type_desktop": "dropdown",
+        "sticky_header_type": "always",
+        "show_line_separator": false,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "enable_customer_avatar": true,
+        "margin_bottom": 64,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "custom_header_mobile_JhAbYa": {
+      "type": "custom-header-mobile",
+      "name": "Custom Header Mobile",
+      "settings": {}
+    }
+  },
+  "order": [
+    "announcement_bar_rppy6p",
+    "header",
+    "custom_header_mobile_JhAbYa"
+  ]
+}

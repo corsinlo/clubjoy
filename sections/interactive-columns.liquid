@@ -1,0 +1,289 @@
+<style>
+            .expandable-columns {
+              display: flex;
+              width: 100%;
+              overflow: hidden;
+              position: relative;
+              align-items: flex-end;
+              height: 300px;
+            }
+
+            .expandable-columns__column {
+              flex: 1;
+              transition: all 0.5s ease;
+              display: flex;
+              align-items: flex-end;
+              justify-content: flex-start;
+              padding: 0 20px 20px 20px;
+              color: white;
+              font-size: 24px;
+              cursor: pointer;
+              min-width: 0;
+              background-size: cover;
+              background-position: center;
+              background-repeat: no-repeat;
+              will-change: flex, background-image;
+              border-radius: 5px;
+            }
+
+            .expandable-columns__text {
+              display: block;
+            }
+
+            @media (min-width: 768px) {
+              .expandable-columns__column--1 { height: 250px; margin-bottom: 20px; }
+              .expandable-columns__column--2 { height: 270px; margin-bottom: 10px;  }
+              .expandable-columns__column--3 { height: 300px; }
+
+              .expandable-columns.active-1 .expandable-columns__column--1 {
+                flex: 2;
+                height: 300px;
+                margin-bottom: 0;
+              }
+
+              .expandable-columns.active-1 .expandable-columns__column--2 {
+                flex: 0.5;
+                height: 280px;
+              }
+
+              .expandable-columns.active-1 .expandable-columns__column--3 {
+                flex: 0.5;
+                height: 250px;
+                margin-bottom: 20px;
+              }
+
+              .expandable-columns.active-2 .expandable-columns__column--1 { flex: 0.5; height: 260px; }
+              .expandable-columns.active-2 .expandable-columns__column--2 {
+                flex: 2;
+                height: 290px;
+              }
+              .expandable-columns.active-2 .expandable-columns__column--3 {
+                flex: 0.5;
+                height: 350px;
+                margin-bottom: 20px;
+              }
+
+              .expandable-columns.active-3 .expandable-columns__column--1 { flex: 0.5; height: 260px; }
+              .expandable-columns.active-3 .expandable-columns__column--2 { flex: 0.5; height: 280px; }
+              .expandable-columns.active-3 .expandable-columns__column--3 {
+                flex: 2;
+                height: 300px;
+              }
+
+              .expandable-columns.active-1 .expandable-columns__column--1,
+              .expandable-columns.active-2 .expandable-columns__column--2,
+              .expandable-columns.active-3 .expandable-columns__column--3 {
+                font-size: 32px;
+                font-weight: 700;
+              }
+
+              .expandable-columns__text {
+                display: none;
+              }
+
+              .expandable-columns.active-1 .expandable-columns__text--1,
+              .expandable-columns.active-2 .expandable-columns__text--2,
+              .expandable-columns.active-3 .expandable-columns__text--3 {
+                display: block;
+              }
+
+              .expandable-columns__dots {
+                display: none;
+              }
+            }
+
+            @media (max-width: 767px) {
+                      .expandable-columns__column--2 { height: 270px; margin-bottom: 10px; background-position: center 30%; }
+
+              .expandable-columns {
+                align-items: stretch;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+              }
+
+      .expandable-columns__text {
+    display: block !important;
+    white-space: normal;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: auto;
+    margin-bottom:30px;
+    width: 100%;
+   background: rgba(50, 50, 50, 0.2);
+    box-sizing: border-box;
+  }
+
+
+
+              .expandable-columns__column {
+      flex: 0 0 85%;
+      align-items: flex-start; /* <-- this causes top alignment */
+      scroll-snap-align: start;
+      margin-right: 0;
+      height: 350px !important;
+      background-size: cover !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      position: relative; /* Add this */
+    }
+
+
+              .expandable-columns__dots {
+                text-align: center;
+                margin-top: 10px;
+                display: block;
+              }
+            }
+
+
+
+            .expandable-columns__dot {
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              background: #ccc;
+              border-radius: 50%;
+              margin: 0 5px;
+              transition: background 0.3s ease;
+            }
+
+            .expandable-columns__dot.active {
+              background: #333;
+            }
+</style>
+
+<div class="page-width">
+  <h2>{{ 'sections.interactive-columns.title' | t }}</h2>
+  <div class="expandable-columns" id="expandable-columns">
+    <div
+      class="expandable-columns__column expandable-columns__column--1"
+      data-column="1"
+      data-bg="{{ 'ic-closed-1.webp' | asset_url }}"
+      data-lazy-bg="{{ 'ic-open-1.webp' | asset_url }}"
+    >
+      <span class="expandable-columns__text expandable-columns__text--1">
+        {{ 'sections.interactive-columns.1' | t }}
+      </span>
+    </div>
+    <div
+      class="expandable-columns__column expandable-columns__column--2"
+      data-column="2"
+      data-bg="{{ 'ic-closed-2.webp' | asset_url }}"
+      data-lazy-bg="{{ 'ic-open-2.webp' | asset_url }}"
+    >
+      <span class="expandable-columns__text expandable-columns__text--2">
+        {{ 'sections.interactive-columns.2' | t }}
+      </span>
+    </div>
+    <div
+      class="expandable-columns__column expandable-columns__column--3"
+      data-column="3"
+      data-bg="{{ 'ic-closed-3.webp' | asset_url }}"
+      data-lazy-bg="{{ 'ic-open-3.webp' | asset_url }}"
+    >
+      <span class="expandable-columns__text expandable-columns__text--3">
+        {{ 'sections.interactive-columns.3' | t }}
+      </span>
+    </div>
+  </div>
+
+  <div class="expandable-columns__dots" id="expandable-columns-dots">
+    <span class="expandable-columns__dot active"></span>
+    <span class="expandable-columns__dot"></span>
+    <span class="expandable-columns__dot"></span>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const container = document.getElementById('expandable-columns');
+    const columns = container.querySelectorAll('.expandable-columns__column');
+    const dots = document.querySelectorAll('.expandable-columns__dot');
+
+    const isDesktop = window.innerWidth >= 768;
+    const initialActive = "1";
+
+    // Set background images at load time
+    columns.forEach(col => {
+      const colIndex = col.getAttribute('data-column');
+      const isActive = colIndex === initialActive;
+
+      const image = isDesktop && isActive
+        ? col.getAttribute('data-lazy-bg')
+        : col.getAttribute('data-bg');
+
+      if (image) {
+        col.style.backgroundImage = `url(${image})`;
+      }
+    });
+
+    // Set initial desktop active state
+    if (isDesktop) {
+      container.classList.add('active-' + initialActive);
+    }
+
+    // Handle desktop column clicks
+    columns.forEach(column => {
+      column.addEventListener('click', function (event) {
+        if (window.innerWidth >= 768) {
+          event.stopPropagation();
+          const active = this.getAttribute('data-column');
+          container.className = 'expandable-columns active-' + active;
+
+          columns.forEach(col => {
+            const colIndex = col.getAttribute('data-column');
+            const image = colIndex === active
+              ? col.getAttribute('data-lazy-bg')
+              : col.getAttribute('data-bg');
+
+            if (image) {
+              col.style.backgroundImage = `url(${image})`;
+            }
+          });
+        }
+      });
+    });
+
+    // Reset on outside click (desktop only)
+    document.addEventListener('click', function () {
+      if (window.innerWidth >= 768) {
+        container.className = 'expandable-columns';
+        columns.forEach(col => {
+          const bg = col.getAttribute('data-bg');
+          if (bg) {
+            col.style.backgroundImage = `url(${bg})`;
+          }
+        });
+      }
+    });
+
+    // Mobile: Track scroll and highlight dots
+    function updateDots() {
+      const scrollLeft = container.scrollLeft;
+      const containerWidth = container.offsetWidth;
+      const itemWidth = container.scrollWidth / 3;
+      const center = scrollLeft + containerWidth / 2;
+      let activeIndex = Math.floor(center / itemWidth);
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === activeIndex);
+      });
+    }
+
+    if (!isDesktop) {
+      container.addEventListener('scroll', updateDots);
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Interactive columns",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Interactive columns"
+    }
+  ]
+}
+{% endschema %}

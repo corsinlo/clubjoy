@@ -1,0 +1,137 @@
+<div class="page-width">
+  <div id="JoySlider-{{ section.id }}" class="joy-slider-wrapper">
+    <div class="joy-slide active">
+      {% render 'new-slide-2' %}
+    </div>
+    <div class="joy-slide">
+      {% render 'new-slide-1' %}
+    </div>
+
+
+  <div class="joy-slider-dots">
+    <button class="joy-dot active"></button>
+    <button class="joy-dot"></button>
+  </div>
+      </div>
+</div>
+
+<style>
+  .joy-slider-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+
+  .joy-dot {
+    width: 12px;
+    height: 12px;
+    background: #ccc;
+    border-radius: 50%;
+    border: none;
+    transition: background 0.3s ease;
+    cursor: pointer;
+  }
+
+  .joy-dot.active {
+    background: #000;
+  }
+
+  .joy-slider-wrapper {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 100px;
+
+  }
+
+  .joy-slide {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .joy-slide.active {
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+  }
+
+  @media (max-width: 768px) {
+      .joy-slider-wrapper {
+    margin-bottom: 10px;
+
+  }
+    .joy-slider-dots {
+      display: none;
+    }
+
+    .joy-slide {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const slideshow = document.getElementById('JoySlider-{{ section.id }}');
+    const slides = slideshow.querySelectorAll('.joy-slide');
+    const dots = document.querySelectorAll('.joy-dot');
+
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    const intervalTime = 5000; // 5 seconds
+    let slideInterval;
+
+    function goToSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+      currentIndex = index;
+    }
+
+    function nextSlide() {
+      const nextIndex = (currentIndex + 1) % totalSlides;
+      goToSlide(nextIndex);
+    }
+
+    function startSlideshow() {
+      slideInterval = setInterval(nextSlide, intervalTime);
+    }
+
+    function resetSlideshow() {
+      clearInterval(slideInterval);
+      startSlideshow();
+    }
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        goToSlide(index);
+        resetSlideshow();
+      });
+    });
+
+    goToSlide(currentIndex);
+    startSlideshow();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "new slideshow",
+  "settings": [],
+  "presets": [
+    {
+      "name": "new slideshow"
+    }
+  ]
+}
+{% endschema %}

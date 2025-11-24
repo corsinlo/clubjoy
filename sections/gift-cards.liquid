@@ -1,0 +1,256 @@
+{% assign gift_cards = collections['gift-cards'].products %}
+
+<div class="page-width">
+  <h1>Gift Cards</h1>
+  <div class="giftcards-carousel">
+    <div class="giftcards-info-column">
+      {{ 'sections.page.giftcard.header' | t }}
+    </div>
+
+    <div class="giftcards-slider-wrapper">
+      <button class="arrow prev hidden" id="prevArrow">&#8249;</button>
+      <div class="giftcards-slider" id="giftcardSlider">
+        {% for product in gift_cards %}
+          <div class="giftcard-item">
+            <a href="{{ product.url }}">
+              {% assign second_image = product.images[1] %}
+              <img
+                src="{{ second_image | default: product.featured_image | img_url: '400x' }}"
+                alt="{{ product.title }}"
+              >
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+      <button class="arrow next" id="nextArrow">&#8250;</button>
+    </div>
+
+    <div class="giftcards-info">
+      <div class="giftcards-info-column">
+        <h2>{{ 'sections.page.giftcard.about_title' | t }}</h2>
+        <p>{{ 'sections.page.giftcard.about_description' | t }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+          .giftcards-carousel {
+            padding: 2rem 0;
+            max-width: 1200px;
+            margin: auto;
+            margin-bottom:25px;
+          }
+
+          .giftcards-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+                background-color: #007BFF; /* Bootstrap Blue */
+          color: white;
+          padding: 1rem;
+          border-radius: 8px;
+          margin-top: 0.5rem;
+            text-align:center;
+          }
+
+          .view-all {
+            font-weight: bold;
+            text-decoration: none;
+            color: black;
+          }
+
+         .giftcards-slider-wrapper {
+      padding-top:10px;
+      overflow: visible;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-right: 4rem; /* Creates space for partial card */
+    }
+
+          .giftcards-slider {
+    display: flex;
+    gap: 2rem;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    width: 100%;
+    justify-content: center; /* ✅ center cards */
+  }
+
+
+          .giftcard-item {
+                padding-top:50px;
+            flex: 0 0 calc((100% - 6rem) / 3.5); /* 4 items with 3 gaps of 2rem */
+          }
+
+          .giftcard-item img {
+            width: 100%;
+            border-radius: 8px;
+            display: block;
+            transition: transform 0.3s, box-shadow 0.3s;
+          }
+
+          .giftcard-item:hover img {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+          }
+
+          .arrow {
+        background: none;
+        border: none;
+        font-size: 5rem; /* Increased from 2rem */
+        cursor: pointer;
+        padding: 0 1.5rem;
+        z-index: 1;
+        color: #007BFF; /* Optional: match your theme */
+        transition: transform 0.3s;
+      }
+
+      .arrow:hover {
+        transform: scale(1.2);
+      }
+          .hidden {
+            visibility: hidden;
+          }
+
+          .giftcards-info {
+          display: flex;
+          gap: 2rem;
+          margin-top: 2rem;
+          flex-wrap: wrap;
+        }
+
+        .giftcards-info-column {
+          flex: 1 1 50%;
+          min-width: 300px;
+        }
+
+        .giftcards-info-column h2 {
+          margin-bottom: 0.5rem;
+          color: #007BFF;
+        }
+
+        .giftcards-info-column p {
+          margin-bottom: 1rem;
+          line-height: 1.5;
+        }
+
+    .giftcard-item:nth-child(4) {
+      opacity: 0.5;
+      pointer-events: none; /* Optional: prevents it being clickable */
+      transition: opacity 0.3s;
+    }
+
+          /* === Mobile column layout === */
+          @media (max-width: 768px) {
+            .giftcards-slider-wrapper {
+              flex-direction: column;
+              align-items: center;
+              justify-items: center;
+              padding-right: 0px;
+            }
+
+            .giftcards-slider {
+              flex-direction: column;
+              gap: 1rem;
+              overflow: visible;
+            }
+
+            .giftcard-item {
+              flex: 1 0 auto;
+              width: 100%;
+            }
+
+            .arrow {
+              display: none;
+            }
+
+              .giftcards-info {
+            flex-direction: column;
+          }
+
+          .giftcards-info-column {
+            flex: 1 1 100%;
+          }
+          }
+</style>
+
+<script>
+  const slider = document.getElementById('giftcardSlider');
+  const prevArrow = document.getElementById('prevArrow');
+  const nextArrow = document.getElementById('nextArrow');
+  const items = slider.querySelectorAll('.giftcard-item');
+  const itemCount = items.length;
+
+  let currentIndex = 0;
+
+  function getScrollCount() {
+    return window.innerWidth <= 768 ? 0 : 3.5; // Match visual item count
+  }
+
+  function updateArrows() {
+    const scrollCount = getScrollCount();
+    if (scrollCount === 0) {
+      prevArrow.classList.add('hidden');
+      nextArrow.classList.add('hidden');
+      return;
+    }
+
+    prevArrow.classList.toggle('hidden', currentIndex <= 0);
+    nextArrow.classList.toggle('hidden', currentIndex + scrollCount >= itemCount - 0.5);
+  }
+
+  function updateOpacity() {
+    items.forEach((item, index) => {
+      if (index === 3 && currentIndex === 0) {
+        item.style.opacity = '0.5';
+        item.style.pointerEvents = 'none';
+      } else {
+        item.style.opacity = '1';
+        item.style.pointerEvents = 'auto';
+      }
+    });
+  }
+
+  function slide(direction) {
+    const scrollCount = getScrollCount();
+    if (scrollCount === 0) return;
+
+    const itemWidth = items[0].offsetWidth + parseFloat(getComputedStyle(slider).gap || 0);
+    currentIndex += direction * scrollCount;
+    currentIndex = Math.max(0, Math.min(currentIndex, itemCount - scrollCount));
+    slider.scrollTo({ left: currentIndex * itemWidth, behavior: 'smooth' });
+    updateArrows();
+    updateOpacity();
+  }
+
+  prevArrow.addEventListener('click', () => slide(-1));
+  nextArrow.addEventListener('click', () => slide(1));
+
+  window.addEventListener('load', () => {
+    currentIndex = 0;
+    slide(0);
+    updateOpacity();
+  });
+
+  window.addEventListener('resize', () => {
+    currentIndex = 0;
+    slide(0);
+    updateOpacity();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Gift Cards",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Gift Cards"
+    }
+  ]
+}
+{% endschema %}

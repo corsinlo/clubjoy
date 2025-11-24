@@ -1,0 +1,67 @@
+{{ 'hosts.css' | asset_url | stylesheet_tag }}
+
+<div class="hosts-reviews">
+  <div class="hosts-reviews__summary">
+    <div class="hosts-reviews__score">
+      <h1>{{ hosts.rating_average.value }}</h1>
+      <div class="hosts-reviews__stars">
+        {% assign rounded_rating = hosts.rating_average.value | plus: 0 %}
+        {% for i in (1..5) %}
+          {% if i <= rounded_rating %}
+            <span>★</span>
+          {% else %}
+            <span>☆</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="hosts-reviews__text">
+      <h3>Our Users Suggestion</h3>
+      <p>This host is a user favorite based on ratings, reviews, and reliability</p>
+    </div>
+  </div>
+
+  <div class="hosts-reviews__list">
+    {% comment %}
+      Replace with dynamic loop if you have real review data. For now, hardcoded placeholders:
+    {% endcomment %}
+
+    <div class="hosts-reviews__item">
+      <div class="hosts-reviews__avatar"></div>
+      <div class="hosts-reviews__details">
+        <strong>Leon</strong><br>
+        <small>10 months on ClubJoy</small>
+        <p><strong>★★★★★ · November 2024</strong></p>
+        <p>do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
+        <a href="#">Show more</a>
+      </div>
+    </div>
+
+    <div class="hosts-reviews__item">
+      <div class="hosts-reviews__avatar"></div>
+      <div class="hosts-reviews__details">
+        <strong>Sami</strong><br>
+        <small>10 months on ClubJoy</small>
+        <p><strong>★★★★★ · October 2024 · Stayed with kids</strong></p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        <a href="#">Show more</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hosts-reviews__button">
+    <button>Show all {{ hosts.rating_count.value }} reviews</button>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hosts reviews",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Hosts-reviews"
+    }
+  ]
+}
+{% endschema %}

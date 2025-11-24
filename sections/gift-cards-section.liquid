@@ -1,0 +1,262 @@
+{% schema %}
+{
+  "name": "Gift Card Section",
+  "settings": [
+
+  ],
+  "presets": [
+    {
+      "name": "Gift Card Section"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .cardinal-section {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px;
+    z-index: 1;
+    margin-bottom: 100px;
+    margin-top: 20px;
+  }
+
+  .cardinal-wrapper {
+    position: relative;
+    width: 300px;
+    height: 300px;
+  }
+
+  .cardinal-rectangle {
+    position: absolute;
+    width: 175px;
+    height: 112.5px;
+    transition: all 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 8px;
+  }
+
+  /* Initial positions */
+  .top {
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .right {
+    top: 50%;
+    left: 85%;
+    transform: translate(-50%, -50%);
+  }
+
+  .bottom {
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .left {
+    top: 50%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Depth styles (initial state) */
+  .is-bottom {
+    transform: translate(-50%, -50%) scale(1.2) !important;
+    z-index: 3;
+  }
+
+  .is-right {
+    transform: translate(-50%, -50%) scale(1) !important;
+    z-index: 2;
+  }
+
+  .is-top {
+    transform: translate(-50%, -50%) scale(0.9) !important;
+    z-index: 0; /* Start 'top' behind others */
+  }
+
+  .is-left {
+    transform: translate(-50%, -50%) scale(1) !important;
+    z-index: 1;
+  }
+
+
+
+  .cardinal-content {
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    margin-left: 5rem;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+
+  .cardinal-content h2 {
+    font-size: 28px;
+    margin: 0;
+  }
+
+  .cardinal-content p {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .gift-cards-button {
+    padding: 12px 24px;
+    font-weight: bold;
+    background-color: transparent;
+    color: #012FA7;
+    border: 2px solid #012FA7;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .gift-cards-button:hover {
+    background-color: #012FA7;
+    color: #fff;
+  }
+
+  @media screen and (max-width: 768px) {
+  .cardinal-section {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .cardinal-wrapper {
+    width: 100%;
+    height: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    padding: 0 10px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    /* HIDE SCROLLBAR */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  .cardinal-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  .cardinal-rectangle {
+    position: static !important;
+    transform: none !important;
+    flex: 0 0 140px;
+    height: 80px;
+    margin-right: 20px;
+    scroll-snap-align: center;
+  }
+
+  .cardinal-content {
+    text-align: center;
+    align-items: center;
+    padding: 0 10px;
+    margin-left: 0;
+  }
+}
+
+  }
+</style>
+
+<div class="page-width">
+  <div class="cardinal-section">
+    <!-- Cards -->
+    <div class="cardinal-wrapper">
+      <div class="cardinal-rectangle  top is-top" id="rect-1">
+        <img
+          src="{{ 'gift-card-1.webp' | asset_url }}"
+          alt="Gift Card 1"
+          style="width: 100%; height: 100%; object-fit: contain;"
+        >
+      </div>
+      <div class="cardinal-rectangle  right is-right" id="rect-2">
+        <img
+          src="{{ 'gift-card-2.webp' | asset_url }}"
+          alt="Gift Card 2"
+          style="width: 100%; height: 100%; object-fit: contain;"
+        >
+      </div>
+      <div class="cardinal-rectangle bottom is-bottom" id="rect-3">
+        <img
+          src="{{ 'gift-card-3.webp' | asset_url }}"
+          alt="Gift Card 3"
+          style="width: 100%; height: 100%; object-fit: contain;"
+        >
+      </div>
+      <div class="cardinal-rectangle left is-left" id="rect-4">
+        <img
+          src="{{ 'gift-card-4.webp' | asset_url }}"
+          alt="Gift Card 4"
+          style="width: 100%; height: 100%; object-fit: contain;"
+        >
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="cardinal-content">
+      <h2>{{ 'sections.gift-card.title' | t }}</h2>
+      <p>{{ 'sections.gift-card.body' | t }}</p>
+      <a href="{{ pages['gift-cards'].url }}" class="gift-cards-button">
+        {{ 'sections.gift-card.button' | t }}
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+    const rectangles = [
+    document.getElementById('rect-1'),
+    document.getElementById('rect-2'),
+    document.getElementById('rect-3'),
+    document.getElementById('rect-4')
+  ];
+
+  const positions = ['top', 'right', 'bottom', 'left'];
+  const visualClasses = {
+    top: 'is-top',
+    right: 'is-right',
+    bottom: 'is-bottom',
+    left: 'is-left'
+  };
+
+  function moveRectangles() {
+    rectangles.forEach((rect) => {
+      const currentPos = positions.find(p => rect.classList.contains(p));
+      const currentIndex = positions.indexOf(currentPos);
+
+      rect.classList.remove(currentPos, visualClasses[currentPos]);
+
+      const nextIndex = (currentIndex + 1) % positions.length;
+      const nextPos = positions[nextIndex];
+
+      rect.classList.add(nextPos, visualClasses[nextPos]);
+    });
+  }
+
+  setInterval(moveRectangles, 2000);
+</script>

@@ -1,0 +1,188 @@
+<style>
+  .team-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    position: relative;
+  }
+
+  .team-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    position: relative;
+  }
+
+  .team-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .team-block img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  .smaller-img {
+    width: 60%;
+    max-width: 200px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .decorative-arrow {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px;
+    max-width: 40%;
+    height: auto;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    .team-section {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .team-row {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 5rem;x
+    }
+
+    /* Text padding */
+    .team-block.team-text {
+      padding-left: 60px;
+      padding-right: 60px;
+    }
+
+    /* Image padding & centering */
+    .team-block:not(.team-text) {
+      padding-left: 60px;
+      padding-right: 60px;
+      align-items: center;
+    }
+
+    .team-block img {
+      width: 250px;
+      height: 215px;
+      object-fit: cover;
+      margin: 0 auto;
+    }
+
+    .team-textup {
+      top: 40px;
+    }
+
+    .team-text {
+      text-align:center;
+    }
+
+    .decorative-arrow {
+      top: 0;
+      right: 0;
+      transform: none;
+      width: 100px;
+      height: 200px;
+      content: url('{{ "about1a.webp" | asset_url }}');
+      padding: 0;
+    }
+
+    .row-2 .team-block:first-child,
+    .row-3 .team-block:last-child,
+    .row-4 .team-block:first-child {
+      order: 2;
+    }
+
+    .row-2 .team-block:last-child,
+    .row-3 .team-block:first-child,
+    .row-4 .team-block:last-child {
+      order: 1;
+    }
+  }
+</style>
+
+<div class="team-section">
+  <!-- Row 1 with decorative arrow
+  <div class="team-row row-1">
+    <div class="team-block team-text team-textup">
+      <h2>{{ 'sections.about.row1.heading' | t }}</h2>
+      <br>
+      <h3>{{ 'sections.about.row1.body1' | t }}</h3>
+      <p>{{ 'sections.about.row1.body2' | t }}</p>
+      <strong>{{ 'sections.about.row1.signature' | t }}</strong>
+    </div>
+    <div class="team-block"></div>
+    <img
+      src="{{ 'about1.webp' | asset_url }}"
+      alt=""
+      class="decorative-arrow"
+    >
+  </div>
+   -->
+
+    <!-- Row 4 -->
+  <div class="team-row row-4">
+    <div class="team-block team-text">
+      <strong>{{ 'sections.about.row2.signature' | t }}</strong>
+      <p>"{{ 'sections.about.row2.quote' | t }}"</p>
+    </div>
+    <div class="team-block">
+      <img src="{{ 'about2.webp' | asset_url }}" alt="Row 2 Image">
+    </div>
+  </div>
+   
+  <!-- Row 3 -->
+  <div class="team-row row-3">
+    <div class="team-block">
+      <img src="{{ 'about3.webp' | asset_url }}" alt="Row 3 Image">
+    </div>
+    <div class="team-block team-text">
+      <strong>{{ 'sections.about.row3.signature' | t }}</strong>
+      <p>"{{ 'sections.about.row3.quote' | t }}"</p>
+    </div>
+  </div>
+
+    <!-- Row 2 -->
+  <div class="team-row row-2">
+    <div class="team-block team-text">
+      <strong>{{ 'sections.about.row4.signature' | t }}</strong>
+      <p>"{{ 'sections.about.row4.quote' | t }}"</p>
+    </div>
+    <div class="team-block">
+      <img src="{{ 'about4.webp' | asset_url }}" alt="Row 4 Image">
+    </div>
+  </div>
+</div>
+
+<script>
+  console.log("Team section loaded.");
+</script>
+
+{% schema %}
+{
+  "name": "About Us",
+  "settings": [],
+  "presets": [
+    {
+      "name": "About Us"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,58 @@
+<style>
+  .benefits-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
+    padding: 1rem;
+    color: black;
+    text-align: center;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 15px;
+  }
+
+  @media (max-width: 600px) {
+    .benefit-item {
+      width: 45%; /* two items per row */
+      justify-content: center;
+    }
+
+    .benefit-item:last-child {
+      width: 100%; /* one full-width item centered below */
+    }
+  }
+</style>
+
+<div class="benefits-bar">
+  <div class="benefit-item">
+    <span style="font-size: 1.5rem;">✔</span>
+    <span style="font-weight: bold;">{{ 'sections.banner.1' | t }}</span>
+  </div>
+  <div class="benefit-item">
+    <span style="font-size: 1.5rem;">✔</span>
+    <span style="font-weight: bold;">{{ 'sections.banner.2' | t }}</span>
+  </div>
+  <div class="benefit-item">
+    <span style="font-size: 1.5rem;">✔</span>
+    <span style="font-weight: bold;">{{ 'sections.banner.3' | t }}</span>
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "banner",
+  "settings": [],
+  "presets": [
+    {
+      "name": "banner"
+    }
+  ]
+}
+{% endschema %}

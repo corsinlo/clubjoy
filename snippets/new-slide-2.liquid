@@ -1,0 +1,146 @@
+<div class="mirrored-component-wrapper">
+  <div class="mirrored-component-container">
+    <div class="mirrored-component-image">
+      <img
+        src="{{ 'host.webp' | asset_url }}"
+        alt="Team Image"
+        loading="lazy"
+      >
+    </div>
+
+    <div class="mirrored-component-content">
+        <h2 class="mirrored-component-title">{{ 'snippets.hosts.title' | t -}}</h2>
+      <p class="mirrored-component-body">{{ 'snippets.hosts.subTitle' | t -}}</p>
+
+      <a href="{{ pages['diventa-host'].url }}" class="slide-two-button">{{ 'snippets.hosts.button' | t -}}</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mirrored-component-wrapper {
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+  }
+
+  .mirrored-component-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+    width: 100%;
+    height: 400px; /* Fixed height for image and content container */
+    overflow: hidden; /* Ensure nothing overflows outside */
+  }
+
+  .mirrored-component-content {
+    width: 45%; /* Content now takes 45% */
+    padding: 2rem;
+    background-color: transparent;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 3rem; /* Apply margin on top */
+    margin-bottom: 2rem; /* Add bottom margin for spacing */
+  }
+
+  .mirrored-component-title {
+    margin-bottom: 1rem;
+    color: black;
+  }
+
+  .mirrored-component-body {
+    margin-bottom: 1.5rem;
+    color: black;
+  }
+
+  .mirrored-component-button {
+    padding: 0.75rem 1.5rem;
+    background-color: #012FA7;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 4px;
+    width: fit-content;
+  }
+
+  .mirrored-component-image {
+    width: 55%; /* Image now takes 55% */
+    height: 100%;
+  }
+
+  .mirrored-component-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensure image fits the container and is cropped as needed */
+    display: block;
+    border-radius: 6px;
+  }
+
+  .slide-two-button {
+    padding: 12px 24px;
+     font-weight: bold;;
+    background-color: transparent;
+    color: #012FA7;
+    border: 2px solid #012FA7;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  @media screen and (max-width: 1025px) {
+    .mirrored-component-wrapper {
+      padding: 1.5rem 1rem;
+    }
+
+    .mirrored-component-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      height: auto;
+    }
+
+    .mirrored-component-image {
+      order: -1; /* Ensures the image comes first on mobile */
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+    }
+
+    .mirrored-component-content {
+      width: 100%;
+      max-width: 600px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin: 0px;
+    }
+
+    .slide-two-button {
+      background-color: #012FA7;
+      color: white;
+      padding: 14px 24px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      width: fit-content;
+      margin: 0 auto;
+            width:100%;
+    }
+  }
+</style>
+
+

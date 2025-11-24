@@ -1,0 +1,571 @@
+{% if request.path == '/collections/all' or request.path == '/en/collections/all' %}
+{%- comment -%} Section: Product Location Map (clusters only; click to filter; URL-sync) {%- endcomment -%}
+
+<style>
+  #map { width: 100%; height: 500px; margin-top: 1rem; }
+</style>
+
+<!-- Inject storefront token + helpers -->
+<script>
+  window.STOREFRONT_TOKEN = "{{ section.settings.storefront_token | escape }}";
+
+  // Render an emoji as an SVG data URL for crisp markers
+  function emojiSvgUrl(emoji, size = 40) {
+    const fontSize = Math.floor(size * 0.8); // small padding
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
+        <text
+          x="50%" y="50%"
+          dominant-baseline="middle" text-anchor="middle"
+          font-size="${fontSize}"
+          font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, EmojiOne Color, sans-serif"
+        >${emoji}</text>
+      </svg>`;
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  }
+
+  // Category → emoji for product markers
+  const typeEmojiMap = {
+    "Ceramic": "🏺",
+    "Cooking": "🍳",
+    "Drawing": "🖌️",
+    "Mindfulness": "🧘",
+    "Music": "🎵",
+    "Nature": "🌿",
+    "Other": "🎉",
+    "Painting": "🎨"
+  };
+</script>
+
+<!-- Fetch product addresses (populates window.productAddresses) -->
+{{ 'addresses-storefront-fetcher.js' | asset_url | script_tag }}
+
+<div class="page-width"
+ onclick="
+    if (typeof gtag === 'function') {
+      gtag('event', 'click_map', {
+        component_name: 'map liquid',
+        debug_mode: true
+      });
+    }
+  "
+>
+  <!-- Map only (filters removed) -->
+  <div id="map" data-ga-name="mapliquid"></div>
+</div>
+
+{%- if section.settings.api_key != blank -%}
+  <!-- Load Google Maps API -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ section.settings.api_key }}"></script>
+
+  <script>
+    let map = null;
+    let productMarkers = [];
+    let clusterMarkers = [];
+    let currentProducts = [];
+    let openInfoWindow = null;
+    let geocoder = null;
+
+    const ITALY_CENTER = { lat: 41.8719, lng: 12.5674 };
+
+    // URL & filter wiring
+    const PROVINCE_URL_PARAM = 'filter.p.m.custom.province';
+    const SORT_BY_DEFAULT = 'title-ascending';
+
+    // ---- Italian province canonicalization ----
+    // Left side: normalized EN/aliases; right side: Italian (what must go in URL)
+    const PROVINCE_CANON_IT = {
+      // big exonyms
+      'milan': 'Milano',
+      'rome': 'Roma',
+      'naples': 'Napoli',
+      'florence': 'Firenze',
+      'venice': 'Venezia',
+      'turin': 'Torino',
+      'genoa': 'Genova',
+      'padua': 'Padova',
+      'south tyrol': 'Bolzano',
+      'bozen': 'Bolzano',
+      // identities / already-IT
+      'milano': 'Milano',
+      'roma': 'Roma',
+      'napoli': 'Napoli',
+      'firenze': 'Firenze',
+      'venezia': 'Venezia',
+      'torino': 'Torino',
+      'genova': 'Genova',
+      'padova': 'Padova',
+      'bolzano': 'Bolzano',
+      // unchanged commons
+      'verona': 'Verona',
+      'bologna': 'Bologna',
+      'pisa': 'Pisa',
+      'siena': 'Siena',
+      'modena': 'Modena',
+      'parma': 'Parma',
+      'bergamo': 'Bergamo',
+      'brescia': 'Brescia',
+      'como': 'Como',
+      'monza': 'Monza',
+      'lecce': 'Lecce',
+      'bari': 'Bari',
+      'palermo': 'Palermo',
+      'catania': 'Catania',
+      // your special areas
+      'sardinia': 'Sardegna',
+      'sardegna': 'Sardegna',
+      'amalfi coast': 'Costiera Amalfitana',
+      'costiera amalfitana': 'Costiera Amalfitana',
+      'five lands': 'Cinque Terre',
+      '5 terre': 'Cinque Terre',
+      'cinque terre': 'Cinque Terre',
+      // optionally add: 'sicily': 'Sicilia', 'lake como': 'Lago di Como', etc.
+    };
+
+    function normalizeKey(s) {
+      return String(s || '')
+        .trim()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // strip accents
+        .toLowerCase();
+    }
+
+    function stripGenericWrappers(key) {
+      // normalize "Province of X" / "Metropolitan City of X" / etc.
+      const m = key.match(/^(?:province|provincia|metropolitan city|citta metropolitana)\s+(?:of|di)\s+(.+)$/);
+      return m ? m[1].trim() : key;
+    }
+
+    // English/raw -> Italian (for URL)
+    function provinceToItalian(name) {
+      if (!name) return '';
+      const base = stripGenericWrappers(normalizeKey(name));
+      return PROVINCE_CANON_IT[base] || PROVINCE_CANON_IT[normalizeKey(name)] || capitalize(name);
+    }
+
+    // Italian (from URL) -> raw value (English) that best matches
+    function italianToRaw(italianName, rawOptions) {
+      const it = normalizeKey(italianName);
+      return rawOptions.find(raw => normalizeKey(provinceToItalian(raw)) === it) || '';
+    }
+
+    function capitalize(s) {
+      const t = String(s || '').trim();
+      return t ? t.charAt(0).toUpperCase() + t.slice(1) : '';
+    }
+
+    // Tuning knobs
+    const CONCURRENCY_PROVINCE_GEOCODE = 3; // clusters
+    const CONCURRENCY_PRODUCT_GEOCODE  = 4; // markers
+    const GEO_CACHE_NS = 'joysGeoCache_v1';
+    const CLUSTER_REVERT_ZOOM = 7; // <=7 => show clusters (map-only, URL unchanged)
+
+    // Cancel-previous-render guard
+    let renderNonce = 0;
+
+    // Internal state (no dropdowns)
+    const state = {
+      provincesRaw: [],           // unique raw province names (from fetcher)
+      selectedProvinceRaw: ''     // current selection (raw); source: URL or cluster click
+    };
+
+    // ---- Simple localStorage geocode cache ----
+    let geoCache = {};
+    try { geoCache = JSON.parse(localStorage.getItem(GEO_CACHE_NS) || '{}'); } catch (e) { geoCache = {}; }
+    function saveGeoCache() { try { localStorage.setItem(GEO_CACHE_NS, JSON.stringify(geoCache)); } catch (e) {} }
+    function cacheKey(kind, value) { return `${kind}:${(value || '').trim().toLowerCase()}`; }
+    function getFromCache(kind, value) {
+      const entry = geoCache[cacheKey(kind, value)];
+      if (!entry) return null;
+      return new google.maps.LatLng(entry.lat, entry.lng);
+    }
+    function putInCache(kind, value, latLng) {
+      if (!latLng) return;
+      const pos = latLng instanceof google.maps.LatLng
+        ? { lat: latLng.lat(), lng: latLng.lng() }
+        : { lat: latLng.lat,  lng: latLng.lng  };
+      geoCache[cacheKey(kind, value)] = pos;
+      saveGeoCache();
+    }
+
+    // ---- URL helpers ----
+    function readProvinceFromURL() {
+      const sp = new URLSearchParams(window.location.search);
+      return sp.get(PROVINCE_URL_PARAM) || '';
+    }
+
+    function applyCollectionFilter(provinceRaw) {
+      const url = new URL(window.location.href);
+      const sp = url.searchParams;
+
+      sp.set('sort_by', SORT_BY_DEFAULT);
+      sp.delete('page');
+
+      if (provinceRaw) {
+        const provinceItalian = provinceToItalian(provinceRaw);
+        sp.set(PROVINCE_URL_PARAM, provinceItalian); // push ITALIAN form
+      } else {
+        sp.delete(PROVINCE_URL_PARAM);
+      }
+
+      url.search = sp.toString();
+
+      // Navigate so the Shopify product grid updates server-side
+      window.location.assign(url.toString());
+    }
+
+    // --- URL → Map sync (called whenever the URL's query params change) ---
+    function handleUrlChange() {
+      // If provinces list not ready yet, bail (init will call render anyway)
+      if (!state || !state.provincesRaw || !state.provincesRaw.length) return;
+
+      const urlProvinceItalian = readProvinceFromURL();   // e.g., "Milano"
+      const newSelectedRaw = urlProvinceItalian
+        ? italianToRaw(urlProvinceItalian, state.provincesRaw) // map back to RAW (English)
+        : '';
+
+      if (newSelectedRaw !== state.selectedProvinceRaw) {
+        state.selectedProvinceRaw = newSelectedRaw;  // '' => show clusters
+        render();
+      }
+    }
+
+    // --- Observe URL changes caused by Shopify filters (pushState/replaceState) ---
+    (function observeUrlChanges() {
+      if (window.__clubjoyUrlHooked) return;       // avoid double-hooking
+      window.__clubjoyUrlHooked = true;
+
+      const notify = () => window.dispatchEvent(new Event('clubjoy:urlchange'));
+
+      const origPush = history.pushState;
+      const origReplace = history.replaceState;
+
+      history.pushState = function (...args) {
+        const ret = origPush.apply(this, args);
+        notify();
+        return ret;
+      };
+      history.replaceState = function (...args) {
+        const ret = origReplace.apply(this, args);
+        notify();
+        return ret;
+      };
+
+      window.addEventListener('popstate', notify);              // back/forward
+      window.addEventListener('clubjoy:urlchange', () => {
+        setTimeout(handleUrlChange, 0); // defer so URLSearchParams sees the new URL
+      });
+    })();
+
+    // ---- Geocoding helpers (with retry/backoff) ----
+    function geocodeWithRetry(request, maxAttempts = 3, initialDelay = 350) {
+      return new Promise((resolve, reject) => {
+        let attempt = 0;
+        const run = () => {
+          attempt++;
+          geocoder.geocode(request, (results, status) => {
+            if (status === 'OK' && results && results[0]) {
+              resolve(results[0].geometry.location);
+            } else if (status === 'OVER_QUERY_LIMIT' && attempt < maxAttempts) {
+              setTimeout(run, initialDelay * attempt);
+            } else {
+              reject(status);
+            }
+          });
+        };
+        run();
+      });
+    }
+
+    async function geocodeAddress(address) {
+      if (!address) throw 'no-address';
+      const cached = getFromCache('addr', address);
+      if (cached) return cached;
+      const loc = await geocodeWithRetry({ address });
+      putInCache('addr', address, loc);
+      return loc;
+    }
+
+    async function geocodeProvince(provinceRaw) {
+      if (!provinceRaw) throw 'no-province';
+      const cached = getFromCache('prov', provinceRaw);
+      if (cached) return cached;
+      // Geocode with the raw name; Google handles EN/IT fine
+      const loc = await geocodeWithRetry({ address: `${provinceRaw}, Italy` });
+      putInCache('prov', provinceRaw, loc);
+      return loc;
+    }
+
+    // ---- Marker management ----
+    function clearProductMarkers() { productMarkers.forEach(m => m.setMap(null)); productMarkers = []; }
+    function clearClusterMarkers() { clusterMarkers.forEach(m => m.setMap(null)); clusterMarkers = []; }
+
+    // ---- Utils ----
+    function getUnique(products, key) {
+      return [...new Set(products.map(p => p[key]).filter(Boolean))].sort();
+    }
+
+    // ---- Province cluster icons (SVG bubbles with count) ----
+    function makeClusterIcon(count) {
+      const svg = `
+        <svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'>
+          <defs>
+            <filter id='s' x='-20%' y='-20%' width='140%' height='140%'>
+              <feDropShadow dx='0' dy='2' stdDeviation='3' flood-opacity='0.25'/>
+            </filter>
+          </defs>
+          <circle cx='32' cy='32' r='30' fill='#ffffff' filter='url(#s)'/>
+          <circle cx='32' cy='32' r='26' fill='#012FA7'/>
+          <text x='32' y='39' font-size='22' text-anchor='middle'
+                font-family='system-ui,-apple-system,Segoe UI,Roboto,sans-serif'
+                fill='#ffffff' font-weight='700'>${count}</text>
+        </svg>`;
+      return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+    }
+
+    // ---- Batch runner (limits concurrent geocodes) ----
+    async function runInBatches(taskFns, concurrency = 3) {
+      const queue = taskFns.slice();
+      const n = Math.min(concurrency, Math.max(queue.length, concurrency));
+      const workers = Array.from({ length: n }, async () => {
+        while (queue.length) {
+          const fn = queue.shift();
+          try { await fn(); } catch (e) {}
+        }
+      });
+      await Promise.all(workers);
+    }
+
+    // ---- Renderers ----
+    async function renderProvinceClusters() {
+      const myNonce = ++renderNonce; // cancel guard
+      if (openInfoWindow) { openInfoWindow.close(); openInfoWindow = null; }
+      clearProductMarkers();
+      clearClusterMarkers();
+
+      // Default country view
+      map.setCenter(ITALY_CENTER);
+      map.setZoom(5);
+
+      // Group by RAW province (English) — internal logic stays raw
+      const byProvince = new Map();
+      currentProducts.forEach(p => {
+        if (p.province && p.address) {
+          if (!byProvince.has(p.province)) byProvince.set(p.province, []);
+          byProvince.get(p.province).push(p);
+        }
+      });
+
+      const provinces = Array.from(byProvince.keys());
+
+      const tasks = provinces.map(provRaw => async () => {
+        if (myNonce !== renderNonce) return;
+        try {
+          const center = await geocodeProvince(provRaw);
+          if (myNonce !== renderNonce) return;
+
+          const count = byProvince.get(provRaw).length;
+          const marker = new google.maps.Marker({
+            position: center,
+            map,
+            icon: { url: makeClusterIcon(count), scaledSize: new google.maps.Size(48, 48), anchor: new google.maps.Point(24, 24) },
+            title: `${provRaw} — ${count} ${count === 1 ? 'joy' : 'joys'}`,
+            zIndex: 999
+          });
+
+          // Drill-down: navigate with ITALIAN province in URL (updates product grid)
+          marker.addListener('click', () => {
+            applyCollectionFilter(provRaw); // converts to Italian internally
+          });
+
+          clusterMarkers.push(marker);
+        } catch (e) {
+          console.warn('Province geocode failed:', provRaw, e);
+        }
+      });
+
+      await runInBatches(tasks, CONCURRENCY_PROVINCE_GEOCODE);
+    }
+
+    async function renderProductMarkers(selectedProvinceRaw) {
+      const myNonce = ++renderNonce; // cancel guard
+      clearClusterMarkers();
+      clearProductMarkers();
+      if (openInfoWindow) { openInfoWindow.close(); openInfoWindow = null; }
+
+      const filtered = currentProducts.filter(p =>
+        (!selectedProvinceRaw || p.province === selectedProvinceRaw) &&
+        p.address
+      );
+
+      if (filtered.length === 0) {
+        map.setCenter(ITALY_CENTER);
+        map.setZoom(5);
+        return;
+      }
+
+      const bounds = new google.maps.LatLngBounds();
+
+      const tasks = filtered.map(product => async () => {
+        if (myNonce !== renderNonce) return;
+
+        let location = null;
+        try {
+          if (typeof product.lat === 'number' && typeof product.lng === 'number') {
+            location = new google.maps.LatLng(product.lat, product.lng);
+          } else {
+            location = await geocodeAddress(product.address);
+          }
+        } catch (e) {
+          console.warn('Address geocode failed:', product.title, e);
+          return;
+        }
+        if (myNonce !== renderNonce) return;
+
+        const emoji = (window.typeEmojiMap?.[product.type]) || "🎨";
+        const size = 40; // px
+        const marker = new google.maps.Marker({
+          position: location,
+          map,
+          icon: {
+            url: emojiSvgUrl(emoji, size),
+            scaledSize: new google.maps.Size(size, size),
+            anchor: new google.maps.Point(size / 2, size / 2)
+          },
+          title: product.title
+        });
+
+        const infoWindow = new google.maps.InfoWindow({
+          content: `
+            <div style="cursor:pointer;">
+              <strong><a href="/products/${product.handle}" target="_blank" style="text-decoration:none;color:#3366cc;">
+                ${product.title}
+              </a></strong><br/>${product.address}
+            </div>
+          `
+        });
+
+        marker.addListener('click', () => {
+          if (openInfoWindow) openInfoWindow.close();
+          infoWindow.open(map, marker);
+          openInfoWindow = infoWindow;
+        });
+
+        productMarkers.push(marker);
+        bounds.extend(location);
+      });
+
+      await runInBatches(tasks, CONCURRENCY_PRODUCT_GEOCODE);
+
+      try {
+        map.fitBounds(bounds);
+        if (map.getZoom() > 12) map.setZoom(12);
+      } catch (e) {}
+    }
+
+    async function render() {
+      if (state.selectedProvinceRaw) {
+        await renderProductMarkers(state.selectedProvinceRaw);
+      } else {
+        await renderProvinceClusters();
+      }
+    }
+
+    // ---- Boot ----
+    function initMapWithProducts(products) {
+      if (!products || products.length === 0) {
+        console.warn('No products with address found');
+        return;
+      }
+
+      currentProducts = products;
+      geocoder = new google.maps.Geocoder();
+
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: ITALY_CENTER,
+        zoom: 5,
+        disableDefaultUI: true,
+        zoomControl: true,
+        styles: [
+          { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
+          { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+          { elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
+          { elementType: "labels.text.stroke", stylers: [{ color: "#f5f5f5" }] },
+          { featureType: "administrative.land_parcel", elementType: "labels.text.fill", stylers: [{ color: "#bdbdbd" }] },
+          { featureType: "poi", elementType: "geometry", stylers: [{ color: "#eeeeee" }] },
+          { featureType: "poi", elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
+          { featureType: "poi.business", stylers: [{ visibility: "off" }] },
+          { featureType: "road", elementType: "geometry", stylers: [{ color: "#ffffff" }] },
+          { featureType: "road.arterial", elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
+          { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#dadada" }] },
+          { featureType: "road.highway", elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
+          { featureType: "road.local", elementType: "labels.text.fill", stylers: [{ color: "#9e9e9e" }] },
+          { featureType: "transit.line", elementType: "geometry", stylers: [{ color: "#e5e5e5" }] },
+          { featureType: "transit.station", elementType: "geometry", stylers: [{ color: "#eeeeee" }] },
+          { featureType: "water", elementType: "geometry", stylers: [{ color: "#c9e4f0" }] },
+          { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#9e9e9e" }] }
+        ]
+      });
+
+      // Build RAW (English) province list
+      state.provincesRaw = getUnique(products, 'province');
+
+      // If we landed on a URL with Italian, set the matching RAW value
+      const urlProvinceItalian = readProvinceFromURL();
+      if (urlProvinceItalian) {
+        state.selectedProvinceRaw = italianToRaw(urlProvinceItalian, state.provincesRaw) || '';
+      } else {
+        state.selectedProvinceRaw = '';
+      }
+
+      // Zoom-out: show clusters (map only), keep URL/grid as-is
+      const onZoomMaybeRecluster = (() => {
+        let t;
+        return () => {
+          clearTimeout(t);
+          t = setTimeout(() => {
+            if (state.selectedProvinceRaw && map.getZoom() <= CLUSTER_REVERT_ZOOM) {
+              renderProvinceClusters(); // UI regroup only
+            }
+          }, 150);
+        };
+      })();
+      map.addListener('idle', onZoomMaybeRecluster);
+
+      // Initial render (reflects URL if present)
+      render();
+
+      // Also run URL→map sync once right after first render (no-op if already in sync)
+      handleUrlChange();
+    }
+
+    function tryInitMap() {
+      if (typeof google === 'undefined' || !google.maps) {
+        return setTimeout(tryInitMap, 300);
+      }
+      if (!window.productAddresses || window.productAddresses.length === 0) {
+        return setTimeout(tryInitMap, 300);
+      }
+      const withAddresses = window.productAddresses.filter(p => p.address);
+      initMapWithProducts(withAddresses);
+    }
+
+    document.addEventListener('DOMContentLoaded', tryInitMap);
+  </script>
+{%- endif -%}
+{% endif %}
+<!-- Schema block -->
+{% schema %}
+{
+  "name": "Product Location Map",
+  "settings": [
+    { "type": "text", "id": "api_key", "label": "Google Maps API Key" },
+    { "type": "text", "id": "storefront_token", "label": "Storefront access token" },
+    { "type": "collection", "id": "collection", "label": "Collection to map (optional)" },
+    { "type": "checkbox", "id": "enable_tag_filter", "label": "Enable tag filter", "default": true }
+  ],
+  "presets": [{ "name": "Product Map", "category": "Custom" }]
+}
+{% endschema %}
+
+

@@ -1,0 +1,197 @@
+<style>
+  .faq-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url('{{ 'faq.webp' | asset_url }}');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: calc(100% + 10px) top;
+  }
+
+  .faq-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    font-family: sans-serif;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  .faq-list {
+    margin-top: 100px;
+    position: relative;
+    width: 50%;
+    z-index: 1;
+  }
+
+  .faq-list::before {
+    content: none;
+  }
+
+  .faq-list h1 {
+    margin-bottom: 20px;
+  }
+
+  .faq-list ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+  }
+
+  .faq-item {
+    padding: 10px 0;
+    cursor: pointer;
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s;
+    font-weight: 600;
+  }
+
+  .faq-answer {
+    display: none;
+    color: #666;
+    margin-top: 8px;
+    padding-left: 10px;
+    display: none;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .faq-vector {
+    height: 24px;
+    width: auto;
+    flex-shrink: 0;
+    vertical-align: top;
+  }
+
+  .faq-answer-text {
+    line-height: 1.6;
+    margin-top: 10px; /* ✅ move answer slightly below vector */
+  }
+
+  .faq-item.open .faq-answer {
+    display: inline-flex;
+  }
+
+  .faq-item.open .faq-question {
+    color: #555;
+  }
+
+  .arrow {
+    transition: transform 0.3s ease;
+    width: 16px;
+    height: 16px;
+  }
+
+  .faq-image {
+    width: 40%;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    margin-left: -30%;
+  }
+
+  .faq-image img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .page-width {
+      padding: 0 0;
+    }
+
+    .faq-wrapper {
+      background-image: url('{{ 'faq.webp' | asset_url }}');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: calc(100% + 200px) 100px;
+    }
+
+    .faq-container {
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    .faq-list {
+      width: 80%;
+      margin-top: 0px;
+    }
+
+    .faq-list ol {
+      margin: 0;
+    }
+  }
+</style>
+
+<div class="page-width">
+  <div class="faq-wrapper">
+    <div class="faq-container">
+      <div class="faq-list">
+        <ol>
+          <h1>FAQ</h1>
+          {% for i in (1..8) %}
+            <li class="faq-item">
+              <div class="faq-question">
+                {{ 'sections.faq.q' | append: i | t }}
+                <img class="arrow" src="{{ 'faq-closed.webp' | asset_url }}" alt="Arrow">
+              </div>
+              <div class="faq-answer">
+                <img class="faq-vector" src="{{ 'vector.webp' | asset_url }}" alt="Connector line">
+                <div class="faq-answer-text">{{ 'sections.faq.a' | append: i | t }}</div>
+              </div>
+            </li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const items = document.querySelectorAll('.faq-item');
+
+    items.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      const arrow = item.querySelector('.arrow');
+
+      question.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+
+        items.forEach(otherItem => {
+          otherItem.classList.remove('open');
+          const otherArrow = otherItem.querySelector('.arrow');
+          if (otherArrow) {
+            otherArrow.src = "{{ 'faq-closed.webp' | asset_url }}";
+          }
+        });
+
+        if (!isOpen) {
+          item.classList.add('open');
+          arrow.src = "{{ 'faq-open.webp' | asset_url }}";
+        }
+      });
+    });
+  });
+</script>
+
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [],
+  "presets": [
+    {
+      "name": "FAQ"
+    }
+  ]
+}
+{% endschema %}
