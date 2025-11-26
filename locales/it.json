@@ -265,7 +265,7 @@
     "cart": {
       "cart": "Carrello"
     },
-    "gift-card":{
+    "gift-card": {
       "view_all": "Visualizza tutto",
     },
     "contact": {
@@ -411,7 +411,7 @@
         "word_5": "Pittura"
       }
     },
-     "video-embed": {
+    "video-embed": {
       "title": "Guarda il nostro ultimo video",
     },
     "header": {
@@ -425,8 +425,8 @@
       "all_experience": "Tutte le esperienze",
       "milan": "Esperienze a Milano",
       "turin": "Esperienze a Torino",
-      "gift_cards":"Gift Cards",
-      "contacts":"Contatti",
+      "gift_cards": "Gift Cards",
+      "contacts": "Contatti",
       "announcement": "Annuncio",
       "cart_count": {
         "one": "{{ count }} articolo",
@@ -486,7 +486,7 @@
       "payment": "Metodi di pagamento",
       "custom": {
         "quote": "Scopri il tuo hobby con artigiani",
-        "our_host":"",
+        "our_host": "",
         "about": "Il nostro Team",
         "host": "Diventa host",
         "how_it_works": "Come funziona",
@@ -507,7 +507,7 @@
         "instagram": "Instagram",
         "twitter": "Twitter",
         "facebook": "Facebook",
-        "tiktok" : "TikTok",
+        "tiktok": "TikTok",
         "linkedln": "Linkedln"
       }
     },
@@ -543,12 +543,12 @@
     "page": {
       "title": "Titolo pagina",
       "giftcard": {
-      "header": "Regala un tocco di Club Joy a te e ai tuoi amici. Utilizzabile per qualsiasi workshop a partire da 50 EUR. Scegli il tuo design preferito!",
-      "about_title": "Informazioni sulle Gift cards",
-      "about_description": "Una Club Joy Gift card è una carta regalo acquistata e inviata digitalmente.\n\nPer chi ne compra una, potrai donarla pre checkout o riceverai il QR e codice per l'utilizzo. Puoi accedere al tuo profilo per visualizzare le card acquistate — oppure contattare direttamente il supporto Club Joy per assistenza con l'ordine.",
-      "card_title": "FAQ sulla carta",
-      "card_description": "Le carte regalo Club Joy, possono essere utilizzate per pagare qualsiasi importo all'interno di clubjoy.com"
-    },
+        "header": "Regala un tocco di Club Joy a te e ai tuoi amici. Utilizzabile per qualsiasi workshop a partire da 50 EUR. Scegli il tuo design preferito!",
+        "about_title": "Informazioni sulle Gift cards",
+        "about_description": "Una Club Joy Gift card è una carta regalo acquistata e inviata digitalmente.\n\nPer chi ne compra una, potrai donarla pre checkout o riceverai il QR e codice per l'utilizzo. Puoi accedere al tuo profilo per visualizzare le card acquistate — oppure contattare direttamente il supporto Club Joy per assistenza con l'ordine.",
+        "card_title": "FAQ sulla carta",
+        "card_description": "Le carte regalo Club Joy, possono essere utilizzate per pagare qualsiasi importo all'interno di clubjoy.com"
+      },
     },
     "announcements": {
       "previous_announcement": "Annuncio precedente",
@@ -583,6 +583,28 @@
       "min_error": "Questo articolo ha un minimo di {{ min }}",
       "max_error": "Questo articolo ha un massimo di {{ max }}",
       "step_error": "Puoi aggiungere questo articolo solo in incrementi di {{ step }}"
+    },
+    "venezia-pass": {
+      "main_title": "Viaggia e Crea, 3 esperienze a Venezia",
+      "features": {
+        "handicraft": "Scopri Venezia con 3 artigiani. 3 esperienze del valore di €200, nelle tue mani per soli €169!",
+        "calendar": "Preoccupati solo di prenotare un'esperienza alla volta e poi vai al checkout!",
+        "ticket": "Goditi la città, e con questo incredibile sconto!"
+      },
+      "pricing_note": "Prezzo:",
+      "start_here": "Inizia qui",
+      "button": "ACQUISTA PASS"
+    },
+    "milan-pass": {
+      "main_title": "Scopri e Crea, 3 esperienze a Milano",
+      "features": {
+        "handicraft": "Esplora Milano con 3 artigiani. 3 esperienze del valore di €180, nelle tue mani per soli €149!",
+        "calendar": "Prenota un'esperienza alla volta e goditi la scena creativa milanese!",
+        "ticket": "Vivi Milano come un local con questi sconti esclusivi!"
+      },
+      "pricing_note": "prezzo",
+      "start_here": "Inizia qui",
+      "button": "ACQUISTA PASS"
     }
   },
   "localization": {

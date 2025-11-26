@@ -1,0 +1,280 @@
+.bundle-pass-section {
+  padding: 40px 0;
+  background: #fff;
+}
+
+.bundle-pass-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.bundle-pass-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.bundle-pass-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.bundle-pass-hero {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.bundle-pass-hero-image {
+  width: 100%;
+  max-width: 1200px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.bundle-pass-content {
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.bundle-pass-features {
+  flex: 1;
+}
+
+.bundle-pass-main-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.bundle-pass-description {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.bundle-pass-features-list {
+  display: grid;
+  gap: 20px;
+}
+
+.bundle-pass-feature {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.feature-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.feature-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.feature-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2c5530;
+  line-height: 1.4;
+}
+
+.feature-description {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.bundle-pass-pricing {
+  flex: 0 0 280px;
+  text-align: center;
+  padding: 30px;
+  background: #f8f8f8;
+  border-radius: 8px;
+  height: fit-content;
+}
+
+.pricing-note {
+    font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.pricing-note-left {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.price-display {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.original-price {
+  text-decoration: line-through;
+  font-weight: normal;
+  color: #666;
+}
+
+.arrow {
+  margin: 0 10px;
+  color: #333;
+}
+
+.sale-price {
+  color: #e74c3c;
+  font-weight: 700;
+}
+
+.start-here {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #333;
+  margin: 15px 0 10px 0;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.bundle-pass-button {
+  display: inline-block;
+  background: #007bff;
+  color: white;
+  padding: 15px 30px;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.bundle-pass-button:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+  color: white;
+  text-decoration: none;
+}
+
+/* Reviews Section */
+.bundle-pass-reviews {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.review-item {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.review-stars {
+  margin-bottom: 12px;
+}
+
+.star {
+  color: #ddd;
+  font-size: 18px;
+  margin-right: 2px;
+}
+
+.star.filled {
+  color: #ffd700;
+}
+
+.review-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+  margin: 0 0 12px 0;
+  font-style: italic;
+}
+
+.review-author {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 600;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .bundle-pass-content {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .bundle-pass-pricing {
+    flex: none;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .bundle-pass-title {
+    font-size: 2rem;
+  }
+
+  .bundle-pass-main-title {
+    font-size: 1.5rem;
+  }
+
+  .bundle-pass-hero-image {
+    height: 250px;
+  }
+
+  .price-display {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .bundle-pass-section {
+    padding: 20px 0;
+  }
+
+  .bundle-pass-title {
+    font-size: 1.8rem;
+  }
+
+  .bundle-pass-pricing {
+    padding: 20px;
+  }
+
+  .bundle-pass-button {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+}

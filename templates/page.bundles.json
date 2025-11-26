@@ -9,6 +9,10 @@
  */
 {
   "sections": {
+    "1764090889d190faae": {
+      "type": "_blocks",
+      "settings": {}
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -24,7 +28,7 @@
         "heading_zY6mM9": {
           "type": "heading",
           "settings": {
-            "heading": "Esperienze <strong>3x1</strong> a Venezia",
+            "heading": "Viaggia e crea /n 3 esperienze a Venezia (lf align)",
             "heading_size": "h0"
           }
         }
@@ -40,16 +44,6 @@
         "full_width": true,
         "padding_top": 40,
         "padding_bottom": 52
-      }
-    },
-    "custom_liquid_47UerN": {
-      "type": "custom-liquid",
-      "name": "t:sections.custom-liquid.presets.name",
-      "settings": {
-        "custom_liquid": "<h1 style=\"text-align:center; font-weight:bold;\">\n  <span style=\"text-decoration: line-through; font-weight:normal;\">\n    {{ 20000 | money }}\n  </span>\n  &nbsp;→&nbsp;\n  {{ 16900 | money }}\n</h1>",
-        "color_scheme": "",
-        "padding_top": 0,
-        "padding_bottom": 0
       }
     },
     "rich_text_MERPmk": {
@@ -290,9 +284,9 @@
     }
   },
   "order": [
+    "1764090889d190faae",
     "main",
     "rich_text_bdNPC6",
-    "custom_liquid_47UerN",
     "rich_text_MERPmk",
     "rich_text_Ktp968",
     "1762535278d0f80dfb",

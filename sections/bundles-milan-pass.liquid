@@ -1,0 +1,228 @@
+{{ 'bundles-pass.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width">
+  <div class="bundle-pass-section">
+    <!-- Header Section -->
+    <div class="bundle-pass-header">
+      <h1 class="bundle-pass-title">{{ section.settings.title }}</h1>
+    </div>
+
+    <!-- Hero Image -->
+    {% if section.settings.hero_image %}
+      <div class="bundle-pass-hero">
+        <img
+          src="{{ section.settings.hero_image | img_url: '1200x600' }}"
+          alt="{{ section.settings.hero_image.alt | default: section.settings.title }}"
+          class="bundle-pass-hero-image"
+        >
+      </div>
+    {% endif %}
+
+    <!-- Main Content Area -->
+    <div class="bundle-pass-content">
+      <div class="bundle-pass-features">
+        <h2 class="bundle-pass-main-title">{{ 'sections.milan-pass.main_title' | t }}</h2>
+        <p class="bundle-pass-description">{{ section.settings.description }}</p>
+
+        <!-- Features List -->
+        <div class="bundle-pass-features-list">
+          <div class="bundle-pass-feature">
+            <div class="feature-icon">
+              <img src="{{ 'handicraft.png' | asset_url }}" alt="Handicraft" class="feature-icon-img">
+            </div>
+            <div class="feature-content">
+              <p class="feature-description">{{ 'sections.milan-pass.features.handicraft' | t }}</p>
+            </div>
+          </div>
+
+          <div class="bundle-pass-feature">
+            <div class="feature-icon">
+              <img src="{{ 'calendar.png' | asset_url }}" alt="Calendar" class="feature-icon-img">
+            </div>
+            <div class="feature-content">
+              <p class="feature-description">{{ 'sections.milan-pass.features.calendar' | t }}</p>
+            </div>
+          </div>
+
+          <div class="bundle-pass-feature">
+            <div class="feature-icon">
+              <img src="{{ 'ticket.png' | asset_url }}" alt="Ticket" class="feature-icon-img">
+            </div>
+            <div class="feature-content">
+              <p class="feature-description">{{ 'sections.milan-pass.features.ticket' | t }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing Section -->
+      <div class="bundle-pass-pricing">
+        <p class="pricing-note">{{ 'sections.milan-pass.pricing_note' | t }}</p>
+        <div class="price-display">
+          <span class="original-price">{{ 18000 | money }}</span>
+          <span class="arrow">→</span>
+          <span class="sale-price">{{ 14900 | money }}</span>
+        </div>
+        <a href="/pages/milan-pass" class="bundle-pass-button">
+          {{ 'sections.milan-pass.button' | t }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="bundle-pass-reviews">
+      <div class="review-item">
+        <div class="review-stars">
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star">★</span>
+        </div>
+        <p class="review-text">"Milano è incredibile! Questo pass mi ha fatto scoprire laboratori che non avrei mai trovato da solo."</p>
+        <span class="review-author">- Alessandro T.</span>
+      </div>
+
+      <div class="review-item">
+        <div class="review-stars">
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+        </div>
+        <p class="review-text">"Perfetto per chi vuole vivere Milano come un local, super consigliato!"</p>
+        <span class="review-author">- Giulia B.</span>
+      </div>
+
+      <div class="review-item">
+        <div class="review-stars">
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+        </div>
+        <p class="review-text">"Outstanding value! The Milan experience package exceeded all my expectations. Authentic, creative, and unforgettable!"</p>
+        <span class="review-author">- Robert K.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Milan Pass Bundle",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Title",
+      "default": "Milan Pass"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Content Title",
+      "default": "Discover and Create, 3 experiences in Milan"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Explore Milan's creative scene with unprecedented access to three premier artisan workshops."
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price",
+      "default": "€29.80"
+    },
+    {
+      "type": "text",
+      "id": "pricing_note",
+      "label": "Pricing Note",
+      "default": "Special launch price for Milan experiences"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "BUY PASS"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Feature Title",
+          "default": "Feature title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Feature Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Milan Pass Bundle",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Experience authentic Milanese artisan workshops with master craftspeople",
+            "description": "Learn traditional Italian crafts, fashion design, and culinary techniques."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Flexible scheduling - book experiences any day of the week",
+            "description": "Choose your preferred dates and times for maximum convenience."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Start your journey at any of the three experience locations",
+            "description": "Begin your Milan adventure wherever is most convenient for you."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Enjoy a 20% discount on standard rates",
+            "description": "Save money while experiencing the best of Milan's creative offerings."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "You have one year from purchase to complete all three experiences",
+            "description": "Take your time and enjoy Milan at your own pace throughout the year."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

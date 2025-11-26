@@ -384,7 +384,6 @@
       "sardinia": "Sardinia",
       "fivet": "Cinque Terre",
       "amalfi": "Amalfi Coast",
-      
     },
     "trustpilot": {
       "title": " Trusted by Thousands of ",
@@ -587,6 +586,28 @@
       "min_error": "This item has a minimum of {{ min }}",
       "max_error": "This item has a maximum of {{ max }}",
       "step_error": "You can only add this item in increments of {{ step }}"
+    },
+    "venezia-pass": {
+      "main_title": "Travel and Create, 3 experiences in Venice",
+      "features": {
+        "handicraft": "Discover Venice with 3 artisans, 3 experiences at the value of 200€, in your hands for just 169€",
+        "calendar": "Just worry about booking one experience at the time then checkout!",
+        "ticket": "Enjoy the city like a local with these amazing discounts"
+      },
+      "pricing_note": "price",
+      "start_here": "start here",
+      "button": "BUY PASS"
+    },
+    "milan-pass": {
+      "main_title": "Discover and Create, 3 experiences in Milan",
+      "features": {
+        "handicraft": "Explore Milan with 3 artisans, 3 experiences at the value of 180€, in your hands for just 149€",
+        "calendar": "Book one experience at a time and enjoy Milan's creative scene!",
+        "ticket": "Experience Milan like a local with these exclusive discounts"
+      },
+      "pricing_note": "Price:",
+      "start_here": "start here",
+      "button": "BUY PASS"
     }
   },
   "localization": {

@@ -1,0 +1,228 @@
+{{ 'bundles-pass.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width">
+  <div class="bundle-pass-section">
+    <!-- Header Section -->
+    <div class="bundle-pass-header">
+      <h1 class="bundle-pass-title">{{ section.settings.title }}</h1>
+    </div>
+
+    <!-- Hero Image -->
+    {% if section.settings.hero_image %}
+      <div class="bundle-pass-hero">
+        <img
+          src="{{ section.settings.hero_image | img_url: '1200x600' }}"
+          alt="{{ section.settings.hero_image.alt | default: section.settings.title }}"
+          class="bundle-pass-hero-image"
+        >
+      </div>
+    {% endif %}
+
+    <!-- Main Content Area -->
+    <div class="bundle-pass-content">
+      <div class="bundle-pass-features">
+        <h2 class="bundle-pass-main-title">{{ 'sections.venezia-pass.main_title' | t }}</h2>
+        <p class="bundle-pass-description">{{ section.settings.description }}</p>
+
+        <!-- Features List -->
+        <div class="bundle-pass-features-list">
+          <div class="bundle-pass-feature">
+            <div class="feature-icon">
+              <img src="{{ 'handicraft.png' | asset_url }}" alt="Handicraft" class="feature-icon-img">
+            </div>
+            <div class="feature-content">
+              <p class="feature-description">{{ 'sections.venezia-pass.features.handicraft' | t }}</p>
+            </div>
+          </div>
+
+          <div class="bundle-pass-feature">
+            <div class="feature-icon">
+              <img src="{{ 'calendar.png' | asset_url }}" alt="Calendar" class="feature-icon-img">
+            </div>
+            <div class="feature-content">
+              <p class="feature-description">{{ 'sections.venezia-pass.features.calendar' | t }}</p>
+            </div>
+          </div>
+
+          <div class="bundle-pass-feature">
+            <div class="feature-icon">
+              <img src="{{ 'ticket.png' | asset_url }}" alt="Ticket" class="feature-icon-img">
+            </div>
+            <div class="feature-content">
+              <p class="feature-description">{{ 'sections.venezia-pass.features.ticket' | t }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing Section -->
+      <div class="bundle-pass-pricing">
+        <p class="pricing-note">{{ 'sections.venezia-pass.pricing_note' | t }}</p>
+        <div class="price-display">
+          <span class="original-price">{{ 20000 | money }}</span>
+          <span class="arrow">→</span>
+          <span class="sale-price">{{ 16900 | money }}</span>
+        </div>
+        <a href="/pages/venezia-pass" class="bundle-pass-button">
+          {{ 'sections.venezia-pass.button' | t }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="bundle-pass-reviews">
+      <div class="review-item">
+        <div class="review-stars">
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star">★</span>
+        </div>
+        <p class="review-text">"Esperienza fantastica! Il pass mi ha permesso di scoprire lati di Venezia che non conoscevo."</p>
+        <span class="review-author">- Marco R.</span>
+      </div>
+
+      <div class="review-item">
+        <div class="review-stars">
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+        </div>
+        <p class="review-text">"Ottimo rapporto qualità-prezzo, gli artigiani sono davvero competenti!"</p>
+        <span class="review-author">- Sofia M.</span>
+      </div>
+
+      <div class="review-item">
+        <div class="review-stars">
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+          <span class="star filled">★</span>
+        </div>
+        <p class="review-text">"Absolutely amazing! Three unique experiences that truly capture the essence of Venice. Highly recommended!"</p>
+        <span class="review-author">- Jennifer L.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Venezia Pass Bundle",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Title",
+      "default": "Venezia Pass"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Content Title",
+      "default": "Travel and Create, 3 experiences in Venice"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Discover the cultural treasures of Venice with unprecedented access to three premier institutions."
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price",
+      "default": "€32.80"
+    },
+    {
+      "type": "text",
+      "id": "pricing_note",
+      "label": "Pricing Note",
+      "default": "Price valid for EU citizens over 65 and for all three museums"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "BUY PASS"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Feature Title",
+          "default": "Feature title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Feature Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Venezia Pass Bundle",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Experience authentic Venetian artisan workshops with master craftspeople",
+            "description": "Learn traditional glass-blowing, mask-making, and gondola crafting techniques."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Flexible scheduling - book experiences any day of the week",
+            "description": "Choose your preferred dates and times for maximum convenience."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Start your journey at any of the three experience locations",
+            "description": "Begin your Venice adventure wherever is most convenient for you."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Enjoy a 20% discount on standard rates",
+            "description": "Save money while experiencing the best of Venice's cultural offerings."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "You have one year from purchase to complete all three experiences",
+            "description": "Take your time and enjoy Venice at your own pace throughout the year."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
