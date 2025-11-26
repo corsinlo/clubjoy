@@ -58,14 +58,32 @@
       <!-- Pricing Section -->
       <div class="bundle-pass-pricing">
         <p class="pricing-note">{{ 'sections.venezia-pass.pricing_note' | t }}</p>
-        <div class="price-display">
-          <span class="original-price">{{ 20000 | money }}</span>
-          <span class="arrow">→</span>
-          <span class="sale-price">{{ 16900 | money }}</span>
+
+        <!-- Pass 1 Pricing -->
+        <div class="price-option">
+          <h3 class="pass-title">Complete Pass</h3>
+          <div class="price-display">
+            <span class="original-price">{{ 20000 | money }}</span>
+            <span class="arrow">→</span>
+            <span class="sale-price">{{ 16900 | money }}</span>
+          </div>
+          <a href="/pages/venezia-pass" class="bundle-pass-button">
+            BUY COMPLETE PASS
+          </a>
         </div>
-        <a href="/pages/venezia-pass" class="bundle-pass-button">
-          {{ 'sections.venezia-pass.button' | t }}
-        </a>
+
+        <!-- Pass 2 Pricing -->
+        <div class="price-option">
+          <h3 class="pass-title">Essential Pass</h3>
+          <div class="price-display">
+            <span class="original-price">{{ 6500 | money }}</span>
+            <span class="arrow">→</span>
+            <span class="sale-price">{{ 5000 | money }}</span>
+          </div>
+          <a href="/pages/venezia-pass-2" class="bundle-pass-button">
+            BUY ESSENTIAL PASS
+          </a>
+        </div>
       </div>
     </div>
 

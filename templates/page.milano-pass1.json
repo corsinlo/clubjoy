@@ -25,39 +25,15 @@
     "rich_text_bdNPC6": {
       "type": "rich-text",
       "blocks": {
-        "heading_zY6mM9": {
-          "type": "heading",
-          "settings": {
-            "heading": "Viaggia e crea /n 3 esperienze a Venezia (lf align)",
-            "heading_size": "h0"
-          }
-        }
-      },
-      "block_order": [
-        "heading_zY6mM9"
-      ],
-      "name": "t:sections.rich-text.presets.name",
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
-      }
-    },
-    "rich_text_MERPmk": {
-      "type": "rich-text",
-      "blocks": {
-        "text_P4fqhh": {
+        "text_hT9zJ9": {
           "type": "text",
           "settings": {
-            "text": "<p>Scopri Venezia con 3 artigiani: 3 esperienze dal valore di €200, nelle tue mani a solo €169!</p><p>Tu devi solo preoccuparti dell’orario, al resto pensiamo noi</p>"
+            "text": "<h1><strong>È semplice come contare fino a tre!</strong></h1><h2>Inizia qui</h2>"
           }
         }
       },
       "block_order": [
-        "text_P4fqhh"
+        "text_hT9zJ9"
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
@@ -65,8 +41,32 @@
         "content_alignment": "center",
         "color_scheme": "",
         "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
+        "padding_top": 0,
+        "padding_bottom": 24
+      }
+    },
+    "rich_text_XyJ3t8": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_WLiMqr": {
+          "type": "heading",
+          "settings": {
+            "heading": " ↓",
+            "heading_size": "hxl"
+          }
+        }
+      },
+      "block_order": [
+        "heading_WLiMqr"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 24
       }
     },
     "rich_text_Ktp968": {
@@ -89,8 +89,8 @@
         "content_alignment": "center",
         "color_scheme": "",
         "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "1762535278d0f80dfb": {
@@ -135,8 +135,8 @@
         "content_alignment": "center",
         "color_scheme": "",
         "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
+        "padding_top": 0,
+        "padding_bottom": 24
       }
     },
     "rich_text_txnxGr": {
@@ -167,8 +167,8 @@
         "content_alignment": "center",
         "color_scheme": "",
         "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "1763129269fe0dc8e5": {
@@ -193,6 +193,30 @@
         "include_margins": true
       }
     },
+    "rich_text_bCw6tY": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_YRCXHb": {
+          "type": "heading",
+          "settings": {
+            "heading": " ↓",
+            "heading_size": "hxl"
+          }
+        }
+      },
+      "block_order": [
+        "heading_YRCXHb"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 24
+      }
+    },
     "rich_text_DLkYap": {
       "type": "rich-text",
       "blocks": {
@@ -213,8 +237,8 @@
         "content_alignment": "center",
         "color_scheme": "",
         "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "apps_7djry3": {
@@ -278,7 +302,7 @@
         "content_alignment": "center",
         "color_scheme": "",
         "full_width": true,
-        "padding_top": 40,
+        "padding_top": 0,
         "padding_bottom": 52
       }
     }
@@ -287,12 +311,13 @@
     "1764090889d190faae",
     "main",
     "rich_text_bdNPC6",
-    "rich_text_MERPmk",
+    "rich_text_XyJ3t8",
     "rich_text_Ktp968",
     "1762535278d0f80dfb",
     "rich_text_fRCHNN",
     "rich_text_txnxGr",
     "1763129269fe0dc8e5",
+    "rich_text_bCw6tY",
     "rich_text_DLkYap",
     "apps_7djry3",
     "rich_text_Gnp9Vz"

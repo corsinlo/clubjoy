@@ -591,7 +591,7 @@
         "calendar": "Preoccupati solo di prenotare un'esperienza alla volta e poi vai al checkout!",
         "ticket": "Goditi la città, e con questo incredibile sconto!"
       },
-      "pricing_note": "Prezzo:",
+      "pricing_note": "",
       "start_here": "Inizia qui",
       "button": "ACQUISTA PASS"
     },
@@ -602,7 +602,7 @@
         "calendar": "Prenota un'esperienza alla volta e goditi la scena creativa milanese!",
         "ticket": "Vivi Milano come un local con questi sconti esclusivi!"
       },
-      "pricing_note": "prezzo",
+      "pricing_note": "",
       "start_here": "Inizia qui",
       "button": "ACQUISTA PASS"
     }
