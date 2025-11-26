@@ -1,0 +1,278 @@
+{% comment %}
+  Google Rating Widget
+  Shows overall Google rating and star display when place ID is present
+  Lightweight widget using existing Google Maps API from the page
+{% endcomment %}
+
+{% if product.metafields.custom.place_id != blank %}
+<div class="google-rating-widget"
+     data-section-id="{{ section.id }}"
+     data-place-id="{{ product.metafields.custom.place_id }}">
+
+  <div class="google-rating-widget__container">
+    <div class="google-rating-widget__content" id="rating-widget-{{ section.id }}">
+      <div class="google-rating-widget__loading">Loading rating...</div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<style>
+  .google-rating-widget {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.background_color }};
+    text-align: center;
+  }
+
+  .google-rating-widget__container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .google-rating-widget__content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 12px;
+    padding: 20px 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    gap: 15px;
+    min-height: 80px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .google-rating-widget__content:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .google-rating-widget__google-logo {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .google-rating-widget__rating-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .google-rating-widget__stars {
+    color: #ffc107;
+    font-size: 20px;
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+
+  .google-rating-widget__rating-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+
+  .google-rating-widget__review-count {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+  }
+
+  .google-rating-widget__loading {
+    color: #666;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+  }
+
+  .google-rating-widget__error {
+    color: #e74c3c;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .google-rating-widget__content {
+      padding: 16px 20px;
+      gap: 12px;
+    }
+
+    .google-rating-widget__stars {
+      font-size: 18px;
+    }
+
+    .google-rating-widget__rating-text {
+      font-size: 16px;
+    }
+
+    .google-rating-widget__review-count {
+      font-size: 13px;
+    }
+
+    .google-rating-widget__google-logo {
+      width: 20px;
+      height: 20px;
+    }
+  }
+</style>
+
+<script>
+  class GoogleRatingWidget {
+    constructor(sectionId) {
+      this.sectionId = sectionId;
+      this.container = document.getElementById(`rating-widget-${sectionId}`);
+      this.sectionElement = document.querySelector(`[data-section-id="${sectionId}"]`);
+      this.placeId = this.sectionElement.dataset.placeId;
+      this.maxRetries = 20;
+      this.retryDelay = 500;
+
+      this.init();
+    }
+
+    async init() {
+      await this.waitForGoogleMaps();
+      await this.loadBusinessRating();
+    }
+
+    async waitForGoogleMaps() {
+      let attempts = 0;
+
+      while (attempts < this.maxRetries) {
+        if (typeof google !== 'undefined' && google.maps) {
+          console.log('✅ Google Maps API found for rating widget');
+          return;
+        }
+
+        console.log(`⏳ Waiting for Google Maps API for rating widget... (attempt ${attempts + 1}/${this.maxRetries})`);
+        await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+        attempts++;
+      }
+
+      throw new Error('Google Maps API not found for rating widget');
+    }
+
+    async loadBusinessRating() {
+      console.log('🏢 Loading business rating for Place ID:', this.placeId);
+
+      try {
+        if (typeof google === 'undefined' || !google.maps) {
+          throw new Error('Google Maps API not available');
+        }
+
+        const { Place } = await google.maps.importLibrary("places");
+
+        const place = new Place({
+          id: this.placeId
+        });
+
+        await place.fetchFields({
+          fields: ['rating', 'userRatingCount', 'displayName']
+        });
+
+        if (place.rating) {
+          this.displayRating({
+            rating: place.rating,
+            reviewCount: place.userRatingCount || 0,
+            businessName: place.displayName || 'Business'
+          });
+        } else {
+          this.showMessage('Rating not available');
+        }
+
+      } catch (error) {
+        console.error('💥 Error loading business rating:', error);
+        this.showError('Unable to load rating');
+      }
+    }
+
+    displayRating(data) {
+      const fullStars = Math.floor(data.rating);
+      const hasHalfStar = data.rating % 1 >= 0.5;
+      const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+      const starsDisplay =
+        '★'.repeat(fullStars) +
+        (hasHalfStar ? '⭐' : '') +
+        '☆'.repeat(emptyStars);
+
+      const googleLogoSvg = `<svg class="google-rating-widget__google-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>`;
+
+      this.container.innerHTML = `
+        ${googleLogoSvg}
+        <div class="google-rating-widget__rating-section">
+          <div class="google-rating-widget__stars">${starsDisplay}</div>
+          <div class="google-rating-widget__rating-text">${data.rating.toFixed(1)}</div>
+          ${data.reviewCount > 0 ? `<div class="google-rating-widget__review-count">(${data.reviewCount} reviews)</div>` : ''}
+        </div>
+      `;
+    }
+
+    showMessage(message) {
+      this.container.innerHTML = `<div class="google-rating-widget__loading">${message}</div>`;
+    }
+
+    showError(message) {
+      this.container.innerHTML = `<div class="google-rating-widget__error">${message}</div>`;
+    }
+  }
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    new GoogleRatingWidget('{{ section.id }}');
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Google Rating Widget",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Displays the overall Google rating for your business. Automatically loads using your Google Place ID from the existing Google Maps API."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Google Rating Widget"
+    }
+  ]
+}
+{% endschema %}
