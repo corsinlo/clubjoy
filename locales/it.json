@@ -587,18 +587,18 @@
     "venezia-pass": {
       "main_title": "Viaggia e Crea, 3 esperienze a Venezia",
       "features": {
-        "handicraft": "Scopri Venezia con 3 artigiani. 3 esperienze del valore di €200, nelle tue mani per soli €169!",
-        "calendar": "Preoccupati solo di prenotare un'esperienza alla volta e poi vai al checkout!",
-        "ticket": "Goditi la città, e con questo incredibile sconto!"
+        "handicraft": "Scopri Venezia con 2 opzioni: Pass Completo (3 esperienze da €200 a €169) o Pass Essenziale (2 esperienze da €65 a €55)!",
+        "calendar": "Prenota un'esperienza alla volta e goditi la scena creativa veneziana!",
+        "ticket": "Vivi Venezia come un local con questi sconti esclusivi!"
       },
-      "pricing_note": "",
+      "pricing_note": "Scegli il pass che fa per te!",
       "start_here": "Inizia qui",
       "button": "ACQUISTA PASS"
     },
     "milan-pass": {
       "main_title": "Scopri e Crea, 3 esperienze a Milano",
       "features": {
-        "handicraft": "Esplora Milano con 3 artigiani. 3 esperienze del valore di €180, nelle tue mani per soli €149!",
+        "handicraft": "Esplora Milano con 2 opzioni: Pass Completo (3 esperienze da €200 a €169) o Pass Essenziale (2 esperienze da €65 a €55)!",
         "calendar": "Prenota un'esperienza alla volta e goditi la scena creativa milanese!",
         "ticket": "Vivi Milano come un local con questi sconti esclusivi!"
       },

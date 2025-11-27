@@ -8,10 +8,11 @@
     </div>
 
     <!-- Hero Video or Image -->
-    {% if section.settings.hero_video %}
+    {% assign video_url = section.settings.hero_video | default: "https://cdn.shopify.com/videos/c/o/v/7f083f095f3649fda2b5e98c638771f9.mp4" %}
+    {% if video_url != blank %}
       <div class="bundle-pass-hero">
         <video
-          src="{{ section.settings.hero_video }}"
+          src="{{ video_url }}"
           autoplay
           loop
           muted

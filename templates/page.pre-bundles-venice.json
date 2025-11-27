@@ -17,9 +17,68 @@
         "padding_top": 0,
         "padding_bottom": 0
       }
+    },
+    "bundles_venezia_pass_mNRQCd": {
+      "type": "bundles-venezia-pass",
+      "blocks": {
+        "feature_Ltw6hK": {
+          "type": "feature",
+          "settings": {
+            "title": "Experience authentic Venetian artisan workshops with master craftspeople",
+            "description": "Learn traditional glass-blowing, mask-making, and gondola crafting techniques."
+          }
+        },
+        "feature_XPqLdg": {
+          "type": "feature",
+          "settings": {
+            "title": "Flexible scheduling - book experiences any day of the week",
+            "description": "Choose your preferred dates and times for maximum convenience."
+          }
+        },
+        "feature_y4WzdH": {
+          "type": "feature",
+          "settings": {
+            "title": "Start your journey at any of the three experience locations",
+            "description": "Begin your Venice adventure wherever is most convenient for you."
+          }
+        },
+        "feature_UGgC87": {
+          "type": "feature",
+          "settings": {
+            "title": "Enjoy a 20% discount on standard rates",
+            "description": "Save money while experiencing the best of Venice's cultural offerings."
+          }
+        },
+        "feature_6bQh68": {
+          "type": "feature",
+          "settings": {
+            "title": "You have one year from purchase to complete all three experiences",
+            "description": "Take your time and enjoy Venice at your own pace throughout the year."
+          }
+        }
+      },
+      "block_order": [
+        "feature_Ltw6hK",
+        "feature_XPqLdg",
+        "feature_y4WzdH",
+        "feature_UGgC87",
+        "feature_6bQh68"
+      ],
+      "name": "Venezia Pass Bundle",
+      "settings": {
+        "title": "Venezia Pass",
+        "hero_video": "",
+        "main_title": "Travel and Create, 3 experiences in Venice",
+        "description": "Discover the cultural treasures of Venice with unprecedented access to three premier institutions.",
+        "price": "€32.80",
+        "pricing_note": "Price valid for EU citizens over 65 and for all three museums",
+        "button_text": "BUY PASS",
+        "button_link": ""
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "bundles_venezia_pass_mNRQCd"
   ]
 }
