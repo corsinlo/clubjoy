@@ -36,6 +36,14 @@
   border-radius: 8px;
 }
 
+.bundle-pass-hero-video {
+  width: 100%;
+  max-width: 1200px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
 .bundle-pass-content {
   display: flex;
   gap: 60px;

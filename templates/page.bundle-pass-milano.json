@@ -18,14 +18,14 @@
         "padding_bottom": 0
       }
     },
-    "bundles_venezia_pass_w7Epkm": {
-      "type": "bundles-venezia-pass",
+    "bundles_milan_pass_w7Epkm": {
+      "type": "bundles-milan-pass",
       "blocks": {
         "feature_Ezeyby": {
           "type": "feature",
           "settings": {
-            "title": "Experience authentic Venetian artisan workshops with master craftspeople",
-            "description": "Learn traditional glass-blowing, mask-making, and gondola crafting techniques."
+            "title": "Experience authentic Milanese artisan workshops with master craftspeople",
+            "description": "Learn traditional fashion design, jewelry making, and leather crafting techniques."
           }
         },
         "feature_BEApQQ": {
@@ -39,21 +39,21 @@
           "type": "feature",
           "settings": {
             "title": "Start your journey at any of the three experience locations",
-            "description": "Begin your Venice adventure wherever is most convenient for you."
+            "description": "Begin your Milan adventure wherever is most convenient for you."
           }
         },
         "feature_QadGaK": {
           "type": "feature",
           "settings": {
             "title": "Enjoy a 20% discount on standard rates",
-            "description": "Save money while experiencing the best of Venice's cultural offerings."
+            "description": "Save money while experiencing the best of Milan's cultural offerings."
           }
         },
         "feature_zLnPBP": {
           "type": "feature",
           "settings": {
             "title": "You have one year from purchase to complete all three experiences",
-            "description": "Take your time and enjoy Venice at your own pace throughout the year."
+            "description": "Take your time and enjoy Milan at your own pace throughout the year."
           }
         }
       },
@@ -64,12 +64,13 @@
         "feature_QadGaK",
         "feature_zLnPBP"
       ],
-      "name": "Venezia Pass Bundle",
+      "name": "Milano Pass Bundle",
       "settings": {
-        "title": "Venezia Pass",
-        "subtitle": "Access to three premier Venice cultural experiences including artisan workshops, guided tours, and authentic local experiences.",
-        "main_title": "One pass for three national museums in Venice",
-        "description": "Discover the cultural treasures of Venice with unprecedented access to three premier institutions.",
+        "title": "Milano Pass",
+        "hero_video": "https://cdn.shopify.com/videos/c/o/v/7f083f095f3649fda2b5e98c638771f9.mp4",
+        "subtitle": "Access to three premier Milan cultural experiences including artisan workshops, guided tours, and authentic local experiences.",
+        "main_title": "One pass for three national museums in Milan",
+        "description": "Discover the cultural treasures of Milan with unprecedented access to three premier institutions.",
         "price": "€32.80",
         "pricing_note": "Price valid for EU citizens over 65 and for all three museums",
         "button_text": "BUY PASS",
@@ -79,6 +80,6 @@
   },
   "order": [
     "main",
-    "bundles_venezia_pass_w7Epkm"
+    "bundles_milan_pass_w7Epkm"
   ]
 }

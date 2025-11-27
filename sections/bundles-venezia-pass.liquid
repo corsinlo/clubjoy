@@ -7,8 +7,21 @@
       <h1 class="bundle-pass-title">{{ section.settings.title }}</h1>
     </div>
 
-    <!-- Hero Image -->
-    {% if section.settings.hero_image %}
+    <!-- Hero Video or Image -->
+    {% if section.settings.hero_video %}
+      <div class="bundle-pass-hero">
+        <video
+          src="{{ section.settings.hero_video }}"
+          autoplay
+          loop
+          muted
+          playsinline
+          class="bundle-pass-hero-video"
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    {% elsif section.settings.hero_image %}
       <div class="bundle-pass-hero">
         <img
           src="{{ section.settings.hero_image | img_url: '1200x600' }}"
@@ -141,9 +154,14 @@
       "default": "Venezia Pass"
     },
     {
+      "type": "text",
+      "id": "hero_video",
+      "label": "Hero Video URL"
+    },
+    {
       "type": "image_picker",
       "id": "hero_image",
-      "label": "Hero Image"
+      "label": "Hero Image (fallback if no video)"
     },
     {
       "type": "text",
