@@ -100,7 +100,7 @@
           "type": "shopify://apps/cowlendar-booking/blocks/app-section/6d8b8f6a-9b3c-42b8-b2e6-a758c38d45bf",
           "settings": {
             "section_title": "",
-            "section_number": "services-list-2"
+            "section_number": "services-list-3"
           }
         }
       },
@@ -108,7 +108,7 @@
         "cowlendar_booking_appointment_app_section_NzyGQM"
       ],
       "custom_css": [
-        ".cowlendar-section.services-list-2 > div > div:not(:first-child) {display: none !important;}",
+        ".cowlendar-section.services-list-3 > div > div:not(:first-child) {display: none !important;}",
         ".custom--dropdown-container {display: none !important;}"
       ],
       "settings": {
@@ -178,7 +178,7 @@
           "type": "shopify://apps/cowlendar-booking/blocks/app-section/6d8b8f6a-9b3c-42b8-b2e6-a758c38d45bf",
           "settings": {
             "section_title": "",
-            "section_number": "services-list-2"
+            "section_number": "services-list-3"
           }
         }
       },
@@ -186,8 +186,7 @@
         "cowlendar_booking_appointment_app_section_U7iQUd"
       ],
       "custom_css": [
-        ".cowlendar-section.services-list-2 > div > div:not(:nth-child(2)) {display: none !important;}",
-        ".custom--dropdown-container {display: none !important;}"
+        ".cowlendar-section.services-list-3 > div > div:not(:nth-child(2)) {display: none !important;}"
       ],
       "settings": {
         "include_margins": true
@@ -248,7 +247,7 @@
           "type": "shopify://apps/cowlendar-booking/blocks/app-section/6d8b8f6a-9b3c-42b8-b2e6-a758c38d45bf",
           "settings": {
             "section_title": "",
-            "section_number": "services-list-2"
+            "section_number": "services-list-3"
           }
         }
       },
@@ -256,7 +255,7 @@
         "cowlendar_booking_app_section_nfHxh4"
       ],
       "custom_css": [
-        ".cowlendar-section.services-list-2 > div > div:not(:last-child) {display: none !important;}",
+        ".cowlendar-section.services-list-3 > div > div:not(:last-child) {display: none !important;}",
         ".custom--dropdown-container {display: none !important;}"
       ],
       "settings": {
