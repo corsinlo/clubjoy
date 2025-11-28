@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -18,14 +9,14 @@
         "padding_bottom": 0
       }
     },
-    "bundles_milan_pass_w7Epkm": {
+    "bundles_milan_pass_x8Ppkm": {
       "type": "bundles-milan-pass",
       "blocks": {
         "feature_Ezeyby": {
           "type": "feature",
           "settings": {
             "title": "Experience authentic Milanese artisan workshops with master craftspeople",
-            "description": "Learn traditional fashion design, jewelry making, and leather crafting techniques."
+            "description": "Learn traditional Italian crafts, fashion design, and culinary techniques."
           }
         },
         "feature_BEApQQ": {
@@ -46,7 +37,7 @@
           "type": "feature",
           "settings": {
             "title": "Enjoy a 20% discount on standard rates",
-            "description": "Save money while experiencing the best of Milan's cultural offerings."
+            "description": "Save money while experiencing the best of Milan's creative offerings."
           }
         },
         "feature_zLnPBP": {
@@ -68,10 +59,10 @@
       "settings": {
         "title": "Milano Pass",
         "hero_video": "https://cdn.shopify.com/videos/c/o/v/7f083f095f3649fda2b5e98c638771f9.mp4",
-        "main_title": "One pass for three national museums in Milan",
-        "description": "Discover the cultural treasures of Milan with unprecedented access to three premier institutions.",
-        "price": "€32.80",
-        "pricing_note": "Price valid for EU citizens over 65 and for all three museums",
+        "main_title": "Discover and Create, 3 experiences in Milan",
+        "description": "Explore Milan's creative scene with unprecedented access to three premier artisan workshops.",
+        "price": "€29.80",
+        "pricing_note": "Special launch price for Milan experiences",
         "button_text": "BUY PASS",
         "button_link": ""
       }
@@ -79,6 +70,6 @@
   },
   "order": [
     "main",
-    "bundles_milan_pass_w7Epkm"
+    "bundles_milan_pass_x8Ppkm"
   ]
 }

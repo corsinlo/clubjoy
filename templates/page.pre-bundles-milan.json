@@ -18,38 +18,38 @@
         "padding_bottom": 0
       }
     },
-    "bundles_milan_pass_VTgfL3": {
+    "bundles_milan_pass_qFHL7U": {
       "type": "bundles-milan-pass",
       "blocks": {
-        "feature_ktP9Ya": {
+        "feature_DmFaRg": {
           "type": "feature",
           "settings": {
             "title": "Experience authentic Milanese artisan workshops with master craftspeople",
             "description": "Learn traditional Italian crafts, fashion design, and culinary techniques."
           }
         },
-        "feature_gifEQD": {
+        "feature_K9XLat": {
           "type": "feature",
           "settings": {
             "title": "Flexible scheduling - book experiences any day of the week",
             "description": "Choose your preferred dates and times for maximum convenience."
           }
         },
-        "feature_pKVYhg": {
+        "feature_Xik4cG": {
           "type": "feature",
           "settings": {
             "title": "Start your journey at any of the three experience locations",
             "description": "Begin your Milan adventure wherever is most convenient for you."
           }
         },
-        "feature_nteGkW": {
+        "feature_PxYLXx": {
           "type": "feature",
           "settings": {
             "title": "Enjoy a 20% discount on standard rates",
             "description": "Save money while experiencing the best of Milan's creative offerings."
           }
         },
-        "feature_mdHXhJ": {
+        "feature_JdejJ7": {
           "type": "feature",
           "settings": {
             "title": "You have one year from purchase to complete all three experiences",
@@ -58,11 +58,11 @@
         }
       },
       "block_order": [
-        "feature_ktP9Ya",
-        "feature_gifEQD",
-        "feature_pKVYhg",
-        "feature_nteGkW",
-        "feature_mdHXhJ"
+        "feature_DmFaRg",
+        "feature_K9XLat",
+        "feature_Xik4cG",
+        "feature_PxYLXx",
+        "feature_JdejJ7"
       ],
       "name": "Milan Pass Bundle",
       "settings": {
@@ -79,6 +79,6 @@
   },
   "order": [
     "main",
-    "bundles_milan_pass_VTgfL3"
+    "bundles_milan_pass_qFHL7U"
   ]
 }

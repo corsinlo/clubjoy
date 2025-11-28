@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -68,7 +59,7 @@
       "settings": {
         "title": "Venezia Pass",
         "hero_video": "https://cdn.shopify.com/videos/c/o/v/72d8a0bf32354a84902c140fb7e32a47.mp4",
-        "main_title": "One pass for three national museums in Venice",
+        "main_title": "Travel and Create, 3 experiences in Venice",
         "description": "Discover the cultural treasures of Venice with unprecedented access to three premier institutions.",
         "price": "€32.80",
         "pricing_note": "Price valid for EU citizens over 65 and for all three museums",

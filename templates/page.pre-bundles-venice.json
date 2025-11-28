@@ -18,38 +18,38 @@
         "padding_bottom": 0
       }
     },
-    "bundles_venezia_pass_mNRQCd": {
+    "bundles_venezia_pass_w7Epkm": {
       "type": "bundles-venezia-pass",
       "blocks": {
-        "feature_Ltw6hK": {
+        "feature_Ezeyby": {
           "type": "feature",
           "settings": {
             "title": "Experience authentic Venetian artisan workshops with master craftspeople",
             "description": "Learn traditional glass-blowing, mask-making, and gondola crafting techniques."
           }
         },
-        "feature_XPqLdg": {
+        "feature_BEApQQ": {
           "type": "feature",
           "settings": {
             "title": "Flexible scheduling - book experiences any day of the week",
             "description": "Choose your preferred dates and times for maximum convenience."
           }
         },
-        "feature_y4WzdH": {
+        "feature_EcaLHJ": {
           "type": "feature",
           "settings": {
             "title": "Start your journey at any of the three experience locations",
             "description": "Begin your Venice adventure wherever is most convenient for you."
           }
         },
-        "feature_UGgC87": {
+        "feature_QadGaK": {
           "type": "feature",
           "settings": {
             "title": "Enjoy a 20% discount on standard rates",
             "description": "Save money while experiencing the best of Venice's cultural offerings."
           }
         },
-        "feature_6bQh68": {
+        "feature_zLnPBP": {
           "type": "feature",
           "settings": {
             "title": "You have one year from purchase to complete all three experiences",
@@ -58,17 +58,17 @@
         }
       },
       "block_order": [
-        "feature_Ltw6hK",
-        "feature_XPqLdg",
-        "feature_y4WzdH",
-        "feature_UGgC87",
-        "feature_6bQh68"
+        "feature_Ezeyby",
+        "feature_BEApQQ",
+        "feature_EcaLHJ",
+        "feature_QadGaK",
+        "feature_zLnPBP"
       ],
       "name": "Venezia Pass Bundle",
       "settings": {
         "title": "Venezia Pass",
-        "hero_video": "",
-        "main_title": "Travel and Create, 3 experiences in Venice",
+        "subtitle": "Access to three premier Venice cultural experiences including artisan workshops, guided tours, and authentic local experiences.",
+        "main_title": "One pass for three national museums in Venice",
         "description": "Discover the cultural treasures of Venice with unprecedented access to three premier institutions.",
         "price": "€32.80",
         "pricing_note": "Price valid for EU citizens over 65 and for all three museums",
@@ -79,6 +79,6 @@
   },
   "order": [
     "main",
-    "bundles_venezia_pass_mNRQCd"
+    "bundles_venezia_pass_w7Epkm"
   ]
 }

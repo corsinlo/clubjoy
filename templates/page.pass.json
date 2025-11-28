@@ -9,23 +9,6 @@
  */
 {
   "sections": {
-    "bundles_selector": {
-      "type": "bundles-selector",
-      "settings": {
-        "title": "Scegli la tua città",
-        "subtitle": "Scopri esperienze artigianali uniche nelle città più belle d'Italia",
-        "milano_title": "Milano Pass",
-        "milano_description": "Scopri e crea con 3 esperienze artigianali nel cuore pulsante della moda e del design italiano",
-        "milano_price": "€149",
-        "milano_button_text": "Scopri Milano",
-        "milano_link": "/pages/bundle-pass-milano",
-        "venezia_title": "Venezia Pass",
-        "venezia_description": "Viaggia e crea con 3 esperienze artigianali nella città più romantica e magica del mondo",
-        "venezia_price": "€169",
-        "venezia_button_text": "Scopri Venezia",
-        "venezia_link": "/pages/bundle-pass-venezia"
-      }
-    },
     "1764090889d190faae": {
       "type": "_blocks",
       "settings": {}
@@ -325,7 +308,6 @@
     }
   },
   "order": [
-    "bundles_selector",
     "1764090889d190faae",
     "main",
     "rich_text_bdNPC6",
