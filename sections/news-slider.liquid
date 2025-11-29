@@ -1,0 +1,334 @@
+{{ 'news-slider.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width">
+  {%- if section.settings.title != blank -%}
+    <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin">
+      <h2 id="SectionHeading-{{ section.id }}" class="title inline-richtext {{ section.settings.heading_size }}">
+        {{ section.settings.title }}
+      </h2>
+    </div>
+  {%- endif -%}
+
+<div class="news-slider banner--{{ section.settings.slide_height }}{% if section.settings.layout == 'grid' %} {% endif %}" id="news-slider-{{ section.id }}">
+  <div class="news-slider__container" id="slider-container-{{ section.id }}">
+
+    <!-- Slide 1: YouTube -->
+    <div class="news-slider__slide news-slider__slide--youtube">
+      <div class="news-slider__content">
+        <h2 class="news-slider__title">
+          {{ section.settings.youtube_title | default: "Watch Our Latest Adventures" }}
+        </h2>
+        {%- if section.settings.youtube_description != blank -%}
+          <p class="news-slider__description">{{ section.settings.youtube_description }}</p>
+        {%- endif -%}
+        <a href="https://www.youtube.com/@clubjoyexperiences"
+           class="news-slider__button"
+           target="_blank"
+           rel="noopener">
+          {{ section.settings.youtube_button_text | default: "Visit YouTube" }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Slide 2: Venice Pass -->
+    <div class="news-slider__slide news-slider__slide--venice">
+      <div class="news-slider__content">
+        <h2 class="news-slider__title">
+          {{ section.settings.venice_title | default: "Experience Our Venice Pass" }}
+        </h2>
+        {%- if section.settings.venice_description != blank -%}
+          <p class="news-slider__description">{{ section.settings.venice_description }}</p>
+        {%- endif -%}
+        <a href="{% if section.settings.venice_link %}{{ section.settings.venice_link }}{% else %}/pages/venice-pass{% endif %}"
+           class="news-slider__button">
+          {{ section.settings.venice_button_text | default: "Venice Pass" }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Slide 3: Milan Pass -->
+    <div class="news-slider__slide news-slider__slide--milan">
+      <div class="news-slider__content">
+        <h2 class="news-slider__title">
+          {{ section.settings.milan_title | default: "Experience Our Milan Pass" }}
+        </h2>
+        {%- if section.settings.milan_description != blank -%}
+          <p class="news-slider__description">{{ section.settings.milan_description }}</p>
+        {%- endif -%}
+        <a href="{% if section.settings.milan_link %}{{ section.settings.milan_link }}{% else %}/pages/milan-pass{% endif %}"
+           class="news-slider__button">
+          {{ section.settings.milan_button_text | default: "Milan Pass" }}
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Navigation Dots -->
+  <div class="news-slider__dots">
+    <button class="news-slider__dot active" data-slide="0" aria-label="Go to slide 1"></button>
+    <button class="news-slider__dot" data-slide="1" aria-label="Go to slide 2"></button>
+    <button class="news-slider__dot" data-slide="2" aria-label="Go to slide 3"></button>
+  </div>
+</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const slider = document.getElementById('news-slider-{{ section.id }}');
+  const container = document.getElementById('slider-container-{{ section.id }}');
+  const dots = slider.querySelectorAll('.news-slider__dot');
+  let currentSlide = 0;
+  let autoRotateInterval;
+
+  function showSlide(index) {
+    const slideWidth = 100; // Each slide is 33.333% width, so we move by 33.333%
+    container.style.transform = `translateX(-${index * 33.333}%)`;
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
+
+    currentSlide = index;
+  }
+
+  function nextSlide() {
+    const next = (currentSlide + 1) % 3;
+    showSlide(next);
+  }
+
+  function startAutoRotate() {
+    {% if section.settings.auto_rotate %}
+      autoRotateInterval = setInterval(nextSlide, {{ section.settings.change_slides_speed | default: 5 }}000);
+    {% endif %}
+  }
+
+  function stopAutoRotate() {
+    if (autoRotateInterval) {
+      clearInterval(autoRotateInterval);
+    }
+  }
+
+  // Dot click handlers
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      stopAutoRotate();
+      showSlide(index);
+      {% if section.settings.auto_rotate %}
+        setTimeout(startAutoRotate, 3000);
+      {% endif %}
+    });
+  });
+
+  // Touch support
+  let startX = 0;
+  let endX = 0;
+
+  slider.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  slider.addEventListener('touchend', (e) => {
+    endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > 50) {
+      stopAutoRotate();
+
+      if (diff > 0) {
+        // Swipe left - next slide
+        nextSlide();
+      } else {
+        // Swipe right - previous slide
+        const prev = (currentSlide - 1 + 3) % 3;
+        showSlide(prev);
+      }
+
+      {% if section.settings.auto_rotate %}
+        setTimeout(startAutoRotate, 3000);
+      {% endif %}
+    }
+  });
+
+  // Auto rotate
+  {% if section.settings.auto_rotate %}
+    startAutoRotate();
+
+    slider.addEventListener('mouseenter', stopAutoRotate);
+    slider.addEventListener('mouseleave', startAutoRotate);
+  {% endif %}
+
+  // Initialize
+  showSlide(0);
+});
+</script>
+
+{% schema %}
+{
+  "name": "News Slider",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "clubjoy's world",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        {
+          "value": "full_bleed",
+          "label": "Full width"
+        },
+        {
+          "value": "grid",
+          "label": "Grid (page width)"
+        }
+      ],
+      "default": "full_bleed",
+      "label": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "slide_height",
+      "options": [
+        {
+          "value": "adapt_image",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium",
+      "label": "Slide height"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "change_slides_speed",
+      "min": 3,
+      "max": 9,
+      "step": 2,
+      "unit": "s",
+      "label": "Change slides every",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "YouTube Slide"
+    },
+    {
+      "type": "text",
+      "id": "youtube_title",
+      "label": "YouTube slide title",
+      "default": "Watch Our Latest Adventures"
+    },
+    {
+      "type": "textarea",
+      "id": "youtube_description",
+      "label": "YouTube slide description"
+    },
+    {
+      "type": "text",
+      "id": "youtube_button_text",
+      "label": "YouTube button text",
+      "default": "Visit YouTube"
+    },
+    {
+      "type": "header",
+      "content": "Venice Pass Slide"
+    },
+    {
+      "type": "text",
+      "id": "venice_title",
+      "label": "Venice slide title",
+      "default": "Experience Our Venice Pass"
+    },
+    {
+      "type": "textarea",
+      "id": "venice_description",
+      "label": "Venice slide description"
+    },
+    {
+      "type": "url",
+      "id": "venice_link",
+      "label": "Venice slide link"
+    },
+    {
+      "type": "text",
+      "id": "venice_button_text",
+      "label": "Venice button text",
+      "default": "Venice Pass"
+    },
+    {
+      "type": "header",
+      "content": "Milan Pass Slide"
+    },
+    {
+      "type": "text",
+      "id": "milan_title",
+      "label": "Milan slide title",
+      "default": "Experience Our Milan Pass"
+    },
+    {
+      "type": "textarea",
+      "id": "milan_description",
+      "label": "Milan slide description"
+    },
+    {
+      "type": "url",
+      "id": "milan_link",
+      "label": "Milan slide link"
+    },
+    {
+      "type": "text",
+      "id": "milan_button_text",
+      "label": "Milan button text",
+      "default": "Milan Pass"
+    }
+  ],
+  "presets": [
+    {
+      "name": "News Slider"
+    }
+  ]
+}
+{% endschema %}

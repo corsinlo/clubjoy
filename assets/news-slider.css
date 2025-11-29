@@ -1,0 +1,168 @@
+/* News Slider Styles */
+.news-slider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 4rem;
+}
+
+/* Height settings - same as interactive-columns */
+.news-slider.banner--small {
+  height: 300px;
+}
+
+.news-slider.banner--medium {
+  height: 300px;
+}
+
+.news-slider.banner--large {
+  height: 300px;
+}
+
+.news-slider.banner--adapt_image {
+  height: 300px;
+}
+
+.news-slider__container {
+  display: flex;
+  width: 300%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.news-slider__slide {
+  width: 33.333%;
+  height: 100%;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.news-slider__slide::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.news-slider__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  z-index: 10;
+}
+
+.news-slider__title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.news-slider__description {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.news-slider__button {
+  background-color: #012fa7;
+  color: white;
+  padding: 1.2rem 3rem;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-bottom: 3rem;
+}
+
+.news-slider__button:hover {
+  background-color: #0039e6;
+  transform: scale(1.03);
+  text-decoration: none;
+  color: white;
+}
+
+.news-slider__dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.news-slider__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.news-slider__dot.active {
+  background-color: white;
+}
+
+.news-slider__dot:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Slide specific backgrounds */
+.news-slider__slide--youtube {
+  background-image: url('https://cdn.shopify.com/s/files/1/0905/7629/0116/files/team.jpg?v=1764434605');
+}
+
+.news-slider__slide--venice {
+  background-image: url('https://cdn.shopify.com/s/files/1/0905/7629/0116/files/venice-pass.jpg?v=1764432825');
+}
+
+.news-slider__slide--milan {
+  background-image: url('https://cdn.shopify.com/s/files/1/0905/7629/0116/files/milan-pass.jpg?v=1764432814');
+}
+
+/* Mobile styles */
+@media screen and (max-width: 749px) {
+
+
+  .news-slider__title {
+    font-size: 1.5rem;
+  }
+
+  .news-slider__description {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .news-slider__button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+
+  .news-slider__dots {
+    bottom: 30px;
+    gap: 8px;
+  }
+
+  .news-slider__dot {
+    width: 10px;
+    height: 10px;
+  }
+}
