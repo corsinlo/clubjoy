@@ -1,0 +1,64 @@
+/* Pass Pages Universal Styles - applies to all pages with "pass" in the handle */
+/* Targets: venezia-pass, venezia-pass2, milano-pass1, milano-pass2, bundle-pass-venezia, bundle-pass-milano, pass */
+
+[class*="page-"][class*="pass"] #MainContent {
+  background-image: url('pass-background.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+  position: relative;
+  z-index: 1;
+}
+
+/* Make rich text sections transparent to show background */
+[class*="page-"][class*="pass"] .rich-text {
+  background: transparent !important;
+}
+
+[class*="page-"][class*="pass"] .rich-text .content-container {
+  background: transparent !important;
+}
+
+[class*="page-"][class*="pass"] .rich-text .gradient {
+  background: transparent !important;
+}
+
+[class*="page-"][class*="pass"] .color-scheme-1 {
+  background: transparent !important;
+}
+
+/* Make app sections (cowlendar booking) transparent too */
+[class*="page-"][class*="pass"] .shopify-section {
+  background: transparent !important;
+}
+
+[class*="page-"][class*="pass"] .page-width {
+  background: transparent !important;
+}
+
+/* Ensure content is readable over the background */
+[class*="page-"][class*="pass"] #MainContent .page-width {
+  position: relative;
+  z-index: 2;
+}
+
+/* Ensure header stays above all content */
+[class*="page-"][class*="pass"] .header-wrapper,
+[class*="page-"][class*="pass"] .shopify-section-group-header-group {
+  position: relative;
+  z-index: 100;
+}
+
+/* Fix any potential overflow issues */
+[class*="page-"][class*="pass"] body {
+  overflow-x: hidden;
+}
+
+/* Optional: Add a subtle overlay for better text readability on specific sections if needed */
+[class*="page-"][class*="pass"] .rich-text__blocks {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 10px 0;
+}

@@ -380,9 +380,13 @@ window.attachGa4ClickTracker = function(rootEl, options = {}){
 </script>
 <!-- End Google Analytics 4 -->
 
+    {%- if page.handle contains 'pass' -%}
+      {{ 'pass-pages.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+
   </head>
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}{% if template contains 'page' %} template-{{ template | replace: '.', '-' }}{% endif %}{% if page.handle %} page-{{ page.handle }}{% endif %}">
 
 
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
