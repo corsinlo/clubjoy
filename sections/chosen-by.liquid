@@ -11,8 +11,7 @@
 
   <div class="chosen-by-logos">
     {% assign logos = 'amalfilemon.webp,cafezal.webp,caffevergnano.webp,clinica botanica.webp,dream-factory.webp,enricorizzi.webp,guarnieri.webp' | split: ',' %}
-    {% assign company_names = 'Amalfi Lemon,Cafezal,Caffè Vergnano,Clinica Botanica,Dream Factory,Enrico Rizzi,Guarnieri' | split: ',' %}
-    {% assign company_urls = 'https://amalfilemon.com,https://cafezal.it/,https://caffevergnano.com,https://clinicabotanica.com,https://dreamfactory.it,https://enricorizzi.com,https://guarnieri.it' | split: ',' %}
+    {% assign company_urls = 'https://www.clubjoy.it/search?q=amalfi+lemon+experience&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=cafezal&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=vergano&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=clinica+botanica&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=dream+factory&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=enrico+rizzi&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=guarnieri&options%5Bprefix%5D=last' | split: ',' %}
 
     {% for i in (0..6) %}
       <div class="logo-item">
@@ -20,24 +19,22 @@
           <a href="{{ company_urls[i] }}" target="_blank" rel="noopener" class="logo-link">
             <img
               src="{{ logos[i] | asset_url }}"
-              alt="{{ company_names[i] | escape }}"
+              alt="Company logo"
               loading="lazy"
               class="logo-image"
               width="200"
               height="100"
             >
-            <p class="company-name">{{ company_names[i] }}</p>
           </a>
         {% else %}
           <img
             src="{{ logos[i] | asset_url }}"
-            alt="{{ company_names[i] | escape }}"
+            alt="Company logo"
             loading="lazy"
             class="logo-image"
             width="200"
             height="100"
           >
-          <p class="company-name">{{ company_names[i] }}</p>
         {% endif %}
       </div>
     {% endfor %}

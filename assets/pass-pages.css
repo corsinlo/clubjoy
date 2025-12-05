@@ -1,23 +1,19 @@
 /* Pass Pages + Homepage Background Styles */
 /* Targets: venezia-pass, venezia-pass2, milano-pass1, milano-pass2, bundle-pass-venezia, bundle-pass-milano, pass, homepage */
 
-/* All pages with background - pass pages and homepage */
-[class*="page-"][class*="pass"] #MainContent,
-.template-index #MainContent,
-body.template-index #MainContent {
+/* All pages with background - pass pages only (excluding bundle pages) */
+[class*="page-"][class*="pass"]:not([class*="bundle"]) #MainContent {
   background-image: url('pass-background.png') !important;
-  background-size: cover !important;
-  background-position: center !important;
+  background-size: 200px 200px !important;
+  background-position: top left !important;
   background-attachment: scroll !important;
-  background-repeat: no-repeat !important;
+  background-repeat: repeat !important;
   position: relative !important;
   z-index: 1 !important;
 }
 
-/* Subtle opacity overlay for ALL pages - homepage AND pass pages */
-[class*="page-"][class*="pass"] #MainContent::before,
-.template-index #MainContent::before,
-body.template-index #MainContent::before {
+/* Subtle opacity overlay for pass pages only (excluding bundle pages) */
+[class*="page-"][class*="pass"]:not([class*="bundle"]) #MainContent::before {
   content: '';
   position: absolute;
   top: 0;
@@ -30,102 +26,78 @@ body.template-index #MainContent::before {
 }
 
 /* Make rich text sections transparent to show background */
-[class*="page-"][class*="pass"] .rich-text,
-.template-index .rich-text {
+[class*="page-"][class*="pass"] .rich-text {
   background: transparent !important;
 }
 
-[class*="page-"][class*="pass"] .rich-text .content-container,
-.template-index .rich-text .content-container {
+[class*="page-"][class*="pass"] .rich-text .content-container {
   background: transparent !important;
 }
 
-[class*="page-"][class*="pass"] .rich-text .gradient,
-.template-index .rich-text .gradient {
+[class*="page-"][class*="pass"] .rich-text .gradient {
   background: transparent !important;
 }
 
-[class*="page-"][class*="pass"] .color-scheme-1,
-.template-index .color-scheme-1 {
+[class*="page-"][class*="pass"] .color-scheme-1 {
   background: transparent !important;
 }
 
 /* Make app sections (cowlendar booking) transparent too */
-[class*="page-"][class*="pass"] .shopify-section,
-.template-index .shopify-section {
+[class*="page-"][class*="pass"] .shopify-section {
   background: transparent !important;
 }
 
-[class*="page-"][class*="pass"] .page-width,
-.template-index .page-width {
+[class*="page-"][class*="pass"] .page-width {
   background: transparent !important;
 }
 
 /* Make specific sections transparent - scrolling logos, newsletter, trustpilot */
 [class*="page-"][class*="pass"] .scrolling-logos,
-.template-index .scrolling-logos,
 [class*="page-"][class*="pass"] .scrolling-logos .page-width,
-.template-index .scrolling-logos .page-width,
-[class*="page-"][class*="pass"] .scrolling-logos-section,
-.template-index .scrolling-logos-section {
+[class*="page-"][class*="pass"] .scrolling-logos-section {
   background: transparent !important;
 }
 
 [class*="page-"][class*="pass"] .custom-newsletter,
-.template-index .custom-newsletter,
 [class*="page-"][class*="pass"] .custom-newsletter .page-width,
-.template-index .custom-newsletter .page-width,
-[class*="page-"][class*="pass"] .newsletter-section,
-.template-index .newsletter-section {
+[class*="page-"][class*="pass"] .newsletter-section {
   background: transparent !important;
 }
 
 [class*="page-"][class*="pass"] .trustpilot,
-.template-index .trustpilot,
 [class*="page-"][class*="pass"] .trustpilot .page-width,
-.template-index .trustpilot .page-width,
 [class*="page-"][class*="pass"] .trustpilot-section,
-.template-index .trustpilot-section,
-[class*="page-"][class*="pass"] [class*="trustpilot"],
-.template-index [class*="trustpilot"] {
+[class*="page-"][class*="pass"] [class*="trustpilot"] {
   background: transparent !important;
 }
 
 /* Override any white backgrounds */
 [class*="page-"][class*="pass"] .color-background-1,
-.template-index .color-background-1,
 [class*="page-"][class*="pass"] .color-scheme-background-1,
-.template-index .color-scheme-background-1,
-[class*="page-"][class*="pass"] .background-white,
-.template-index .background-white {
+[class*="page-"][class*="pass"] .background-white {
   background: transparent !important;
 }
 
 /* Ensure content is readable over the background */
-[class*="page-"][class*="pass"] #MainContent .page-width,
-.template-index #MainContent .page-width {
+[class*="page-"][class*="pass"] #MainContent .page-width {
   position: relative;
   z-index: 2;
 }
 
 /* Ensure header stays above all content */
 [class*="page-"][class*="pass"] .header-wrapper,
-[class*="page-"][class*="pass"] .shopify-section-group-header-group,
-.template-index .header-wrapper,
-.template-index .shopify-section-group-header-group {
+[class*="page-"][class*="pass"] .shopify-section-group-header-group {
   position: relative;
   z-index: 100;
 }
 
 /* Fix any potential overflow issues */
-[class*="page-"][class*="pass"] body,
-.template-index body {
+[class*="page-"][class*="pass"] body {
   overflow-x: hidden;
 }
 
 /* Optional: Add a subtle overlay for better text readability on specific sections if needed */
-[class*="page-"][class*="pass"] .rich-text__blocks,
-.template-index .rich-text__blocks {
+[class*="page-"][class*="pass"] .rich-text__blocks {
   background: rgba(255, 255, 255, 0.8);
   padding: 20px;
   border-radius: 8px;
