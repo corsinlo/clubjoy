@@ -3,6 +3,7 @@
   position: relative;
   width: 100%;
   padding: 2rem 0;
+  background: transparent !important;
 
   mask-image: linear-gradient(
     to right,

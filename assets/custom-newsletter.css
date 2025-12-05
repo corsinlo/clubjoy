@@ -1,15 +1,15 @@
 .custom-newsletter-section {
-  background-color: white;
+  background-color: transparent !important;
+  padding: 40px 0;
 }
 
 .custom-newsletter-content {
-  display: flex; /* ADD this */
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;           /* Optional: ensures full width for centering */
-  max-width: 100%;       /* Optional: remove if you're adding a fixed width */
-  margin: 0 auto 40px;      /* ADD this to center it horizontally */
+  margin: 0 auto;
+  padding: 20px 0;
 }
 
 .custom-newsletter-form input:focus {
@@ -19,8 +19,8 @@
 
 
 .newsletter-left {
-  width: 300px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 500px;
 }
 
 .newsletter-right {
@@ -28,13 +28,26 @@
 }
 
 .newsletter-heading {
-    margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
 
 .newsletter-subheading {
   font-size: 1rem;
   margin-bottom: 30px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-field-half {
+  flex: 1;
 }
 
 .custom-newsletter-form .form-field {
@@ -58,12 +71,19 @@
 .newsletter-submit {
   background-color: #012fa7;
   color: white;
-  padding: 14px 24px;
+  padding: 16px 24px;
   font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   width: 100%;
+  font-size: 1rem;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.newsletter-submit:hover {
+  background-color: #0a3bb8;
 }
 
 /*
@@ -80,5 +100,21 @@
 */
 
 @media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
 
+  .form-field-half {
+    margin-bottom: 20px;
+  }
+
+  .newsletter-left {
+    max-width: 100%;
+  }
+
+  .newsletter-heading {
+    font-size: 1rem;
+    margin-bottom: 25px;
+  }
 }

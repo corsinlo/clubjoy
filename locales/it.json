@@ -585,27 +585,33 @@
       "step_error": "Puoi aggiungere questo articolo solo in incrementi di {{ step }}"
     },
     "venezia-pass": {
-      "main_title": "Viaggia e Crea, 3 esperienze a Venezia",
+      "title": "Venezia Pass",
+      "main_title": "Viaggia e crea – scegli il tuo Venice Pass",
       "features": {
-        "handicraft": "Scopri Venezia con 3 artigiani. 3 esperienze del valore di €200, nelle tue mani per soli €169!",
-        "calendar": "Preoccupati solo di prenotare un'esperienza alla volta e poi vai al checkout!",
-        "ticket": "Goditi la città, e con questo incredibile sconto!"
+        "handicraft": "Scegli tra 3 esperienze (dal valore di 200€, tue a solo 169€) o 2 esperienze (dal valore di 65€, tue a solo 50€)",
+        "calendar": "Prenota le esperienza quando vuoi tu, e goditi Venezia ai tuoi ritmi tra calli e canali",
+        "ticket": "Vivi Venezia come un local con laboratori artigianali unici e sconti in città"
       },
-      "pricing_note": "",
-      "start_here": "Inizia qui",
-      "button": "ACQUISTA PASS"
+      "pricing_note": "Scegli il pass per più adatto a te:",
+      "pricing_op1": "3 esperienze",
+      "pricing_op2": "2 esperienze",
+      "button1": "Compra Pass",
+      "button2": "Compra Pass",
     },
     "milan-pass": {
-      "main_title": "Scopri e Crea, 3 esperienze a Milano",
+      "title": "Milano Pass",
+      "main_title": "Scopri e crea – scegli il tuo Milan Pass",
       "features": {
-        "handicraft": "Esplora Milano con 3 artigiani. 3 esperienze del valore di €180, nelle tue mani per soli €149!",
-        "calendar": "Prenota un'esperienza alla volta e goditi la scena creativa milanese!",
-        "ticket": "Vivi Milano come un local con questi sconti esclusivi!"
+        "handicraft": "Scegli tra 3 esperienze (dal valore di 200€, tue a solo 169€) o 2 esperienze (dal valore di 65€, tue a solo 50€)",
+        "calendar": "Prenota le esperienza quando vuoi tu, e goditi Venezia ai tuoi ritmi tra calli e canali",
+        "ticket": "Vivi Milano come un local con laboratori artigianali selezionati e sconti esclusivi"
       },
-      "pricing_note": "",
-      "start_here": "Inizia qui",
-      "button": "ACQUISTA PASS"
-    }
+      "pricing_note": "Scegli il pass più adatto a te:",
+      "pricing_op1": "3 esperienze",
+      "pricing_op2": "2 esperienze",
+      "button1": "Compra Pass",
+      "button2": "Compra Pass",
+    },
   },
   "localization": {
     "country_label": "Paese/Area geografica",
@@ -625,7 +631,30 @@
     "team": {
       "title": "Creatività di squadra",
       "subTitle": "Dimentica le solite attività forzate. Con Club Joy, il team si sporca le mani davvero: si crea, si collabora, si scopre un nuovo lato dei colleghi. Esperienze pensate per rafforzare i legami, stimolare la creatività e costruire ricordi che non sembrano una riunione.",
-      "button": "Prenota un’esperienza aziendale"
+      "button": "Prenota un’esperienza aziendale",
+    },
+    "news-slider": {
+      "heading": "Il mondo di clubjoy",
+      "youtube": {
+        "title": "Canale Youtube",
+        "description": "Vieni a vedere come la creatività prende il sopravvento nella nostra vita di tutti i giorni.",
+        "button": "Guarda le Nostre Ultime Avventure"
+      },
+      "venice": {
+        "title": "Scopri il Nostro Venice Pass",
+        "description": "Da Murano ai segreti artigianali della Serenissima. Venezia nelle tue mani a un prezzo unico.",
+        "button": "Venice Pass"
+      },
+      "milan": {
+        "title": "Scopri il Nostro Milan Pass",
+        "description": "Non è solo il Duomo, i Navigli e la moda. Lascia che Milano ti sorprenda con le sue ricchezze creative uniche.",
+        "button": "Milan Pass"
+      },
+      "accessibility": {
+        "slide_1": "Vai alla slide 1",
+        "slide_2": "Vai alla slide 2",
+        "slide_3": "Vai alla slide 3"
+      }
     }
   },
   "customer": {

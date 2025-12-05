@@ -588,26 +588,32 @@
       "step_error": "You can only add this item in increments of {{ step }}"
     },
     "venezia-pass": {
-      "main_title": "Travel and Create, 3 experiences in Venice",
+      "title": "Venice Pass",
+      "main_title": "Travel and Create – choose your Venice Pass",
       "features": {
-        "handicraft": "Discover Venice with 3 artisans, 3 experiences at the value of 200€, in your hands for just 169€",
-        "calendar": "Just worry about booking one experience at the time then checkout!",
-        "ticket": "Enjoy the city like a local with these amazing discounts"
+        "handicraft": "Choose between the 3 experiences Pass (worth 200€, now 169€) or the 2 experiences Pass (worth 65€, now just 50€).",
+        "calendar": "Book one experience at a time and enjoy Venice at your own pace through alleys and canals.",
+        "ticket": "Experience Venice like a local with unique artisan workshops and special city discounts."
       },
-      "pricing_note": "price",
-      "start_here": "start here",
-      "button": "BUY PASS"
+      "pricing_note": "Choose the pass that suits you best:",
+      "pricing_op1": "3 experiences",
+      "pricing_op2": "2 experiences",
+      "button1": "Buy Pass",
+      "button2": "Buy Pass",
     },
     "milan-pass": {
-      "main_title": "Discover and Create, 3 experiences in Milan",
+      "title": "Milan Pass",
+      "main_title": "Discover and Create – choose your Milan Pass",
       "features": {
-        "handicraft": "Explore Milan with 3 artisans, 3 experiences at the value of 180€, in your hands for just 149€",
-        "calendar": "Book one experience at a time and enjoy Milan's creative scene!",
-        "ticket": "Experience Milan like a local with these exclusive discounts"
+        "handicraft": "Choose between the 3 experiences Pass (worth 200€, now 169€) or the 2 experiences Pass (worth 65€, now just 50€).",
+        "calendar": "Book one experience at a time and create your own pace through Milan’s creative neighbourhoods.",
+        "ticket": "Experience Milan like a local with curated artisan workshops and exclusive discounts."
       },
-      "pricing_note": "Price:",
-      "start_here": "start here",
-      "button": "BUY PASS"
+      "pricing_note": "Choose the pass that suits you best:",
+      "pricing_op1": "3 experiences",
+      "pricing_op2": "2 experiences",
+      "button1": "Buy Pass",
+      "button2": "Buy Pass",
     }
   },
   "localization": {
@@ -629,6 +635,29 @@
       "title": "Team creativity",
       "subTitle": "Forget the usual forced activities. With Club Joy, the team gets their hands truly dirty: they create, collaborate, and discover a new side of their colleagues. Experiences designed to strengthen bonds, spark creativity, and build memories that don’t feel like a meeting.",
       "button": "Book"
+    },
+    "news-slider": {
+      "heading": "clubjoy's world",
+      "youtube": {
+        "title": "Youtube Channel",
+        "description": "Come take a look at how creativity takes over our everyday life.",
+        "button": "Watch Our Latest Adventures"
+      },
+      "venice": {
+        "title": "Experience Our Venice Pass",
+        "description": "From Murano to the artisan secrets of La Serenissima – Venice in your hands at one unique price.",
+        "button": "Venice Pass"
+      },
+      "milan": {
+        "title": "Experience Our Milan Pass",
+        "description": "Not just the Duomo, the Navigli and fashion, discover the unique creative riches of Milan.",
+        "button": "Milan Pass"
+      },
+      "accessibility": {
+        "slide_1": "Go to slide 1",
+        "slide_2": "Go to slide 2",
+        "slide_3": "Go to slide 3"
+      }
     }
   },
   "customer": {

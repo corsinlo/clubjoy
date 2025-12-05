@@ -1,7 +1,8 @@
 {{ 'custom-newsletter.css' | asset_url | stylesheet_tag }}
 
 <div class="custom-newsletter-section">
-  <div class="custom-newsletter-content">
+  <div class="page-width">
+    <div class="custom-newsletter-content">
     <div class="newsletter-left">
       <p class="newsletter-heading">{{ 'sections.custom-newsletter.body' | t | newline_to_br }}</p>
       {% comment %}
@@ -29,6 +30,7 @@
         <img src="{{ 'newsletter-placeholder.jpg' | asset_url }}" alt="Newsletter image">
       {% endcomment %}
     </div>
+  </div>
   </div>
 </div>
 

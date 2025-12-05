@@ -16,16 +16,16 @@
     <div class="news-slider__slide news-slider__slide--youtube">
       <div class="news-slider__content">
         <h2 class="news-slider__title">
-          {{ section.settings.youtube_title | default: "Watch Our Latest Adventures" }}
+          {{ 'snippets.news-slider.youtube.title' | t }}
         </h2>
-        {%- if section.settings.youtube_description != blank -%}
-          <p class="news-slider__description">{{ section.settings.youtube_description }}</p>
-        {%- endif -%}
-        <a href="https://www.youtube.com/@clubjoyexperiences"
+        <p class="news-slider__description">
+          {{ 'snippets.news-slider.youtube.description' | t }}
+        </p>
+        <a href="{% if section.settings.youtube_url %}{{ section.settings.youtube_url }}{% else %}https://www.youtube.com/@clubjoyexperiences{% endif %}"
            class="news-slider__button"
            target="_blank"
            rel="noopener">
-          {{ section.settings.youtube_button_text | default: "Visit YouTube" }}
+          {{ 'snippets.news-slider.youtube.button' | t }}
         </a>
       </div>
     </div>
@@ -34,14 +34,14 @@
     <div class="news-slider__slide news-slider__slide--venice">
       <div class="news-slider__content">
         <h2 class="news-slider__title">
-          {{ section.settings.venice_title | default: "Experience Our Venice Pass" }}
+          {{ 'snippets.news-slider.venice.title' | t }}
         </h2>
-        {%- if section.settings.venice_description != blank -%}
-          <p class="news-slider__description">{{ section.settings.venice_description }}</p>
-        {%- endif -%}
+        <p class="news-slider__description">
+          {{ 'snippets.news-slider.venice.description' | t }}
+        </p>
         <a href="{% if section.settings.venice_link %}{{ section.settings.venice_link }}{% else %}/pages/venice-pass{% endif %}"
            class="news-slider__button">
-          {{ section.settings.venice_button_text | default: "Venice Pass" }}
+          {{ 'snippets.news-slider.venice.button' | t }}
         </a>
       </div>
     </div>
@@ -50,14 +50,14 @@
     <div class="news-slider__slide news-slider__slide--milan">
       <div class="news-slider__content">
         <h2 class="news-slider__title">
-          {{ section.settings.milan_title | default: "Experience Our Milan Pass" }}
+          {{ 'snippets.news-slider.milan.title' | t }}
         </h2>
-        {%- if section.settings.milan_description != blank -%}
-          <p class="news-slider__description">{{ section.settings.milan_description }}</p>
-        {%- endif -%}
+        <p class="news-slider__description">
+          {{ 'snippets.news-slider.milan.description' | t }}
+        </p>
         <a href="{% if section.settings.milan_link %}{{ section.settings.milan_link }}{% else %}/pages/milan-pass{% endif %}"
            class="news-slider__button">
-          {{ section.settings.milan_button_text | default: "Milan Pass" }}
+          {{ 'snippets.news-slider.milan.button' | t }}
         </a>
       </div>
     </div>
@@ -66,9 +66,9 @@
 
   <!-- Navigation Dots -->
   <div class="news-slider__dots">
-    <button class="news-slider__dot active" data-slide="0" aria-label="Go to slide 1"></button>
-    <button class="news-slider__dot" data-slide="1" aria-label="Go to slide 2"></button>
-    <button class="news-slider__dot" data-slide="2" aria-label="Go to slide 3"></button>
+    <button class="news-slider__dot active" data-slide="0" aria-label="{{ 'snippets.news-slider.accessibility.slide_1' | t }}"></button>
+    <button class="news-slider__dot" data-slide="1" aria-label="{{ 'snippets.news-slider.accessibility.slide_2' | t }}"></button>
+    <button class="news-slider__dot" data-slide="2" aria-label="{{ 'snippets.news-slider.accessibility.slide_3' | t }}"></button>
   </div>
 </div>
 </div>
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       "type": "inline_richtext",
       "id": "title",
-      "default": "clubjoy's world",
+      "default": "{{ 'snippets.news-slider.heading' | t }}",
       "label": "Heading"
     },
     {
@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
       "type": "text",
       "id": "youtube_title",
       "label": "YouTube slide title",
-      "default": "Watch Our Latest Adventures"
+      "default": "{{ 'snippets.news-slider.youtube.title' | t }}"
     },
     {
       "type": "textarea",
@@ -270,7 +270,13 @@ document.addEventListener('DOMContentLoaded', function() {
       "type": "text",
       "id": "youtube_button_text",
       "label": "YouTube button text",
-      "default": "Visit YouTube"
+      "default": "{{ 'snippets.news-slider.youtube.button' | t }}"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube channel URL",
+      "default": "https://www.youtube.com/@clubjoyexperiences"
     },
     {
       "type": "header",
@@ -280,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
       "type": "text",
       "id": "venice_title",
       "label": "Venice slide title",
-      "default": "Experience Our Venice Pass"
+      "default": "{{ 'snippets.news-slider.venice.title' | t }}"
     },
     {
       "type": "textarea",
@@ -296,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
       "type": "text",
       "id": "venice_button_text",
       "label": "Venice button text",
-      "default": "Venice Pass"
+      "default": "{{ 'snippets.news-slider.venice.button' | t }}"
     },
     {
       "type": "header",
@@ -306,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
       "type": "text",
       "id": "milan_title",
       "label": "Milan slide title",
-      "default": "Experience Our Milan Pass"
+      "default": "{{ 'snippets.news-slider.milan.title' | t }}"
     },
     {
       "type": "textarea",
@@ -322,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
       "type": "text",
       "id": "milan_button_text",
       "label": "Milan button text",
-      "default": "Milan Pass"
+      "default": "{{ 'snippets.news-slider.milan.button' | t }}"
     }
   ],
   "presets": [

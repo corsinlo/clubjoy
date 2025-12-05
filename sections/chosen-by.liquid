@@ -1,0 +1,156 @@
+{{ 'chosen-by.css' | asset_url | stylesheet_tag }}
+
+<div class="chosen-by-section page-width">
+  {% if section.settings.title != blank %}
+    <h2 class="chosen-by-title">{{ section.settings.title }}</h2>
+  {% endif %}
+
+  {% if section.settings.subtitle != blank %}
+    <p class="chosen-by-subtitle">{{ section.settings.subtitle }}</p>
+  {% endif %}
+
+  <div class="chosen-by-logos">
+    {% assign logos = 'amalfilemon.webp,cafezal.webp,caffevergnano.webp,clinica botanica.webp,dream-factory.webp,enricorizzi.webp,guarnieri.webp' | split: ',' %}
+    {% assign company_names = 'Amalfi Lemon,Cafezal,Caffè Vergnano,Clinica Botanica,Dream Factory,Enrico Rizzi,Guarnieri' | split: ',' %}
+    {% assign company_urls = 'https://amalfilemon.com,https://cafezal.it/,https://caffevergnano.com,https://clinicabotanica.com,https://dreamfactory.it,https://enricorizzi.com,https://guarnieri.it' | split: ',' %}
+
+    {% for i in (0..6) %}
+      <div class="logo-item">
+        {% if company_urls[i] != blank %}
+          <a href="{{ company_urls[i] }}" target="_blank" rel="noopener" class="logo-link">
+            <img
+              src="{{ logos[i] | asset_url }}"
+              alt="{{ company_names[i] | escape }}"
+              loading="lazy"
+              class="logo-image"
+              width="200"
+              height="100"
+            >
+            <p class="company-name">{{ company_names[i] }}</p>
+          </a>
+        {% else %}
+          <img
+            src="{{ logos[i] | asset_url }}"
+            alt="{{ company_names[i] | escape }}"
+            loading="lazy"
+            class="logo-image"
+            width="200"
+            height="100"
+          >
+          <p class="company-name">{{ company_names[i] }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Chosen By Logos",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Scelto da"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "select",
+      "id": "logos_per_row",
+      "label": "Logos per row",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "company_name",
+          "label": "Company name"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Chosen By Logos",
+      "blocks": [
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
