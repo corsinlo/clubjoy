@@ -375,7 +375,10 @@
 
           // Drill-down: navigate with ITALIAN province in URL (updates product grid)
           marker.addListener('click', () => {
-            applyCollectionFilter(provRaw); // converts to Italian internally
+            // Add small delay to ensure click is processed properly
+            setTimeout(() => {
+              applyCollectionFilter(provRaw); // converts to Italian internally
+            }, 100);
           });
 
           clusterMarkers.push(marker);
@@ -518,19 +521,19 @@
         state.selectedProvinceRaw = '';
       }
 
-      // Zoom-out: show clusters (map only), keep URL/grid as-is
-      const onZoomMaybeRecluster = (() => {
-        let t;
-        return () => {
-          clearTimeout(t);
-          t = setTimeout(() => {
-            if (state.selectedProvinceRaw && map.getZoom() <= CLUSTER_REVERT_ZOOM) {
-              renderProvinceClusters(); // UI regroup only
-            }
-          }, 150);
-        };
-      })();
-      map.addListener('idle', onZoomMaybeRecluster);
+      // Zoom-out: show clusters (map only), keep URL/grid as-is - DISABLED TO PREVENT FLICKERING
+      // const onZoomMaybeRecluster = (() => {
+      //   let t;
+      //   return () => {
+      //     clearTimeout(t);
+      //     t = setTimeout(() => {
+      //       if (state.selectedProvinceRaw && map.getZoom() <= CLUSTER_REVERT_ZOOM) {
+      //         renderProvinceClusters(); // UI regroup only
+      //       }
+      //     }, 150);
+      //   };
+      // })();
+      // map.addListener('idle', onZoomMaybeRecluster);
 
       // Initial render (reflects URL if present)
       render();

@@ -15,6 +15,11 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    <!-- Google Fonts - Saira Condensed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <title>
       {{ page_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
@@ -181,6 +186,19 @@ window.attachGa4ClickTracker = function(rootEl, options = {}){
         --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
         --font-heading-style: {{ settings.type_header_font.style }};
         --font-heading-weight: {{ settings.type_header_font.weight }};
+
+        /* Custom Font Overrides */
+        --font-body-family: "Saira Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+        --font-heading-family: "Netto", "Impact", "Franklin Gothic Bold", Arial, sans-serif;
+        --font-paragraph--family: "Saira Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+        --font-h1--family: "Netto", "Impact", "Franklin Gothic Bold", Arial, sans-serif;
+        --font-h2--family: "Netto", "Impact", "Franklin Gothic Bold", Arial, sans-serif;
+        --font-h3--family: "Netto", "Impact", "Franklin Gothic Bold", Arial, sans-serif;
+        --font-h4--family: "Netto", "Impact", "Franklin Gothic Bold", Arial, sans-serif;
+        --font-h5--family: "Netto", "Impact", "Franklin Gothic Bold", Arial, sans-serif;
+        --font-h6--family: "Netto", "Impact", "Franklin Gothic Bold", Arial, sans-serif;
+        --button-font-family-primary: "Netto", "Impact", "Franklin Gothic Bold", Arial, sans-serif;
+        --button-font-family-secondary: "Netto", "Impact", "Franklin Gothic Bold", Arial, sans-serif;
 
         --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
         --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};

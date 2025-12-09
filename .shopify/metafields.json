@@ -218,6 +218,36 @@
         "name": "single_line_text_field",
         "category": "TEXT"
       }
+    },
+    {
+      "key": "allergen-information",
+      "namespace": "shopify",
+      "name": "Allergen information",
+      "description": "Indicates potential allergens present in food or beverages, such as wheat or peanuts",
+      "type": {
+        "name": "list.metaobject_reference",
+        "category": "REFERENCE"
+      }
+    },
+    {
+      "key": "food-product-form",
+      "namespace": "shopify",
+      "name": "Food product form",
+      "description": "Specifies the form in which the food product is presented, such as dried or frozen",
+      "type": {
+        "name": "list.metaobject_reference",
+        "category": "REFERENCE"
+      }
+    },
+    {
+      "key": "cuisine",
+      "namespace": "shopify",
+      "name": "Cuisine",
+      "description": "Classifies products by culinary style or region, e.g. Southwestern United States, Mediterranean",
+      "type": {
+        "name": "list.metaobject_reference",
+        "category": "REFERENCE"
+      }
     }
   ],
   "variant": [
