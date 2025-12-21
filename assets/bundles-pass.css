@@ -1,5 +1,5 @@
 .bundle-pass-section {
-  padding: 40px 0;
+  padding: 20px 0;
   background: #fff;
 }
 
@@ -112,10 +112,12 @@
 }
 
 .feature-description {
-  font-size: 0.95rem;
   color: #666;
   line-height: 1.5;
   margin: 0;
+  max-width: 400px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .bundle-pass-pricing {
@@ -146,21 +148,18 @@
 }
 
 .pass-title {
-  font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 15px;
   color: #333;
 }
 
 .pricing-note {
-    font-size: 2rem;
   font-weight: 600;
   margin-bottom: 20px;
   color: #333;
 }
 
 .pricing-note-left {
-  font-size: 2rem;
   font-weight: 600;
   margin-bottom: 20px;
   color: #333;
@@ -169,7 +168,6 @@
 .price-display {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 1.8rem;
   font-weight: 700;
   color: #333;
 }
@@ -296,6 +294,10 @@
 
   .price-display {
     font-size: 1.5rem;
+  }
+
+  .feature-description {
+    max-width: 100%;
   }
 }
 

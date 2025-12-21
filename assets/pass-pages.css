@@ -4,7 +4,7 @@
 /* All pages with background - pass pages only (excluding bundle pages) */
 [class*="page-"][class*="pass"]:not([class*="bundle"]) #MainContent {
   background-image: url('pass-background.png') !important;
-  background-size: 200px 200px !important;
+  background-size: 300px 650px !important;
   background-position: top left !important;
   background-attachment: scroll !important;
   background-repeat: repeat !important;

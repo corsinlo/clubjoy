@@ -20,7 +20,7 @@
 
 .newsletter-left {
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
 }
 
 .newsletter-right {
@@ -28,26 +28,13 @@
 }
 
 .newsletter-heading {
-  margin-top: 20px;
-  margin-bottom: 30px;
-  text-align: center;
-  font-size: 1.1rem;
-  line-height: 1.5;
+    margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .newsletter-subheading {
   font-size: 1rem;
   margin-bottom: 30px;
-}
-
-.form-row {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.form-field-half {
-  flex: 1;
 }
 
 .custom-newsletter-form .form-field {
@@ -71,19 +58,12 @@
 .newsletter-submit {
   background-color: #012fa7;
   color: white;
-  padding: 16px 24px;
+  padding: 14px 24px;
   font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   width: 100%;
-  font-size: 1rem;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.newsletter-submit:hover {
-  background-color: #0a3bb8;
 }
 
 /*
@@ -100,21 +80,5 @@
 */
 
 @media (max-width: 768px) {
-  .form-row {
-    flex-direction: column;
-    gap: 0;
-  }
 
-  .form-field-half {
-    margin-bottom: 20px;
-  }
-
-  .newsletter-left {
-    max-width: 100%;
-  }
-
-  .newsletter-heading {
-    font-size: 1rem;
-    margin-bottom: 25px;
-  }
 }

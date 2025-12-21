@@ -397,7 +397,7 @@
     },
     "banner": {
       "1": "Certified experiences",
-      "2": "WhatsApp chat support",
+      "2": "24/7 WhatsApp chat support",
       "3": "Best price guaranteed"
     },
     "map": {
@@ -406,6 +406,7 @@
     },
     "enjoy": {
       "explore": "Explore",
+      "gift": "Gift",
       "joy": {
         "word_1": "Cooking",
         "word_2": "Pastry",
@@ -587,34 +588,35 @@
       "max_error": "This item has a maximum of {{ max }}",
       "step_error": "You can only add this item in increments of {{ step }}"
     },
-    "venezia-pass": {
-      "title": "Venice Pass",
-      "main_title": "Travel and Create – choose your Venice Pass",
-      "features": {
-        "handicraft": "Choose between the 3 experiences Pass (worth 200€, now 169€) or the 2 experiences Pass (worth 65€, now just 50€).",
-        "calendar": "Book one experience at a time and enjoy Venice at your own pace through alleys and canals.",
-        "ticket": "Experience Venice like a local with unique artisan workshops and special city discounts."
-      },
-      "pricing_note": "Choose the pass that suits you best:",
-      "pricing_op1": "3 experiences",
-      "pricing_op2": "2 experiences",
-      "button1": "Buy Pass",
-      "button2": "Buy Pass",
-    },
-    "milan-pass": {
-      "title": "Milan Pass",
-      "main_title": "Discover and Create – choose your Milan Pass",
-      "features": {
-        "handicraft": "Choose between the 3 experiences Pass (worth 200€, now 169€) or the 2 experiences Pass (worth 65€, now just 50€).",
-        "calendar": "Book one experience at a time and create your own pace through Milan’s creative neighbourhoods.",
-        "ticket": "Experience Milan like a local with curated artisan workshops and exclusive discounts."
-      },
-      "pricing_note": "Choose the pass that suits you best:",
-      "pricing_op1": "3 experiences",
-      "pricing_op2": "2 experiences",
-      "button1": "Buy Pass",
-      "button2": "Buy Pass",
-    }
+  "venezia-pass": {
+          "title":"Venice Pass",
+  "main_title": "Travel and Create – choose your Venice Pass",
+  "features": {
+    "handicraft": "Choose between the 3 esperiences Pass (worth 200€, now 169€) or the 2 esperiences Pass (worth 65€, now just 50€).",
+    "calendar": "Book one experience at a time and enjoy Venice at your own pace through alleys and canals.",
+    "ticket": "Experience Venice like a local with unique artisan workshops and special city discounts."
+  },
+  "pricing_note": "Choose the pass that suits you best:",
+    "pricing_op1": "3 esperiences",
+  "pricing_op2": "2 eesperiences",
+  "button1": "Buy Pass",
+  "button2": "Buy Pass",
+},
+   "milan-pass": {
+          "title":"Venice Pass",
+  "main_title": "Discover and Create – choose your Milan Pass",
+  "features": {
+    "handicraft": "Choose between the 3 esperiences Pass ( worth 200€, now 169€) or the 2 esperiences Pass (worth 65€, now just 50€).",
+    "calendar": "Book one experience at a time and create your own pace through Milan’s creative neighbourhoods.",
+    "ticket": "Experience Milan like a local with curated artisan workshops and exclusive discounts."
+  },
+  "pricing_note": "Choose the pass that suits you best:",
+    "pricing_op1": "3 esperiences",
+  "pricing_op2": "2 esperiences",
+  "button1": "Buy Pass",
+  "button2": "Buy Pass",
+}
+
   },
   "localization": {
     "country_label": "Country/region",
@@ -636,11 +638,11 @@
       "subTitle": "Forget the usual forced activities. With Club Joy, the team gets their hands truly dirty: they create, collaborate, and discover a new side of their colleagues. Experiences designed to strengthen bonds, spark creativity, and build memories that don’t feel like a meeting.",
       "button": "Book"
     },
-    "news-slider": {
+     "news-slider": {
       "heading": "clubjoy's world",
       "youtube": {
         "title": "Youtube Channel",
-        "description": "Come take a look at how creativity takes over our everyday life.",
+        "description": "ome take a look at how creativity takes over our everyday life.",
         "button": "Watch Our Latest Adventures"
       },
       "venice": {

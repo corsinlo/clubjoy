@@ -4,7 +4,6 @@
   <div class="bundle-pass-section">
     <!-- Header Section -->
     <div class="bundle-pass-header">
-      <h1 class="bundle-pass-title">{{ section.settings.title }}</h1>
     </div>
 
     <!-- Hero Video or Image -->
@@ -75,27 +74,27 @@
 
         <!-- Pass 1 Pricing -->
         <div class="price-option">
-          <h3 class="pass-title">Complete Pass</h3>
+          <h3 class="pass-title">{{ 'sections.venezia-pass.pricing_op1' | t }}</h3>
           <div class="price-display">
             <span class="original-price">{{ 20000 | money }}</span>
             <span class="arrow">→</span>
             <span class="sale-price">{{ 16900 | money }}</span>
           </div>
           <a href="/pages/venezia-pass" class="bundle-pass-button">
-            BUY COMPLETE PASS
+            {{ 'sections.milan-pass.button1' | t }}
           </a>
         </div>
 
         <!-- Pass 2 Pricing -->
         <div class="price-option">
-          <h3 class="pass-title">Essential Pass</h3>
+          <h3 class="pass-title">{{ 'sections.milan-pass.pricing_op2' | t }}</h3>
           <div class="price-display">
             <span class="original-price">{{ 6500 | money }}</span>
             <span class="arrow">→</span>
-            <span class="sale-price">{{ 5500 | money }}</span>
+            <span class="sale-price">{{ 5000 | money }}</span>
           </div>
           <a href="/pages/venezia-pass-2" class="bundle-pass-button">
-            BUY ESSENTIAL PASS
+            {{ 'sections.milan-pass.button2' | t }}
           </a>
         </div>
       </div>
@@ -145,120 +144,10 @@
 {% schema %}
 {
   "name": "Venezia Pass Bundle",
-  "tag": "section",
-  "class": "section",
-  "settings": [
-    {
-      "type": "text",
-      "id": "title",
-      "label": "Main Title",
-      "default": "Venezia Pass"
-    },
-    {
-      "type": "text",
-      "id": "hero_video",
-      "label": "Hero Video URL"
-    },
-    {
-      "type": "image_picker",
-      "id": "hero_image",
-      "label": "Hero Image (fallback if no video)"
-    },
-    {
-      "type": "text",
-      "id": "main_title",
-      "label": "Content Title",
-      "default": "Travel and Create, 3 experiences in Venice"
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description",
-      "default": "Discover the cultural treasures of Venice with unprecedented access to three premier institutions."
-    },
-    {
-      "type": "text",
-      "id": "price",
-      "label": "Price",
-      "default": "€32.80"
-    },
-    {
-      "type": "text",
-      "id": "pricing_note",
-      "label": "Pricing Note",
-      "default": "Price valid for EU citizens over 65 and for all three museums"
-    },
-    {
-      "type": "text",
-      "id": "button_text",
-      "label": "Button Text",
-      "default": "BUY PASS"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button Link"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "feature",
-      "name": "Feature",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Feature Title",
-          "default": "Feature title"
-        },
-        {
-          "type": "textarea",
-          "id": "description",
-          "label": "Feature Description"
-        }
-      ]
-    }
-  ],
+  "settings": [],
   "presets": [
     {
-      "name": "Venezia Pass Bundle",
-      "blocks": [
-        {
-          "type": "feature",
-          "settings": {
-            "title": "Experience authentic Venetian artisan workshops with master craftspeople",
-            "description": "Learn traditional glass-blowing, mask-making, and gondola crafting techniques."
-          }
-        },
-        {
-          "type": "feature",
-          "settings": {
-            "title": "Flexible scheduling - book experiences any day of the week",
-            "description": "Choose your preferred dates and times for maximum convenience."
-          }
-        },
-        {
-          "type": "feature",
-          "settings": {
-            "title": "Start your journey at any of the three experience locations",
-            "description": "Begin your Venice adventure wherever is most convenient for you."
-          }
-        },
-        {
-          "type": "feature",
-          "settings": {
-            "title": "Enjoy a 20% discount on standard rates",
-            "description": "Save money while experiencing the best of Venice's cultural offerings."
-          }
-        },
-        {
-          "type": "feature",
-          "settings": {
-            "title": "You have one year from purchase to complete all three experiences",
-            "description": "Take your time and enjoy Venice at your own pace throughout the year."
-          }
-        }
-      ]
+      "name": "Venezia Pass Bundle"
     }
   ]
 }

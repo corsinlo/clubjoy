@@ -74,7 +74,7 @@
         "heading_pNLRRB": {
           "type": "heading",
           "settings": {
-            "heading": "Step 1: Prenota la prima esperienza",
+            "heading": "<strong>Step 1: Prenota la prima esperienza</strong>",
             "heading_size": "h2"
           }
         }
@@ -144,7 +144,7 @@
         "heading_8n4HYW": {
           "type": "heading",
           "settings": {
-            "heading": "Step 2: Adesso, prenota la seconda esperienza",
+            "heading": "<strong>Step 2: Adesso, prenota la seconda esperienza</strong>",
             "heading_size": "h2"
           }
         },
@@ -216,13 +216,35 @@
         "padding_bottom": 24
       }
     },
+    "apps_r78VKF": {
+      "type": "apps",
+      "blocks": {
+        "cowlendar_booking_app_section_ikgffi": {
+          "type": "shopify://apps/cowlendar-booking/blocks/app-section/6d8b8f6a-9b3c-42b8-b2e6-a758c38d45bf",
+          "settings": {
+            "section_title": "",
+            "section_number": "services-list-2"
+          }
+        }
+      },
+      "block_order": [
+        "cowlendar_booking_app_section_ikgffi"
+      ],
+      "custom_css": [
+        ".cowlendar-section.services-list-2 > div > div:not(:last-child) {display: none !important;}",
+        ".custom--dropdown-container {display: none !important;}"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
     "rich_text_DLkYap": {
       "type": "rich-text",
       "blocks": {
         "heading_Pb4BKV": {
           "type": "heading",
           "settings": {
-            "heading": "Step 3: Ultimo step! Vai al checkout",
+            "heading": "<strong>Step 3: Ultimo step! Vai al checkout e </strong>",
             "heading_size": "h2"
           }
         }
@@ -238,27 +260,6 @@
         "full_width": true,
         "padding_top": 0,
         "padding_bottom": 0
-      }
-    },
-    "apps_4iPVbw": {
-      "type": "apps",
-      "blocks": {
-        "cowlendar_booking_app_section_Eee7ze": {
-          "type": "shopify://apps/cowlendar-booking/blocks/app-section/6d8b8f6a-9b3c-42b8-b2e6-a758c38d45bf",
-          "settings": {
-            "section_title": "",
-            "section_number": "services-list-2"
-          }
-        }
-      },
-      "block_order": [
-        "cowlendar_booking_app_section_Eee7ze"
-      ],
-      "custom_css": [
-        ".cowlendar-section.services-list-2 > div > div:not(:last-child) {display: none !important;}"
-      ],
-      "settings": {
-        "include_margins": true
       }
     },
     "rich_text_Gnp9Vz": {
@@ -315,8 +316,8 @@
     "rich_text_txnxGr",
     "1763129269fe0dc8e5",
     "rich_text_bCw6tY",
+    "apps_r78VKF",
     "rich_text_DLkYap",
-    "apps_4iPVbw",
     "rich_text_Gnp9Vz"
   ]
 }

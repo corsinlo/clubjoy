@@ -8,21 +8,24 @@
     padding: 1rem;
     color: black !important;
     text-align: center;
-    background-color: rgba(255, 255, 255, 1) !important;
+    background: white;
+    color: black !important;
+    background-color: rgba(255, 255, 255, 1) !important;  
     position: relative;
-    z-index: 10;
+    z-index: 10;                                        
   }
+
 
   .benefit-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    color: #012FA7;
     font-size: 15px;
-    color: black !important;
   }
 
-  .benefit-item span {
-    color: black !important;
+   .benefit-item span {
+    color: #012FA7;  /* Forces black on text spans */
   }
 
   @media (max-width: 600px) {
@@ -40,11 +43,11 @@
 <div class="benefits-bar">
   <div class="benefit-item">
     <span style="font-size: 1.5rem;">✔</span>
-    <span style="font-weight: bold;">{{ 'sections.banner.1' | t }}</span>
+    <span style="font-weight: bold;">{{ 'sections.banner.2' | t }}</span>
   </div>
   <div class="benefit-item">
     <span style="font-size: 1.5rem;">✔</span>
-    <span style="font-weight: bold;">{{ 'sections.banner.2' | t }}</span>
+    <span style="font-weight: bold;">{{ 'sections.banner.1' | t }}</span>
   </div>
   <div class="benefit-item">
     <span style="font-size: 1.5rem;">✔</span>

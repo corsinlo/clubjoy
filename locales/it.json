@@ -388,13 +388,13 @@
       "body": "Lasciaci una recensione"
     },
     "gift-card": {
-      "title": "Regala creatività, senza pensieri",
+      "title": "Più di 180 esperienze in una card",
       "body": "Non sai quale esperienza scegliere? Provale tutte. Acquista gift card e scegli in un secondo momento.",
-      "button": "Acquista la tua gift card"
+      "button": "Regala una gift card"
     },
     "banner": {
-      "1": "Esperienze certificate",
-      "2": "Supporto Whatsapp",
+      "1": "Esperienze curate da esperti",
+      "2": "Supporto Whatsapp 24/7",
       "3": "Miglior prezzo garantito"
     },
     "map": {
@@ -402,7 +402,8 @@
       "Joy": "Gioia",
     },
     "enjoy": {
-      "explore": "Mostrami tutto",
+      "explore": "Esplora",
+      "gift": "Regala",
       "joy": {
         "word_1": "Cucina",
         "word_2": "Pasticceria",
@@ -545,7 +546,7 @@
       "giftcard": {
         "header": "Regala un tocco di Club Joy a te e ai tuoi amici. Utilizzabile per qualsiasi workshop a partire da 50 EUR. Scegli il tuo design preferito!",
         "about_title": "Informazioni sulle Gift cards",
-        "about_description": "Una Club Joy Gift card è una carta regalo acquistata e inviata digitalmente.\n\nPer chi ne compra una, potrai donarla pre checkout o riceverai il QR e codice per l'utilizzo. Puoi accedere al tuo profilo per visualizzare le card acquistate — oppure contattare direttamente il supporto Club Joy per assistenza con l'ordine.",
+        "about_description": "La gift card è una carta regalo acquistata e inviata digitalmente.\n\nPer chi ne compra una, potrai donarla pre checkout o riceverai il QR e codice per l'utilizzo. Puoi accedere al tuo profilo per visualizzare le card acquistate — oppure contattare direttamente il supporto Club Joy per assistenza con l'ordine.",
         "card_title": "FAQ sulla carta",
         "card_description": "Le carte regalo Club Joy, possono essere utilizzate per pagare qualsiasi importo all'interno di clubjoy.com"
       },
@@ -585,33 +586,33 @@
       "step_error": "Puoi aggiungere questo articolo solo in incrementi di {{ step }}"
     },
     "venezia-pass": {
-      "title": "Venezia Pass",
-      "main_title": "Viaggia e crea – scegli il tuo Venice Pass",
-      "features": {
-        "handicraft": "Scegli tra 3 esperienze (dal valore di 200€, tue a solo 169€) o 2 esperienze (dal valore di 65€, tue a solo 50€)",
-        "calendar": "Prenota le esperienza quando vuoi tu, e goditi Venezia ai tuoi ritmi tra calli e canali",
-        "ticket": "Vivi Venezia come un local con laboratori artigianali unici e sconti in città"
-      },
-      "pricing_note": "Scegli il pass per più adatto a te:",
-      "pricing_op1": "3 esperienze",
-      "pricing_op2": "2 esperienze",
-      "button1": "Compra Pass",
-      "button2": "Compra Pass",
-    },
-    "milan-pass": {
-      "title": "Milano Pass",
-      "main_title": "Scopri e crea – scegli il tuo Milan Pass",
-      "features": {
-        "handicraft": "Scegli tra 3 esperienze (dal valore di 200€, tue a solo 169€) o 2 esperienze (dal valore di 65€, tue a solo 50€)",
-        "calendar": "Prenota le esperienza quando vuoi tu, e goditi Venezia ai tuoi ritmi tra calli e canali",
-        "ticket": "Vivi Milano come un local con laboratori artigianali selezionati e sconti esclusivi"
-      },
-      "pricing_note": "Scegli il pass più adatto a te:",
-      "pricing_op1": "3 esperienze",
-      "pricing_op2": "2 esperienze",
-      "button1": "Compra Pass",
-      "button2": "Compra Pass",
-    },
+        "title":"Venezia Pass",
+  "main_title": "Viaggia e crea – scegli il tuo Venice Pass",
+  "features": {
+    "handicraft": "Scegli tra 3 esperienze (dal valore di 200€, tue a solo 169€) o 2 esperienze (dal valore di 65€, tue a solo 50€)",
+    "calendar": "Prenota le esperienza quando vuoi tu, e goditi Venezia ai tuoi ritmi tra calli e canali",
+    "ticket": "Vivi Venezia come un local con laboratori artigianali unici e sconti in città"
+  },
+  "pricing_note": "Scegli il pass per più adatto a te:",
+    "pricing_op1": "3 esperienze",
+  "pricing_op2": "2 esperienze",
+  "button1": "Compra Pass",
+  "button2": "Compra Pass",
+},
+"milan-pass": {
+  "title":"Milano Pass",
+  "main_title": "Scopri e crea – scegli il tuo Milan Pass",
+  "features": {
+    "handicraft": "Scegli tra 3 esperienze (dal valore di 200€, tue a solo 169€) o 2 esperienze (dal valore di 65€, tue a solo 50€)",
+    "calendar": "Prenota le esperienza quando vuoi tu, e goditi Venezia ai tuoi ritmi tra calli e canali",
+    "ticket": "Vivi Milano come un local con laboratori artigianali selezionati e sconti esclusivi"
+  },
+  "pricing_note": "Scegli il pass più adatto a te:",
+  "pricing_op1": "3 esperienze",
+  "pricing_op2": "2 esperienze",
+  "button1": "Compra Pass",
+  "button2": "Compra Pass",
+},
   },
   "localization": {
     "country_label": "Paese/Area geografica",

@@ -18,14 +18,14 @@
         "padding_bottom": 28
       }
     },
-    "bundles_milan_pass_Q7Jtzx": {
-      "type": "bundles-milan-pass",
-      "name": "Milan Pass Bundle",
+    "bundles_venezia_pass_rABnrH": {
+      "type": "bundles-venezia-pass",
+      "name": "Venezia Pass Bundle",
       "settings": {}
     }
   },
   "order": [
     "main",
-    "bundles_milan_pass_Q7Jtzx"
+    "bundles_venezia_pass_rABnrH"
   ]
 }

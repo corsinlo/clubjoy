@@ -9,6 +9,51 @@
  */
 {
   "sections": {
+    "17660589096cc264ef": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_1746ed3_fFCCk8": {
+          "type": "ai_gen_block_1746ed3",
+          "disabled": true,
+          "settings": {
+            "container_width": 1200,
+            "section_padding_top": 50,
+            "section_padding_bottom": 50,
+            "column_gap": 40,
+            "content_gap": 30,
+            "text_gap": 15,
+            "mobile_gap": 30,
+            "background_color": "#ffffff",
+            "heading_1": "Discover our collection",
+            "text_1": "<p>Explore our curated selection of premium products designed to elevate your lifestyle.</p>",
+            "button_text_1": "Shop now",
+            "button_link_1": "",
+            "heading_2": "New arrivals",
+            "text_2": "<p>Check out the latest additions to our store and stay ahead of the trends.</p>",
+            "button_text_2": "Explore",
+            "button_link_2": "",
+            "image_border_radius": 0,
+            "heading_size": 32,
+            "heading_color": "#121212",
+            "text_size": 16,
+            "text_color": "#121212",
+            "button_text_size": 16,
+            "button_padding_vertical": 12,
+            "button_padding_horizontal": 24,
+            "button_border_radius": 12,
+            "button_bg_color": "#012fa7",
+            "button_text_color": "#ffffff",
+            "button_hover_bg_color": "#121212",
+            "button_hover_text_color": "#ffffff"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_1746ed3_fFCCk8"
+      ],
+      "settings": {}
+    },
     "enjoy_scroller_bd8E87": {
       "type": "enjoy-scroller",
       "settings": {}
@@ -18,9 +63,109 @@
       "name": "banner",
       "settings": {}
     },
-    "scrolling_logos_kKEpEp": {
-      "type": "scrolling-logos",
-      "settings": {}
+    "chosen_by_9UgTfW": {
+      "type": "chosen-by",
+      "blocks": {
+        "logo_hjkwjM": {
+          "type": "logo",
+          "settings": {
+            "company_name": "",
+            "link": ""
+          }
+        },
+        "logo_CYQTb8": {
+          "type": "logo",
+          "settings": {
+            "company_name": "",
+            "link": ""
+          }
+        },
+        "logo_i7w6H7": {
+          "type": "logo",
+          "settings": {
+            "company_name": "",
+            "link": ""
+          }
+        },
+        "logo_Ckp7TE": {
+          "type": "logo",
+          "settings": {
+            "company_name": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_hjkwjM",
+        "logo_CYQTb8",
+        "logo_i7w6H7",
+        "logo_Ckp7TE"
+      ],
+      "name": "Chosen By Logos",
+      "settings": {
+        "title": "Esperienze con i nostri top brand",
+        "subtitle": "",
+        "logos_per_row": "4",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_FYT6Ua": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_xAPfzi": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/Frame_120.png",
+            "title": "<strong>Esplora 180+ hobby creativi</strong>",
+            "text": "<p>Centinaia di artigiani ed attività nelle principali città italiane</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_6TNHW8": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/Frame_122.png",
+            "title": "<strong>Scegli il tuo preferito</strong>",
+            "text": "<p>Scegli la data perfetta per te, in modo facile e veloce</p><p><br/></p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_raCjGF": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/Frame_124.png",
+            "title": "<strong>Libera la tua creatività!</strong>",
+            "text": "<p>Raggiungi la location e vivi un’esperienza unica!</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_xAPfzi",
+        "column_6TNHW8",
+        "column_raCjGF"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "title": "Come funziona Club Joy?",
+        "heading_size": "h2",
+        "image_width": "full",
+        "image_ratio": "square",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 3,
+        "column_alignment": "center",
+        "background_style": "none",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     },
     "featured_collection_MHrMaR": {
       "type": "featured-collection",
@@ -50,12 +195,166 @@
         "padding_bottom": 36
       }
     },
+    "blocks_cNdwgx": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_9518840_6J4eEx": {
+          "type": "ai_gen_block_9518840",
+          "settings": {
+            "section_padding": 60,
+            "card_height": 500,
+            "card_width": 70,
+            "border_radius": 16,
+            "card_1_image": "shopify://shop_images/milan-pass.jpg",
+            "card_1_title": "Scopri Milano ad un super prezzo",
+            "card_1_description": "Non è solo il Duomo, i Navigli e la moda. Lascia che Milano ti sorprenda con le sue ricchezze creative uniche.",
+            "card_1_button_text": "Milan Pass",
+            "card_1_button_link": "shopify://pages/bundle-pass-milano",
+            "card_2_image": "shopify://shop_images/venice-pass.jpg",
+            "card_2_title": "Scopri Venezia ad un super prezzo",
+            "card_2_description": "Da Murano ai segreti artigianali della Serenissima. La città nelle tue mani con il nostro Venezia Pass.",
+            "card_2_button_text": "Venice Pass",
+            "card_2_button_link": "shopify://pages/bundle-pass-venezia",
+            "card_3_image": "shopify://shop_images/Screenshot_2025-12-05_at_15.54.44.png",
+            "card_3_title": "Vieni a conoscere i nostri artigiani",
+            "card_3_description": "Guarda le Nostre Ultime Avventure",
+            "card_3_button_text": "Scoprici su YouTube",
+            "card_3_button_link": "",
+            "card_4_title": "",
+            "card_4_description": "",
+            "card_4_button_text": "",
+            "card_4_button_link": "",
+            "card_5_title": "",
+            "card_5_description": "",
+            "card_5_button_text": "",
+            "card_5_button_link": "",
+            "card_6_title": "",
+            "card_6_description": "",
+            "card_6_button_text": "",
+            "card_6_button_link": "",
+            "card_7_title": "",
+            "card_7_description": "",
+            "card_7_button_text": "",
+            "card_7_button_link": "",
+            "card_8_title": "",
+            "card_8_description": "",
+            "card_8_button_text": "",
+            "card_8_button_link": "",
+            "card_9_title": "",
+            "card_9_description": "",
+            "card_9_button_text": "",
+            "card_9_button_link": "",
+            "card_10_title": "",
+            "card_10_description": "",
+            "card_10_button_text": "",
+            "card_10_button_link": "",
+            "overlay_padding": 35,
+            "overlay_color": "#000000",
+            "text_color": "#ffffff",
+            "title_size": 24,
+            "description_size": 16,
+            "button_bg_color": "#012fa7",
+            "button_text_color": "#ffffff",
+            "button_hover_bg_color": "#f0f0f0",
+            "button_radius": 8,
+            "nav_button_color": "#ffffff",
+            "nav_button_icon_color": "#000000",
+            "nav_button_hover_color": "#f0f0f0",
+            "dot_color": "#000000",
+            "dot_active_color": "#012fa7"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_9518840_6J4eEx"
+      ],
+      "settings": {}
+    },
+    "slideshow_XwDPL6": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_wakqYr": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/milan-pass.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "Scopri Milano ad un super prezzo",
+            "heading_size": "h2",
+            "subheading": "Non è solo il Duomo, i Navigli e la moda. Lascia che Milano ti sorprenda con le sue ricchezze creative uniche.",
+            "button_label": "Milan Pass",
+            "link": "shopify://pages/bundle-pass-milano",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "slide_qQJUKf": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/venice-pass.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "Scopri Venezia ad un super prezzo",
+            "heading_size": "h2",
+            "subheading": "Da Murano ai segreti artigianali della Serenissima. La città nelle tue mani con il nostro Venezia Pass.",
+            "button_label": "Venice Pass",
+            "link": "shopify://pages/bundle-pass-venezia",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "slide_jYDjAF": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2025-12-05_at_15.54.44.png",
+            "image_overlay_opacity": 0,
+            "heading": "Vieni a conoscere i nostri artigiani",
+            "heading_size": "h2",
+            "subheading": "Scoprici su YouTube",
+            "button_label": "Guarda le Nostre Ultime Avventure",
+            "link": "https://www.youtube.com/@clubjoyexperiences",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        }
+      },
+      "block_order": [
+        "slide_wakqYr",
+        "slide_qQJUKf",
+        "slide_jYDjAF"
+      ],
+      "disabled": true,
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "grid",
+        "slide_height": "small",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Presentazione sul nostro brand"
+      }
+    },
     "interactive_columns_MCWta3": {
       "type": "interactive-columns",
+      "disabled": true,
       "settings": {}
     },
     "video_embed_n9Kd7x": {
       "type": "video-embed",
+      "disabled": true,
       "name": "YouTube Video Embed",
       "settings": {}
     },
@@ -138,13 +437,66 @@
       "type": "trustpilot",
       "settings": {}
     },
+    "17660579678ba9c53e": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_1746ed3_Lf9jwC": {
+          "type": "ai_gen_block_1746ed3",
+          "name": "Split section",
+          "settings": {
+            "container_width": 1200,
+            "section_padding_top": 50,
+            "section_padding_bottom": 50,
+            "column_gap": 40,
+            "content_gap": 30,
+            "text_gap": 15,
+            "mobile_gap": 30,
+            "background_color": "#ffffff",
+            "image_1": "shopify://shop_images/team.webp",
+            "heading_1": "Creatività di squadra",
+            "text_1": "<p>Dimentica le solite attività forzate. Con Club Joy, il team si sporca le mani davvero: si crea, si collabora, si scopre un nuovo lato dei colleghi. Esperienze pensate per rafforzare i legami, stimolare la creatività e costruire ricordi che non sembrano una riunione.</p>",
+            "button_text_1": "Prenota un’esperienza aziendale",
+            "button_link_1": "shopify://pages/host-form",
+            "image_2": "shopify://shop_images/host.webp",
+            "heading_2": "Diventa host",
+            "text_2": "<p>Diventa host su Club Joy. Ti aiutiamo a organizzare, promuovere, e accogliere persone che non vedono l’ora di creare con te.</p>",
+            "button_text_2": "Diventa host",
+            "button_link_2": "shopify://pages/diventa-host",
+            "image_border_radius": 0,
+            "heading_size": 32,
+            "heading_color": "#121212",
+            "text_size": 16,
+            "text_color": "#121212",
+            "button_text_size": 16,
+            "button_padding_vertical": 12,
+            "button_padding_horizontal": 24,
+            "button_border_radius": 12,
+            "button_bg_color": "#012fa7",
+            "button_text_color": "#ffffff",
+            "button_hover_bg_color": "#121212",
+            "button_hover_text_color": "#ffffff"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_1746ed3_Lf9jwC"
+      ],
+      "settings": {}
+    },
     "new_slideshow_pAaVMN": {
       "type": "new-slideshow",
+      "disabled": true,
       "name": "new slideshow",
       "settings": {}
     },
-    "custom_newsletter_gpKXw8": {
-      "type": "custom-newsletter",
+    "scrolling_logos_kKEpEp": {
+      "type": "scrolling-logos",
+      "settings": {}
+    },
+    "subfooter_yNr3V7": {
+      "type": "subfooter",
+      "name": "Esperienze",
       "settings": {}
     },
     "1737406910fa2103c8": {
@@ -153,26 +505,32 @@
         "include_margins": true
       }
     },
-    "subfooter_yNr3V7": {
-      "type": "subfooter",
-      "name": "Esperienze",
+    "custom_newsletter_gpKXw8": {
+      "type": "custom-newsletter",
+      "disabled": true,
       "settings": {}
     }
   },
   "order": [
+    "17660589096cc264ef",
     "enjoy_scroller_bd8E87",
     "banner_Vtfkjb",
-    "scrolling_logos_kKEpEp",
+    "chosen_by_9UgTfW",
+    "multicolumn_FYT6Ua",
     "featured_collection_MHrMaR",
+    "blocks_cNdwgx",
+    "slideshow_XwDPL6",
     "interactive_columns_MCWta3",
     "video_embed_n9Kd7x",
     "featured_collection_bkajUw",
     "collection_list_7QEjJK",
     "gift_cards_section_neDbjh",
     "trustpilot_DfJhtV",
+    "17660579678ba9c53e",
     "new_slideshow_pAaVMN",
-    "custom_newsletter_gpKXw8",
+    "scrolling_logos_kKEpEp",
     "subfooter_yNr3V7",
-    "1737406910fa2103c8"
+    "1737406910fa2103c8",
+    "custom_newsletter_gpKXw8"
   ]
 }

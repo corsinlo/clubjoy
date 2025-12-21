@@ -20,31 +20,6 @@
         </button>
       </div>
     </div>
-
-    <!-- Star Rating Blocks -->
-    {% for block in section.blocks %}
-      {% case block.type %}
-        {% when 'star_rating' %}
-          <div class="star-rating-block"
-               id="star-rating-{{ block.id }}"
-               data-block-id="{{ block.id }}"
-               style="text-align: {{ block.settings.alignment }};">
-            {% if block.settings.title != blank %}
-              <h3 class="star-rating-block__title">{{ block.settings.title }}</h3>
-            {% endif %}
-            <div class="star-rating-block__stars"
-                 data-star-size="{{ block.settings.star_size }}"
-                 data-star-color="{{ block.settings.star_color }}">
-              <div class="star-rating-loading">Loading rating...</div>
-            </div>
-            <div class="star-rating-block__details" style="display: none;">
-              <span class="star-rating-value"></span>
-              <span class="star-rating-text">out of 5 stars</span>
-              <span class="star-rating-count"></span>
-            </div>
-          </div>
-      {% endcase %}
-    {% endfor %}
   </div>
   {% endif %}
 
@@ -227,45 +202,6 @@
       border-radius: 8px;
     }
 
-    /* Star Rating Block Styles */
-    .star-rating-block {
-      padding: 30px 20px;
-      margin: 20px 0;
-    }
-
-    .star-rating-block__title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 15px;
-      color: #333;
-    }
-
-    .star-rating-block__stars {
-      margin-bottom: 10px;
-    }
-
-    .star-rating-block__details {
-      font-size: 0.95rem;
-      color: #666;
-      margin-top: 8px;
-    }
-
-    .star-rating-value {
-      font-weight: 600;
-      color: #333;
-      margin-right: 5px;
-    }
-
-    .star-rating-count {
-      margin-left: 10px;
-      font-style: italic;
-    }
-
-    .star-rating-loading {
-      color: #666;
-      font-style: italic;
-    }
-
     /* Responsive design */
     @media (max-width: 768px) {
       .google-reviews__reviews {
@@ -311,8 +247,6 @@
         this.allReviews = [];
         this.displayedReviews = 0;
         this.reviewsPerLoad = 5;
-        this.placeRating = null;
-        this.placeReviewsCount = null;
 
         this.init();
       }
@@ -322,7 +256,6 @@
         await this.loadGoogleReviews();
         this.setupLoadMore();
         this.setupInteractions();
-        this.updateStarRatingBlocks();
       }
 
       setupLoadMore() {
@@ -500,14 +433,10 @@
             fields: ['reviews', 'displayName', 'rating']
           });
 
-          // Store place rating info for star rating blocks
-          this.placeRating = place.rating;
-          this.placeReviewsCount = place.reviews?.length || 0;
-
           console.log('📦 Place Data:', {
             name: place.displayName,
-            rating: this.placeRating,
-            reviewsCount: this.placeReviewsCount
+            rating: place.rating,
+            reviewsCount: place.reviews?.length || 0
           });
 
           if (place.reviews && place.reviews.length > 0) {
@@ -700,69 +629,6 @@
           });
         }, 50);
       }
-
-      updateStarRatingBlocks() {
-        // Find all star rating blocks in this section
-        const starRatingBlocks = this.sectionElement.querySelectorAll('.star-rating-block');
-
-        starRatingBlocks.forEach(block => {
-          const starsContainer = block.querySelector('.star-rating-block__stars');
-          const detailsContainer = block.querySelector('.star-rating-block__details');
-          const loadingText = block.querySelector('.star-rating-loading');
-
-          if (this.placeRating !== null) {
-            // Get custom settings for this block
-            const starSize = starsContainer.dataset.starSize || '24';
-            const starColor = starsContainer.dataset.starColor || '#ffd700';
-
-            // Create star display
-            const fullStars = Math.floor(this.placeRating);
-            const hasHalfStar = this.placeRating % 1 >= 0.5;
-            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-
-            let starsHTML = '';
-
-            // Full stars
-            for (let i = 0; i < fullStars; i++) {
-              starsHTML += `<span class="star filled" style="font-size: ${starSize}px; color: ${starColor};">★</span>`;
-            }
-
-            // Half star
-            if (hasHalfStar) {
-              starsHTML += `<span class="star half" style="font-size: ${starSize}px; color: ${starColor};">☆</span>`;
-            }
-
-            // Empty stars
-            for (let i = 0; i < emptyStars; i++) {
-              starsHTML += `<span class="star empty" style="font-size: ${starSize}px; color: #ddd;">☆</span>`;
-            }
-
-            // Update the display
-            starsContainer.innerHTML = starsHTML;
-
-            // Update details
-            if (detailsContainer) {
-              const ratingValue = detailsContainer.querySelector('.star-rating-value');
-              const ratingCount = detailsContainer.querySelector('.star-rating-count');
-
-              if (ratingValue) ratingValue.textContent = this.placeRating.toFixed(1);
-              if (ratingCount) ratingCount.textContent = `(${this.placeReviewsCount} review${this.placeReviewsCount !== 1 ? 's' : ''})`;
-
-              detailsContainer.style.display = 'block';
-            }
-
-            // Hide loading text
-            if (loadingText) loadingText.style.display = 'none';
-
-          } else {
-            // Show error state
-            if (loadingText) {
-              loadingText.textContent = 'Rating unavailable';
-              loadingText.style.color = '#e74c3c';
-            }
-          }
-        });
-      }
     }
 
     // Initialize when DOM is ready
@@ -790,56 +656,6 @@
         "id": "heading_color",
         "label": "Button Color",
         "default": "#333333"
-      }
-    ],
-    "blocks": [
-      {
-        "type": "star_rating",
-        "name": "Star Rating Only",
-        "settings": [
-          {
-            "type": "text",
-            "id": "title",
-            "label": "Title",
-            "default": "Customer Rating"
-          },
-          {
-            "type": "select",
-            "id": "alignment",
-            "label": "Alignment",
-            "options": [
-              {
-                "value": "left",
-                "label": "Left"
-              },
-              {
-                "value": "center",
-                "label": "Center"
-              },
-              {
-                "value": "right",
-                "label": "Right"
-              }
-            ],
-            "default": "center"
-          },
-          {
-            "type": "range",
-            "id": "star_size",
-            "min": 16,
-            "max": 32,
-            "step": 2,
-            "unit": "px",
-            "label": "Star Size",
-            "default": 24
-          },
-          {
-            "type": "color",
-            "id": "star_color",
-            "label": "Star Color",
-            "default": "#ffd700"
-          }
-        ]
       }
     ],
     "presets": [

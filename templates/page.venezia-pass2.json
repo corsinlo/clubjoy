@@ -74,7 +74,7 @@
         "heading_pNLRRB": {
           "type": "heading",
           "settings": {
-            "heading": "Step 1: Prenota la prima esperienza",
+            "heading": "<strong>Step 1: Prenota la prima esperienza</strong>",
             "heading_size": "h2"
           }
         }
@@ -144,7 +144,7 @@
         "heading_8n4HYW": {
           "type": "heading",
           "settings": {
-            "heading": "Step 2: Adesso, prenota la seconda esperienza",
+            "heading": "<strong>Step 2: Adesso, prenota la seconda esperienza</strong>",
             "heading_size": "h2"
           }
         },
@@ -222,7 +222,7 @@
         "heading_Pb4BKV": {
           "type": "heading",
           "settings": {
-            "heading": "Step 3: Ultimo step! Vai al checkout",
+            "heading": "<strong>Step 3: Ultimo step! Vai al checkout</strong>",
             "heading_size": "h2"
           }
         }

@@ -144,28 +144,53 @@
       </div>
     </div>
 
-    <a
-      class="enjoy-button"
-      href="{{ routes.all_products_collection_url }}"
-      onclick="
-        event.preventDefault();
-        const url='{{ routes.all_products_collection_url }}';
-        if (typeof gtag==='function') {
-          gtag('event', 'click_explore_page', {
-            button_name: 'Enjoy Explore',
-            destination_url: url,
-            debug_mode: true,
-            transport_type: 'beacon',
-            event_callback: function(){ window.location.href = url; }
-          });
-          setTimeout(function(){ window.location.href = url; }, 500);
-        } else {
-          window.location.href = url;
-        }
-      "
-    >
-      {{ 'sections.enjoy.explore' | t }}
-    </a>
+    <div class="enjoy-buttons-container">
+      <a
+        class="enjoy-button enjoy-button-primary"
+        href="{{ routes.all_products_collection_url }}"
+        onclick="
+          event.preventDefault();
+          const url='{{ routes.all_products_collection_url }}';
+          if (typeof gtag==='function') {
+            gtag('event', 'click_explore_page', {
+              button_name: 'Enjoy Explore',
+              destination_url: url,
+              debug_mode: true,
+              transport_type: 'beacon',
+              event_callback: function(){ window.location.href = url; }
+            });
+            setTimeout(function(){ window.location.href = url; }, 500);
+          } else {
+            window.location.href = url;
+          }
+        "
+      >
+        {{ 'sections.enjoy.explore' | t }}
+      </a>
+
+      <a
+        class="enjoy-button enjoy-button-primary"
+        href="{{ section.settings.gift_url | default: 'pages/gift-cards' }}"
+        onclick="
+          event.preventDefault();
+          const url='{{ section.settings.gift_url | default: 'pages/gift-cards' }}';
+          if (typeof gtag==='function') {
+            gtag('event', 'click_gift_page', {
+              button_name: 'Enjoy Gift',
+              destination_url: url,
+              debug_mode: true,
+              transport_type: 'beacon',
+              event_callback: function(){ window.location.href = url; }
+            });
+            setTimeout(function(){ window.location.href = url; }, 500);
+          } else {
+            window.location.href = url;
+          }
+        "
+      >
+        {{ 'sections.enjoy.gift' | t }}
+      </a>
+    </div>
   </div>
 </div>
 
