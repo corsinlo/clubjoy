@@ -3,6 +3,22 @@
 {% assign logos = 'casawi.webp,coverflex.webp,estRadio.webp,radioBocconi.webp,conoscoUnPosto.webp,doubleyou.webp,laStampa.webp'
   | split: ','
 %}
+
+<div class="page-width">
+    {% if section.settings.section_title != blank %}
+      <h2>
+        {% liquid
+          case request.locale.iso_code
+          when 'it'
+            echo section.settings.section_title_it | default: section.settings.section_title | default: 'Parlano di noi'
+          else
+            echo section.settings.section_title | default: 'They talk about us'
+          endcase
+        %}
+      </h2>
+    {% endif %}
+</div>
+
 <div class="page-width">
   <div class="logo-scroller-wrapper">
     <div class="logo-scroller js-logo-scroller">
@@ -42,7 +58,20 @@ document.addEventListener("DOMContentLoaded", () => {
 {% schema %}
 {
   "name": "Scrolling Logos",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Title (English)",
+      "default": "They talk about us"
+    },
+    {
+      "type": "text",
+      "id": "section_title_it",
+      "label": "Title (Italian)",
+      "default": "Parlano di noi"
+    }
+  ],
   "presets": [
     {
       "name": "Scrolling Logos"

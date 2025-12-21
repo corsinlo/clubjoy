@@ -1,7 +1,6 @@
 {{ 'chosen-by.css' | asset_url | stylesheet_tag }}
 
 <div class="page-width">
-<div class="chosen-by-section">
   {% if section.settings.title != blank %}
     <h2 class="chosen-by-title">{{ section.settings.title }}</h2>
   {% endif %}
@@ -9,6 +8,8 @@
   {% if section.settings.subtitle != blank %}
     <p class="chosen-by-subtitle">{{ section.settings.subtitle }}</p>
   {% endif %}
+<div class="chosen-by-section">
+
 
   <div class="chosen-by-logos-wrapper">
     <div class="chosen-by-logos-scroller js-chosen-by-scroller">

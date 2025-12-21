@@ -220,6 +220,20 @@
 {% endstyle %}
 
 <carousel-3d-{{ ai_gen_id }} class="ai-carousel-3d-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+<div class="page-width">
+    {% if block.settings.section_title != blank %}
+      <h2>
+        {% liquid
+          case request.locale.iso_code
+          when 'it'
+            echo block.settings.section_title_it | default: block.settings.section_title | default: 'Ultime news'
+          else
+            echo block.settings.section_title | default: 'Latest news'
+          endcase
+        %}
+      </h2>
+    {% endif %}
+    </div>
   <div class="ai-carousel-3d-container-{{ ai_gen_id }}">
     <div class="ai-carousel-3d-viewport-{{ ai_gen_id }}">
       <div class="ai-carousel-3d-track-{{ ai_gen_id }}" data-current-index="0" data-total-cards="{{ card_count }}">
@@ -427,6 +441,22 @@
   "name": "3D carousel",
   "tag": null,
   "settings": [
+    {
+      "type": "header",
+      "content": "Section title"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Title (English)",
+      "default": "Latest news"
+    },
+    {
+      "type": "text",
+      "id": "section_title_it",
+      "label": "Title (Italian)",
+      "default": "Ultime news"
+    },
     {
       "type": "header",
       "content": "Layout"
