@@ -219,8 +219,8 @@
       const withAddr = processed.filter((p) => p.address);
 
       // console.groupCollapsed(`[address-fetcher] ${withAddr.length} / ${all.length} products with address`);
-      withAddr.forEach((p) => console.log(`•${p.title} → ${p.address} [${p.province}] ${p.type} `));
-      console.groupEnd();
+      //withAddr.forEach((p) => console.log(`•${p.title} → ${p.address} [${p.province}] ${p.type} `));
+      //console.groupEnd();
     })
     .catch((err) => console.error('[address-fetcher]', err));
 })();

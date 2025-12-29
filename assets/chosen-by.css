@@ -23,6 +23,7 @@
   width: 100%;
   padding: 2rem 0;
   background: transparent !important;
+  cursor: grab;
 
   mask-image: linear-gradient(
     to right,
@@ -40,6 +41,14 @@
   );
 }
 
+.chosen-by-logos-wrapper:active {
+  cursor: grabbing;
+}
+
+.chosen-by-logos-wrapper.dragging {
+  cursor: grabbing;
+}
+
 .chosen-by-logos-scroller {
   display: flex;
 }
@@ -48,10 +57,20 @@
   display: flex;
   width: fit-content;
   animation: chosen-by-scroll 40s linear infinite;
+  transition: transform 0.1s ease-out;
 }
 
 .chosen-by-logos-list-wrapper:hover {
   animation-play-state: paused;
+}
+
+.chosen-by-logos-list-wrapper.manual-control {
+  animation-play-state: paused;
+}
+
+.chosen-by-logos-list-wrapper.user-interacting {
+  animation: none;
+  transition: none;
 }
 
 .chosen-by-logos-scroller,

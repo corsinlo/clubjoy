@@ -103,7 +103,7 @@
       ],
       "name": "Chosen By Logos",
       "settings": {
-        "title": "Esperienze con i nostri top brand",
+        "title": "Prova esperienze con top brand",
         "subtitle": "",
         "logos_per_row": "4",
         "padding_top": 36,
@@ -116,7 +116,7 @@
         "column_xAPfzi": {
           "type": "column",
           "settings": {
-            "image": "shopify://shop_images/Frame_120.png",
+            "image": "shopify://shop_images/image.png",
             "title": "<strong>Esplora 180+ hobby creativi</strong>",
             "text": "<p>Centinaia di artigiani ed attività nelle principali città italiane</p>",
             "link_label": "",
@@ -126,7 +126,7 @@
         "column_6TNHW8": {
           "type": "column",
           "settings": {
-            "image": "shopify://shop_images/Frame_122.png",
+            "image": "shopify://shop_images/image_1.png",
             "title": "<strong>Scegli il tuo preferito</strong>",
             "text": "<p>Scegli la data perfetta per te, in modo facile e veloce</p><p><br/></p>",
             "link_label": "",
@@ -136,7 +136,7 @@
         "column_raCjGF": {
           "type": "column",
           "settings": {
-            "image": "shopify://shop_images/Frame_124.png",
+            "image": "shopify://shop_images/image_2.png",
             "title": "<strong>Libera la tua creatività!</strong>",
             "text": "<p>Raggiungi la location e vivi un’esperienza unica!</p>",
             "link_label": "",
@@ -154,7 +154,7 @@
         "title": "Come funziona Club Joy?",
         "heading_size": "h2",
         "image_width": "full",
-        "image_ratio": "square",
+        "image_ratio": "adapt",
         "button_label": "",
         "button_link": "",
         "columns_desktop": 3,
@@ -172,7 +172,7 @@
       "settings": {
         "collection": "workshop-piu-popolari",
         "products_to_show": 3,
-        "title": "{{ section.settings.collection.title }}",
+        "title": "Esplora esperienze più amate",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
@@ -201,6 +201,8 @@
         "ai_gen_block_9518840_6J4eEx": {
           "type": "ai_gen_block_9518840",
           "settings": {
+            "section_title": "Latest news",
+            "section_title_it": "Ultime news",
             "section_padding": 60,
             "card_height": 500,
             "card_width": 70,
@@ -208,18 +210,18 @@
             "card_1_image": "shopify://shop_images/milan-pass.jpg",
             "card_1_title": "Scopri Milano ad un super prezzo",
             "card_1_description": "Non è solo il Duomo, i Navigli e la moda. Lascia che Milano ti sorprenda con le sue ricchezze creative uniche.",
-            "card_1_button_text": "Milan Pass",
+            "card_1_button_text": "Milano Pass",
             "card_1_button_link": "shopify://pages/bundle-pass-milano",
             "card_2_image": "shopify://shop_images/venice-pass.jpg",
             "card_2_title": "Scopri Venezia ad un super prezzo",
-            "card_2_description": "Da Murano ai segreti artigianali della Serenissima. La città nelle tue mani con il nostro Venezia Pass.",
-            "card_2_button_text": "Venice Pass",
+            "card_2_description": "Da Murano ai segreti artigianali della Serenissima. La città nelle tue mani con il nostro pass.",
+            "card_2_button_text": "Venizia Pass",
             "card_2_button_link": "shopify://pages/bundle-pass-venezia",
             "card_3_image": "shopify://shop_images/Screenshot_2025-12-05_at_15.54.44.png",
             "card_3_title": "Vieni a conoscere i nostri artigiani",
-            "card_3_description": "Guarda le Nostre Ultime Avventure",
+            "card_3_description": "Guarda le nostre ultime avventure!",
             "card_3_button_text": "Scoprici su YouTube",
-            "card_3_button_link": "",
+            "card_3_button_link": "https://www.youtube.com/@clubjoyexperiences",
             "card_4_title": "",
             "card_4_description": "",
             "card_4_button_text": "",
@@ -393,19 +395,19 @@
         "featured_collection_nfMpwG": {
           "type": "featured_collection",
           "settings": {
-            "collection": "milan"
+            "collection": "milano-1"
           }
         },
         "featured_collection_yKxHpr": {
           "type": "featured_collection",
           "settings": {
-            "collection": "florence-collection-certified-club-joy-experiences"
+            "collection": "firenze"
           }
         },
         "featured_collection_dcbaAX": {
           "type": "featured_collection",
           "settings": {
-            "collection": "venice-collection-certified-club-joy-experiences"
+            "collection": "venezia"
           }
         }
       },
@@ -416,7 +418,7 @@
       ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
-        "title": "Collezioni",
+        "title": "Dove ci trovi",
         "heading_size": "h2",
         "image_ratio": "square",
         "columns_desktop": 3,
@@ -445,18 +447,18 @@
           "name": "Split section",
           "settings": {
             "container_width": 1200,
-            "section_padding_top": 50,
+            "section_padding_top": 0,
             "section_padding_bottom": 50,
             "column_gap": 40,
             "content_gap": 30,
-            "text_gap": 15,
+            "text_gap": 20,
             "mobile_gap": 30,
             "background_color": "#ffffff",
             "image_1": "shopify://shop_images/team.webp",
             "heading_1": "Creatività di squadra",
             "text_1": "<p>Dimentica le solite attività forzate. Con Club Joy, il team si sporca le mani davvero: si crea, si collabora, si scopre un nuovo lato dei colleghi. Esperienze pensate per rafforzare i legami, stimolare la creatività e costruire ricordi che non sembrano una riunione.</p>",
             "button_text_1": "Prenota un’esperienza aziendale",
-            "button_link_1": "shopify://pages/host-form",
+            "button_link_1": "shopify://pages/contact",
             "image_2": "shopify://shop_images/host.webp",
             "heading_2": "Diventa host",
             "text_2": "<p>Diventa host su Club Joy. Ti aiutiamo a organizzare, promuovere, e accogliere persone che non vedono l’ora di creare con te.</p>",
@@ -492,7 +494,10 @@
     },
     "scrolling_logos_kKEpEp": {
       "type": "scrolling-logos",
-      "settings": {}
+      "settings": {
+        "section_title": "They talk about us",
+        "section_title_it": "Parlano di noi"
+      }
     },
     "subfooter_yNr3V7": {
       "type": "subfooter",

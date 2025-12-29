@@ -49,8 +49,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const wrapper = document.querySelector(".js-chosen-by-list-wrapper");
   const list = document.querySelector(".js-chosen-by-list");
+  const container = document.querySelector(".js-chosen-by-scroller");
 
-  if (!wrapper || !list) return;
+  if (!wrapper || !list || !container) return;
 
   const fullWidth = list.offsetWidth;
 
@@ -60,6 +61,122 @@ document.addEventListener("DOMContentLoaded", () => {
   wrapper.appendChild(clone2);
 
   wrapper.style.setProperty('--chosen-by-scroll-distance', `-${fullWidth}px`);
+
+  // Manual control variables
+  let isDragging = false;
+  let startX = 0;
+  let currentTranslateX = 0;
+  let animationPosition = 0;
+  let userInteractionTimeout;
+  let isUserInteracting = false;
+
+  // Get current animation position
+  function getCurrentAnimationPosition() {
+    const computedStyle = getComputedStyle(wrapper);
+    const matrix = computedStyle.transform;
+    if (matrix === 'none') return 0;
+    const values = matrix.split('(')[1].split(')')[0].split(',');
+    return parseFloat(values[4]) || 0;
+  }
+
+  // Handle manual control start
+  function startManualControl(clientX) {
+    isDragging = true;
+    isUserInteracting = true;
+    startX = clientX;
+
+    // Get current position from animation or previous manual position
+    animationPosition = getCurrentAnimationPosition();
+    currentTranslateX = animationPosition;
+
+    wrapper.classList.add('user-interacting');
+    container.classList.add('dragging');
+
+    // Clear any existing timeout
+    clearTimeout(userInteractionTimeout);
+  }
+
+  // Handle manual control move
+  function handleManualMove(clientX) {
+    if (!isDragging) return;
+
+    const deltaX = clientX - startX;
+    currentTranslateX = animationPosition + deltaX;
+
+    // Apply immediate transform
+    wrapper.style.transform = `translateX(${currentTranslateX}px)`;
+  }
+
+  // Handle manual control end
+  function endManualControl() {
+    if (!isDragging) return;
+
+    isDragging = false;
+    container.classList.remove('dragging');
+
+    // Set timeout to resume auto-scroll after user stops interacting
+    userInteractionTimeout = setTimeout(() => {
+      isUserInteracting = false;
+      wrapper.classList.remove('user-interacting');
+
+      // Resume animation from current position
+      const currentPos = getCurrentAnimationPosition();
+      const remainingDistance = fullWidth + currentPos;
+      const totalDistance = fullWidth;
+      const remainingRatio = remainingDistance / totalDistance;
+
+      if (remainingRatio > 0) {
+        wrapper.style.animation = `chosen-by-scroll ${40 * remainingRatio}s linear infinite`;
+        wrapper.style.animationDelay = '0s';
+      }
+    }, 2000); // Resume auto-scroll 2 seconds after user stops interacting
+  }
+
+  // Mouse events
+  container.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    startManualControl(e.clientX);
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    handleManualMove(e.clientX);
+  });
+
+  document.addEventListener('mouseup', endManualControl);
+
+  // Touch events for mobile
+  container.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    startManualControl(touch.clientX);
+  }, { passive: false });
+
+  container.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    handleManualMove(touch.clientX);
+  }, { passive: false });
+
+  container.addEventListener('touchend', endManualControl);
+  container.addEventListener('touchcancel', endManualControl);
+
+  // Prevent text selection during drag
+  container.addEventListener('selectstart', (e) => {
+    if (isDragging) e.preventDefault();
+  });
+
+  // Handle hover pause/resume
+  container.addEventListener('mouseenter', () => {
+    if (!isUserInteracting) {
+      wrapper.classList.add('manual-control');
+    }
+  });
+
+  container.addEventListener('mouseleave', () => {
+    if (!isUserInteracting) {
+      wrapper.classList.remove('manual-control');
+    }
+  });
 });
 </script>
 

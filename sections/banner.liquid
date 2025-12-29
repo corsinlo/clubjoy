@@ -29,13 +29,15 @@
   }
 
   @media (max-width: 600px) {
-    .benefit-item {
-      width: 45%; /* two items per row */
-      justify-content: center;
+    .benefits-bar {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem;
     }
 
-    .benefit-item:last-child {
-      width: 100%; /* one full-width item centered below */
+    .benefit-item {
+      width: 100%;
+      justify-content: center;
     }
   }
 </style>
