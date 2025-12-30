@@ -41,6 +41,10 @@
 // --- GA4 sender (reusable) ---
 window.ga4Send = function(eventName, params = {}, navUrl){
   const payload = { ...params, debug_mode: true }; // remove debug in prod
+
+  // Console logging for debugging
+  console.log('🎯 GA4 Event:', eventName, payload);
+
   if (navUrl) {
     let navigated = false;
     const go = () => { if (!navigated) { navigated = true; window.location.assign(navUrl); } };
@@ -48,13 +52,20 @@ window.ga4Send = function(eventName, params = {}, navUrl){
     payload.transport_type = 'beacon';
     if (typeof gtag === 'function') {
       gtag('event', eventName, payload);
+      console.log('✅ GA4 Event sent via gtag with navigation to:', navUrl);
       setTimeout(go, 500);
-    } else { go(); }
+    } else {
+      console.log('⚠️  gtag not available, navigating directly to:', navUrl);
+      go();
+    }
   } else {
-    if (typeof gtag === 'function') gtag('event', eventName, payload);
-    else {
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, payload);
+      console.log('✅ GA4 Event sent via gtag');
+    } else {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: eventName, ...params });
+      console.log('✅ GA4 Event sent via dataLayer');
     }
   }
 };
@@ -70,9 +81,16 @@ window.attachGa4ClickTracker = function(rootEl, options = {}){
     'unknown_component';
 
   rootEl.addEventListener('click', function(e){
+    console.log('🖱️  Click detected in component:', component, 'target:', e.target);
+
     // Find the most relevant clickable element
     const a = e.target.closest('a,button,[role="button"],[data-ga-action]');
-    if (!a || !rootEl.contains(a)) return;
+    if (!a || !rootEl.contains(a)) {
+      console.log('❌ No trackable element found');
+      return;
+    }
+
+    console.log('✅ Trackable element found:', a);
 
     // Build context
     const tag = a.tagName.toLowerCase();
@@ -97,9 +115,11 @@ window.attachGa4ClickTracker = function(rootEl, options = {}){
       !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
 
     if (shouldNav) {
+      console.log('🔄 Preventing default navigation, tracking then navigating');
       e.preventDefault();
       ga4Send('component_click', params, a.href);
     } else {
+      console.log('📊 Tracking click without navigation');
       ga4Send('component_click', params);
     }
   }, { capture: true });

@@ -8,14 +8,14 @@
   {% if section.settings.subtitle != blank %}
     <p class="chosen-by-subtitle">{{ section.settings.subtitle }}</p>
   {% endif %}
-<div class="chosen-by-section">
+<div class="chosen-by-section" data-ga-name="chosen_by_section">
 
 
   <div class="chosen-by-logos-wrapper">
     <div class="chosen-by-logos-scroller js-chosen-by-scroller">
       <div class="chosen-by-logos-list-wrapper js-chosen-by-list-wrapper">
         <div class="chosen-by-logos-list js-chosen-by-list">
-          {% assign logos = 'amalfilemon.webp,cafezal.webp,caffevergnano.webp,clinica botanica.webp,dream-factory.webp,enricorizzi.webp,guarnieri.webp' | split: ',' %}
+          {% assign logos = 'amalfilemon.webp,cafezal.webp,caffevergnano.webp,clinica-botanica.webp,dream-factory.webp,enricorizzi.webp,guarnieri.webp' | split: ',' %}
           {% assign company_urls = 'https://www.clubjoy.it/search?q=amalfi+lemon+experience&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=cafezal&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=vergano&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=clinica+botanica&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=dream+factory&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=enrico+rizzi&options%5Bprefix%5D=last,https://www.clubjoy.it/search?q=guarnieri&options%5Bprefix%5D=last' | split: ',' %}
 
           {% for i in (0..6) %}

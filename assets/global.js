@@ -1330,3 +1330,172 @@ class CartPerformance {
     );
   }
 }
+
+// Universal Component Click Tracking System
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof window.attachGa4ClickTracker !== 'function') {
+    console.error('GA4 tracking functions not available');
+    return;
+  }
+
+  // 1. Track components with explicit data-ga-name attributes
+  const explicitComponents = document.querySelectorAll('[data-ga-name]');
+  explicitComponents.forEach(function(component) {
+    window.attachGa4ClickTracker(component);
+  });
+
+  // 2. Smart Component Detection - Automatically detect ALL major UI components
+  const componentPatterns = [
+    // Navigation & Headers
+    { selectors: ['header', '.header', 'nav', '.nav', '.navbar', '.navigation'], name: 'navigation' },
+    { selectors: ['.menu', '.main-menu', '.nav-menu'], name: 'menu' },
+    { selectors: ['.breadcrumb', '.breadcrumbs'], name: 'breadcrumb' },
+
+    // Content Areas
+    { selectors: ['.hero', '.hero-section', '.banner'], name: 'hero_banner' },
+    { selectors: ['.product-card', '.product-item', '.product'], name: 'product_card' },
+    { selectors: ['.collection', '.category'], name: 'collection' },
+    { selectors: ['.article', '.blog-post', '.post'], name: 'blog_post' },
+
+    // Interactive Elements
+    { selectors: ['.btn', '.button', 'button[class*="button"]'], name: 'button' },
+    { selectors: ['.cart', '.cart-drawer', '.mini-cart'], name: 'cart' },
+    { selectors: ['.search', '.search-form', '.search-box'], name: 'search' },
+    { selectors: ['.filter', '.filters', '.facets'], name: 'filter' },
+    { selectors: ['.modal', '.popup', '.overlay'], name: 'modal' },
+
+    // Media & Gallery
+    { selectors: ['.gallery', '.image-gallery', '.media-gallery'], name: 'gallery' },
+    { selectors: ['.slider', '.carousel', '.slideshow'], name: 'slider' },
+    { selectors: ['.video', '.video-player'], name: 'video' },
+
+    // Commerce Specific
+    { selectors: ['.add-to-cart', '.atc'], name: 'add_to_cart' },
+    { selectors: ['.quantity', '.qty'], name: 'quantity_selector' },
+    { selectors: ['.variant', '.variant-picker', '.options'], name: 'variant_selector' },
+    { selectors: ['.price', '.pricing'], name: 'price_display' },
+
+    // Layout & Sections
+    { selectors: ['.section', '[class*="section"]'], name: 'section' },
+    { selectors: ['.widget', '.component'], name: 'widget' },
+    { selectors: ['footer', '.footer'], name: 'footer' },
+    { selectors: ['.sidebar', '.aside'], name: 'sidebar' },
+
+    // Social & Sharing
+    { selectors: ['.social', '.social-links', '.share'], name: 'social' },
+    { selectors: ['.newsletter', '.signup'], name: 'newsletter' },
+
+    // Forms
+    { selectors: ['.form', 'form'], name: 'form' },
+    { selectors: ['.contact', '.contact-form'], name: 'contact' },
+
+    // Custom Shopify sections (from your theme)
+    { selectors: ['.chosen-by-section'], name: 'chosen_by_logos' },
+    { selectors: ['.bundle-selection'], name: 'bundle_selection' },
+    { selectors: ['.enjoy-scroller'], name: 'enjoy_scroller' },
+    { selectors: ['.custom-header-mobile'], name: 'mobile_header' }
+  ];
+
+  let trackedCount = explicitComponents.length;
+
+  // Process each component pattern
+  componentPatterns.forEach(function(pattern) {
+    pattern.selectors.forEach(function(selector) {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach(function(element) {
+        // Skip if already has explicit data-ga-name or already tracked
+        if (!element.hasAttribute('data-ga-name') && !element.__ga4Bound) {
+          // Generate a unique component name based on context
+          const componentName = generateComponentName(element, pattern.name);
+          window.attachGa4ClickTracker(element, { component: componentName });
+          trackedCount++;
+        }
+      });
+    });
+  });
+
+  // 3. Global click tracking for any missed elements
+  document.addEventListener('click', function(e) {
+    // Check if the clicked element or its parents are already tracked
+    const trackedParent = e.target.closest('[data-ga-name], .__ga4Bound');
+    if (trackedParent) return; // Already handled by specific tracker
+
+    // Track unhandled clickable elements
+    const clickableElement = e.target.closest('a, button, [role="button"], [onclick], [data-action]');
+    if (clickableElement) {
+      const componentName = inferComponentFromElement(clickableElement);
+
+      // Send tracking event for unhandled clickable elements
+      if (typeof window.ga4Send === 'function') {
+        const params = {
+          component: componentName,
+          action: clickableElement.tagName.toLowerCase() === 'a' ? 'link_click' : 'ui_click',
+          tag: clickableElement.tagName.toLowerCase(),
+          text: (clickableElement.textContent || clickableElement.getAttribute('aria-label') || '').trim().slice(0, 100),
+          href: clickableElement.getAttribute('href') || '',
+          classes: clickableElement.className || '',
+          id: clickableElement.id || '',
+          unhandled: true // Flag to identify these events
+        };
+
+        console.log('🎯 Unhandled clickable element tracked:', componentName, clickableElement);
+        window.ga4Send('component_click', params);
+      }
+    }
+  }, true);
+
+  console.log(`🎯 Universal GA4 tracking initialized for ${trackedCount} components`);
+  console.log('📊 Tracking covers: explicit components, smart-detected components, and fallback for all clickable elements');
+});
+
+// Helper function to generate contextual component names
+function generateComponentName(element, baseName) {
+  // Try to find more specific context
+  const section = element.closest('[class*="section"], section');
+
+  let contextName = baseName;
+
+  // Add section context if available
+  if (section && section.className) {
+    const sectionClass = section.className.split(' ').find(cls => cls.includes('section'));
+    if (sectionClass && sectionClass !== 'section') {
+      contextName = sectionClass.replace('-section', '').replace('section-', '') + '_' + baseName;
+    }
+  }
+
+  // Add index if multiple similar elements
+  const similars = document.querySelectorAll(`.${element.className.split(' ')[0] || element.tagName.toLowerCase()}`);
+  if (similars.length > 1) {
+    const index = Array.from(similars).indexOf(element) + 1;
+    contextName += `_${index}`;
+  }
+
+  return contextName;
+}
+
+// Helper function to infer component name from unhandled elements
+function inferComponentFromElement(element) {
+  // Check parent containers for context
+  const contexts = [
+    { selector: 'header', name: 'header' },
+    { selector: 'nav', name: 'navigation' },
+    { selector: 'footer', name: 'footer' },
+    { selector: '.product', name: 'product' },
+    { selector: '.cart', name: 'cart' },
+    { selector: 'form', name: 'form' },
+    { selector: '.modal', name: 'modal' }
+  ];
+
+  for (const context of contexts) {
+    if (element.closest(context.selector)) {
+      return `${context.name}_unhandled`;
+    }
+  }
+
+  // Fallback based on element type and content
+  const tag = element.tagName.toLowerCase();
+  const text = element.textContent?.trim().slice(0, 20) || '';
+  const classes = element.className?.split(' ')[0] || '';
+
+  return `${tag}_${classes || 'unclassed'}_${text.replace(/\s+/g, '_') || 'no_text'}`.toLowerCase();
+}
