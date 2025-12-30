@@ -1334,7 +1334,6 @@ class CartPerformance {
 // Universal Component Click Tracking System
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof window.attachGa4ClickTracker !== 'function') {
-    console.error('GA4 tracking functions not available');
     return;
   }
 
@@ -1438,14 +1437,11 @@ document.addEventListener('DOMContentLoaded', function() {
           unhandled: true // Flag to identify these events
         };
 
-        console.log('🎯 Unhandled clickable element tracked:', componentName, clickableElement);
         window.ga4Send('component_click', params);
       }
     }
   }, true);
 
-  console.log(`🎯 Universal GA4 tracking initialized for ${trackedCount} components`);
-  console.log('📊 Tracking covers: explicit components, smart-detected components, and fallback for all clickable elements');
 });
 
 // Helper function to generate contextual component names

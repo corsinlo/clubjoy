@@ -1,9 +1,9 @@
-console.log("🔍 geolocation.js loaded...");
+// console.log("🔍 geolocation.js loaded...");
 
 fetch('https://ipapi.co/json/')
   .then(res => res.json())
   .then(data => {
-    console.log("✅ Location data fetched:", data);
+    //console.log("✅ Location data fetched:", data);
 
     const country = data.country_name;
     const city = data.city;
