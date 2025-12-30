@@ -1463,6 +1463,14 @@ function generateComponentName(element, baseName) {
     }
   }
 
+  // Make names more descriptive based on content/purpose
+  if (element.textContent) {
+    const text = element.textContent.trim().slice(0, 15).replace(/\s+/g, '_').toLowerCase();
+    if (text && text.length > 3) {
+      contextName = `${contextName}_${text}`;
+    }
+  }
+
   // Add index if multiple similar elements
   const similars = document.querySelectorAll(`.${element.className.split(' ')[0] || element.tagName.toLowerCase()}`);
   if (similars.length > 1) {
