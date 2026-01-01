@@ -383,7 +383,7 @@
       "turin": "Turin",
       "sardinia": "Sardinia",
       "fivet": "Cinque Terre",
-      "amalfi": "Amalfi Coast",
+      "amalfi": "Amalfi Coast"
     },
     "trustpilot": {
       "title": " Trusted by Thousands of ",
@@ -588,35 +588,34 @@
       "max_error": "This item has a maximum of {{ max }}",
       "step_error": "You can only add this item in increments of {{ step }}"
     },
-  "venezia-pass": {
-          "title":"Venice Pass",
-  "main_title": "Travel and Create – choose your Venice Pass",
-  "features": {
-    "handicraft": "Choose between the 3 esperiences Pass (worth 200€, now 169€) or the 2 esperiences Pass (worth 65€, now just 50€).",
-    "calendar": "Book one experience at a time and enjoy Venice at your own pace through alleys and canals.",
-    "ticket": "Experience Venice like a local with unique artisan workshops and special city discounts."
-  },
-  "pricing_note": "Choose the pass that suits you best:",
-    "pricing_op1": "3 esperiences",
-  "pricing_op2": "2 eesperiences",
-  "button1": "Buy Pass",
-  "button2": "Buy Pass",
-},
-   "milan-pass": {
-          "title":"Venice Pass",
-  "main_title": "Discover and Create – choose your Milan Pass",
-  "features": {
-    "handicraft": "Choose between the 3 esperiences Pass ( worth 200€, now 169€) or the 2 esperiences Pass (worth 65€, now just 50€).",
-    "calendar": "Book one experience at a time and create your own pace through Milan’s creative neighbourhoods.",
-    "ticket": "Experience Milan like a local with curated artisan workshops and exclusive discounts."
-  },
-  "pricing_note": "Choose the pass that suits you best:",
-    "pricing_op1": "3 esperiences",
-  "pricing_op2": "2 esperiences",
-  "button1": "Buy Pass",
-  "button2": "Buy Pass",
-}
-
+    "venezia-pass": {
+      "title": "Venice Pass",
+      "main_title": "Travel and Create – choose your Venice Pass",
+      "features": {
+        "handicraft": "Choose between the 3 esperiences Pass (worth 200€, now 169€) or the 2 esperiences Pass (worth 65€, now just 50€).",
+        "calendar": "Book one experience at a time and enjoy Venice at your own pace through alleys and canals.",
+        "ticket": "Experience Venice like a local with unique artisan workshops and special city discounts."
+      },
+      "pricing_note": "Choose the pass that suits you best:",
+      "pricing_op1": "3 esperiences",
+      "pricing_op2": "2 eesperiences",
+      "button1": "Buy Pass",
+      "button2": "Buy Pass"
+    },
+    "milan-pass": {
+      "title": "Venice Pass",
+      "main_title": "Discover and Create – choose your Milan Pass",
+      "features": {
+        "handicraft": "Choose between the 3 esperiences Pass ( worth 200€, now 169€) or the 2 esperiences Pass (worth 65€, now just 50€).",
+        "calendar": "Book one experience at a time and create your own pace through Milan’s creative neighbourhoods.",
+        "ticket": "Experience Milan like a local with curated artisan workshops and exclusive discounts."
+      },
+      "pricing_note": "Choose the pass that suits you best:",
+      "pricing_op1": "3 esperiences",
+      "pricing_op2": "2 esperiences",
+      "button1": "Buy Pass",
+      "button2": "Buy Pass"
+    }
   },
   "localization": {
     "country_label": "Country/region",
@@ -638,7 +637,7 @@
       "subTitle": "Forget the usual forced activities. With Club Joy, the team gets their hands truly dirty: they create, collaborate, and discover a new side of their colleagues. Experiences designed to strengthen bonds, spark creativity, and build memories that don’t feel like a meeting.",
       "button": "Book"
     },
-     "news-slider": {
+    "news-slider": {
       "heading": "clubjoy's world",
       "youtube": {
         "title": "Youtube Channel",
@@ -882,6 +881,9 @@
           "limited_window_title_with_final_sale": {
             "many": "Free returns within %{count} days, excluding final sale"
           }
+        },
+        "pickup_unavailable_banner_title_with_country": {
+          "many": "No stores available in %{country} with your items"
         }
       },
       "shipping": {
@@ -954,6 +956,9 @@
         },
         "shipping_method_recurring_shipments_group_title": {
           "many": "Recurring shipments"
+        },
+        "address_form": {
+          "max_address": "{{max_addresses}} address limit reached. Remove an address to add a new one."
         }
       },
       "payment": {
@@ -968,7 +973,15 @@
         },
         "order_edit_banner_items_added": {
           "many": "%{count} added"
-        }
+        },
+        "discount_show_more_warnings": {
+          "many": "Show more %{count}"
+        },
+        "discount_codes_removed_summary": {
+          "many": "%{count} discount codes have been removed"
+        },
+        "saved_addresses": "Stored addresses",
+        "save_this_address": "Save this address"
       },
       "shipping_errors": {
         "shipping_method_not_available_generic": {
@@ -976,6 +989,11 @@
         },
         "shipping_method_not_available_updated": {
           "many": "One or more items you added are not shipping to your location. Please remove them to check out or contact the store."
+        },
+        "must_use_address_banner": {
+          "one": "The order can only be shipped to the address %{name}.",
+          "other": "The order can only be shipped to one of these addresses.",
+          "many": "The order can only be shipped to one of these addresses."
         }
       },
       "processing": {
@@ -1018,6 +1036,9 @@
         },
         "thank_you_confirmed_items_with_phone": {
           "many": "You will soon receive a confirmation message with your order numbers."
+        },
+        "items_fulfilled_by_store": {
+          "many": "The items you purchased will come from other stores."
         }
       },
       "order_payment_collection": {
@@ -1128,6 +1149,12 @@
         "subtitle": {
           "many": "This order will be shipped to an address provided by {{merchant}} . Please select a shipping address."
         }
+      },
+      "billing": {
+        "update_address_banner": "Update this address to view our delivery options."
+      },
+      "address_management": {
+        "confirm_address_deletion": "Are you sure you want to delete the address {{address}} ?"
       }
     },
     "notices": {
