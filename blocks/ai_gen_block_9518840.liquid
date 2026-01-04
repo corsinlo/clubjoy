@@ -219,8 +219,9 @@
   }
 {% endstyle %}
 
-<carousel-3d-{{ ai_gen_id }} class="ai-carousel-3d-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
 <div class="page-width">
+<carousel-3d-{{ ai_gen_id }} class="ai-carousel-3d-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+<div class="">
     {% if block.settings.section_title != blank %}
       <h2>
         {% liquid
@@ -326,7 +327,7 @@
     </div>
   </div>
 </carousel-3d-{{ ai_gen_id }}>
-
+    </div>
 <script>
   (function() {
     class Carousel3D{{ ai_gen_id }} extends HTMLElement {

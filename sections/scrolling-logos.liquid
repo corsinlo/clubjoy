@@ -4,7 +4,27 @@
   | split: ','
 %}
 
-<div class="page-width">
+<style>
+  .scrolling-logos-title-outer {
+    /* Mobile: double wrapper effect */
+  }
+  .scrolling-logos-title-inner {
+    /* Mobile: acts as second wrapper */
+  }
+  @media (min-width: 1024px) {
+    .scrolling-logos-title-outer {
+      /* Desktop: single wrapper - remove inner padding */
+    }
+    .scrolling-logos-title-inner {
+      padding-left: 0;
+      padding-right: 0;
+      max-width: none;
+    }
+  }
+</style>
+
+<div class="page-width scrolling-logos-title-outer">
+  <div class="page-width scrolling-logos-title-inner">
     {% if section.settings.section_title != blank %}
       <h2>
         {% liquid
@@ -17,6 +37,7 @@
         %}
       </h2>
     {% endif %}
+  </div>
 </div>
 
 <div class="page-width">
