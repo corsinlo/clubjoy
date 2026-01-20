@@ -68,10 +68,15 @@ window.attachGa4ClickTracker = function(rootEl, options = {}){
   if (!rootEl || rootEl.__ga4Bound) return;
   rootEl.__ga4Bound = true;
 
-  const component =
+  let component =
     options.component ||
     rootEl.getAttribute('data-ga-name') ||
     'unknown_component';
+
+  // Ensure component is never null/undefined/empty
+  if (!component || component === '' || component === 'null' || component === 'undefined') {
+    component = 'unknown_component';
+  }
 
   rootEl.addEventListener('click', function(e){
     // Find the most relevant clickable element
@@ -93,6 +98,11 @@ window.attachGa4ClickTracker = function(rootEl, options = {}){
       classes: a.className || '',
       id: a.id || '',
     };
+
+    // Debug logging
+    if (window.location.search.includes('ga4debug')) {
+      console.log('[GA4 Debug] Click tracked:', params);
+    }
 
     // If it's a normal link (same tab), route navigation via GA4
     const shouldNav =

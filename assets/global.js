@@ -1397,19 +1397,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
   let trackedCount = explicitComponents.length;
 
+  // Debug: Log initialization
+  if (window.location.search.includes('ga4debug')) {
+    console.log('[GA4 Debug] Starting component tracking. Explicit components:', trackedCount);
+  }
+
   // Process each component pattern
   componentPatterns.forEach(function(pattern) {
     pattern.selectors.forEach(function(selector) {
-      const elements = document.querySelectorAll(selector);
-      elements.forEach(function(element) {
-        // Skip if already has explicit data-ga-name or already tracked
-        if (!element.hasAttribute('data-ga-name') && !element.__ga4Bound) {
-          // Generate a unique component name based on context
-          const componentName = generateComponentName(element, pattern.name);
-          window.attachGa4ClickTracker(element, { component: componentName });
-          trackedCount++;
-        }
-      });
+      try {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(function(element) {
+          // Skip if already has explicit data-ga-name or already tracked
+          if (!element.hasAttribute('data-ga-name') && !element.__ga4Bound) {
+            // Generate a unique component name based on context
+            const componentName = generateComponentName(element, pattern.name);
+            // Only attach if we got a valid component name
+            if (componentName && componentName !== '') {
+              window.attachGa4ClickTracker(element, { component: componentName });
+              trackedCount++;
+              // Debug logging
+              if (window.location.search.includes('ga4debug') && trackedCount <= 10) {
+                console.log('[GA4 Debug] Tracked:', componentName, element);
+              }
+            }
+          }
+        });
+      } catch (e) {
+        // Silently handle invalid selectors
+        console.error('GA4 tracking selector error:', selector, e);
+      }
     });
   });
 
@@ -1424,8 +1441,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (clickableElement) {
       const componentName = inferComponentFromElement(clickableElement);
 
-      // Send tracking event for unhandled clickable elements
-      if (typeof window.ga4Send === 'function') {
+      // Only send if we have a valid component name
+      if (componentName && componentName !== '' && typeof window.ga4Send === 'function') {
         const params = {
           component: componentName,
           action: clickableElement.tagName.toLowerCase() === 'a' ? 'link_click' : 'ui_click',
@@ -1446,6 +1463,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Helper function to generate contextual component names
 function generateComponentName(element, baseName) {
+  // Ensure baseName is valid
+  if (!baseName || baseName === '') {
+    baseName = 'component';
+  }
+
   // Try to find more specific context
   const section = element.closest('[class*="section"], section');
 
@@ -1455,23 +1477,45 @@ function generateComponentName(element, baseName) {
   if (section && section.className) {
     const sectionClass = section.className.split(' ').find(cls => cls.includes('section'));
     if (sectionClass && sectionClass !== 'section') {
-      contextName = sectionClass.replace('-section', '').replace('section-', '') + '_' + baseName;
+      const cleanSectionName = sectionClass.replace('-section', '').replace('section-', '').replace(/[^a-z0-9_]/gi, '_');
+      if (cleanSectionName) {
+        contextName = cleanSectionName + '_' + baseName;
+      }
     }
   }
 
-  // Make names more descriptive based on content/purpose
+  // Make names more descriptive based on content/purpose - but more carefully
   if (element.textContent) {
-    const text = element.textContent.trim().slice(0, 15).replace(/\s+/g, '_').toLowerCase();
-    if (text && text.length > 3) {
+    const text = element.textContent.trim().slice(0, 20)
+      .replace(/\s+/g, '_')
+      .replace(/[^a-z0-9_]/gi, '')
+      .toLowerCase();
+    if (text && text.length > 3 && text.length < 50) {
       contextName = `${contextName}_${text}`;
     }
   }
 
-  // Add index if multiple similar elements
-  const similars = document.querySelectorAll(`.${element.className.split(' ')[0] || element.tagName.toLowerCase()}`);
-  if (similars.length > 1) {
-    const index = Array.from(similars).indexOf(element) + 1;
-    contextName += `_${index}`;
+  // Add index if multiple similar elements - but safely
+  try {
+    const firstClass = element.className ? element.className.split(' ')[0] : '';
+    const selector = firstClass ? `.${firstClass}` : element.tagName.toLowerCase();
+    const similars = document.querySelectorAll(selector);
+    if (similars.length > 1) {
+      const index = Array.from(similars).indexOf(element) + 1;
+      if (index > 0) {
+        contextName += `_${index}`;
+      }
+    }
+  } catch (e) {
+    // Silently handle any selector errors
+  }
+
+  // Ensure the final name is valid (no empty strings, special chars sanitized)
+  contextName = contextName.replace(/[^a-z0-9_]/gi, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+
+  // Final safety check
+  if (!contextName || contextName === '') {
+    contextName = 'unknown_component';
   }
 
   return contextName;
@@ -1479,6 +1523,8 @@ function generateComponentName(element, baseName) {
 
 // Helper function to infer component name from unhandled elements
 function inferComponentFromElement(element) {
+  if (!element) return 'unknown';
+
   // Check parent containers for context
   const contexts = [
     { selector: 'header', name: 'header' },
@@ -1491,15 +1537,31 @@ function inferComponentFromElement(element) {
   ];
 
   for (const context of contexts) {
-    if (element.closest(context.selector)) {
-      return `${context.name}_unhandled`;
+    try {
+      if (element.closest(context.selector)) {
+        return `${context.name}_unhandled`;
+      }
+    } catch (e) {
+      // Silently handle selector errors
     }
   }
 
   // Fallback based on element type and content
-  const tag = element.tagName.toLowerCase();
-  const text = element.textContent?.trim().slice(0, 20) || '';
-  const classes = element.className?.split(' ')[0] || '';
+  const tag = element.tagName ? element.tagName.toLowerCase() : 'unknown';
+  const text = (element.textContent?.trim().slice(0, 20) || '').replace(/[^a-z0-9_]/gi, '_').replace(/_+/g, '_');
+  const classes = element.className ? element.className.split(' ')[0].replace(/[^a-z0-9_]/gi, '_') : '';
 
-  return `${tag}_${classes || 'unclassed'}_${text.replace(/\s+/g, '_') || 'no_text'}`.toLowerCase();
+  let componentName = tag;
+  if (classes) {
+    componentName += '_' + classes;
+  } else {
+    componentName += '_unclassed';
+  }
+  if (text) {
+    componentName += '_' + text;
+  }
+
+  // Clean and validate
+  componentName = componentName.replace(/_+/g, '_').replace(/^_|_$/g, '').toLowerCase();
+  return componentName || 'unknown_element';
 }
