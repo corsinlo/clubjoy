@@ -959,6 +959,12 @@
         },
         "address_form": {
           "max_address": "{{max_addresses}} address limit reached. Remove an address to add a new one."
+        },
+        "unbranded_description_with_fulfillment_days": {
+          "many": "Ships within %{count} business days"
+        },
+        "unbranded_description_with_fulfillment_weeks": {
+          "many": "Ships within %{count} weeks"
         }
       },
       "payment": {
@@ -1235,6 +1241,9 @@
             },
             "banner_due": {
               "many": "Payment is due in {{count}} days"
+            },
+            "banner_overdue_for_single_fulfillment": {
+              "many": "Payment for {{amount}} is {{count}} days late. {{link}}"
             }
           }
         }
@@ -1277,6 +1286,15 @@
       },
       "contracts_updated": {
         "many": "{{count}} subscription agreements updated successfully"
+      }
+    },
+    "payment_methods": {
+      "add_payment_method": {
+        "subscription_contracts": {
+          "more_items": {
+            "many": "{{count}} other products"
+          }
+        }
       }
     }
   }
