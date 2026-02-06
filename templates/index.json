@@ -518,6 +518,43 @@
     "1770380871a065dd16": {
       "type": "_blocks",
       "settings": {}
+    },
+    "1770381068094c86de": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_17386de_yDkfKN": {
+          "type": "ai_gen_block_17386de",
+          "settings": {
+            "heading": "<p>Stay in the loop</p>",
+            "subtext": "<p>Subscribe to our newsletter for exclusive updates and offers.</p>",
+            "first_name_placeholder": "First name",
+            "last_name_placeholder": "Last name",
+            "email_placeholder": "Email address",
+            "button_label": "Subscribe",
+            "success_message": "<p>Thanks for subscribing! Check your inbox for updates.</p>",
+            "desktop_width_percent": 100,
+            "field_gap": 16,
+            "heading_size": 28,
+            "text_size": 16,
+            "background_color": "#f4f4f4",
+            "text_color": "#121212",
+            "button_color": "#012fa7",
+            "button_text_color": "#ffffff",
+            "button_hover_color": "#0049ff",
+            "input_border_color": "#cccccc",
+            "success_color": "#008060",
+            "error_color": "#D82C0D",
+            "border_radius": 12,
+            "input_border_radius": 20,
+            "button_border_radius": 20
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_17386de_yDkfKN"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -541,6 +578,7 @@
     "subfooter_yNr3V7",
     "1737406910fa2103c8",
     "custom_newsletter_gpKXw8",
-    "1770380871a065dd16"
+    "1770380871a065dd16",
+    "1770381068094c86de"
   ]
 }
