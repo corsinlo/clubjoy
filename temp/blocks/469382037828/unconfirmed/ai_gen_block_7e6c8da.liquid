@@ -1,6 +1,362 @@
+{% doc %}
+  @prompt
+    Email signup that also collects firstname and lastname
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-email-signup-{{ ai_gen_id }} {
+    display: block;
+    padding: 40px;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .ai-email-signup__content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0 auto;
+  }
+
+  .ai-email-signup__heading-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    font-size: {{ block.settings.heading_size }}px;
+  }
+
+  .ai-email-signup__subtext-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+  }
+
+  .ai-email-signup__field-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+  }
+
+  .ai-email-signup__name-fields-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .ai-email-signup__field-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-email-signup__input-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    font-size: 14px;
+  }
+
+  .ai-email-signup__button-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 12px 24px;
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .ai-email-signup__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  .ai-email-signup__success-{{ ai_gen_id }} {
+    color: {{ block.settings.success_color }};
+    margin-top: 8px;
+  }
+
+  .ai-email-signup__error-{{ ai_gen_id }} {
+    color: {{ block.settings.error_color }};
+    margin-top: 8px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-email-signup__name-fields-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstyle %}
+
+<email-signup-{{ ai_gen_id }}
+  class="ai-email-signup-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  {%- form 'contact' -%}
+    <div class="ai-email-signup__content-{{ ai_gen_id }}">
+      {%- if block.settings.heading != blank -%}
+        <h2 class="ai-email-signup__heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if block.settings.subtext != blank -%}
+        <div class="ai-email-signup__subtext-{{ ai_gen_id }}">{{ block.settings.subtext }}</div>
+      {%- endif -%}
+
+      <div class="ai-email-signup__field-wrapper-{{ ai_gen_id }}">
+        <div class="ai-email-signup__name-fields-{{ ai_gen_id }}">
+          <div class="ai-email-signup__field-{{ ai_gen_id }}">
+            <input
+              type="text"
+              name="contact[first_name]"
+              class="ai-email-signup__input-{{ ai_gen_id }}"
+              value="{{ form.first_name }}"
+              aria-required="true"
+              autocomplete="given-name"
+              placeholder="{{ block.settings.first_name_placeholder }}"
+              required
+            >
+          </div>
+          <div class="ai-email-signup__field-{{ ai_gen_id }}">
+            <input
+              type="text"
+              name="contact[last_name]"
+              class="ai-email-signup__input-{{ ai_gen_id }}"
+              value="{{ form.last_name }}"
+              aria-required="true"
+              autocomplete="family-name"
+              placeholder="{{ block.settings.last_name_placeholder }}"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="ai-email-signup__field-{{ ai_gen_id }}">
+          <input
+            type="email"
+            name="contact[email]"
+            class="ai-email-signup__input-{{ ai_gen_id }}"
+            value="{{ form.email }}"
+            aria-required="true"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="email"
+            {% if form.errors %}
+              aria-invalid="true"
+              aria-describedby="ai-email-signup-error-{{ ai_gen_id }}"
+            {% endif %}
+            {% if form.posted_successfully? %}
+              aria-describedby="ai-email-signup-success-{{ ai_gen_id }}"
+            {% endif %}
+            placeholder="{{ block.settings.email_placeholder }}"
+            required
+          >
+        </div>
+
+        <button
+          type="submit"
+          class="ai-email-signup__button-{{ ai_gen_id }}"
+        >
+          {{ block.settings.button_label }}
+        </button>
+
+        {%- if form.errors -%}
+          <div
+            id="ai-email-signup-error-{{ ai_gen_id }}"
+            class="ai-email-signup__error-{{ ai_gen_id }}"
+          >
+            <span>{{ form.errors.messages.email }}</span>
+          </div>
+        {%- endif -%}
+        {%- if form.posted_successfully? -%}
+          <div
+            id="ai-email-signup-success-{{ ai_gen_id }}"
+            class="ai-email-signup__success-{{ ai_gen_id }}"
+          >
+            <span>{{ block.settings.success_message }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endform -%}
+</email-signup-{{ ai_gen_id }}>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Email signup",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Stay in the loop</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "<p>Subscribe to our newsletter for exclusive updates and offers.</p>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "first_name_placeholder",
+      "label": "First name placeholder",
+      "default": "First name"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "last_name_placeholder",
+      "label": "Last name placeholder",
+      "default": "Last name"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Email address"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "richtext",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "<p>Thanks for subscribing! Check your inbox for updates.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button",
+      "default": "#012fa7"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button hover",
+      "default": "#0049ff"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input border",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "success_color",
+      "label": "Success",
+      "default": "#008060"
+    },
+    {
+      "type": "color",
+      "id": "error_color",
+      "label": "Error",
+      "default": "#D82C0D"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Form border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Input border radius",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Email signup"
+    }
+  ]
+}
 {% endschema %}
