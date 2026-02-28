@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "smartbox_redemption": {
+      "type": "smartbox-redemption",
+      "settings": {
+        "heading": "Riscatta la tua Smartbox",
+        "heading_size": "h1",
+        "description": "<p>Inserisci il codice della tua Smartbox e la tua email per ricevere una gift card da utilizzare nel nostro store.</p>",
+        "code_label": "Codice Smartbox",
+        "code_placeholder": "Inserisci il codice Smartbox",
+        "email_label": "Email",
+        "email_placeholder": "La tua email",
+        "button_text": "Riscatta Smartbox",
+        "success_title": "Gift Card Creata!",
+        "error_title": "Errore",
+        "loading_text": "Verifica in corso...",
+        "smartbox_api_endpoint": "",
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "main",
+    "smartbox_redemption"
+  ]
+}

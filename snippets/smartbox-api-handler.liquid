@@ -1,0 +1,160 @@
+{% comment %}
+  Smartbox API Handler
+
+  This snippet handles server-side API calls for Smartbox redemption.
+
+  IMPORTANT: This is a placeholder structure. For actual implementation, you'll need:
+  1. A Shopify App or custom backend to handle:
+     - Smartbox API validation
+     - Shopify Gift Card creation via Admin API
+     - Email notifications
+     - Marking codes as used
+
+  Recommended implementation approaches:
+
+  Option 1: Shopify App (Recommended)
+  - Build a Shopify App using Node.js/Express
+  - Use @shopify/shopify-api package
+  - Deploy on Heroku, Vercel, or similar
+  - Endpoints needed:
+    * POST /api/smartbox/validate - Validate Smartbox code
+    * POST /api/smartbox/create-giftcard - Create gift card
+    * POST /api/smartbox/send-email - Send email notification
+
+  Option 2: Shopify Functions/Flow
+  - Use Shopify Functions for validation logic
+  - Use Shopify Flow to automate gift card creation
+  - Limited flexibility but easier setup
+
+  Option 3: External Service (Zapier, Make.com)
+  - Connect Smartbox API validation
+  - Trigger Shopify gift card creation
+  - Send email via SendGrid/Mailgun
+  - Easiest but potentially costly
+
+  BACKEND REQUIREMENTS:
+
+  1. Smartbox API Integration:
+     - Endpoint: Configure in section settings
+     - Headers: Add authentication tokens
+     - Request: { code: "SMARTBOX-CODE" }
+     - Response: { valid: true, value: 100.00, currency: "EUR" }
+
+  2. Shopify Admin API - Gift Card Creation:
+     - Endpoint: /admin/api/2024-01/gift_cards.json
+     - Requires: Admin API access token
+     - Request body:
+       {
+         "gift_card": {
+           "initial_value": 100.00,
+           "code": "GENERATED-CODE", // Optional, Shopify can auto-generate
+           "customer_id": 123, // If customer exists
+           "note": "Smartbox redemption: SMARTBOX-CODE",
+           "expires_on": null // or set expiry date
+         }
+       }
+
+  3. Email Notification:
+     - Use Shopify's built-in gift card email OR
+     - Custom email via SendGrid/Mailgun
+     - Include: Gift card code, balance, redemption instructions
+
+  4. Mark Smartbox as Used:
+     - Call back to Smartbox API
+     - Endpoint: Configure endpoint + /redeem
+     - Payload: { code: "SMARTBOX-CODE", redeemed_at: "ISO-8601-DATE" }
+
+  SECURITY CONSIDERATIONS:
+  - Never expose API keys in frontend code
+  - Validate all inputs server-side
+  - Implement rate limiting to prevent abuse
+  - Log all redemptions for audit trail
+  - Use HTTPS for all API calls
+  - Implement CSRF protection
+
+  SAMPLE BACKEND CODE (Node.js/Express):
+
+  // Backend endpoint: /api/smartbox/redeem
+  app.post('/api/smartbox/redeem', async (req, res) => {
+    const { smartbox_code, email } = req.body;
+
+    try {
+      // 1. Validate Smartbox code
+      const smartboxResponse = await axios.post(SMARTBOX_API_URL, {
+        code: smartbox_code
+      }, {
+        headers: { 'Authorization': `Bearer ${SMARTBOX_API_KEY}` }
+      });
+
+      if (!smartboxResponse.data.valid) {
+        return res.status(400).json({ error: 'Invalid Smartbox code' });
+      }
+
+      // 2. Create Shopify gift card
+      const shopify = new Shopify({
+        shopName: SHOP_NAME,
+        accessToken: ADMIN_API_TOKEN
+      });
+
+      const giftCard = await shopify.giftCard.create({
+        initial_value: smartboxResponse.data.value,
+        note: `Smartbox: ${smartbox_code}`
+      });
+
+      // 3. Send email
+      await sendEmail({
+        to: email,
+        subject: 'Your Gift Card',
+        gift_card_code: giftCard.code,
+        balance: giftCard.balance
+      });
+
+      // 4. Mark Smartbox as used
+      await axios.post(`${SMARTBOX_API_URL}/redeem`, {
+        code: smartbox_code,
+        redeemed_at: new Date().toISOString()
+      }, {
+        headers: { 'Authorization': `Bearer ${SMARTBOX_API_KEY}` }
+      });
+
+      return res.json({
+        success: true,
+        gift_card: {
+          code: giftCard.code,
+          balance: giftCard.balance
+        }
+      });
+
+    } catch (error) {
+      console.error('Redemption error:', error);
+      return res.status(500).json({ error: error.message });
+    }
+  });
+
+{% endcomment %}
+
+{% comment %}
+  For immediate testing without a backend, you can uncomment below
+  to simulate the flow (THIS IS FOR TESTING ONLY):
+
+  <script>
+  // TESTING ONLY - Replace these functions in smartbox-redemption.liquid
+  window.SMARTBOX_TEST_MODE = true;
+
+  window.mockValidateSmartbox = async (code) => {
+    await new Promise(r => setTimeout(r, 1500)); // Simulate API delay
+    if (code.toUpperCase().startsWith('TEST')) {
+      return { valid: true, value: 100.00, currency: 'EUR' };
+    }
+    throw new Error('Codice non valido');
+  };
+
+  window.mockCreateGiftCard = async (email, value) => {
+    await new Promise(r => setTimeout(r, 1000));
+    return {
+      code: 'GIFT-' + Math.random().toString(36).substr(2, 12).toUpperCase(),
+      balance: value
+    };
+  };
+  </script>
+{% endcomment %}

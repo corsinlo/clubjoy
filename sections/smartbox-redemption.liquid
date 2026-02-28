@@ -1,0 +1,389 @@
+{{ 'smartbox-redemption.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="smartbox-redemption page-width page-width--narrow section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title title-wrapper--no-top-margin inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+
+    {%- if section.settings.description != blank -%}
+      <div class="smartbox-redemption__description rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {{ section.settings.description }}
+      </div>
+    {%- endif -%}
+
+    {%- liquid
+      assign form_class = 'smartbox-redemption__form isolate'
+      if settings.animations_reveal_on_scroll
+        assign form_class = 'smartbox-redemption__form isolate scroll-trigger animate--slide-in'
+      endif
+    -%}
+
+    <form id="SmartboxRedemptionForm" class="{{ form_class }}" novalidate>
+      <!-- Success Message -->
+      <div id="smartbox-success" class="smartbox-redemption__message smartbox-redemption__message--success" style="display: none;">
+        {{- 'icon-success.svg' | inline_asset_content -}}
+        <div class="smartbox-redemption__message-content">
+          <h3>{{ section.settings.success_title | default: 'Gift Card Creata!' }}</h3>
+          <p id="smartbox-success-text"></p>
+          <p class="smartbox-redemption__giftcard-code" id="smartbox-giftcard-code"></p>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div id="smartbox-error" class="smartbox-redemption__message smartbox-redemption__message--error" style="display: none;">
+        {{- 'icon-error.svg' | inline_asset_content -}}
+        <div class="smartbox-redemption__message-content">
+          <h3>{{ section.settings.error_title | default: 'Errore' }}</h3>
+          <p id="smartbox-error-text"></p>
+        </div>
+      </div>
+
+      <!-- Loading Message -->
+      <div id="smartbox-loading" class="smartbox-redemption__message smartbox-redemption__message--loading" style="display: none;">
+        <div class="smartbox-redemption__spinner"></div>
+        <p>{{ section.settings.loading_text | default: 'Verifica in corso...' }}</p>
+      </div>
+
+      <div class="smartbox-redemption__fields">
+        <div class="field">
+          <input
+            class="field__input"
+            type="text"
+            id="SmartboxCode"
+            name="smartbox_code"
+            required
+            placeholder="{{ section.settings.code_placeholder | default: 'Inserisci il codice Smartbox' }}"
+            autocomplete="off"
+          >
+          <label class="field__label" for="SmartboxCode">
+            {{ section.settings.code_label | default: 'Codice Smartbox' }}
+            <span aria-hidden="true">*</span>
+          </label>
+        </div>
+
+        <div class="field field--with-error">
+          <input
+            autocomplete="email"
+            type="email"
+            id="SmartboxEmail"
+            class="field__input"
+            name="email"
+            spellcheck="false"
+            autocapitalize="off"
+            aria-required="true"
+            required
+            placeholder="{{ section.settings.email_placeholder | default: 'La tua email' }}"
+          >
+          <label class="field__label" for="SmartboxEmail">
+            {{ section.settings.email_label | default: 'Email' }}
+            <span aria-hidden="true">*</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="smartbox-redemption__button">
+        <button type="submit" class="button" id="smartbox-submit-btn">
+          {{ section.settings.button_text | default: 'Riscatta Smartbox' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function() {
+  const form = document.getElementById('SmartboxRedemptionForm');
+  const codeInput = document.getElementById('SmartboxCode');
+  const emailInput = document.getElementById('SmartboxEmail');
+  const submitBtn = document.getElementById('smartbox-submit-btn');
+  const successMsg = document.getElementById('smartbox-success');
+  const errorMsg = document.getElementById('smartbox-error');
+  const loadingMsg = document.getElementById('smartbox-loading');
+  const successText = document.getElementById('smartbox-success-text');
+  const errorText = document.getElementById('smartbox-error-text');
+  const giftcardCode = document.getElementById('smartbox-giftcard-code');
+
+  // Configuration - Backend API endpoint
+  const BACKEND_API_URL = '{{ section.settings.backend_api_url | default: "/api/smartbox" }}';
+  const USE_TEST_MODE = {{ section.settings.test_mode | default: false }};
+
+  function hideAllMessages() {
+    successMsg.style.display = 'none';
+    errorMsg.style.display = 'none';
+    loadingMsg.style.display = 'none';
+  }
+
+  function showSuccess(message, giftCardCode) {
+    hideAllMessages();
+    successText.textContent = message;
+    giftcardCode.textContent = `Codice Gift Card: ${giftCardCode}`;
+    successMsg.style.display = 'block';
+    successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function showError(message) {
+    hideAllMessages();
+    errorText.textContent = message;
+    errorMsg.style.display = 'block';
+    errorMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function showLoading() {
+    hideAllMessages();
+    loadingMsg.style.display = 'block';
+  }
+
+  async function redeemSmartbox(code, email) {
+    // Call unified backend endpoint that handles all steps
+    const endpoint = USE_TEST_MODE ? `${BACKEND_API_URL}/test` : `${BACKEND_API_URL}/redeem`;
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        smartbox_code: code,
+        email: email
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Errore durante il riscatto');
+    }
+
+    const data = await response.json();
+
+    // Expected response format:
+    // {
+    //   "success": true,
+    //   "gift_card": {
+    //     "code": "XXXX-XXXX-XXXX",
+    //     "balance": 100.00
+    //   },
+    //   "message": "Gift card creata con successo!"
+    // }
+
+    return data;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const code = codeInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!code || !email) {
+      showError('Per favore, compila tutti i campi richiesti.');
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showError('Per favore, inserisci un indirizzo email valido.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    showLoading();
+
+    try {
+      // Call unified backend endpoint
+      // Backend handles: validation, gift card creation, email, marking as used
+      const result = await redeemSmartbox(code, email);
+
+      if (!result.success) {
+        throw new Error(result.error || 'Errore durante il riscatto');
+      }
+
+      // Show success
+      showSuccess(
+        result.message || `La tua gift card del valore di €${result.gift_card.balance} è stata creata con successo! Controlla la tua email.`,
+        result.gift_card.code
+      );
+
+      // Reset form
+      form.reset();
+
+    } catch (error) {
+      console.error('Redemption error:', error);
+      showError(error.message || 'Si è verificato un errore. Per favore riprova.');
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Smartbox Redemption",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Riscatta la tua Smartbox",
+      "label": "Titolo"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        },
+        {
+          "value": "hxl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "hxxl",
+          "label": "XXL"
+        }
+      ],
+      "default": "h1",
+      "label": "Dimensione titolo"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Descrizione",
+      "default": "<p>Inserisci il codice della tua Smartbox per ricevere una gift card da utilizzare nel nostro store.</p>"
+    },
+    {
+      "type": "text",
+      "id": "code_label",
+      "label": "Label campo codice",
+      "default": "Codice Smartbox"
+    },
+    {
+      "type": "text",
+      "id": "code_placeholder",
+      "label": "Placeholder campo codice",
+      "default": "Inserisci il codice Smartbox"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Label campo email",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Placeholder campo email",
+      "default": "La tua email"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Testo bottone",
+      "default": "Riscatta Smartbox"
+    },
+    {
+      "type": "text",
+      "id": "success_title",
+      "label": "Titolo messaggio successo",
+      "default": "Gift Card Creata!"
+    },
+    {
+      "type": "text",
+      "id": "error_title",
+      "label": "Titolo messaggio errore",
+      "default": "Errore"
+    },
+    {
+      "type": "text",
+      "id": "loading_text",
+      "label": "Testo caricamento",
+      "default": "Verifica in corso..."
+    },
+    {
+      "type": "header",
+      "content": "Backend Settings"
+    },
+    {
+      "type": "text",
+      "id": "backend_api_url",
+      "label": "Backend API URL",
+      "default": "/api/smartbox",
+      "info": "URL del tuo backend per gestire i riscatti (es: https://your-backend.com/api/smartbox)"
+    },
+    {
+      "type": "checkbox",
+      "id": "test_mode",
+      "label": "Test Mode",
+      "default": false,
+      "info": "Abilita per usare l'endpoint di test che non crea gift card reali"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smartbox Redemption"
+    }
+  ]
+}
+{% endschema %}
