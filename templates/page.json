@@ -20,6 +20,7 @@
     },
     "bundles_milan_pass_Q7Jtzx": {
       "type": "bundles-milan-pass",
+      "disabled": true,
       "name": "Milan Pass Bundle",
       "settings": {}
     }
