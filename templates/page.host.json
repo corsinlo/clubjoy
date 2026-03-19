@@ -245,16 +245,33 @@
         "padding_bottom": 36
       }
     },
+    "rich_text_8JgkhU": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_zPnLcK": {
+          "type": "heading",
+          "settings": {
+            "heading": "Parla del tuo brand",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "heading_zPnLcK"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
     "image_with_text_KQGKph": {
       "type": "image-with-text",
       "blocks": {
-        "heading_bQfDDP": {
-          "type": "heading",
-          "settings": {
-            "heading": "<strong>Come funziona</strong>",
-            "heading_size": "h0"
-          }
-        },
         "button_qm6wwL": {
           "type": "button",
           "settings": {
@@ -265,7 +282,6 @@
         }
       },
       "block_order": [
-        "heading_bQfDDP",
         "button_qm6wwL"
       ],
       "custom_css": [
@@ -300,6 +316,7 @@
     "rich_text_E9i7eP",
     "custom_liquid_jGJJbh",
     "image_with_text_iMNJ3F",
+    "rich_text_8JgkhU",
     "image_with_text_KQGKph"
   ]
 }
