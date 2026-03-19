@@ -231,7 +231,11 @@
       "block_order": [
         "text_CMKRFG"
       ],
-      "custom_css": [],
+      "custom_css": [
+        ".image-with-text__media-item {display: flex; justify-content: center;}",
+        ".image-with-text__media {width: min(100%, 420px); aspect-ratio: 4 / 5; height: auto !important; min-height: 0 !important; padding-bottom: 0 !important; border-radius: 50%; overflow: hidden !important; margin: 0 auto;}",
+        ".image-with-text__media img {width: 100%; height: 100%; object-fit: cover;}"
+      ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
         "image": "shopify://shop_images/Screenshot_2026-03-19_at_16.17.31.png",
