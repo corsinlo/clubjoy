@@ -153,7 +153,9 @@
         "row_BrGhVV",
         "row_DLhiin"
       ],
-      "custom_css": [],
+      "custom_css": [
+        ".image-with-text {--media-radius: 20px;}"
+      ],
       "name": "t:sections.multirow.presets.name",
       "settings": {
         "image_height": "medium",
@@ -214,37 +216,6 @@
         "padding_bottom": 52
       }
     },
-    "image_with_text_wKdjQp": {
-      "type": "image-with-text",
-      "blocks": {
-        "button_f37ggn": {
-          "type": "button",
-          "settings": {
-            "button_label": "Etichetta pulsante",
-            "button_link": "",
-            "button_style_secondary": false
-          }
-        }
-      },
-      "block_order": [
-        "button_f37ggn"
-      ],
-      "name": "t:sections.image-with-text.presets.name",
-      "settings": {
-        "height": "adapt",
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "image_behavior": "none",
-        "content_layout": "no-overlap",
-        "desktop_content_position": "top",
-        "desktop_content_alignment": "center",
-        "mobile_content_alignment": "center",
-        "section_color_scheme": "",
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
     "image_banner_RAt7ya": {
       "type": "image-banner",
       "blocks": {
@@ -301,7 +272,6 @@
     "multirow_WdF7Re",
     "rich_text_E9i7eP",
     "custom_liquid_jGJJbh",
-    "image_with_text_wKdjQp",
     "image_banner_RAt7ya"
   ]
 }
