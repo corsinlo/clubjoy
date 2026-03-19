@@ -198,17 +198,17 @@
     "custom_liquid_jGJJbh": {
       "type": "custom-liquid",
       "custom_css": [
-        ".h{background:#f3f3f3;padding:32px 20px;color:#0b3bb3}",
-        ".hi{max-width:1200px;margin:auto}",
-        ".ht{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:16px}",
-        ".b{font-size:clamp(36px,6vw,70px);font-weight:800;line-height:.95;margin:0}",
-        ".s{font-size:clamp(16px,2vw,28px);font-weight:700}",
-        ".r{text-align:right}",
-        "@media(max-width:900px){.ht{grid-template-columns:1fr}.r{text-align:left}}"
+        ".h {background: #f3f3f3; padding: 32px 20px; color: #0b3bb3;}",
+        ".hi {max-width: 1200px; margin: auto;}",
+        ".ht {display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 16px;}",
+        ".b {font-size: clamp(36px, 6vw, 70px); font-weight: 800; line-height: 0.95; margin: 0;}",
+        ".s {font-size: clamp(16px, 2vw, 28px); font-weight: 700;}",
+        ".r {text-align: right;}",
+        "@media (max-width: 900px) {.ht {grid-template-columns: 1fr; } .r {text-align: left; }}"
       ],
       "name": "t:sections.custom-liquid.presets.name",
       "settings": {
-        "custom_liquid": "<div class=\"hosts-stats\">\n  <div class=\"hosts-stats__inner\">\n    <div class=\"hosts-stats__top\">\n      <h2 class=\"hosts-stats__big\">+250 Hosts</h2>\n\n      <div class=\"hosts-stats__small-list\">\n        <div>Ceramisti</div>\n        <div>Chef</div>\n        <div>Eccellenze Italiane</div>\n      </div>\n\n      <div class=\"hosts-stats__right\">\n        <h2 class=\"hosts-stats__big\">8 Città</h2>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Milano</div>\n        <div>Venezia</div>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Firenze</div>\n        <div>Roma</div>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Torino</div>\n        <div>Costiera Amalfitana</div>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Sardegna</div>\n        <div>Cinque Terre</div>\n      </div>\n    </div>\n\n    <div class=\"hosts-stats__bottom\">\n      <h2 class=\"hosts-stats__big\">+4000 Esperienze Vendute</h2>\n    </div>\n  </div>\n</div>",
+        "custom_liquid": "<div class=\"h\">\n  <div class=\"hi\">\n    <div class=\"ht\">\n      <h2 class=\"b\">+250 Hosts</h2>\n\n      <div class=\"s\">\n        Ceramisti<br>Chef<br>Eccellenze Italiane\n      </div>\n\n      <h2 class=\"b r\">8 Città</h2>\n\n      <div class=\"s\">Milano<br>Venezia</div>\n      <div class=\"s\">Firenze<br>Roma</div>\n      <div class=\"s\">Torino<br>Costiera Amalfitana</div>\n      <div class=\"s\">Sardegna<br>Cinque Terre</div>\n    </div>\n\n    <h2 class=\"b\" style=\"margin-top:20px;font-size:clamp(40px,7vw,90px)\">\n      +4000 Esperienze Vendute\n    </h2>\n  </div>\n</div>\n      <div class=\"hosts-stats__right\">\n        <h2 class=\"hosts-stats__big\">8 Città</h2>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Milano</div>\n        <div>Venezia</div>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Firenze</div>\n        <div>Roma</div>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Torino</div>\n        <div>Costiera Amalfitana</div>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Sardegna</div>\n        <div>Cinque Terre</div>\n      </div>\n    </div>\n\n    <div class=\"hosts-stats__bottom\">\n      <h2 class=\"hosts-stats__big\">+4000 Esperienze Vendute</h2>\n    </div>\n  </div>\n</div>",
         "color_scheme": "scheme-5cca2101-313d-481e-9e94-877258ac6728",
         "padding_top": 40,
         "padding_bottom": 52
