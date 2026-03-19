@@ -269,7 +269,10 @@
         "button_qm6wwL"
       ],
       "custom_css": [
-        "@media screen and (min-width: 750px) {.image-with-text__grid, .image-with-text__grid--reverse {flex-direction: column !important; } .image-with-text__grid > .grid__item {width: 100% !important; max-width: 100% !important; flex-basis: 100% !important; } .image-with-text__media-item, .image-with-text__text-item {max-width: 700px; margin-left: auto; margin-right: auto; } .image-with-text__media-item {margin-bottom: 24px; }}"
+        ".image-with-text__grid,.image-with-text__grid--reverse {flex-direction: column !important;}",
+        ".image-with-text__heading-item,.image-with-text__media-item,.image-with-text__text-item {width: 100% !important; max-width: 100% !important; flex-basis: 100% !important;}",
+        ".image-with-text__heading-item {margin-bottom: 16px;}",
+        ".image-with-text__media-item {margin-bottom: 24px;}"
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
