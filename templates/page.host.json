@@ -24,8 +24,8 @@
         "heading_RxQ3k7": {
           "type": "heading",
           "settings": {
-            "heading": "Sei pronto per una nuova avventura?",
-            "heading_size": "h0"
+            "heading": "<strong>Trasforma la tua arte in un’esperienza venduta nel mondo</strong>",
+            "heading_size": "h1"
           }
         }
       },
@@ -34,8 +34,8 @@
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
-        "desktop_content_position": "left",
-        "content_alignment": "left",
+        "desktop_content_position": "center",
+        "content_alignment": "center",
         "color_scheme": "",
         "full_width": true,
         "padding_top": 40,
