@@ -217,20 +217,6 @@
     "image_with_text_wKdjQp": {
       "type": "image-with-text",
       "blocks": {
-        "heading_4WCEc7": {
-          "type": "heading",
-          "settings": {
-            "heading": "Immagine con testo",
-            "heading_size": "h1"
-          }
-        },
-        "text_Pgxqgi": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Associa un testo a un'immagine per dare importanza al prodotto, alla collezione o all'articolo del blog di tua scelta. Aggiungi dettagli sulla disponibilità, sullo stile o fornisci una recensione.</p>",
-            "text_style": "body"
-          }
-        },
         "button_f37ggn": {
           "type": "button",
           "settings": {
@@ -241,8 +227,6 @@
         }
       },
       "block_order": [
-        "heading_4WCEc7",
-        "text_Pgxqgi",
         "button_f37ggn"
       ],
       "name": "t:sections.image-with-text.presets.name",
@@ -253,8 +237,8 @@
         "image_behavior": "none",
         "content_layout": "no-overlap",
         "desktop_content_position": "top",
-        "desktop_content_alignment": "left",
-        "mobile_content_alignment": "left",
+        "desktop_content_alignment": "center",
+        "mobile_content_alignment": "center",
         "section_color_scheme": "",
         "color_scheme": "",
         "padding_top": 36,
