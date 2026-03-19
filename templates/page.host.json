@@ -88,6 +88,7 @@
         "column_yDTzig",
         "column_KJ3yaB"
       ],
+      "disabled": true,
       "custom_css": [
         ".multicolumn .button {border-radius: 12px !important; overflow: hidden; border: none;}",
         ".multicolumn-card__image {border-radius: 12px; overflow: hidden;}"
@@ -149,7 +150,6 @@
         "row_BrGhVV",
         "row_DLhiin"
       ],
-      "disabled": true,
       "name": "t:sections.multirow.presets.name",
       "settings": {
         "image_height": "medium",
