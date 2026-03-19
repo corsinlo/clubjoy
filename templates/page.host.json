@@ -154,7 +154,8 @@
         "row_DLhiin"
       ],
       "custom_css": [
-        ".image-with-text {--media-radius: 20px; --color-foreground: 0, 0, 0;}"
+        ".image-with-text {--media-radius: 20px;}",
+        ".image-with-text__text,.image-with-text__text p,.image-with-text__text li,.image-with-text__text a {color: #000 !important;}"
       ],
       "name": "t:sections.multirow.presets.name",
       "settings": {
