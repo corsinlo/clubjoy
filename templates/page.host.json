@@ -245,24 +245,24 @@
         "padding_bottom": 36
       }
     },
-    "image_with_text_rnrqAn": {
+    "image_with_text_KQGKph": {
       "type": "image-with-text",
       "blocks": {
-        "heading_7LKEXM": {
+        "heading_bQfDDP": {
           "type": "heading",
           "settings": {
             "heading": "Immagine con testo",
             "heading_size": "h1"
           }
         },
-        "text_eVLhxw": {
+        "text_AmDV3r": {
           "type": "text",
           "settings": {
             "text": "<p>Associa un testo a un'immagine per dare importanza al prodotto, alla collezione o all'articolo del blog di tua scelta. Aggiungi dettagli sulla disponibilità, sullo stile o fornisci una recensione.</p>",
             "text_style": "body"
           }
         },
-        "button_gicMmV": {
+        "button_qm6wwL": {
           "type": "button",
           "settings": {
             "button_label": "Etichetta pulsante",
@@ -272,9 +272,9 @@
         }
       },
       "block_order": [
-        "heading_7LKEXM",
-        "text_eVLhxw",
-        "button_gicMmV"
+        "heading_bQfDDP",
+        "text_AmDV3r",
+        "button_qm6wwL"
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
@@ -301,6 +301,6 @@
     "rich_text_E9i7eP",
     "custom_liquid_jGJJbh",
     "image_with_text_iMNJ3F",
-    "image_with_text_rnrqAn"
+    "image_with_text_KQGKph"
   ]
 }
