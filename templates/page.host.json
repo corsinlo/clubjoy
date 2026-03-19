@@ -153,6 +153,7 @@
         "row_BrGhVV",
         "row_DLhiin"
       ],
+      "custom_css": [],
       "name": "t:sections.multirow.presets.name",
       "settings": {
         "image_height": "medium",
@@ -173,42 +174,22 @@
     "rich_text_E9i7eP": {
       "type": "rich-text",
       "blocks": {
-        "heading_Ctxaep": {
+        "heading_wYpaHa": {
           "type": "heading",
           "settings": {
-            "heading": "Parla del tuo brand",
+            "heading": "<strong> Entra in un network selezionato</strong>",
             "heading_size": "h1"
-          }
-        },
-        "text_9HP9LP": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Condividi informazioni sul tuo brand con i clienti. Descrivi un prodotto, condividi gli annunci o dai il benvenuto ai clienti nel tuo negozio.</p>"
-          }
-        },
-        "button_e8VamQ": {
-          "type": "button",
-          "settings": {
-            "button_label": "Etichetta pulsante",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
           }
         }
       },
       "block_order": [
-        "heading_Ctxaep",
-        "text_9HP9LP",
-        "button_e8VamQ"
+        "heading_wYpaHa"
       ],
-      "disabled": true,
       "name": "t:sections.rich-text.presets.name",
       "settings": {
         "desktop_content_position": "center",
         "content_alignment": "center",
-        "color_scheme": "",
+        "color_scheme": "scheme-5cca2101-313d-481e-9e94-877258ac6728",
         "full_width": true,
         "padding_top": 40,
         "padding_bottom": 52
