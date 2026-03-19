@@ -197,9 +197,10 @@
     },
     "custom_liquid_jGJJbh": {
       "type": "custom-liquid",
+      "custom_css": [],
       "name": "t:sections.custom-liquid.presets.name",
       "settings": {
-        "custom_liquid": "",
+        "custom_liquid": "<div class=\"hosts-stats\">\n  <div class=\"hosts-stats__inner\">\n    <div class=\"hosts-stats__top\">\n      <h2 class=\"hosts-stats__big\">+250 Hosts</h2>\n\n      <div class=\"hosts-stats__small-list\">\n        <div>Ceramisti</div>\n        <div>Chef</div>\n        <div>Eccellenze Italiane</div>\n      </div>\n\n      <div class=\"hosts-stats__right\">\n        <h2 class=\"hosts-stats__big\">8 Città</h2>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Milano</div>\n        <div>Venezia</div>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Firenze</div>\n        <div>Roma</div>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Torino</div>\n        <div>Costiera Amalfitana</div>\n      </div>\n\n      <div class=\"hosts-stats__cities-list\">\n        <div>Sardegna</div>\n        <div>Cinque Terre</div>\n      </div>\n    </div>\n\n    <div class=\"hosts-stats__bottom\">\n      <h2 class=\"hosts-stats__big\">+4000 Esperienze Vendute</h2>\n    </div>\n  </div>\n</div>",
         "color_scheme": "scheme-5cca2101-313d-481e-9e94-877258ac6728",
         "padding_top": 40,
         "padding_bottom": 52
