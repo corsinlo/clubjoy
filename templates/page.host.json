@@ -25,7 +25,7 @@
           "type": "heading",
           "settings": {
             "heading": "<strong>Trasforma la tua arte in un’esperienza venduta nel mondo</strong>",
-            "heading_size": "h1"
+            "heading_size": "h0"
           }
         },
         "text_byQAWL": {
@@ -181,7 +181,7 @@
           "type": "heading",
           "settings": {
             "heading": "<strong> Entra in un network selezionato</strong>",
-            "heading_size": "h1"
+            "heading_size": "h0"
           }
         }
       },
@@ -252,7 +252,7 @@
           "type": "heading",
           "settings": {
             "heading": "<strong>Come funziona</strong>",
-            "heading_size": "h1"
+            "heading_size": "h0"
           }
         },
         "button_qm6wwL": {
