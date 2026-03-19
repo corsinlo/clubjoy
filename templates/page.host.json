@@ -154,7 +154,7 @@
         "row_DLhiin"
       ],
       "custom_css": [
-        ".image-with-text {--media-radius: 20px;}"
+        ".image-with-text {--media-radius: 20px; --color-foreground: 0, 0, 0;}"
       ],
       "name": "t:sections.multirow.presets.name",
       "settings": {
@@ -232,7 +232,7 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/Screenshot_2026-03-19_at_16.12.11.png",
+        "image": "shopify://shop_images/Screenshot_2026-03-19_at_16.17.31.png",
         "height": "adapt",
         "desktop_image_width": "small",
         "layout": "image_first",
