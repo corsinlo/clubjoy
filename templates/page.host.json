@@ -193,7 +193,7 @@
         "desktop_content_position": "center",
         "content_alignment": "center",
         "color_scheme": "scheme-5cca2101-313d-481e-9e94-877258ac6728",
-        "full_width": false,
+        "full_width": true,
         "padding_top": 40,
         "padding_bottom": 52
       }
@@ -225,7 +225,7 @@
       ],
       "custom_css": [
         ".image-with-text__media-item {display: flex; justify-content: center;}",
-        ".image-with-text__media {width: min(100%, 420px); aspect-ratio: 4 / 5; height: auto !important; min-height: 0 !important; padding-bottom: 0 !important; border-radius: 50%; overflow: hidden !important; margin: 0 auto;}",
+        ".image-with-text__media {width: min(100%, 210px); aspect-ratio: 4 / 5; height: auto !important; min-height: 0 !important; padding-bottom: 0 !important; border-radius: 50%; overflow: hidden !important; margin: 0 auto;}",
         ".image-with-text__media img {width: 100%; height: 100%; object-fit: cover;}"
       ],
       "name": "t:sections.image-with-text.presets.name",
