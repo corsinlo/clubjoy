@@ -120,7 +120,7 @@
             "image": "shopify://shop_images/Screenshot_2026-03-19_at_15.37.41.png",
             "caption": "",
             "heading": "<strong> Zero stress, più clienti</strong>",
-            "text": "<p>Pensiamo noi a: </p><p>promozione</p><p>pagamenti </p><p>e prenotazioni</p>",
+            "text": "<p>Pensiamo noi a: </p><p>promozione pagamenti e prenotazioni</p>",
             "button_label": "",
             "button_link": ""
           }
@@ -162,7 +162,7 @@
         "image_height": "adapt",
         "desktop_image_width": "small",
         "image_layout": "alternate-left",
-        "heading_size": "h2",
+        "heading_size": "h1",
         "text_style": "body",
         "button_style": "secondary",
         "desktop_content_position": "middle",
