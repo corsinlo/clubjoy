@@ -25,19 +25,20 @@
           "type": "heading",
           "settings": {
             "heading": "<strong>Trasforma la tua arte in un’esperienza venduta nel mondo</strong>",
-            "heading_size": "h1"
+            "heading_size": "h0"
           }
         },
-        "text_byQAWL": {
-          "type": "text",
+        "heading_6nVN3z": {
+          "type": "heading",
           "settings": {
-            "text": "<p><em>Entra nel network delle esperienze artigianali più ricercate in Italia</em></p>"
+            "heading": "<em>Entra nel network delle esperienze artigianali più ricercate in Italia</em>",
+            "heading_size": "h1"
           }
         }
       },
       "block_order": [
         "heading_RxQ3k7",
-        "text_byQAWL"
+        "heading_6nVN3z"
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
