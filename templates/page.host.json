@@ -238,7 +238,7 @@
         "desktop_image_width": "small",
         "layout": "image_first",
         "image_behavior": "none",
-        "content_layout": "no-overlap",
+        "content_layout": "overlap",
         "desktop_content_position": "middle",
         "desktop_content_alignment": "center",
         "mobile_content_alignment": "center",
