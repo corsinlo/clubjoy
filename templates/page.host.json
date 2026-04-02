@@ -156,7 +156,9 @@
       ],
       "custom_css": [
         ".image-with-text {--media-radius: 20px;}",
-        ".image-with-text__text,.image-with-text__text p,.image-with-text__text li {color: #000 !important; line-height: 1 !important;}"
+        ".image-with-text__text,.image-with-text__text p,.image-with-text__text li {color: #000 !important; line-height: 0.8 !important;}",
+        ".image-with-text .image-with-text__content {padding: 2rem 2rem 2.5rem !important;}",
+        "@media screen and (min-width: 990px) {.image-with-text .image-with-text__content {padding: 3rem 3.5rem !important; }}"
       ],
       "name": "t:sections.multirow.presets.name",
       "settings": {
