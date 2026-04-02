@@ -254,7 +254,7 @@
         "heading_zPnLcK": {
           "type": "heading",
           "settings": {
-            "heading": "<em><strong>🌟 Come Funziona ✨</strong></em>",
+            "heading": "<strong>Come Funziona</strong><em><strong> </strong></em>",
             "heading_size": "h0"
           }
         }
