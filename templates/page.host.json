@@ -206,9 +206,9 @@
       "custom_css": [],
       "name": "t:sections.custom-liquid.presets.name",
       "settings": {
-        "custom_liquid": "<div style=\"background:#fff;padding:40px 20px\">\n  <div style=\"max-width:1200px;margin:auto;color:#0b3bb3\">\n    <div class=\"stats-grid\">\n      <h2 class=\"stats-big\">+250 Host</h2>\n      <h2 class=\"stats-big\">8+ Città</h2>\n      <h2 class=\"stats-big\">+4000 Esperienze Vendute</h2>\n    </div>\n  </div>\n</div>\n\n<style>\n.stats-grid {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 28px;\n}\n\n.stats-big {\n  margin: 0;\n  font-size: clamp(36px, 6vw, 70px);\n  font-weight: 800;\n  line-height: 0.95;\n  letter-spacing: -0.03em;\n  text-align: center;\n}\n\n@media (max-width: 900px) {\n  .stats-grid {\n    gap: 20px;\n  }\n\n  .stats-big {\n    font-size: clamp(30px, 9vw, 48px);\n  }\n}\n</style>",
+        "custom_liquid": "<div style=\"background:#fff;padding:40px 20px\">\n  <div style=\"max-width:1200px;margin:auto;color:#0b3bb3\">\n    <div class=\"stats-grid\">\n      <h2 class=\"stats-big\">+250 Host</h2>\n      <h2 class=\"stats-big\">8+ Città</h2>\n      <h2 class=\"stats-big\">+4000 Esperienze Vendute</h2>\n    </div>\n  </div>\n</div>\n\n<style>\n.stats-grid {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 14px;\n}\n\n.stats-big {\n  margin: 0;\n  font-size: 40px;\n  font-weight: 800;\n  line-height: 1.1;\n  letter-spacing: -0.02em;\n  text-align: center;\n}\n\n@media (max-width: 900px) {\n  .stats-big {\n    font-size: clamp(16px, 5vw, 22px);\n  }\n}\n</style>",
         "color_scheme": "scheme-5cca2101-313d-481e-9e94-877258ac6728",
-        "padding_top": 40,
+        "padding_top": 20,
         "padding_bottom": 52
       }
     },
