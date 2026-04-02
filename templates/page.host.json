@@ -309,6 +309,16 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "custom_liquid_NdqQ7N": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
@@ -320,6 +330,7 @@
     "custom_liquid_jGJJbh",
     "image_with_text_iMNJ3F",
     "rich_text_8JgkhU",
-    "image_with_text_KQGKph"
+    "image_with_text_KQGKph",
+    "custom_liquid_NdqQ7N"
   ]
 }
