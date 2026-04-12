@@ -61,7 +61,7 @@
         "column_xi9Qfr": {
           "type": "column",
           "settings": {
-            "title": "1) FILL OUT THE FORM",
+            "title": "1) COMPLETA IL FORM",
             "text": "<p>Inserisci il codice della tua Smartbox e la tua email per ricevere una gift card da utilizzare nel nostro store.</p>",
             "link_label": "",
             "link": ""
@@ -71,7 +71,7 @@
           "type": "column",
           "settings": {
             "title": "2) SHIPPING IS READY!",
-            "text": "<p>Once the shipment has been approved, you will receive a<strong>notification with the tracking number</strong>to track your package. Allow 3 to 5 business days to process your order</p>",
+            "text": "<p>Appena il codice sarà verificato riceverai un codice sconto del valore della tua SMARTBOX * da utilizzare per qualsiasi esperienza su Club Joy!</p>",
             "link_label": "",
             "link": ""
           }
