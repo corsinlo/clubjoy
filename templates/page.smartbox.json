@@ -23,17 +23,8 @@
         "column_xi9Qfr": {
           "type": "column",
           "settings": {
-            "title": "Colonna",
-            "text": "<p>Associa un testo a un'immagine per dare importanza al prodotto, alla collezione o all'articolo del blog di tua scelta. Aggiungi dettagli sulla disponibilità, sullo stile o fornisci una recensione.</p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_9Uj7yt": {
-          "type": "column",
-          "settings": {
-            "title": "Colonna",
-            "text": "<p>Associa un testo a un'immagine per dare importanza al prodotto, alla collezione o all'articolo del blog di tua scelta. Aggiungi dettagli sulla disponibilità, sullo stile o fornisci una recensione.</p>",
+            "title": "1) FILL OUT THE FORM",
+            "text": "<p>Fill out the form below, entering the data required to<strong>confirm the shipment</strong>of your order</p>",
             "link_label": "",
             "link": ""
           }
@@ -41,8 +32,8 @@
         "column_8YiCkg": {
           "type": "column",
           "settings": {
-            "title": "Colonna",
-            "text": "<p>Associa un testo a un'immagine per dare importanza al prodotto, alla collezione o all'articolo del blog di tua scelta. Aggiungi dettagli sulla disponibilità, sullo stile o fornisci una recensione.</p>",
+            "title": "2) SHIPPING IS READY!",
+            "text": "<p>Once the shipment has been approved, you will receive a<strong>notification with the tracking number</strong>to track your package. Allow 3 to 5 business days to process your order</p>",
             "link_label": "",
             "link": ""
           }
@@ -50,7 +41,6 @@
       },
       "block_order": [
         "column_xi9Qfr",
-        "column_9Uj7yt",
         "column_8YiCkg"
       ],
       "name": "t:sections.multicolumn.presets.name",
@@ -61,7 +51,7 @@
         "image_ratio": "adapt",
         "button_label": "",
         "button_link": "",
-        "columns_desktop": 3,
+        "columns_desktop": 2,
         "column_alignment": "left",
         "background_style": "primary",
         "color_scheme": "",
