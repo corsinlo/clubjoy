@@ -85,7 +85,7 @@
           "type": "column",
           "settings": {
             "title": "1) COMPLETA IL FORM",
-            "text": "<p>Inserisci il codice della tua Smartbox e la tua email per ricevere una gift card da utilizzare nel nostro store.</p>",
+            "text": "<p>Inserisci il codice della tua Smartbox e la tua email per avviare il processo di verifica</p>",
             "link_label": "",
             "link": ""
           }
