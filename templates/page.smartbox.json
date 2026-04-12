@@ -62,7 +62,7 @@
           "type": "column",
           "settings": {
             "title": "1) FILL OUT THE FORM",
-            "text": "<p>Fill out the form below, entering the data required to<strong>confirm the shipment</strong>of your order</p>",
+            "text": "<p>Inserisci il codice della tua Smartbox e la tua email per ricevere una gift card da utilizzare nel nostro store.</p>",
             "link_label": "",
             "link": ""
           }
@@ -102,9 +102,9 @@
     "smartbox_redemption": {
       "type": "smartbox-redemption",
       "settings": {
-        "heading": "Riscatta la tua Smartbox",
+        "heading": "",
         "heading_size": "h1",
-        "description": "<p>Inserisci il codice della tua Smartbox e la tua email per ricevere una gift card da utilizzare nel nostro store.</p>",
+        "description": "",
         "code_label": "Codice Smartbox",
         "code_placeholder": "Inserisci il codice Smartbox",
         "email_label": "Email",
