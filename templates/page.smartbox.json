@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -6,6 +15,60 @@
       "settings": {
         "padding_top": 0,
         "padding_bottom": 0
+      }
+    },
+    "multicolumn_d697mk": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_xi9Qfr": {
+          "type": "column",
+          "settings": {
+            "title": "Colonna",
+            "text": "<p>Associa un testo a un'immagine per dare importanza al prodotto, alla collezione o all'articolo del blog di tua scelta. Aggiungi dettagli sulla disponibilità, sullo stile o fornisci una recensione.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_9Uj7yt": {
+          "type": "column",
+          "settings": {
+            "title": "Colonna",
+            "text": "<p>Associa un testo a un'immagine per dare importanza al prodotto, alla collezione o all'articolo del blog di tua scelta. Aggiungi dettagli sulla disponibilità, sullo stile o fornisci una recensione.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_8YiCkg": {
+          "type": "column",
+          "settings": {
+            "title": "Colonna",
+            "text": "<p>Associa un testo a un'immagine per dare importanza al prodotto, alla collezione o all'articolo del blog di tua scelta. Aggiungi dettagli sulla disponibilità, sullo stile o fornisci una recensione.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_xi9Qfr",
+        "column_9Uj7yt",
+        "column_8YiCkg"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 3,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "smartbox_redemption": {
@@ -22,7 +85,8 @@
         "success_title": "Gift Card Creata!",
         "error_title": "Errore",
         "loading_text": "Verifica in corso...",
-        "smartbox_api_endpoint": "",
+        "backend_api_url": "/api/smartbox",
+        "test_mode": false,
         "color_scheme": "scheme-1",
         "padding_top": 60,
         "padding_bottom": 60
@@ -31,6 +95,7 @@
   },
   "order": [
     "main",
+    "multicolumn_d697mk",
     "smartbox_redemption"
   ]
 }
