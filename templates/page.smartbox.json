@@ -17,6 +17,44 @@
         "padding_bottom": 0
       }
     },
+    "rich_text_6cbLXR": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_7Q3P78": {
+          "type": "heading",
+          "settings": {
+            "heading": "Riscatta la tua Smartbox",
+            "heading_size": "h1"
+          }
+        },
+        "text_b4b64r": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Did you purchase the My Cooking Box experience via Smartbox?</h2>"
+          }
+        },
+        "text_zE3QAT": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Follow the simple steps below to start your taste journey together with My Cooking Box:</p><p></p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_7Q3P78",
+        "text_b4b64r",
+        "text_zE3QAT"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
     "multicolumn_d697mk": {
       "type": "multicolumn",
       "blocks": {
@@ -85,6 +123,7 @@
   },
   "order": [
     "main",
+    "rich_text_6cbLXR",
     "multicolumn_d697mk",
     "smartbox_redemption"
   ]
