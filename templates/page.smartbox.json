@@ -30,13 +30,13 @@
         "text_b4b64r": {
           "type": "text",
           "settings": {
-            "text": "<h2>Did you purchase the My Cooking Box experience via Smartbox?</h2>"
+            "text": "<h2>Hai comprato una SMARTBOX?</h2>"
           }
         },
         "text_zE3QAT": {
           "type": "text",
           "settings": {
-            "text": "<p>Follow the simple steps below to start your taste journey together with My Cooking Box:</p><p></p>"
+            "text": "<p>Segui gli steps, per avere accesso alle nostre esperienze!</p>"
           }
         }
       },
