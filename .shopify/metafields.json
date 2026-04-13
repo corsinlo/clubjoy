@@ -278,6 +278,56 @@
         "name": "list.metaobject_reference",
         "category": "REFERENCE"
       }
+    },
+    {
+      "key": "google_rating",
+      "namespace": "custom",
+      "name": "Google Rating (Cached)",
+      "description": "Cached Google rating value - refreshed weekly to reduce API costs",
+      "type": {
+        "name": "number_decimal",
+        "category": "NUMBER"
+      }
+    },
+    {
+      "key": "google_review_count",
+      "namespace": "custom",
+      "name": "Google Review Count (Cached)",
+      "description": "Cached Google review count - refreshed weekly",
+      "type": {
+        "name": "number_integer",
+        "category": "NUMBER"
+      }
+    },
+    {
+      "key": "google_reviews_data",
+      "namespace": "custom",
+      "name": "Google Reviews Data (Cached)",
+      "description": "Cached reviews JSON (author, rating, text, date) - refreshed weekly to reduce API costs",
+      "type": {
+        "name": "json",
+        "category": "JSON"
+      }
+    },
+    {
+      "key": "geocoded_location",
+      "namespace": "custom",
+      "name": "Geocoded Location (Cached)",
+      "description": "Cached lat/lng coordinates from address - refreshed when address changes",
+      "type": {
+        "name": "json",
+        "category": "JSON"
+      }
+    },
+    {
+      "key": "cache_last_updated",
+      "namespace": "custom",
+      "name": "Cache Last Updated",
+      "description": "Timestamp when Google API data was last refreshed",
+      "type": {
+        "name": "date_time",
+        "category": "DATE_AND_TIME"
+      }
     }
   ],
   "variant": [

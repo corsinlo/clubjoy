@@ -1,0 +1,13 @@
+{
+  "name": "clubjoy-google-cache-scripts",
+  "version": "1.0.0",
+  "description": "Scripts to refresh Google API cached data in Shopify metafields",
+  "private": true,
+  "scripts": {
+    "refresh-cache": "node refresh-google-cache.js",
+    "test": "echo \"Run: npm run refresh-cache\""
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}
