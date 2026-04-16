@@ -1,0 +1,154 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "17760159807ef248a0": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_d7473d4_xDAyMy": {
+          "type": "ai_gen_block_d7473d4",
+          "settings": {
+            "image": "shopify://shop_images/smartbox-vector-logo.png",
+            "object_fit": "contain",
+            "image_height": 250,
+            "desktop_width_percent": 100,
+            "padding": 50,
+            "background_color": "#ffffff",
+            "border_radius": 0,
+            "image_border_radius": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_d7473d4_xDAyMy"
+      ],
+      "settings": {}
+    },
+    "rich_text_6cbLXR": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_7Q3P78": {
+          "type": "heading",
+          "settings": {
+            "heading": "Riscatta la tua Smartbox",
+            "heading_size": "h1"
+          }
+        },
+        "text_b4b64r": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Hai comprato una SMARTBOX?</h2>"
+          }
+        },
+        "text_zE3QAT": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Segui gli steps sotto per avere accesso alle nostre esperienze!</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_7Q3P78",
+        "text_b4b64r",
+        "text_zE3QAT"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "multicolumn_d697mk": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_xi9Qfr": {
+          "type": "column",
+          "settings": {
+            "title": "1) COMPLETA IL FORM",
+            "text": "<p>Inserisci il codice della tua Smartbox e la tua email per avviare il processo di verifica.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_8YiCkg": {
+          "type": "column",
+          "settings": {
+            "title": "2) RICEVI IL CODICE E CREA",
+            "text": "<p>Appena sarà tutto verificato riceverai un codice sconto del valore della tua SMARTBOX* da utilizzare per qualsiasi esperienza su Club Joy!</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_xi9Qfr",
+        "column_8YiCkg"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 2,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "smartbox_redemption": {
+      "type": "smartbox-redemption",
+      "settings": {
+        "heading": "",
+        "heading_size": "h1",
+        "description": "",
+        "code_label": "Codice Smartbox",
+        "code_placeholder": "Inserisci il codice Smartbox",
+        "email_label": "Email",
+        "email_placeholder": "La tua email",
+        "button_text": "Riscatta Smartbox",
+        "success_title": "Gift Card Creata!",
+        "error_title": "Errore",
+        "loading_text": "Verifica in corso...",
+        "backend_api_url": "/api/smartbox",
+        "test_mode": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "main",
+    "17760159807ef248a0",
+    "rich_text_6cbLXR",
+    "multicolumn_d697mk",
+    "smartbox_redemption"
+  ]
+}

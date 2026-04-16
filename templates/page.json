@@ -23,10 +23,33 @@
       "disabled": true,
       "name": "Milan Pass Bundle",
       "settings": {}
+    },
+    "smartbox_redemption_Mififa": {
+      "type": "smartbox-redemption",
+      "name": "Smartbox Redemption",
+      "settings": {
+        "heading": "Riscatta la tua Smartbox",
+        "heading_size": "h1",
+        "description": "<p>Inserisci il codice della tua Smartbox per ricevere una gift card da utilizzare nel nostro store.</p>",
+        "code_label": "Codice Smartbox",
+        "code_placeholder": "Inserisci il codice Smartbox",
+        "email_label": "Email",
+        "email_placeholder": "La tua email",
+        "button_text": "Riscatta Smartbox",
+        "success_title": "Gift Card Creata!",
+        "error_title": "Errore",
+        "loading_text": "Verifica in corso...",
+        "backend_api_url": "/api/smartbox",
+        "test_mode": false,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "main",
-    "bundles_milan_pass_Q7Jtzx"
+    "bundles_milan_pass_Q7Jtzx",
+    "smartbox_redemption_Mififa"
   ]
 }
